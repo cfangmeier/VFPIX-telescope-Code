@@ -61,3 +61,9 @@ set_global_assignment -name BDF_FILE REG32.bdf
 set_global_assignment -name BDF_FILE SDFF8.bdf
 set_global_assignment -name BDF_FILE SDFF32.bdf
 set_global_assignment -name QIP_FILE CONST_0.qip
+set_global_assignment -name QIP_FILE MEM.qip
+set_global_assignment -name MIF_FILE pattern_data.mif
+set_global_assignment -name BDF_FILE CHANNEL.bdf
+set_global_assignment -name VHDL_FILE Control_Unit.vhd
+set_global_assignment -name BDF_FILE DECODE4.bdf
+set_global_assignment -name QIP_FILE MUX4.qip

@@ -20,7 +20,7 @@ applicable agreement for further details.
 */
 (header "symbol" (version "1.2"))
 (symbol
-	(rect 16 16 200 176)
+	(rect 16 16 224 176)
 	(text "CHANNEL" (rect 5 0 76 16)(font "Arial" (font_size 8)))
 	(text "inst" (rect 8 142 31 156)(font "Arial" ))
 	(port
@@ -61,25 +61,25 @@ applicable agreement for further details.
 	(port
 		(pt 0 112)
 		(input)
-		(text "write[3..0]" (rect 0 0 67 16)(font "Arial" (font_size 8)))
-		(text "write[3..0]" (rect 21 107 88 123)(font "Arial" (font_size 8)))
+		(text "pattern_select[1..0]" (rect 0 0 132 16)(font "Arial" (font_size 8)))
+		(text "pattern_select[1..0]" (rect 21 107 153 123)(font "Arial" (font_size 8)))
 		(line (pt 0 112)(pt 16 112)(line_width 3))
 	)
 	(port
 		(pt 0 128)
 		(input)
-		(text "out_select[1..0]" (rect 0 0 106 16)(font "Arial" (font_size 8)))
-		(text "out_select[1..0]" (rect 21 123 127 139)(font "Arial" (font_size 8)))
-		(line (pt 0 128)(pt 16 128)(line_width 3))
+		(text "write" (rect 0 0 31 16)(font "Arial" (font_size 8)))
+		(text "write" (rect 21 123 52 139)(font "Arial" (font_size 8)))
+		(line (pt 0 128)(pt 16 128))
 	)
 	(port
-		(pt 184 32)
+		(pt 208 32)
 		(output)
 		(text "out" (rect 0 0 21 16)(font "Arial" (font_size 8)))
-		(text "out" (rect 142 27 163 43)(font "Arial" (font_size 8)))
-		(line (pt 184 32)(pt 168 32))
+		(text "out" (rect 166 27 187 43)(font "Arial" (font_size 8)))
+		(line (pt 208 32)(pt 192 32))
 	)
 	(drawing
-		(rectangle (rect 16 16 168 144))
+		(rectangle (rect 16 16 192 144))
 	)
 )
