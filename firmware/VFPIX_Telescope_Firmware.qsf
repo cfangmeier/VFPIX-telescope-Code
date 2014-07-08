@@ -73,3 +73,4 @@ set_global_assignment -name MUX_RESTRUCTURE ON
 set_global_assignment -name ALLOW_SHIFT_REGISTER_MERGING_ACROSS_HIERARCHIES ALWAYS
 set_global_assignment -name VHDL_INPUT_VERSION VHDL_2008
 set_global_assignment -name VHDL_SHOW_LMF_MAPPING_MESSAGES OFF
+set_global_assignment -name BDF_FILE CHANNEL_GROUP.bdf

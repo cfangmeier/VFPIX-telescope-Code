@@ -85,22 +85,6 @@ applicable agreement for further details.
 )
 (pin
 	(input)
-	(rect -112 560 64 576)
-	(text "INPUT" (rect 133 0 169 13)(font "Arial" (font_size 6)))
-	(text "load" (rect 9 0 37 14)(font "Arial" ))
-	(pt 176 8)
-	(drawing
-		(line (pt 92 12)(pt 117 12))
-		(line (pt 92 4)(pt 117 4))
-		(line (pt 121 8)(pt 176 8))
-		(line (pt 92 12)(pt 92 4))
-		(line (pt 117 4)(pt 121 8))
-		(line (pt 117 12)(pt 121 8))
-	)
-	(text "VCC" (rect 136 7 160 20)(font "Arial" (font_size 6)))
-)
-(pin
-	(input)
 	(rect -112 584 64 600)
 	(text "INPUT" (rect 133 0 169 13)(font "Arial" (font_size 6)))
 	(text "clk" (rect 9 0 26 14)(font "Arial" ))
@@ -114,6 +98,22 @@ applicable agreement for further details.
 		(line (pt 117 12)(pt 121 8))
 	)
 	(text "VCC" (rect 136 7 160 20)(font "Arial" (font_size 6)))
+)
+(pin
+	(input)
+	(rect -104 560 64 576)
+	(text "INPUT" (rect 125 0 161 13)(font "Arial" (font_size 6)))
+	(text "write" (rect 5 0 36 14)(font "Arial" ))
+	(pt 168 8)
+	(drawing
+		(line (pt 84 12)(pt 109 12))
+		(line (pt 84 4)(pt 109 4))
+		(line (pt 113 8)(pt 168 8))
+		(line (pt 84 12)(pt 84 4))
+		(line (pt 109 4)(pt 113 8))
+		(line (pt 109 12)(pt 113 8))
+	)
+	(text "VCC" (rect 128 7 152 20)(font "Arial" (font_size 6)))
 )
 (pin
 	(output)
@@ -166,8 +166,8 @@ applicable agreement for further details.
 	(port
 		(pt 0 96)
 		(input)
-		(text "load" (rect 0 0 28 16)(font "Arial" (font_size 8)))
-		(text "load" (rect 21 91 49 107)(font "Arial" (font_size 8)))
+		(text "write" (rect 0 0 31 16)(font "Arial" (font_size 8)))
+		(text "write" (rect 21 91 52 107)(font "Arial" (font_size 8)))
 		(line (pt 0 96)(pt 16 96))
 	)
 	(port
@@ -223,8 +223,8 @@ applicable agreement for further details.
 	(port
 		(pt 0 96)
 		(input)
-		(text "load" (rect 0 0 28 16)(font "Arial" (font_size 8)))
-		(text "load" (rect 21 91 49 107)(font "Arial" (font_size 8)))
+		(text "write" (rect 0 0 31 16)(font "Arial" (font_size 8)))
+		(text "write" (rect 21 91 52 107)(font "Arial" (font_size 8)))
 		(line (pt 0 96)(pt 16 96))
 	)
 	(port
@@ -280,8 +280,8 @@ applicable agreement for further details.
 	(port
 		(pt 0 96)
 		(input)
-		(text "load" (rect 0 0 28 16)(font "Arial" (font_size 8)))
-		(text "load" (rect 21 91 49 107)(font "Arial" (font_size 8)))
+		(text "write" (rect 0 0 31 16)(font "Arial" (font_size 8)))
+		(text "write" (rect 21 91 52 107)(font "Arial" (font_size 8)))
 		(line (pt 0 96)(pt 16 96))
 	)
 	(port
@@ -337,8 +337,8 @@ applicable agreement for further details.
 	(port
 		(pt 0 96)
 		(input)
-		(text "load" (rect 0 0 28 16)(font "Arial" (font_size 8)))
-		(text "load" (rect 21 91 49 107)(font "Arial" (font_size 8)))
+		(text "write" (rect 0 0 31 16)(font "Arial" (font_size 8)))
+		(text "write" (rect 21 91 52 107)(font "Arial" (font_size 8)))
 		(line (pt 0 96)(pt 16 96))
 	)
 	(port
@@ -394,8 +394,8 @@ applicable agreement for further details.
 	(port
 		(pt 0 96)
 		(input)
-		(text "load" (rect 0 0 28 16)(font "Arial" (font_size 8)))
-		(text "load" (rect 21 91 49 107)(font "Arial" (font_size 8)))
+		(text "write" (rect 0 0 31 16)(font "Arial" (font_size 8)))
+		(text "write" (rect 21 91 52 107)(font "Arial" (font_size 8)))
 		(line (pt 0 96)(pt 16 96))
 	)
 	(port
@@ -451,8 +451,8 @@ applicable agreement for further details.
 	(port
 		(pt 0 96)
 		(input)
-		(text "load" (rect 0 0 28 16)(font "Arial" (font_size 8)))
-		(text "load" (rect 21 91 49 107)(font "Arial" (font_size 8)))
+		(text "write" (rect 0 0 31 16)(font "Arial" (font_size 8)))
+		(text "write" (rect 21 91 52 107)(font "Arial" (font_size 8)))
 		(line (pt 0 96)(pt 16 96))
 	)
 	(port
@@ -508,8 +508,8 @@ applicable agreement for further details.
 	(port
 		(pt 0 96)
 		(input)
-		(text "load" (rect 0 0 28 16)(font "Arial" (font_size 8)))
-		(text "load" (rect 21 91 49 107)(font "Arial" (font_size 8)))
+		(text "write" (rect 0 0 31 16)(font "Arial" (font_size 8)))
+		(text "write" (rect 21 91 52 107)(font "Arial" (font_size 8)))
 		(line (pt 0 96)(pt 16 96))
 	)
 	(port
@@ -565,8 +565,8 @@ applicable agreement for further details.
 	(port
 		(pt 0 96)
 		(input)
-		(text "load" (rect 0 0 28 16)(font "Arial" (font_size 8)))
-		(text "load" (rect 21 91 49 107)(font "Arial" (font_size 8)))
+		(text "write" (rect 0 0 31 16)(font "Arial" (font_size 8)))
+		(text "write" (rect 21 91 52 107)(font "Arial" (font_size 8)))
 		(line (pt 0 96)(pt 16 96))
 	)
 	(port
@@ -1087,11 +1087,6 @@ applicable agreement for further details.
 	(text "pattern[7..0]" (rect 8 360 83 374)(font "Arial" ))
 	(pt 0 376)
 	(pt 120 376)
-	(bus)
-)
-(connector
-	(pt 120 408)
-	(pt 120 416)
 	(bus)
 )
 (connector

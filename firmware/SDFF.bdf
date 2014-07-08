@@ -103,7 +103,7 @@ applicable agreement for further details.
 	(input)
 	(rect 248 400 416 416)
 	(text "INPUT" (rect 125 0 161 13)(font "Arial" (font_size 6)))
-	(text "load" (rect 5 0 33 14)(font "Arial" ))
+	(text "write" (rect 5 0 36 14)(font "Arial" ))
 	(pt 168 8)
 	(drawing
 		(line (pt 84 12)(pt 109 12))

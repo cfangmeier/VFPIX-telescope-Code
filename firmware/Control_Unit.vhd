@@ -11,8 +11,8 @@ use ieee.numeric_std.all;
 entity Control_Unit is
 	port (
 	      -- Input clock/reset
-	      clock: in std_logic;
-			reset: in std_logic;
+	      clk: in std_logic;
+			res: in std_logic;
 			
 	      -- Input from memory block
 	      mem_data: in std_logic_vector(15 downto 0);
@@ -61,11 +61,11 @@ architecture Control_Unit_arch of Control_Unit is
 	
 begin
 
-	process (clock, reset)
+	process (clk, res)
 	begin
 	
 	-- only work on positive clock
-	if(rising_edge(clock)) then
+	if(rising_edge(clk)) then
 
 		if(stage = 0) then
 			wr <= '0';
