@@ -1,12 +1,11 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
--- Control Unit for CSCE 230 Project
--- Spring 2012
+-- Control Unit for MAXV chip on VFPIX Telescope
+-- Summer 2014
 --
--- Basic idea: set signals based on each stage of instruction execution
---             stage 1 initializes every control signal
---             subsequent stages only change contol signals as needed
+-- Basic idea: Read data from onboard memory and write that data
+--             to the pattern buffers for each channel. 
 
 entity Control_Unit is
 	port (
@@ -59,7 +58,7 @@ architecture Control_Unit_arch of Control_Unit is
 	shared variable data_buffer: std_logic_vector(31 downto 0);
 	
 begin
-	
+
 	process (clock, reset)
 	begin
 	
