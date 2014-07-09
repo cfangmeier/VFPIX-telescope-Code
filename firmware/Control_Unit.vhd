@@ -23,9 +23,9 @@ entity Control_Unit is
 			nread: out std_logic;
 			
 			-- Channel Control Signals
-			channel_select: out std_logic_vector(15 downto 0);
+			channel_select: out std_logic_vector(7 downto 0);
 			pattern_select: out std_logic_vector(1 downto 0);
-			channel_data: out std_logic_vector(31 downto 0);
+			channel_data: out std_logic_vector(15 downto 0);
 			sel_patN: out std_logic;
 			en: out std_logic;
 			wr: out std_logic
@@ -47,15 +47,10 @@ architecture Control_Unit_arch of Control_Unit is
 	shared variable channelN: integer := 0;
 	
 	shared variable read_stage: integer := 0;
-	-- Read Stage 0: issue read of high bits
-	-- Read Stage 1: read high bits 
-	-- Read Stage 2: issue read of low bits
-   -- Read Stage 3: read low bits
-	-- Read Stage 4: put data on port
-	-- Read Stage 5: push data out port
-	-- Read Stage 6: end read
-	
-	shared variable data_buffer: std_logic_vector(31 downto 0);
+	-- Read Stage 0: issue read of memory
+	-- Read Stage 1: read memory and put data on port
+	-- Read Stage 2: push data out port
+	-- Read Stage 3: end read
 	
 	shared variable load_stage: integer := 0;
 	
@@ -79,21 +74,12 @@ begin
 								 nread <= '0';
 								 read_stage := 1;
 					when 1 => nread <= '1';
-					          data_buffer(31 downto 16) := mem_data(15 downto 0);
-								 read_stage := 2;
-					when 2 => mem_addr <= X"001";
-					          nread <= '0';
-								 read_stage := 3;
-					when 3 => nread <= '1';
-					          data_buffer(15 downto 0) := mem_data(15 downto 0);
-								 read_stage := 4;
-					when 4 => channel_data <= data_buffer;
 					          sel_patN <= '1';
-								 channel_select <= X"FFFF";
-								 read_stage := 5;
-					when 5 => wr <= '1';
-								 read_stage := 6;
-					when 6 => wr <= '0';
+					          channel_data(15 downto 0) <= mem_data(15 downto 0);
+								 read_stage := 2;
+					when 2 => wr <= '1';
+								 read_stage := 3;
+					when 3 => wr <= '0';
 								 read_stage := 0;
 								 stage := 2;
 					when others => null;
@@ -107,23 +93,15 @@ begin
 								 nread <= '0';
 								 read_stage := 1;
 					when 1 => nread <= '1';
-					          data_buffer(31 downto 16) := mem_data(15 downto 0);
-								 read_stage := 2;
-					when 2 => mem_addr <= std_logic_vector(to_unsigned(2+channelN*8+patternN*2+1, mem_addr'length));
-					          nread <= '0';
-								 read_stage := 3;
-					when 3 => nread <= '1';
-					          data_buffer(15 downto 0) := mem_data(15 downto 0);
-								 read_stage := 4;
-					when 4 => channel_data <= data_buffer;
+					          channel_data(15 downto 0) <= mem_data(15 downto 0);
 					          sel_patN <= '0';
 								 channel_select <= std_logic_vector(shift_left(to_unsigned(1,channel_select'LENGTH),channelN));
 								 pattern_select <= std_logic_vector(to_unsigned(patternN, pattern_select'length));
-								 read_stage := 5;
-					when 5 => wr <= '1';
-								 read_stage := 6;
-					when 6 => wr <= '0';
-					          if(patternN = 3 and channelN = 15) then
+								 read_stage := 2;
+					when 2 => wr <= '1';
+								 read_stage := 3;
+					when 3 => wr <= '0';
+					          if(patternN = 3 and channelN = 7) then
 									  stage := 3;
 								 elsif(patternN = 3) then
 									  patternN := 0;
@@ -139,7 +117,7 @@ begin
 			pattern_select <= "00";
 			en <= '1';
 			stage := 4;
-		elsif(stage = 4) then
+		else
 --			-- do nothing.
 		end if; -- stage
 	

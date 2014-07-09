@@ -82,8 +82,8 @@ applicable agreement for further details.
 	(port
 		(pt 248 64)
 		(output)
-		(text "channel_select[15..0]" (rect 0 0 81 12)(font "Arial" ))
-		(text "channel_select[15..0]" (rect 146 59 227 71)(font "Arial" ))
+		(text "channel_select[7..0]" (rect 0 0 77 12)(font "Arial" ))
+		(text "channel_select[7..0]" (rect 150 59 227 71)(font "Arial" ))
 		(line (pt 248 64)(pt 232 64)(line_width 3))
 	)
 	(port
@@ -96,8 +96,8 @@ applicable agreement for further details.
 	(port
 		(pt 248 96)
 		(output)
-		(text "channel_data[31..0]" (rect 0 0 75 12)(font "Arial" ))
-		(text "channel_data[31..0]" (rect 152 91 227 103)(font "Arial" ))
+		(text "channel_data[15..0]" (rect 0 0 75 12)(font "Arial" ))
+		(text "channel_data[15..0]" (rect 152 91 227 103)(font "Arial" ))
 		(line (pt 248 96)(pt 232 96)(line_width 3))
 	)
 	(port
