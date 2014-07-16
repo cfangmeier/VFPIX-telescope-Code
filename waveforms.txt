@@ -1,0 +1,179 @@
+Control waveforms for APC128 chips to be implemented in the CPLD firmware.
+
+[Reset] #cycle to clear out bits from shift registers
+LE   :  00
+RBI  :  00
+RP1  :  10
+RP2  :  01
+SE   :  11
+SBI  :  00
+SP1  :  10
+SP2  :  01
+CAL  :  00
+IS1  :  00
+IS2  :  00
+SR   :  00
+CS   :  00
+RES  :  11
+R12  :  00
+
+[Take data - Stage 1] #load bit into shift reg
+LE   :  00
+RBI  :  00
+RP1  :  00
+RP2  :  00
+SE   :  11
+SBI  :  10
+SP1  :  10
+SP2  :  01
+CAL  :  00
+IS1  :  11
+IS2  :  11
+SR   :  11
+CS   :  SELECTABLE CONSTANT
+RES  :  00
+R12  :  SELECTABLE CONSTANT
+
+[Take data - Stage 2] #cycle x31, then load new bit
+LE   :  00
+RBI  :  00
+RP1  :  00
+RP2  :  00
+SE   :  11
+SBI  :  00
+SP1  :  10
+SP2  :  01
+CAL  :  00
+IS1  :  11
+IS2  :  11
+SR   :  11
+CS   :  SELECTABLE CONSTANT
+RES  :  00
+R12  :  SELECTABLE CONSTANT
+
+[Calibration - Stage 1] #same as Take data stage 1
+LE   :  00
+RBI  :  00
+RP1  :  00
+RP2  :  00
+SE   :  11
+SBI  :  10
+SP1  :  10
+SP2  :  01
+CAL  :  11
+IS1  :  11
+IS2  :  11
+SR   :  11
+CS   :  SELECTABLE CONSTANT
+RES  :  00
+R12  :  SELECTABLE CONSTANT
+
+[Calibration - Stage 2] #same as Take data stage 2
+LE   :  00
+RBI  :  00
+RP1  :  00
+RP2  :  00
+SE   :  11
+SBI  :  00
+SP1  :  10
+SP2  :  01
+CAL  :  11
+IS1  :  11
+IS2  :  11
+SR   :  11
+CS   :  SELECTABLE CONSTANT
+RES  :  00
+R12  :  SELECTABLE CONSTANT
+
+[Readout Stage 1a] #push buffer select bit into shift register
+LE   :  00
+RBI  :  00
+RP1  :  00
+RP2  :  00
+SE   :  00
+SBI  :  10
+SP1  :  10
+SP2  :  01
+CAL  :  00
+IS1  :  00
+IS2  :  11
+SR   :  11
+CS   :  XX
+RES  :  10
+R12  :  XX
+
+
+[Readout Stage 1b] #push shift reg bit 1 space
+LE   :  00
+RBI  :  00
+RP1  :  00
+RP2  :  00
+SE   :  00
+SBI  :  00
+SP1  :  10
+SP2  :  01
+CAL  :  00
+IS1  :  11
+IS2  :  11
+SR   :  1...
+CS   :  SELECT CONST
+RES  :  0...
+R12  :  SELECT CONST
+
+
+[Readout Stage 2a] #re-read signal/read out channels
+LE   :  00
+RBI  :  10
+RP1  :  10
+RP2  :  01
+SE   :  11
+SBI  :  00
+SP1  :  00
+SP2  :  00
+CAL  :  00
+IS1  :  00
+IS2  :  00
+SR   :  00
+CS   :  SELECT CONST
+RES  :  00
+R12  :  SELECT CONST
+
+[Readout Stage 2b] #re-read signal/read out channels
+LE   :  11
+RBI  :  00
+RP1  :  10
+RP2  :  01
+SE   :  11
+SBI  :  00
+SP1  :  00
+SP2  :  00
+CAL  :  00
+IS1  :  00
+IS2  :  00
+SR   :  00
+CS   :  SELECT CONST
+RES  :  00
+R12  :  SELECT CONST
+
+
+
+Program Flow:
+       |---------------(finished)-------------------------------------------------------------------------------------------------------------|
+       |                                                                             |<--------(next buffer)----------x31---------------------|
+       |             |-----cycle---------|                                           |                                                        |
+      \|/           \|/                  |                                          \|/                                                       |
+    Reset -> Take Data Stage 1 -> Take Data Stage 2 ---> Readout Stage 1a -> Readout Stage 1b -> Readout Stage 2a -> Readout Stage 2b --------|
+          |                                                   /|\              /|\    |                               /|\                     |
+          |                                                    |                |     |                                |                      |
+          |-> Calibration Stage 1 -> Calibration Stage 2 ------|                -------                                --(Next Channel)x127---|
+                     /|\                     |
+                      |<--------cycle--------|
+
+
+
+
+
+
+
+
+
