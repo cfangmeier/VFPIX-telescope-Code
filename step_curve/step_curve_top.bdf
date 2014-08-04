@@ -40,7 +40,7 @@ applicable agreement for further details.
 	(input)
 	(rect 96 528 264 544)
 	(text "INPUT" (rect 125 0 161 13)(font "Arial" (font_size 6)))
-	(text "RBO" (rect 5 0 36 14)(font "Arial" ))
+	(text "RBO" (rect 5 0 35 14)(font "Arial" ))
 	(pt 168 8)
 	(drawing
 		(line (pt 84 12)(pt 109 12))
@@ -705,7 +705,7 @@ applicable agreement for further details.
 	(pt 608 536)
 )
 (connector
-	(text "q[2]" (rect 520 88 543 102)(font "Arial" ))
+	(text "q[0]" (rect 520 88 543 102)(font "Arial" ))
 	(pt 592 104)
 	(pt 512 104)
 )
