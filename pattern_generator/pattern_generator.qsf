@@ -1,0 +1,96 @@
+# -------------------------------------------------------------------------- #
+#
+# Copyright (C) 1991-2013 Altera Corporation
+# Your use of Altera Corporation's design tools, logic functions 
+# and other software and tools, and its AMPP partner logic 
+# functions, and any output files from any of the foregoing 
+# (including device programming or simulation files), and any 
+# associated documentation or information are expressly subject 
+# to the terms and conditions of the Altera Program License 
+# Subscription Agreement, Altera MegaCore Function License 
+# Agreement, or other applicable license agreement, including, 
+# without limitation, that your use is for the sole purpose of 
+# programming logic devices manufactured by Altera and sold by 
+# Altera or its authorized distributors.  Please refer to the 
+# applicable agreement for further details.
+#
+# -------------------------------------------------------------------------- #
+#
+# Quartus II 64-Bit
+# Version 13.1.0 Build 162 10/23/2013 SJ Full Version
+# Date created = 15:54:36  February 24, 2015
+#
+# -------------------------------------------------------------------------- #
+#
+# Notes:
+#
+# 1) The default values for assignments are stored in the file:
+#		pattern_generator_assignment_defaults.qdf
+#    If this file doesn't exist, see file:
+#		assignment_defaults.qdf
+#
+# 2) Altera recommends that you do not modify this file. This
+#    file is updated automatically by the Quartus II software
+#    and any changes you make may be lost or overwritten.
+#
+# -------------------------------------------------------------------------- #
+
+
+set_global_assignment -name FAMILY "Cyclone III"
+set_global_assignment -name DEVICE EP3C120F780C7
+set_global_assignment -name TOP_LEVEL_ENTITY pattern_generator
+set_global_assignment -name ORIGINAL_QUARTUS_VERSION 13.1
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "15:54:36  FEBRUARY 24, 2015"
+set_global_assignment -name LAST_QUARTUS_VERSION 13.1
+set_global_assignment -name VERILOG_FILE step_curve_short.v
+set_global_assignment -name BDF_FILE pattern_generator.bdf
+set_global_assignment -name BDF_FILE clk_div_2.bdf
+set_global_assignment -name BDF_FILE clk_div.bdf
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
+set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
+set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
+set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 1
+set_global_assignment -name NOMINAL_CORE_SUPPLY_VOLTAGE 1.2V
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "2.5 V"
+set_location_assignment PIN_P2 -to CAL
+set_location_assignment PIN_R3 -to CS
+set_location_assignment PIN_Y4 -to gnd1
+set_location_assignment PIN_U1 -to gnd2
+set_location_assignment PIN_T4 -to IS1
+set_location_assignment PIN_U3 -to IS2
+set_location_assignment PIN_V3 -to LE
+set_location_assignment PIN_U4 -to R12
+set_location_assignment PIN_W2 -to RBI
+set_location_assignment PIN_Y3 -to RESET
+set_location_assignment PIN_R4 -to RPHI1
+set_location_assignment PIN_W1 -to RPHI2
+set_location_assignment PIN_V2 -to SBI
+set_location_assignment PIN_M8 -to SEB
+set_location_assignment PIN_M7 -to SPHI1
+set_location_assignment PIN_V1 -to SPHI2
+set_location_assignment PIN_T3 -to SR
+set_instance_assignment -name IO_STANDARD "1.8 V" -to clk_div_sel[7]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to clk_div_sel[6]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to clk_div_sel[5]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to clk_div_sel[4]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to clk_div_sel[3]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to clk_div_sel[2]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to clk_div_sel[0]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to clk_div_sel[1]
+set_location_assignment PIN_AF25 -to clk_div_sel[7]
+set_location_assignment PIN_AB15 -to clk_div_sel[6]
+set_location_assignment PIN_G20 -to clk_div_sel[5]
+set_location_assignment PIN_AD14 -to clk_div_sel[4]
+set_location_assignment PIN_AC19 -to clk_div_sel[3]
+set_location_assignment PIN_AG23 -to clk_div_sel[2]
+set_location_assignment PIN_AD18 -to clk_div_sel[1]
+set_location_assignment PIN_AC14 -to clk_div_sel[0]
+set_location_assignment PIN_A14 -to clk
+set_location_assignment PIN_AD7 -to reset_gen_n
+set_location_assignment PIN_AD15 -to reset_gen_out
+set_instance_assignment -name IO_STANDARD "1.8 V" -to reset_gen_out
+set_instance_assignment -name IO_STANDARD "1.8 V" -to reset_gen_n
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

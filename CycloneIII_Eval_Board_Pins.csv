@@ -1,0 +1,43 @@
+This file contains the pin assignments for using the Cyclone III Eval board with the APC128 Testboard
+
+   NAME , GPIO Pin , HSMC Pin , Cyclone II Pin
+DTB_IO0 , 1        , 39       , Y7
+      X , 2        , 40       , AG14
+DTB_IO2 , 3        , 41       , AB6
+   CS_N , 4        , 42       , AF2
+DTB_IO1 , 5        , 43       , AE3
+   WR_N , 6        , 44       , AC5
+DTB_IO3 , 7        , 47       , R7
+     A0 , 8        , 48       , AB2
+    RBO , 9        , 49       , R6
+     A1 , 10       , 50       , AB1
+      X , 11       , 53       , V4
+    GND , 12       , 54       , Y4
+     LE , 13       , 55       , V3
+  Reset , 14       , 56       , Y3
+    IS1 , 15       , 59       , T4
+    IS2 , 16       , 60       , U3
+     SR , 17       , 61       , T3
+    R12 , 18       , 62       , U4
+     CS , 19       , 65       , R3
+    RBI , 20       , 66       , W2
+  RPhi1 , 21       , 67       , R4
+  RPhi2 , 22       , 68       , W1
+    SEB , 23       , 71       , M8
+    SBI , 24       , 72       , V2
+  SPhi1 , 25       , 73       , M7
+  SPhi2 , 26       , 74       , V1
+    CAL , 27       , 77       , P2
+  CLR_N , 28       , 78       , U2
+      X , 29       , 79       , P1
+    GND , 30       , 80       , U1
+    DB7 , 31       , 83       , M4
+    DB6 , 32       , 84       , U6
+    DB5 , 33       , 85       , M3
+    DB4 , 34       , 86       , U5
+    DB3 , 35       , 89       , M2
+    DB2 , 36       , 90       , R2
+    DB1 , 37       , 91       , M1
+    DB0 , 38       , 92       , R1
+   PD_N , 39       , 95       , G6
+ LDAC_N , 40       , 96       , Y2
