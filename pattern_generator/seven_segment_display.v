@@ -24,7 +24,7 @@ reg [6:0]dig2;
 reg [6:0]dig3;
 reg [6:0]dig4;
 
-reg [18:0] clk_div;
+reg [19:0] clk_div;
 
 always @(posedge clk) begin
   clk_div = clk_div + 1;

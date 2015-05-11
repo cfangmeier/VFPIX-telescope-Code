@@ -1,0 +1,127 @@
+/*
+WARNING: Do NOT edit the input and output ports in this file in a text
+editor if you plan to continue editing the block that represents it in
+the Block Editor! File corruption is VERY likely to occur.
+*/
+/*
+Copyright (C) 1991-2013 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, Altera MegaCore Function License 
+Agreement, or other applicable license agreement, including, 
+without limitation, that your use is for the sole purpose of 
+programming logic devices manufactured by Altera and sold by 
+Altera or its authorized distributors.  Please refer to the 
+applicable agreement for further details.
+*/
+(header "symbol" (version "1.2"))
+(symbol
+	(rect 56 56 344 280)
+	(text "counter_group" (rect 13 8 158 29)(font "Arial" ))
+	(text "inst" (rect 16 200 50 221)(font "Arial" ))
+	(port
+		(pt 0 40)
+		(input)
+		(text "selector" (rect 0 8 80 29)(font "Arial" ))
+		(text "selector" (rect 21 35 101 56)(font "Arial" ))
+		(line (pt 0 40)(pt 16 40))
+	)
+	(port
+		(pt 0 56)
+		(input)
+		(text "incrementor" (rect 0 8 118 29)(font "Arial" ))
+		(text "incrementor" (rect 21 51 139 72)(font "Arial" ))
+		(line (pt 0 56)(pt 16 56))
+	)
+	(port
+		(pt 0 72)
+		(input)
+		(text "reverse" (rect 0 8 75 29)(font "Arial" ))
+		(text "reverse" (rect 21 67 96 88)(font "Arial" ))
+		(line (pt 0 72)(pt 16 72))
+	)
+	(port
+		(pt 0 88)
+		(input)
+		(text "clr" (rect 0 8 23 29)(font "Arial" ))
+		(text "clr" (rect 21 83 44 104)(font "Arial" ))
+		(line (pt 0 88)(pt 16 88))
+	)
+	(port
+		(pt 288 40)
+		(output)
+		(text "cntr0[15..0]" (rect 80 8 192 29)(font "Arial" ))
+		(text "cntr0[15..0]" (rect 173 35 267 56)(font "Arial" ))
+		(line (pt 288 40)(pt 272 40)(line_width 3))
+	)
+	(port
+		(pt 288 56)
+		(output)
+		(text "cntr1[15..0]" (rect 80 8 192 29)(font "Arial" ))
+		(text "cntr1[15..0]" (rect 173 51 267 72)(font "Arial" ))
+		(line (pt 288 56)(pt 272 56)(line_width 3))
+	)
+	(port
+		(pt 288 72)
+		(output)
+		(text "cntr2[15..0]" (rect 80 8 192 29)(font "Arial" ))
+		(text "cntr2[15..0]" (rect 173 67 267 88)(font "Arial" ))
+		(line (pt 288 72)(pt 272 72)(line_width 3))
+	)
+	(port
+		(pt 288 88)
+		(output)
+		(text "cntr3[15..0]" (rect 80 8 192 29)(font "Arial" ))
+		(text "cntr3[15..0]" (rect 173 83 267 104)(font "Arial" ))
+		(line (pt 288 88)(pt 272 88)(line_width 3))
+	)
+	(port
+		(pt 288 104)
+		(output)
+		(text "cntr4[15..0]" (rect 80 8 192 29)(font "Arial" ))
+		(text "cntr4[15..0]" (rect 173 99 267 120)(font "Arial" ))
+		(line (pt 288 104)(pt 272 104)(line_width 3))
+	)
+	(port
+		(pt 288 120)
+		(output)
+		(text "cntr5[15..0]" (rect 80 8 192 29)(font "Arial" ))
+		(text "cntr5[15..0]" (rect 173 115 267 136)(font "Arial" ))
+		(line (pt 288 120)(pt 272 120)(line_width 3))
+	)
+	(port
+		(pt 288 136)
+		(output)
+		(text "cntr6[15..0]" (rect 80 8 192 29)(font "Arial" ))
+		(text "cntr6[15..0]" (rect 173 131 267 152)(font "Arial" ))
+		(line (pt 288 136)(pt 272 136)(line_width 3))
+	)
+	(port
+		(pt 288 152)
+		(output)
+		(text "cntr7[15..0]" (rect 80 8 192 29)(font "Arial" ))
+		(text "cntr7[15..0]" (rect 173 147 267 168)(font "Arial" ))
+		(line (pt 288 152)(pt 272 152)(line_width 3))
+	)
+	(port
+		(pt 288 168)
+		(output)
+		(text "cntr_sel[15..0]" (rect 80 8 221 29)(font "Arial" ))
+		(text "cntr_sel[15..0]" (rect 148 163 267 184)(font "Arial" ))
+		(line (pt 288 168)(pt 272 168)(line_width 3))
+	)
+	(port
+		(pt 288 184)
+		(output)
+		(text "cntr_ind[7..0]" (rect 80 8 208 29)(font "Arial" ))
+		(text "cntr_ind[7..0]" (rect 159 179 267 200)(font "Arial" ))
+		(line (pt 288 184)(pt 272 184)(line_width 3))
+	)
+	(drawing
+		(rectangle (rect 16 24 272 200))
+	)
+)

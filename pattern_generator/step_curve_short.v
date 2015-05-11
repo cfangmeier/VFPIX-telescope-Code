@@ -20,8 +20,8 @@ module step_curve_short
   output reg SPHI1,
   output reg SPHI2,
   output reg SR,
-  input reset_gen,
-  input [15:0]rep_num
+  input reset_gen
+//  input [15:0]rep_num
 );
 
 reg [31:0]counter;
@@ -131,7 +131,7 @@ always @(posedge clk ) begin
         RPHI2 <= 0;
       end
       if(counter == 3) begin
-        if(stage_iter == rep_num) begin
+        if(stage_iter == 129) begin
           stage <= (stage + 1) % 2;
           stage_iter <= 0;
         end

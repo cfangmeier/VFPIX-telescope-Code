@@ -86,9 +86,7 @@ set_location_assignment PIN_AD18 -to clk_div_sel[1]
 set_location_assignment PIN_AC14 -to clk_div_sel[0]
 set_location_assignment PIN_A14 -to clk
 set_location_assignment PIN_AD7 -to reset_gen_n
-set_location_assignment PIN_R1 -to reset_gen_out
 set_instance_assignment -name IO_STANDARD "1.8 V" -to reset_gen_n
-set_location_assignment PIN_M1 -to clk_div_out
 set_location_assignment PIN_AE6 -to dig[6]
 set_location_assignment PIN_D5 -to dig[5]
 set_location_assignment PIN_E5 -to dig[4]
@@ -120,6 +118,23 @@ set_instance_assignment -name IO_STANDARD "1.8 V" -to dig[3]
 set_instance_assignment -name IO_STANDARD "1.8 V" -to dig[4]
 set_instance_assignment -name IO_STANDARD "1.8 V" -to dig[5]
 set_instance_assignment -name IO_STANDARD "1.8 V" -to clk
+set_location_assignment PIN_AB2 -to A[0]
+set_location_assignment PIN_AB1 -to A[1]
+set_location_assignment PIN_U2 -to clr_n
+set_location_assignment PIN_AF2 -to cs_n
+set_location_assignment PIN_M4 -to db[7]
+set_location_assignment PIN_U6 -to db[6]
+set_location_assignment PIN_M3 -to db[5]
+set_location_assignment PIN_U5 -to db[4]
+set_location_assignment PIN_M2 -to db[3]
+set_location_assignment PIN_R2 -to db[2]
+set_location_assignment PIN_M1 -to db[1]
+set_location_assignment PIN_R1 -to db[0]
+set_location_assignment PIN_AC5 -to wr_n
+set_location_assignment PIN_G6 -to pd_n
+set_location_assignment PIN_Y22 -to ldac_n
+set_global_assignment -name VERILOG_FILE counter_group.v
+set_global_assignment -name VERILOG_FILE dac_control.v
 set_global_assignment -name VERILOG_FILE switch_debounce.v
 set_global_assignment -name VERILOG_FILE seven_segment_display.v
 set_global_assignment -name VERILOG_FILE step_curve.v
@@ -128,4 +143,25 @@ set_global_assignment -name BDF_FILE pattern_generator.bdf
 set_global_assignment -name BDF_FILE clk_div_2.bdf
 set_global_assignment -name BDF_FILE clk_div.bdf
 set_global_assignment -name QIP_FILE cycle_counter.qip
+set_global_assignment -name QIP_FILE const0.qip
+set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
+set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
+set_location_assignment PIN_AF19 -to cntr_ind[7]
+set_location_assignment PIN_AG19 -to cntr_ind[6]
+set_location_assignment PIN_AC17 -to cntr_ind[5]
+set_location_assignment PIN_AE15 -to cntr_ind[4]
+set_location_assignment PIN_AD19 -to cntr_ind[3]
+set_location_assignment PIN_AF18 -to cntr_ind[2]
+set_location_assignment PIN_AE20 -to cntr_ind[1]
+set_location_assignment PIN_AD15 -to cntr_ind[0]
+set_location_assignment PIN_AA12 -to cntr_select
+set_instance_assignment -name IO_STANDARD "1.8 V" -to cntr_select
+set_instance_assignment -name IO_STANDARD "1.8 V" -to cntr_ind[0]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to cntr_ind[1]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to cntr_ind[2]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to cntr_ind[3]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to cntr_ind[4]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to cntr_ind[5]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to cntr_ind[6]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to cntr_ind[7]
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
