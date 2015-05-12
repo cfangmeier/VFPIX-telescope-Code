@@ -30,14 +30,28 @@ assign cntr5 = cntrs[5];
 assign cntr6 = cntrs[6];
 assign cntr7 = cntrs[7];
 
+wire [15:0] cntrs_def[7:0];
+assign cntrs_def[0] = 16'H0066;  //Vana(2V)
+assign cntrs_def[1] = 16'H0033;  //RG(1V)
+assign cntrs_def[2] = 16'H0051;  //Vthr(1.58V)
+assign cntrs_def[3] = 16'H0033;  //Aref(1V)
+assign cntrs_def[4] = 16'H0000;
+assign cntrs_def[5] = 16'H0000;
+assign cntrs_def[6] = 16'H0000;
+assign cntrs_def[7] = 16'H0000;
+
 assign cntr_sel = cntrs[cntr_cur];
 
 wire s = selector | clr | incrementor;
 always @(posedge s) begin
   if (clr == 1) begin
-    cntrs[cntr_cur] <= 0;
+    /* cntrs[cntr_cur] <= 0; */
+    cntrs[cntr_cur] <= cntrs_def[cntr_cur];
   end else if (selector == 1) begin
-    cntr_cur <= cntr_cur + 1;
+    if (reverse == 1)
+      cntr_cur <= cntr_cur - 1;
+    else
+      cntr_cur <= cntr_cur + 1;
   end else begin
     if (reverse == 1)
       cntrs[cntr_cur] <= cntrs[cntr_cur] - 1;

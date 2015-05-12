@@ -22,54 +22,75 @@ reg [7:0] clk_div;
 reg clk_int;
 always @(posedge clk) begin
   clk_div <= clk_div + 1;
-  if (clk_div == 8'HFF)
-    clk_int <= 1;
-  else
-    clk_int <= 0;
+  clk_int <= (clk_div == 8'HFF);
+  /* if (clk_div == 8'HFF) */
+  /*   clk_int <= 1; */
+  /* else */
+  /*   clk_int <= 0; */
 end
 
 assign clr_n = enable;
 assign pd_n = 1;
 
-reg [3:0] cntr;
-always @(posedge clk_int && enable_update) begin
-  cntr <= (cntr + 1) % 10;
+reg [7:0]dbA_prev;
+reg [7:0]dbB_prev;
+reg [7:0]dbC_prev;
+reg [7:0]dbD_prev;
+reg update_trigger;
 
-  case (cntr)
-    0 : begin
-      A <= 2'b00;
-      db <= dbA;
-    end
-    1 :
-      wr_n <= 1;
-    2 : begin
-      A <= 2'b01;
-      db <= dbB;
-      wr_n <= 0;
-    end
-    3 :
-      wr_n <= 1;
-    4 : begin
-      A <= 2'b10;
-      db <= dbC;
-      wr_n <= 0;
-    end
-    5 :
-      wr_n <= 1;
-    6 : begin
-      A <= 2'b11;
-      db <= dbD;
-      wr_n <= 0;
-    end
-    7 :
-      wr_n <= 1;
-    8 :
-      wr_n <= 0;
-    9 :
-      ldac_n <= 1;
-    10 :
-      ldac_n <= 0;
-  endcase
+always @(posedge clk_int && enable_update) begin
+  if ((dbA != dbA_prev) || (dbB != dbB_prev) || (dbC != dbC_prev) || (dbD != dbD_prev))
+    update_trigger <= 1;
+  else
+    update_trigger <= 0;
+  dbA_prev <= dbA;
+  dbB_prev <= dbB;
+  dbC_prev <= dbC;
+  dbD_prev <= dbD;
+end
+
+
+reg [3:0] cntr;
+always @(posedge clk_int) begin
+  if ((update_trigger == 1) || (cntr != 0)) begin
+    cntr <= (cntr + 1) % 10;
+
+    case (cntr)
+      0 : begin
+        A <= 2'b00;
+        db <= dbA;
+      end
+      1 :
+        wr_n <= 1;
+      2 : begin
+        A <= 2'b01;
+        db <= dbB;
+        wr_n <= 0;
+      end
+      3 :
+        wr_n <= 1;
+      4 : begin
+        A <= 2'b10;
+        db <= dbC;
+        wr_n <= 0;
+      end
+      5 :
+        wr_n <= 1;
+      6 : begin
+        A <= 2'b11;
+        db <= dbD;
+        wr_n <= 0;
+      end
+      7 :
+        wr_n <= 1;
+      8 :
+        wr_n <= 0;
+      9 :
+        ldac_n <= 1;
+      10 :
+        ldac_n <= 0;
+    endcase
+  end
 end
 
 endmodule
