@@ -6,6 +6,14 @@ module counter_group
   input incrementor,
   input reverse,
   input clr,
+  input wire [15:0]cntr_def_0,
+  input wire [15:0]cntr_def_1,
+  input wire [15:0]cntr_def_2,
+  input wire [15:0]cntr_def_3,
+  input wire [15:0]cntr_def_4,
+  input wire [15:0]cntr_def_5,
+  input wire [15:0]cntr_def_6,
+  input wire [15:0]cntr_def_7,
   output wire [15:0]cntr0,
   output wire [15:0]cntr1,
   output wire [15:0]cntr2,
@@ -30,15 +38,15 @@ assign cntr5 = cntrs[5];
 assign cntr6 = cntrs[6];
 assign cntr7 = cntrs[7];
 
-wire [15:0] cntrs_def[7:0];
-assign cntrs_def[0] = 16'H0066;  //Vana(2V)
-assign cntrs_def[1] = 16'H0033;  //RG(1V)
-assign cntrs_def[2] = 16'H0051;  //Vthr(1.58V)
-assign cntrs_def[3] = 16'H0033;  //Aref(1V)
-assign cntrs_def[4] = 16'H0000;
-assign cntrs_def[5] = 16'H0000;
-assign cntrs_def[6] = 16'H0000;
-assign cntrs_def[7] = 16'H0000;
+wire [15:0] cntrs_def_int[7:0];
+assign cntrs_def_int[0] = cntr_def_0;
+assign cntrs_def_int[1] = cntr_def_1;
+assign cntrs_def_int[2] = cntr_def_2;
+assign cntrs_def_int[3] = cntr_def_3;
+assign cntrs_def_int[4] = cntr_def_4;
+assign cntrs_def_int[5] = cntr_def_5;
+assign cntrs_def_int[6] = cntr_def_6;
+assign cntrs_def_int[7] = cntr_def_7;
 
 assign cntr_sel = cntrs[cntr_cur];
 
@@ -46,7 +54,7 @@ wire s = selector | clr | incrementor;
 always @(posedge s) begin
   if (clr == 1) begin
     /* cntrs[cntr_cur] <= 0; */
-    cntrs[cntr_cur] <= cntrs_def[cntr_cur];
+    cntrs[cntr_cur] <= cntrs_def_int[cntr_cur];
   end else if (selector == 1) begin
     if (reverse == 1)
       cntr_cur <= cntr_cur - 1;
