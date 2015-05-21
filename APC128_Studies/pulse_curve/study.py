@@ -31,17 +31,22 @@ def plot_selection(df, ts):
     plt.show()
 
 
-def main():
-    filenames = os.listdir("./data")
-    filenames = ["./data/"+filename for filename in filenames]
+def get_pulse_curve(R12):
+    data_dir = "./data_{}/".format(R12)
+    filenames = os.listdir(data_dir)
+    filenames = [data_dir+filename for filename in filenames]
     filenames.sort()
 
     levels = defaultdict(list)
     level_errors = defaultdict(list)
     delays = []
     for filename in filenames:
-        df = pd.read_csv(filename)
+        if R12:
+            df = pd.read_csv(filename)
+        else:
+            df = pd.read_csv(filename, skiprows=4)
         delay = int(re.search("0\d+", filename).group())
+
         if delay > 70:
             delay = 70 + 10*(delay-70)
 
@@ -54,12 +59,31 @@ def main():
             level_errors[i].append(df_sel.Ampl.std())
         delays.append(1E6*delay * PERIOD/24)
 
-    for i in levels.keys():
-        level = np.array(levels[i])*1000
-        level_error = np.array(level_errors[i])*1000
-        plt.errorbar(delays, level, yerr=level_error)
-    plt.xlabel("delay($\mu$s)")
-    plt.ylabel("amplitude(mV)")
+    return delays, levels, level_errors
+
+
+def main():
+    fig, axs = plt.subplots(nrows=2,ncols=2,
+                            sharex=True,sharey=True)
+
+    for R12 in (0,1):
+        delays, levels, level_errors = get_pulse_curve(R12)
+        for i in levels.keys():
+            level = np.array(levels[i])*1000
+            level_error = np.array(level_errors[i])*1000
+            axs[i//2,i%2].plot(delays, level,
+                        label="R12={}".format(R12))
+    axs[0,0].legend(loc='upper left')
+    axs[0,0].set_title('Height 1')
+    axs[0,1].set_title('Height 2')
+    axs[1,0].set_title('Height 3')
+    axs[1,1].set_title('Height 4')
+
+    fig.suptitle("CAL Pulse Curve")
+    fig.text(0.5, 0.02, "delay($\mu$s)", ha='center', va='center')
+    fig.text(0.01, 0.5, "Amplitude(mV)", ha='center', va='center',
+             rotation='vertical')
+    plt.tight_layout()
     plt.show()
 
 
