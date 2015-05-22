@@ -157,6 +157,7 @@ set_location_assignment PIN_R7 -to DTB_IO[3]
 set_location_assignment PIN_AB6 -to DTB_IO[2]
 set_location_assignment PIN_AE3 -to DTB_IO[1]
 set_location_assignment PIN_Y7 -to DTB_IO[0]
+set_global_assignment -name VERILOG_FILE step_curve_new.v
 set_global_assignment -name VERILOG_FILE rbo_test.v
 set_global_assignment -name VERILOG_FILE counter_group.v
 set_global_assignment -name VERILOG_FILE dac_control.v
