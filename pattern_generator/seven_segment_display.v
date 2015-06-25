@@ -14,11 +14,11 @@ module seven_segment_display
 //dig format
 //dig[0] : A, top
 //dig[1] : B, top/right
-//dig[1] : C, bottom/right
-//dig[1] : D, bottom
-//dig[1] : E, bottom/left
-//dig[1] : F, top/left
-//dig[1] : G, middle
+//dig[2] : C, bottom/right
+//dig[3] : D, bottom
+//dig[4] : E, bottom/left
+//dig[5] : F, top/left
+//dig[6] : G, middle
 reg [6:0]dig1;
 reg [6:0]dig2;
 reg [6:0]dig3;
