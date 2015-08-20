@@ -1,0 +1,183 @@
+/*
+WARNING: Do NOT edit the input and output ports in this file in a text
+editor if you plan to continue editing the block that represents it in
+the Block Editor! File corruption is VERY likely to occur.
+*/
+/*
+Copyright (C) 1991-2013 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, Altera MegaCore Function License 
+Agreement, or other applicable license agreement, including, 
+without limitation, that your use is for the sole purpose of 
+programming logic devices manufactured by Altera and sold by 
+Altera or its authorized distributors.  Please refer to the 
+applicable agreement for further details.
+*/
+(header "symbol" (version "1.1"))
+(symbol
+	(rect 16 16 328 384)
+	(text "step_curve_rev" (rect 5 0 71 12)(font "Arial" ))
+	(text "inst" (rect 8 352 20 364)(font "Arial" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "clk" (rect 0 0 10 12)(font "Arial" ))
+		(text "clk" (rect 21 27 31 39)(font "Arial" ))
+		(line (pt 0 32)(pt 16 32)(line_width 1))
+	)
+	(port
+		(pt 0 48)
+		(input)
+		(text "stage_PIPELINE_SHIFT_IN_cntr[15..0]" (rect 0 0 164 12)(font "Arial" ))
+		(text "stage_PIPELINE_SHIFT_IN_cntr[15..0]" (rect 21 43 185 55)(font "Arial" ))
+		(line (pt 0 48)(pt 16 48)(line_width 3))
+	)
+	(port
+		(pt 0 64)
+		(input)
+		(text "reset_gen" (rect 0 0 40 12)(font "Arial" ))
+		(text "reset_gen" (rect 21 59 61 71)(font "Arial" ))
+		(line (pt 0 64)(pt 16 64)(line_width 1))
+	)
+	(port
+		(pt 312 32)
+		(output)
+		(text "CAL" (rect 0 0 21 12)(font "Arial" ))
+		(text "CAL" (rect 270 27 291 39)(font "Arial" ))
+		(line (pt 312 32)(pt 296 32)(line_width 1))
+	)
+	(port
+		(pt 312 48)
+		(output)
+		(text "CS" (rect 0 0 12 12)(font "Arial" ))
+		(text "CS" (rect 279 43 291 55)(font "Arial" ))
+		(line (pt 312 48)(pt 296 48)(line_width 1))
+	)
+	(port
+		(pt 312 64)
+		(output)
+		(text "IS1" (rect 0 0 11 12)(font "Arial" ))
+		(text "IS1" (rect 280 59 291 71)(font "Arial" ))
+		(line (pt 312 64)(pt 296 64)(line_width 1))
+	)
+	(port
+		(pt 312 80)
+		(output)
+		(text "IS2" (rect 0 0 12 12)(font "Arial" ))
+		(text "IS2" (rect 279 75 291 87)(font "Arial" ))
+		(line (pt 312 80)(pt 296 80)(line_width 1))
+	)
+	(port
+		(pt 312 96)
+		(output)
+		(text "LE" (rect 0 0 12 12)(font "Arial" ))
+		(text "LE" (rect 279 91 291 103)(font "Arial" ))
+		(line (pt 312 96)(pt 296 96)(line_width 1))
+	)
+	(port
+		(pt 312 112)
+		(output)
+		(text "R12" (rect 0 0 16 12)(font "Arial" ))
+		(text "R12" (rect 275 107 291 119)(font "Arial" ))
+		(line (pt 312 112)(pt 296 112)(line_width 1))
+	)
+	(port
+		(pt 312 128)
+		(output)
+		(text "RBI" (rect 0 0 16 12)(font "Arial" ))
+		(text "RBI" (rect 275 123 291 135)(font "Arial" ))
+		(line (pt 312 128)(pt 296 128)(line_width 1))
+	)
+	(port
+		(pt 312 144)
+		(output)
+		(text "RESET" (rect 0 0 34 12)(font "Arial" ))
+		(text "RESET" (rect 257 139 291 151)(font "Arial" ))
+		(line (pt 312 144)(pt 296 144)(line_width 1))
+	)
+	(port
+		(pt 312 160)
+		(output)
+		(text "RPHI1" (rect 0 0 27 12)(font "Arial" ))
+		(text "RPHI1" (rect 264 155 291 167)(font "Arial" ))
+		(line (pt 312 160)(pt 296 160)(line_width 1))
+	)
+	(port
+		(pt 312 176)
+		(output)
+		(text "RPHI2" (rect 0 0 28 12)(font "Arial" ))
+		(text "RPHI2" (rect 263 171 291 183)(font "Arial" ))
+		(line (pt 312 176)(pt 296 176)(line_width 1))
+	)
+	(port
+		(pt 312 192)
+		(output)
+		(text "SBI" (rect 0 0 14 12)(font "Arial" ))
+		(text "SBI" (rect 277 187 291 199)(font "Arial" ))
+		(line (pt 312 192)(pt 296 192)(line_width 1))
+	)
+	(port
+		(pt 312 208)
+		(output)
+		(text "SEB" (rect 0 0 18 12)(font "Arial" ))
+		(text "SEB" (rect 273 203 291 215)(font "Arial" ))
+		(line (pt 312 208)(pt 296 208)(line_width 1))
+	)
+	(port
+		(pt 312 224)
+		(output)
+		(text "SPHI1" (rect 0 0 24 12)(font "Arial" ))
+		(text "SPHI1" (rect 267 219 291 231)(font "Arial" ))
+		(line (pt 312 224)(pt 296 224)(line_width 1))
+	)
+	(port
+		(pt 312 240)
+		(output)
+		(text "SPHI2" (rect 0 0 25 12)(font "Arial" ))
+		(text "SPHI2" (rect 266 235 291 247)(font "Arial" ))
+		(line (pt 312 240)(pt 296 240)(line_width 1))
+	)
+	(port
+		(pt 312 256)
+		(output)
+		(text "SR" (rect 0 0 14 12)(font "Arial" ))
+		(text "SR" (rect 277 251 291 263)(font "Arial" ))
+		(line (pt 312 256)(pt 296 256)(line_width 1))
+	)
+	(port
+		(pt 312 272)
+		(output)
+		(text "Aref[15..0]" (rect 0 0 43 12)(font "Arial" ))
+		(text "Aref[15..0]" (rect 248 267 291 279)(font "Arial" ))
+		(line (pt 312 272)(pt 296 272)(line_width 3))
+	)
+	(port
+		(pt 312 288)
+		(output)
+		(text "RG[15..0]" (rect 0 0 38 12)(font "Arial" ))
+		(text "RG[15..0]" (rect 253 283 291 295)(font "Arial" ))
+		(line (pt 312 288)(pt 296 288)(line_width 3))
+	)
+	(port
+		(pt 312 304)
+		(output)
+		(text "Vana[15..0]" (rect 0 0 46 12)(font "Arial" ))
+		(text "Vana[15..0]" (rect 245 299 291 311)(font "Arial" ))
+		(line (pt 312 304)(pt 296 304)(line_width 3))
+	)
+	(port
+		(pt 312 320)
+		(output)
+		(text "Vthr[15..0]" (rect 0 0 42 12)(font "Arial" ))
+		(text "Vthr[15..0]" (rect 249 315 291 327)(font "Arial" ))
+		(line (pt 312 320)(pt 296 320)(line_width 3))
+	)
+	(drawing
+		(rectangle (rect 16 16 296 352)(line_width 1))
+	)
+)

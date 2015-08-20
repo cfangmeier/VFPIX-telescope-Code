@@ -50,6 +50,28 @@ assign cntrs_def_int[7] = cntr_def_7;
 
 assign cntr_sel = cntrs[cntr_cur];
 
+
+/* always @(posedge selector) begin */
+/*   if (reverse == 1) begin */
+/*     cntr_cur <= cntr_cur - 1; */
+/*   end else begin */
+/*     cntr_cur <= cntr_cur + 1; */
+/*   end */
+/* end */
+
+/* always @(posedge clr) begin */
+/*   cntrs[cntr_cur] <= cntrs_def_int[cntr_cur]; */
+/* end */
+
+/* always @(posedge incrementor) begin */
+/*   if (reverse == 1) begin */
+/*     cntrs[cntr_cur] <= cntrs[cntr_cur] - 1; */
+/*   end else begin */
+/*     cntrs[cntr_cur] <= cntrs[cntr_cur] + 1; */
+/*   end */
+/* end */
+
+
 wire s = selector | clr | incrementor;
 always @(posedge s) begin
   if (clr == 1) begin
