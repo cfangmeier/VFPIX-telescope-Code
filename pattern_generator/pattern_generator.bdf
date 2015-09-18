@@ -595,22 +595,6 @@ applicable agreement for further details.
 		(line (pt 78 12)(pt 82 8))
 	)
 )
-(pin
-	(output)
-	(rect 744 1328 973 1344)
-	(text "OUTPUT" (rect 1 0 75 17)(font "Arial" (font_size 6)))
-	(text "DTB_IO[3..0]" (rect 90 0 223 21)(font "Arial" ))
-	(pt 0 8)
-	(drawing
-		(line (pt 0 8)(pt 52 8))
-		(line (pt 52 4)(pt 78 4))
-		(line (pt 52 12)(pt 78 12))
-		(line (pt 52 12)(pt 52 4))
-		(line (pt 78 4)(pt 82 8))
-		(line (pt 82 8)(pt 78 12))
-		(line (pt 78 12)(pt 82 8))
-	)
-)
 (symbol
 	(rect 856 552 888 584)
 	(text "GND" (rect 8 16 49 33)(font "Arial" (font_size 6)))
@@ -1052,23 +1036,6 @@ applicable agreement for further details.
 	)
 	(drawing
 		(rectangle (rect 16 16 160 64))
-	)
-)
-(symbol
-	(rect 656 1368 688 1400)
-	(text "GND" (rect 8 16 49 33)(font "Arial" (font_size 6)))
-	(text "inst2" (rect 3 21 50 42)(font "Arial" )(invisible))
-	(port
-		(pt 16 0)
-		(output)
-		(text "1" (rect 18 0 30 22)(font "Courier New" (bold))(invisible))
-		(text "1" (rect 18 0 30 22)(font "Courier New" (bold))(invisible))
-		(line (pt 16 8)(pt 16 0))
-	)
-	(drawing
-		(line (pt 8 8)(pt 16 16))
-		(line (pt 16 16)(pt 24 8))
-		(line (pt 8 8)(pt 24 8))
 	)
 )
 (symbol
@@ -1818,16 +1785,6 @@ applicable agreement for further details.
 (connector
 	(pt -352 248)
 	(pt -352 336)
-)
-(connector
-	(pt 744 1336)
-	(pt 672 1336)
-	(bus)
-)
-(connector
-	(pt 672 1336)
-	(pt 672 1368)
-	(bus)
 )
 (connector
 	(pt -104 120)

@@ -52,22 +52,22 @@ set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_RO
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "2.5 V"
 set_location_assignment PIN_P2 -to CAL
-set_location_assignment PIN_R3 -to CS
+set_location_assignment PIN_W2 -to CS
 set_location_assignment PIN_Y4 -to gnd1
 set_location_assignment PIN_U1 -to gnd2
-set_location_assignment PIN_T4 -to IS1
-set_location_assignment PIN_U3 -to IS2
-set_location_assignment PIN_V3 -to LE
-set_location_assignment PIN_U4 -to R12
-set_location_assignment PIN_W2 -to RBI
-set_location_assignment PIN_Y3 -to RESET
-set_location_assignment PIN_R4 -to RPHI1
-set_location_assignment PIN_W1 -to RPHI2
-set_location_assignment PIN_V2 -to SBI
-set_location_assignment PIN_M8 -to SEB
-set_location_assignment PIN_M7 -to SPHI1
-set_location_assignment PIN_V1 -to SPHI2
-set_location_assignment PIN_T3 -to SR
+set_location_assignment PIN_V2 -to IS1
+set_location_assignment PIN_M8 -to IS2
+set_location_assignment PIN_V1 -to LE
+set_location_assignment PIN_R4 -to R12
+set_location_assignment PIN_R3 -to RBI
+set_location_assignment PIN_M7 -to RESET
+set_location_assignment PIN_U4 -to RPHI1
+set_location_assignment PIN_T3 -to RPHI2
+set_location_assignment PIN_T4 -to SBI
+set_location_assignment PIN_U3 -to SEB
+set_location_assignment PIN_Y3 -to SPHI1
+set_location_assignment PIN_V3 -to SPHI2
+set_location_assignment PIN_W1 -to SR
 set_instance_assignment -name IO_STANDARD "1.8 V" -to clk_div_sel[7]
 set_instance_assignment -name IO_STANDARD "1.8 V" -to clk_div_sel[6]
 set_instance_assignment -name IO_STANDARD "1.8 V" -to clk_div_sel[5]
@@ -153,10 +153,6 @@ set_instance_assignment -name IO_STANDARD "1.8 V" -to cntr_ind[4]
 set_instance_assignment -name IO_STANDARD "1.8 V" -to cntr_ind[5]
 set_instance_assignment -name IO_STANDARD "1.8 V" -to cntr_ind[6]
 set_instance_assignment -name IO_STANDARD "1.8 V" -to cntr_ind[7]
-set_location_assignment PIN_R7 -to DTB_IO[3]
-set_location_assignment PIN_AB6 -to DTB_IO[2]
-set_location_assignment PIN_AE3 -to DTB_IO[1]
-set_location_assignment PIN_Y7 -to DTB_IO[0]
 set_global_assignment -name VERILOG_FILE step_curve_sub.v
 set_global_assignment -name VERILOG_FILE step_curve_new.v
 set_global_assignment -name VERILOG_FILE rbo_test.v
