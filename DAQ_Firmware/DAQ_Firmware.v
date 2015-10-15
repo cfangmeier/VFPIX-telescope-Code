@@ -106,4 +106,20 @@
   output wire rj45_led_latch,
   output wire rj45_led_blank
   );
+
+
+ADC_Deserializer Deser1 (
+  .reset(),
+  .data_a( adc_1a ),
+  .data_b( adc_1b ),
+  .data_c( adc_1c ),
+  .data_d( adc_1d ),
+  .data_clk( adc_8dco ),
+  .frame_clk( adc_8fco ),
+  .deser_a(),
+  .deser_b(),
+  .deser_c(),
+  .deser_d()
+
+);
 endmodule

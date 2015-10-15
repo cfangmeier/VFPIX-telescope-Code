@@ -372,11 +372,13 @@ set_global_assignment -name OUTPUT_IO_TIMING_NEAR_END_VMEAS "HALF VCCIO" -rise
 set_global_assignment -name OUTPUT_IO_TIMING_NEAR_END_VMEAS "HALF VCCIO" -fall
 set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -rise
 set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -fall
+set_global_assignment -name QIP_FILE ADC_ShiftRegister.qip
+set_global_assignment -name VERILOG_FILE ADC_ShiftRegister.v
 set_global_assignment -name SDC_FILE okHost.sdc
 set_global_assignment -name VERILOG_FILE okLibrary.v
 set_global_assignment -name VERILOG_FILE okHost.v
 set_global_assignment -name SYSTEMVERILOG_FILE okHost.sv
 set_global_assignment -name VERILOG_FILE okEndpoints.v
 set_global_assignment -name VERILOG_FILE DAQ_Firmware.v
-set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
 set_global_assignment -name VERILOG_FILE ADC_Deserializer.v
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
