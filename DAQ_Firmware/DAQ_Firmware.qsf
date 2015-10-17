@@ -348,9 +348,6 @@ set_instance_assignment -name IO_MAXIMUM_TOGGLE_RATE "0 MHz" -to rj45_led_clk -e
 set_instance_assignment -name IO_MAXIMUM_TOGGLE_RATE "0 MHz" -to rj45_led_latch -entity ZEM_Pin_Test_Top
 set_instance_assignment -name IO_MAXIMUM_TOGGLE_RATE "0 MHz" -to rj45_led_blank -entity ZEM_Pin_Test_Top
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -entity ZEM_Pin_Test_Top -section_id Top
-set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -entity ZEM_Pin_Test_Top -section_id Top
-set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -entity ZEM_Pin_Test_Top -section_id Top
-set_global_assignment -name PARTITION_COLOR 16764057 -entity ZEM_Pin_Test_Top -section_id Top
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
@@ -381,4 +378,195 @@ set_global_assignment -name SYSTEMVERILOG_FILE okHost.sv
 set_global_assignment -name VERILOG_FILE okEndpoints.v
 set_global_assignment -name VERILOG_FILE DAQ_Firmware.v
 set_global_assignment -name VERILOG_FILE ADC_Deserializer.v
+set_global_assignment -name QIP_FILE DDR2_Controller.qip
+set_location_assignment PIN_W8 -to sda_a
+set_location_assignment PIN_U10 -to scl_a
+set_location_assignment PIN_V10 -to clkout0_a
+set_location_assignment PIN_T21 -to clkin0_a
+set_location_assignment PIN_Y4 -to sda_b
+set_location_assignment PIN_AA4 -to scl_b
+set_location_assignment PIN_V13 -to clkout0_b
+set_location_assignment PIN_T22 -to clkin0_b
+set_instance_assignment -name IO_STANDARD "SSTL-18 CLASS I" -to mem_addr[0]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to okAA
+set_instance_assignment -name IO_STANDARD "1.8 V" -to okHU[0]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to okHU[1]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to okHU[2]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to okUHU[0]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to okUHU[1]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to okUHU[2]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to okUHU[3]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to okUHU[4]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to okUHU[5]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to okUHU[6]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to okUHU[7]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to okUHU[8]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to okUHU[9]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to okUHU[10]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to okUHU[11]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to okUHU[12]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to okUHU[13]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to okUHU[14]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to okUHU[15]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to okUHU[16]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to okUHU[17]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to okUHU[18]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to okUHU[19]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to okUHU[20]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to okUHU[21]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to okUHU[22]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to okUHU[23]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to okUHU[24]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to okUHU[25]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to okUHU[26]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to okUHU[27]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to okUHU[28]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to okUHU[29]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to okUHU[30]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to okUHU[31]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to okUH[0]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to okUH[1]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to okUH[2]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to okUH[3]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to okUH[4]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to user_reset
+set_instance_assignment -name IO_STANDARD "SSTL-18 CLASS I" -to mem_odt[0]
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to mem_odt[0]
+set_instance_assignment -name IO_STANDARD "SSTL-18 CLASS I" -to mem_clk[0]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 12MA -to mem_clk[0]
+set_instance_assignment -name IO_STANDARD "SSTL-18 CLASS I" -to mem_clk_n[0]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 12MA -to mem_clk_n[0]
+set_instance_assignment -name IO_STANDARD "SSTL-18 CLASS I" -to mem_addr[1]
+set_instance_assignment -name IO_STANDARD "SSTL-18 CLASS I" -to mem_cs_n[0]
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to mem_cs_n[0]
+set_instance_assignment -name IO_STANDARD "SSTL-18 CLASS I" -to mem_cke[0]
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to mem_cke[0]
+set_instance_assignment -name IO_STANDARD "SSTL-18 CLASS I" -to mem_addr[2]
+set_instance_assignment -name IO_STANDARD "SSTL-18 CLASS I" -to mem_addr[3]
+set_instance_assignment -name IO_STANDARD "SSTL-18 CLASS I" -to mem_addr[4]
+set_instance_assignment -name IO_STANDARD "SSTL-18 CLASS I" -to mem_addr[5]
+set_instance_assignment -name IO_STANDARD "SSTL-18 CLASS I" -to mem_addr[6]
+set_instance_assignment -name IO_STANDARD "SSTL-18 CLASS I" -to mem_addr[7]
+set_instance_assignment -name IO_STANDARD "SSTL-18 CLASS I" -to mem_addr[8]
+set_instance_assignment -name IO_STANDARD "SSTL-18 CLASS I" -to mem_addr[9]
+set_instance_assignment -name IO_STANDARD "SSTL-18 CLASS I" -to mem_addr[10]
+set_instance_assignment -name IO_STANDARD "SSTL-18 CLASS I" -to mem_addr[11]
+set_instance_assignment -name IO_STANDARD "SSTL-18 CLASS I" -to mem_addr[12]
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to mem_addr[0]
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to mem_addr[1]
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to mem_addr[2]
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to mem_addr[3]
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to mem_addr[4]
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to mem_addr[5]
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to mem_addr[6]
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to mem_addr[7]
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to mem_addr[8]
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to mem_addr[9]
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to mem_addr[10]
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to mem_addr[11]
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to mem_addr[12]
+set_instance_assignment -name IO_STANDARD "SSTL-18 CLASS I" -to mem_ba[0]
+set_instance_assignment -name IO_STANDARD "SSTL-18 CLASS I" -to mem_ba[1]
+set_instance_assignment -name IO_STANDARD "SSTL-18 CLASS I" -to mem_ba[2]
+set_instance_assignment -name IO_STANDARD "SSTL-18 CLASS I" -to mem_cas_n
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to mem_ba[0]
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to mem_ba[1]
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to mem_ba[2]
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to mem_cas_n
+set_instance_assignment -name IO_STANDARD "SSTL-18 CLASS I" -to mem_ras_n
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to mem_ras_n
+set_instance_assignment -name IO_STANDARD "SSTL-18 CLASS I" -to mem_we_n
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to mem_we_n
+set_instance_assignment -name IO_STANDARD "SSTL-18 CLASS I" -to mem_dq[0]
+set_instance_assignment -name IO_STANDARD "SSTL-18 CLASS I" -to mem_dq[1]
+set_instance_assignment -name IO_STANDARD "SSTL-18 CLASS I" -to mem_dq[2]
+set_instance_assignment -name IO_STANDARD "SSTL-18 CLASS I" -to mem_dq[3]
+set_instance_assignment -name IO_STANDARD "SSTL-18 CLASS I" -to mem_dq[4]
+set_instance_assignment -name IO_STANDARD "SSTL-18 CLASS I" -to mem_dq[5]
+set_instance_assignment -name IO_STANDARD "SSTL-18 CLASS I" -to mem_dq[6]
+set_instance_assignment -name IO_STANDARD "SSTL-18 CLASS I" -to mem_dq[7]
+set_instance_assignment -name IO_STANDARD "SSTL-18 CLASS I" -to mem_dq[8]
+set_instance_assignment -name IO_STANDARD "SSTL-18 CLASS I" -to mem_dq[9]
+set_instance_assignment -name IO_STANDARD "SSTL-18 CLASS I" -to mem_dq[10]
+set_instance_assignment -name IO_STANDARD "SSTL-18 CLASS I" -to mem_dq[11]
+set_instance_assignment -name IO_STANDARD "SSTL-18 CLASS I" -to mem_dq[12]
+set_instance_assignment -name IO_STANDARD "SSTL-18 CLASS I" -to mem_dq[13]
+set_instance_assignment -name IO_STANDARD "SSTL-18 CLASS I" -to mem_dq[14]
+set_instance_assignment -name IO_STANDARD "SSTL-18 CLASS I" -to mem_dq[15]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 12MA -to mem_dq[0]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 12MA -to mem_dq[1]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 12MA -to mem_dq[2]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 12MA -to mem_dq[3]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 12MA -to mem_dq[4]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 12MA -to mem_dq[5]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 12MA -to mem_dq[6]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 12MA -to mem_dq[7]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 12MA -to mem_dq[8]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 12MA -to mem_dq[9]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 12MA -to mem_dq[10]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 12MA -to mem_dq[11]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 12MA -to mem_dq[12]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 12MA -to mem_dq[13]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 12MA -to mem_dq[14]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 12MA -to mem_dq[15]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 12MA -to mem_dqs[0]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 12MA -to mem_dqs[1]
+set_instance_assignment -name IO_STANDARD "SSTL-18 CLASS I" -to mem_dqs[0]
+set_instance_assignment -name IO_STANDARD "SSTL-18 CLASS I" -to mem_dqs[1]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 12MA -to mem_dm[0]
+set_instance_assignment -name CURRENT_STRENGTH_NEW 12MA -to mem_dm[1]
+set_instance_assignment -name IO_STANDARD "SSTL-18 CLASS I" -to mem_dm[0]
+set_instance_assignment -name IO_STANDARD "SSTL-18 CLASS I" -to mem_dm[1]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to spi_w_dq2
+set_instance_assignment -name IO_STANDARD "1.8 V" -to spi_s
+set_instance_assignment -name IO_STANDARD "1.8 V" -to spi_hold_dq3
+set_instance_assignment -name IO_STANDARD "1.8 V" -to spi_dq1
+set_instance_assignment -name IO_STANDARD "1.8 V" -to spi_dq0
+set_instance_assignment -name IO_STANDARD "1.8 V" -to spi_c
+set_instance_assignment -name IO_STANDARD "1.8 V" -to led[1]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to led[0]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to sys_clk
+
+set_instance_assignment -name MEM_INTERFACE_DELAY_CHAIN_CONFIG FLEXIBLE_TIMING -to mem_dq[0]
+set_instance_assignment -name MEM_INTERFACE_DELAY_CHAIN_CONFIG FLEXIBLE_TIMING -to mem_dq[1]
+set_instance_assignment -name MEM_INTERFACE_DELAY_CHAIN_CONFIG FLEXIBLE_TIMING -to mem_dq[2]
+set_instance_assignment -name MEM_INTERFACE_DELAY_CHAIN_CONFIG FLEXIBLE_TIMING -to mem_dq[3]
+set_instance_assignment -name MEM_INTERFACE_DELAY_CHAIN_CONFIG FLEXIBLE_TIMING -to mem_dq[4]
+set_instance_assignment -name MEM_INTERFACE_DELAY_CHAIN_CONFIG FLEXIBLE_TIMING -to mem_dq[5]
+set_instance_assignment -name MEM_INTERFACE_DELAY_CHAIN_CONFIG FLEXIBLE_TIMING -to mem_dq[6]
+set_instance_assignment -name MEM_INTERFACE_DELAY_CHAIN_CONFIG FLEXIBLE_TIMING -to mem_dq[7]
+set_instance_assignment -name MEM_INTERFACE_DELAY_CHAIN_CONFIG FLEXIBLE_TIMING -to mem_dq[8]
+set_instance_assignment -name MEM_INTERFACE_DELAY_CHAIN_CONFIG FLEXIBLE_TIMING -to mem_dq[9]
+set_instance_assignment -name MEM_INTERFACE_DELAY_CHAIN_CONFIG FLEXIBLE_TIMING -to mem_dq[10]
+set_instance_assignment -name MEM_INTERFACE_DELAY_CHAIN_CONFIG FLEXIBLE_TIMING -to mem_dq[11]
+set_instance_assignment -name MEM_INTERFACE_DELAY_CHAIN_CONFIG FLEXIBLE_TIMING -to mem_dq[12]
+set_instance_assignment -name MEM_INTERFACE_DELAY_CHAIN_CONFIG FLEXIBLE_TIMING -to mem_dq[13]
+set_instance_assignment -name MEM_INTERFACE_DELAY_CHAIN_CONFIG FLEXIBLE_TIMING -to mem_dq[14]
+set_instance_assignment -name MEM_INTERFACE_DELAY_CHAIN_CONFIG FLEXIBLE_TIMING -to mem_dq[15]
+set_instance_assignment -name OUTPUT_ENABLE_GROUP 1395768774 -to mem_dq[0]
+set_instance_assignment -name OUTPUT_ENABLE_GROUP 1395768774 -to mem_dq[1]
+set_instance_assignment -name OUTPUT_ENABLE_GROUP 1395768774 -to mem_dq[2]
+set_instance_assignment -name OUTPUT_ENABLE_GROUP 1395768774 -to mem_dq[3]
+set_instance_assignment -name OUTPUT_ENABLE_GROUP 1395768774 -to mem_dq[4]
+set_instance_assignment -name OUTPUT_ENABLE_GROUP 1395768774 -to mem_dq[5]
+set_instance_assignment -name OUTPUT_ENABLE_GROUP 1395768774 -to mem_dq[6]
+set_instance_assignment -name OUTPUT_ENABLE_GROUP 1395768774 -to mem_dq[7]
+set_instance_assignment -name OUTPUT_ENABLE_GROUP 1395768774 -to mem_dq[8]
+set_instance_assignment -name OUTPUT_ENABLE_GROUP 1395768774 -to mem_dq[9]
+set_instance_assignment -name OUTPUT_ENABLE_GROUP 1395768774 -to mem_dq[10]
+set_instance_assignment -name OUTPUT_ENABLE_GROUP 1395768774 -to mem_dq[11]
+set_instance_assignment -name OUTPUT_ENABLE_GROUP 1395768774 -to mem_dq[12]
+set_instance_assignment -name OUTPUT_ENABLE_GROUP 1395768774 -to mem_dq[13]
+set_instance_assignment -name OUTPUT_ENABLE_GROUP 1395768774 -to mem_dq[14]
+set_instance_assignment -name OUTPUT_ENABLE_GROUP 1395768774 -to mem_dq[15]
+set_instance_assignment -name MEM_INTERFACE_DELAY_CHAIN_CONFIG FLEXIBLE_TIMING -to mem_dqs[0]
+set_instance_assignment -name MEM_INTERFACE_DELAY_CHAIN_CONFIG FLEXIBLE_TIMING -to mem_dqs[1]
+set_instance_assignment -name OUTPUT_ENABLE_GROUP 1395768774 -to mem_dqs[0]
+set_instance_assignment -name OUTPUT_ENABLE_GROUP 1395768774 -to mem_dqs[1]
+set_instance_assignment -name MEM_INTERFACE_DELAY_CHAIN_CONFIG FLEXIBLE_TIMING -to mem_dm[0]
+set_instance_assignment -name MEM_INTERFACE_DELAY_CHAIN_CONFIG FLEXIBLE_TIMING -to mem_dm[1]
+set_instance_assignment -name OUTPUT_ENABLE_GROUP 1395768774 -to mem_dm[0]
+set_instance_assignment -name OUTPUT_ENABLE_GROUP 1395768774 -to mem_dm[1]
+set_instance_assignment -name CKN_CK_PAIR ON -from mem_clk_n[0] -to mem_clk[0]
+
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

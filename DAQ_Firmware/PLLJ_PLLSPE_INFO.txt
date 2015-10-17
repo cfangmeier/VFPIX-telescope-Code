@@ -1,0 +1,10 @@
+PLL_Name	DDR2_Controller:DDR2_Controller_inst|DDR2_Controller_controller_phy:DDR2_Controller_controller_phy_inst|DDR2_Controller_phy:DDR2_Controller_phy_inst|DDR2_Controller_phy_alt_mem_phy:DDR2_Controller_phy_alt_mem_phy_inst|DDR2_Controller_phy_alt_mem_phy_clk_reset:clk|DDR2_Controller_phy_alt_mem_phy_pll:pll|altpll:altpll_component|altpll_d1l3:auto_generated|pll1
+PLLJITTER	NA
+PLLSPEmax	84
+PLLSPEmin	-53
+
+PLL_Name	okHost:okHI|ok_altpll:ok_altpll0|altpll:altpll_component|ok_altpll_altpll:auto_generated|pll1
+PLLJITTER	NA
+PLLSPEmax	84
+PLLSPEmin	-53
+
