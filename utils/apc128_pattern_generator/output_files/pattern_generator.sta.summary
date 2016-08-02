@@ -1,0 +1,137 @@
+------------------------------------------------------------
+TimeQuest Timing Analyzer Summary
+------------------------------------------------------------
+
+Type  : Slow 1200mV 85C Model Setup 'switch_debounce:inst14|fast_enable'
+Slack : -7.396
+TNS   : -857.044
+
+Type  : Slow 1200mV 85C Model Setup 'clk'
+Slack : -5.859
+TNS   : -966.914
+
+Type  : Slow 1200mV 85C Model Setup 'dac_control:inst5|clk_int'
+Slack : -4.298
+TNS   : -128.978
+
+Type  : Slow 1200mV 85C Model Hold 'switch_debounce:inst14|fast_enable'
+Slack : -3.470
+TNS   : -288.417
+
+Type  : Slow 1200mV 85C Model Hold 'clk'
+Slack : -1.443
+TNS   : -78.869
+
+Type  : Slow 1200mV 85C Model Hold 'dac_control:inst5|clk_int'
+Slack : 0.405
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Recovery 'clk'
+Slack : -1.452
+TNS   : -6.783
+
+Type  : Slow 1200mV 85C Model Removal 'clk'
+Slack : -3.082
+TNS   : -13.298
+
+Type  : Slow 1200mV 85C Model Minimum Pulse Width 'clk'
+Slack : -3.000
+TNS   : -363.704
+
+Type  : Slow 1200mV 85C Model Minimum Pulse Width 'switch_debounce:inst14|fast_enable'
+Slack : -1.285
+TNS   : -168.335
+
+Type  : Slow 1200mV 85C Model Minimum Pulse Width 'dac_control:inst5|clk_int'
+Slack : -1.285
+TNS   : -62.965
+
+Type  : Slow 1200mV 0C Model Setup 'switch_debounce:inst14|fast_enable'
+Slack : -6.774
+TNS   : -779.358
+
+Type  : Slow 1200mV 0C Model Setup 'clk'
+Slack : -5.279
+TNS   : -858.738
+
+Type  : Slow 1200mV 0C Model Setup 'dac_control:inst5|clk_int'
+Slack : -3.771
+TNS   : -114.922
+
+Type  : Slow 1200mV 0C Model Hold 'switch_debounce:inst14|fast_enable'
+Slack : -3.158
+TNS   : -261.738
+
+Type  : Slow 1200mV 0C Model Hold 'clk'
+Slack : -1.301
+TNS   : -69.924
+
+Type  : Slow 1200mV 0C Model Hold 'dac_control:inst5|clk_int'
+Slack : 0.355
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Recovery 'clk'
+Slack : -1.212
+TNS   : -5.154
+
+Type  : Slow 1200mV 0C Model Removal 'clk'
+Slack : -2.911
+TNS   : -12.625
+
+Type  : Slow 1200mV 0C Model Minimum Pulse Width 'clk'
+Slack : -3.000
+TNS   : -372.198
+
+Type  : Slow 1200mV 0C Model Minimum Pulse Width 'switch_debounce:inst14|fast_enable'
+Slack : -1.285
+TNS   : -168.335
+
+Type  : Slow 1200mV 0C Model Minimum Pulse Width 'dac_control:inst5|clk_int'
+Slack : -1.285
+TNS   : -62.965
+
+Type  : Fast 1200mV 0C Model Setup 'switch_debounce:inst14|fast_enable'
+Slack : -3.306
+TNS   : -372.516
+
+Type  : Fast 1200mV 0C Model Setup 'clk'
+Slack : -2.251
+TNS   : -332.607
+
+Type  : Fast 1200mV 0C Model Setup 'dac_control:inst5|clk_int'
+Slack : -1.559
+TNS   : -39.472
+
+Type  : Fast 1200mV 0C Model Hold 'switch_debounce:inst14|fast_enable'
+Slack : -1.819
+TNS   : -156.538
+
+Type  : Fast 1200mV 0C Model Hold 'clk'
+Slack : -1.025
+TNS   : -55.163
+
+Type  : Fast 1200mV 0C Model Hold 'dac_control:inst5|clk_int'
+Slack : 0.182
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Recovery 'clk'
+Slack : -0.334
+TNS   : -1.463
+
+Type  : Fast 1200mV 0C Model Removal 'clk'
+Slack : -1.620
+TNS   : -8.152
+
+Type  : Fast 1200mV 0C Model Minimum Pulse Width 'clk'
+Slack : -3.000
+TNS   : -283.000
+
+Type  : Fast 1200mV 0C Model Minimum Pulse Width 'switch_debounce:inst14|fast_enable'
+Slack : -1.000
+TNS   : -131.000
+
+Type  : Fast 1200mV 0C Model Minimum Pulse Width 'dac_control:inst5|clk_int'
+Slack : -1.000
+TNS   : -49.000
+
+------------------------------------------------------------

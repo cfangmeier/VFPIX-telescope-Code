@@ -1,0 +1,14 @@
+Analysis & Synthesis Status : Successful - Tue Nov  3 15:48:23 2015
+Quartus II 32-bit Version : 13.1.0 Build 162 10/23/2013 SJ Full Version
+Revision Name : pattern_generator
+Top-level Entity Name : pattern_generator
+Family : Cyclone III
+Total logic elements : 981
+    Total combinational functions : 830
+    Dedicated logic registers : 460
+Total registers : 460
+Total pins : 67
+Total virtual pins : 0
+Total memory bits : 0
+Embedded Multiplier 9-bit elements : 0
+Total PLLs : 0

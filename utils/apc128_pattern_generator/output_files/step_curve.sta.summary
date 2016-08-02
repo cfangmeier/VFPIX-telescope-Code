@@ -1,0 +1,77 @@
+------------------------------------------------------------
+TimeQuest Timing Analyzer Summary
+------------------------------------------------------------
+
+Type  : Slow 1200mV 85C Model Setup 'clock_divide:inst2|lpm_counter:LPM_COUNTER_component|cntr_5oh:auto_generated|counter_reg_bit[6]'
+Slack : -8.002
+TNS   : -362.302
+
+Type  : Slow 1200mV 85C Model Setup 'clk'
+Slack : -1.078
+TNS   : -5.523
+
+Type  : Slow 1200mV 85C Model Hold 'clk'
+Slack : -0.078
+TNS   : -0.078
+
+Type  : Slow 1200mV 85C Model Hold 'clock_divide:inst2|lpm_counter:LPM_COUNTER_component|cntr_5oh:auto_generated|counter_reg_bit[6]'
+Slack : 0.404
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Minimum Pulse Width 'clk'
+Slack : -3.000
+TNS   : -11.995
+
+Type  : Slow 1200mV 85C Model Minimum Pulse Width 'clock_divide:inst2|lpm_counter:LPM_COUNTER_component|cntr_5oh:auto_generated|counter_reg_bit[6]'
+Slack : -1.285
+TNS   : -77.100
+
+Type  : Slow 1200mV 0C Model Setup 'clock_divide:inst2|lpm_counter:LPM_COUNTER_component|cntr_5oh:auto_generated|counter_reg_bit[6]'
+Slack : -7.262
+TNS   : -325.781
+
+Type  : Slow 1200mV 0C Model Setup 'clk'
+Slack : -0.858
+TNS   : -4.249
+
+Type  : Slow 1200mV 0C Model Hold 'clk'
+Slack : -0.013
+TNS   : -0.013
+
+Type  : Slow 1200mV 0C Model Hold 'clock_divide:inst2|lpm_counter:LPM_COUNTER_component|cntr_5oh:auto_generated|counter_reg_bit[6]'
+Slack : 0.355
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Minimum Pulse Width 'clk'
+Slack : -3.000
+TNS   : -11.995
+
+Type  : Slow 1200mV 0C Model Minimum Pulse Width 'clock_divide:inst2|lpm_counter:LPM_COUNTER_component|cntr_5oh:auto_generated|counter_reg_bit[6]'
+Slack : -1.285
+TNS   : -77.100
+
+Type  : Fast 1200mV 0C Model Setup 'clock_divide:inst2|lpm_counter:LPM_COUNTER_component|cntr_5oh:auto_generated|counter_reg_bit[6]'
+Slack : -3.298
+TNS   : -145.041
+
+Type  : Fast 1200mV 0C Model Setup 'clk'
+Slack : -0.014
+TNS   : -0.014
+
+Type  : Fast 1200mV 0C Model Hold 'clk'
+Slack : -0.099
+TNS   : -0.099
+
+Type  : Fast 1200mV 0C Model Hold 'clock_divide:inst2|lpm_counter:LPM_COUNTER_component|cntr_5oh:auto_generated|counter_reg_bit[6]'
+Slack : 0.183
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Minimum Pulse Width 'clk'
+Slack : -3.000
+TNS   : -12.216
+
+Type  : Fast 1200mV 0C Model Minimum Pulse Width 'clock_divide:inst2|lpm_counter:LPM_COUNTER_component|cntr_5oh:auto_generated|counter_reg_bit[6]'
+Slack : -1.000
+TNS   : -60.000
+
+------------------------------------------------------------

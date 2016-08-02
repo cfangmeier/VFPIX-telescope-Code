@@ -1,0 +1,14 @@
+Analysis & Synthesis Status : Successful - Fri Jan 30 14:59:57 2015
+Quartus II 64-Bit Version : 13.1.0 Build 162 10/23/2013 SJ Full Version
+Revision Name : step_curve
+Top-level Entity Name : step_curve_top
+Family : Cyclone III
+Total logic elements : 515
+    Total combinational functions : 515
+    Dedicated logic registers : 67
+Total registers : 67
+Total pins : 20
+Total virtual pins : 0
+Total memory bits : 0
+Embedded Multiplier 9-bit elements : 0
+Total PLLs : 0

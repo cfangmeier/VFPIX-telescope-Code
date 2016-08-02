@@ -1,0 +1,627 @@
+Analysis & Synthesis report for pattern_generator
+Tue Nov  3 15:48:23 2015
+Quartus II 32-bit Version 13.1.0 Build 162 10/23/2013 SJ Full Version
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Analysis & Synthesis Summary
+  3. Analysis & Synthesis Settings
+  4. Parallel Compilation
+  5. Analysis & Synthesis Source Files Read
+  6. Analysis & Synthesis Resource Usage Summary
+  7. Analysis & Synthesis Resource Utilization by Entity
+  8. Registers Removed During Synthesis
+  9. General Register Statistics
+ 10. Inverted Register Statistics
+ 11. Multiplexer Restructuring Statistics (Restructuring Performed)
+ 12. Parameter Settings for Inferred Entity Instance: step_curve_short:inst2|lpm_divide:Mod0
+ 13. Parameter Settings for Inferred Entity Instance: dac_control:inst5|lpm_divide:Mod0
+ 14. Elapsed Time Per Partition
+ 15. Analysis & Synthesis Messages
+ 16. Analysis & Synthesis Suppressed Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 1991-2013 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, Altera MegaCore Function License 
+Agreement, or other applicable license agreement, including, 
+without limitation, that your use is for the sole purpose of 
+programming logic devices manufactured by Altera and sold by 
+Altera or its authorized distributors.  Please refer to the 
+applicable agreement for further details.
+
+
+
++----------------------------------------------------------------------------------+
+; Analysis & Synthesis Summary                                                     ;
++------------------------------------+---------------------------------------------+
+; Analysis & Synthesis Status        ; Successful - Tue Nov  3 15:48:23 2015       ;
+; Quartus II 32-bit Version          ; 13.1.0 Build 162 10/23/2013 SJ Full Version ;
+; Revision Name                      ; pattern_generator                           ;
+; Top-level Entity Name              ; pattern_generator                           ;
+; Family                             ; Cyclone III                                 ;
+; Total logic elements               ; 981                                         ;
+;     Total combinational functions  ; 830                                         ;
+;     Dedicated logic registers      ; 460                                         ;
+; Total registers                    ; 460                                         ;
+; Total pins                         ; 67                                          ;
+; Total virtual pins                 ; 0                                           ;
+; Total memory bits                  ; 0                                           ;
+; Embedded Multiplier 9-bit elements ; 0                                           ;
+; Total PLLs                         ; 0                                           ;
++------------------------------------+---------------------------------------------+
+
+
++----------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Settings                                                                                        ;
++----------------------------------------------------------------------------+--------------------+--------------------+
+; Option                                                                     ; Setting            ; Default Value      ;
++----------------------------------------------------------------------------+--------------------+--------------------+
+; Device                                                                     ; EP3C120F780C7      ;                    ;
+; Top-level entity name                                                      ; pattern_generator  ; pattern_generator  ;
+; Family name                                                                ; Cyclone III        ; Cyclone IV GX      ;
+; Use smart compilation                                                      ; Off                ; Off                ;
+; Enable parallel Assembler and TimeQuest Timing Analyzer during compilation ; On                 ; On                 ;
+; Enable compact report table                                                ; Off                ; Off                ;
+; Restructure Multiplexers                                                   ; Auto               ; Auto               ;
+; Create Debugging Nodes for IP Cores                                        ; Off                ; Off                ;
+; Preserve fewer node names                                                  ; On                 ; On                 ;
+; Disable OpenCore Plus hardware evaluation                                  ; Off                ; Off                ;
+; Verilog Version                                                            ; Verilog_2001       ; Verilog_2001       ;
+; VHDL Version                                                               ; VHDL_1993          ; VHDL_1993          ;
+; State Machine Processing                                                   ; Auto               ; Auto               ;
+; Safe State Machine                                                         ; Off                ; Off                ;
+; Extract Verilog State Machines                                             ; On                 ; On                 ;
+; Extract VHDL State Machines                                                ; On                 ; On                 ;
+; Ignore Verilog initial constructs                                          ; Off                ; Off                ;
+; Iteration limit for constant Verilog loops                                 ; 5000               ; 5000               ;
+; Iteration limit for non-constant Verilog loops                             ; 250                ; 250                ;
+; Add Pass-Through Logic to Inferred RAMs                                    ; On                 ; On                 ;
+; Infer RAMs from Raw Logic                                                  ; On                 ; On                 ;
+; Parallel Synthesis                                                         ; On                 ; On                 ;
+; DSP Block Balancing                                                        ; Auto               ; Auto               ;
+; NOT Gate Push-Back                                                         ; On                 ; On                 ;
+; Power-Up Don't Care                                                        ; On                 ; On                 ;
+; Remove Redundant Logic Cells                                               ; Off                ; Off                ;
+; Remove Duplicate Registers                                                 ; On                 ; On                 ;
+; Ignore CARRY Buffers                                                       ; Off                ; Off                ;
+; Ignore CASCADE Buffers                                                     ; Off                ; Off                ;
+; Ignore GLOBAL Buffers                                                      ; Off                ; Off                ;
+; Ignore ROW GLOBAL Buffers                                                  ; Off                ; Off                ;
+; Ignore LCELL Buffers                                                       ; Off                ; Off                ;
+; Ignore SOFT Buffers                                                        ; On                 ; On                 ;
+; Limit AHDL Integers to 32 Bits                                             ; Off                ; Off                ;
+; Optimization Technique                                                     ; Balanced           ; Balanced           ;
+; Carry Chain Length                                                         ; 70                 ; 70                 ;
+; Auto Carry Chains                                                          ; On                 ; On                 ;
+; Auto Open-Drain Pins                                                       ; On                 ; On                 ;
+; Perform WYSIWYG Primitive Resynthesis                                      ; Off                ; Off                ;
+; Auto ROM Replacement                                                       ; On                 ; On                 ;
+; Auto RAM Replacement                                                       ; On                 ; On                 ;
+; Auto DSP Block Replacement                                                 ; On                 ; On                 ;
+; Auto Shift Register Replacement                                            ; Auto               ; Auto               ;
+; Allow Shift Register Merging across Hierarchies                            ; Auto               ; Auto               ;
+; Auto Clock Enable Replacement                                              ; On                 ; On                 ;
+; Strict RAM Replacement                                                     ; Off                ; Off                ;
+; Allow Synchronous Control Signals                                          ; On                 ; On                 ;
+; Force Use of Synchronous Clear Signals                                     ; Off                ; Off                ;
+; Auto RAM Block Balancing                                                   ; On                 ; On                 ;
+; Auto RAM to Logic Cell Conversion                                          ; Off                ; Off                ;
+; Auto Resource Sharing                                                      ; Off                ; Off                ;
+; Allow Any RAM Size For Recognition                                         ; Off                ; Off                ;
+; Allow Any ROM Size For Recognition                                         ; Off                ; Off                ;
+; Allow Any Shift Register Size For Recognition                              ; Off                ; Off                ;
+; Use LogicLock Constraints during Resource Balancing                        ; On                 ; On                 ;
+; Ignore translate_off and synthesis_off directives                          ; Off                ; Off                ;
+; Timing-Driven Synthesis                                                    ; On                 ; On                 ;
+; Report Parameter Settings                                                  ; On                 ; On                 ;
+; Report Source Assignments                                                  ; On                 ; On                 ;
+; Report Connectivity Checks                                                 ; On                 ; On                 ;
+; Ignore Maximum Fan-Out Assignments                                         ; Off                ; Off                ;
+; Synchronization Register Chain Length                                      ; 2                  ; 2                  ;
+; PowerPlay Power Optimization                                               ; Normal compilation ; Normal compilation ;
+; HDL message level                                                          ; Level2             ; Level2             ;
+; Suppress Register Optimization Related Messages                            ; Off                ; Off                ;
+; Number of Removed Registers Reported in Synthesis Report                   ; 5000               ; 5000               ;
+; Number of Swept Nodes Reported in Synthesis Report                         ; 5000               ; 5000               ;
+; Number of Inverted Registers Reported in Synthesis Report                  ; 100                ; 100                ;
+; Clock MUX Protection                                                       ; On                 ; On                 ;
+; Auto Gated Clock Conversion                                                ; Off                ; Off                ;
+; Block Design Naming                                                        ; Auto               ; Auto               ;
+; SDC constraint protection                                                  ; Off                ; Off                ;
+; Synthesis Effort                                                           ; Auto               ; Auto               ;
+; Shift Register Replacement - Allow Asynchronous Clear Signal               ; On                 ; On                 ;
+; Pre-Mapping Resynthesis Optimization                                       ; Off                ; Off                ;
+; Analysis & Synthesis Message Level                                         ; Medium             ; Medium             ;
+; Disable Register Merging Across Hierarchies                                ; Auto               ; Auto               ;
+; Resource Aware Inference For Block RAM                                     ; On                 ; On                 ;
+; Synthesis Seed                                                             ; 1                  ; 1                  ;
++----------------------------------------------------------------------------+--------------------+--------------------+
+
+
++------------------------------------------+
+; Parallel Compilation                     ;
++----------------------------+-------------+
+; Processors                 ; Number      ;
++----------------------------+-------------+
+; Number detected on machine ; 4           ;
+; Maximum allowed            ; 2           ;
+;                            ;             ;
+; Average used               ; 1.00        ;
+; Maximum used               ; 2           ;
+;                            ;             ;
+; Usage by Processor         ; % Time Used ;
+;     Processor 1            ; 100.0%      ;
+;     Processor 2            ; < 0.1%      ;
+;     Processors 3-4         ;   0.0%      ;
++----------------------------+-------------+
+
+
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                                                                                             ;
++----------------------------------+-----------------+------------------------------------+----------------------------------------------------------------------------------------------------------------+---------+
+; File Name with User-Entered Path ; Used in Netlist ; File Type                          ; File Name with Absolute Path                                                                                   ; Library ;
++----------------------------------+-----------------+------------------------------------+----------------------------------------------------------------------------------------------------------------+---------+
+; counter_group.v                  ; yes             ; User Verilog HDL File              ; /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/apc128_pattern_generator/counter_group.v            ;         ;
+; dac_control.v                    ; yes             ; User Verilog HDL File              ; /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/apc128_pattern_generator/dac_control.v              ;         ;
+; switch_debounce.v                ; yes             ; User Verilog HDL File              ; /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/apc128_pattern_generator/switch_debounce.v          ;         ;
+; seven_segment_display.v          ; yes             ; User Verilog HDL File              ; /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/apc128_pattern_generator/seven_segment_display.v    ;         ;
+; step_curve_short.v               ; yes             ; User Verilog HDL File              ; /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/apc128_pattern_generator/step_curve_short.v         ;         ;
+; pattern_generator.bdf            ; yes             ; User Block Diagram/Schematic File  ; /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/apc128_pattern_generator/pattern_generator.bdf      ;         ;
+; clk_div_2.bdf                    ; yes             ; User Block Diagram/Schematic File  ; /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/apc128_pattern_generator/clk_div_2.bdf              ;         ;
+; clk_div.bdf                      ; yes             ; User Block Diagram/Schematic File  ; /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/apc128_pattern_generator/clk_div.bdf                ;         ;
+; lpm_divide.tdf                   ; yes             ; Megafunction                       ; /opt/altera/13.1/quartus/libraries/megafunctions/lpm_divide.tdf                                                ;         ;
+; abs_divider.inc                  ; yes             ; Megafunction                       ; /opt/altera/13.1/quartus/libraries/megafunctions/abs_divider.inc                                               ;         ;
+; sign_div_unsign.inc              ; yes             ; Megafunction                       ; /opt/altera/13.1/quartus/libraries/megafunctions/sign_div_unsign.inc                                           ;         ;
+; aglobal131.inc                   ; yes             ; Megafunction                       ; /opt/altera/13.1/quartus/libraries/megafunctions/aglobal131.inc                                                ;         ;
+; db/lpm_divide_d8m.tdf            ; yes             ; Auto-Generated Megafunction        ; /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/apc128_pattern_generator/db/lpm_divide_d8m.tdf      ;         ;
+; db/sign_div_unsign_bkh.tdf       ; yes             ; Auto-Generated Megafunction        ; /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/apc128_pattern_generator/db/sign_div_unsign_bkh.tdf ;         ;
+; db/alt_u_div_13f.tdf             ; yes             ; Auto-Generated Megafunction        ; /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/apc128_pattern_generator/db/alt_u_div_13f.tdf       ;         ;
+; db/add_sub_unc.tdf               ; yes             ; Auto-Generated Megafunction        ; /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/apc128_pattern_generator/db/add_sub_unc.tdf         ;         ;
+; db/add_sub_vnc.tdf               ; yes             ; Auto-Generated Megafunction        ; /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/apc128_pattern_generator/db/add_sub_vnc.tdf         ;         ;
+; db/lpm_divide_a8m.tdf            ; yes             ; Auto-Generated Megafunction        ; /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/apc128_pattern_generator/db/lpm_divide_a8m.tdf      ;         ;
+; db/sign_div_unsign_8kh.tdf       ; yes             ; Auto-Generated Megafunction        ; /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/apc128_pattern_generator/db/sign_div_unsign_8kh.tdf ;         ;
+; db/alt_u_div_r2f.tdf             ; yes             ; Auto-Generated Megafunction        ; /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/apc128_pattern_generator/db/alt_u_div_r2f.tdf       ;         ;
++----------------------------------+-----------------+------------------------------------+----------------------------------------------------------------------------------------------------------------+---------+
+
+
++---------------------------------------------------------+
+; Analysis & Synthesis Resource Usage Summary             ;
++---------------------------------------------+-----------+
+; Resource                                    ; Usage     ;
++---------------------------------------------+-----------+
+; Estimated Total logic elements              ; 981       ;
+;                                             ;           ;
+; Total combinational functions               ; 830       ;
+; Logic element usage by number of LUT inputs ;           ;
+;     -- 4 input functions                    ; 406       ;
+;     -- 3 input functions                    ; 106       ;
+;     -- <=2 input functions                  ; 318       ;
+;                                             ;           ;
+; Logic elements by mode                      ;           ;
+;     -- normal mode                          ; 563       ;
+;     -- arithmetic mode                      ; 267       ;
+;                                             ;           ;
+; Total registers                             ; 460       ;
+;     -- Dedicated logic registers            ; 460       ;
+;     -- I/O registers                        ; 0         ;
+;                                             ;           ;
+; I/O pins                                    ; 67        ;
+; Embedded Multiplier 9-bit elements          ; 0         ;
+; Maximum fan-out node                        ; clk~input ;
+; Maximum fan-out                             ; 216       ;
+; Total fan-out                               ; 3959      ;
+; Average fan-out                             ; 2.78      ;
++---------------------------------------------+-----------+
+
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                                                                                                                              ;
++-------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+-------------------------------------------------------------------------------------------------------------------------------------------+--------------+
+; Compilation Hierarchy Node                ; LC Combinationals ; LC Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                                       ; Library Name ;
++-------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+-------------------------------------------------------------------------------------------------------------------------------------------+--------------+
+; |pattern_generator                        ; 830 (0)           ; 460 (0)      ; 0           ; 0            ; 0       ; 0         ; 67   ; 0            ; |pattern_generator                                                                                                                        ; work         ;
+;    |clk_div:inst1|                        ; 16 (0)            ; 8 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |pattern_generator|clk_div:inst1                                                                                                          ; work         ;
+;       |clk_div_2:inst2|                   ; 2 (2)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |pattern_generator|clk_div:inst1|clk_div_2:inst2                                                                                          ; work         ;
+;       |clk_div_2:inst3|                   ; 2 (2)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |pattern_generator|clk_div:inst1|clk_div_2:inst3                                                                                          ; work         ;
+;       |clk_div_2:inst4|                   ; 2 (2)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |pattern_generator|clk_div:inst1|clk_div_2:inst4                                                                                          ; work         ;
+;       |clk_div_2:inst5|                   ; 2 (2)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |pattern_generator|clk_div:inst1|clk_div_2:inst5                                                                                          ; work         ;
+;       |clk_div_2:inst6|                   ; 2 (2)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |pattern_generator|clk_div:inst1|clk_div_2:inst6                                                                                          ; work         ;
+;       |clk_div_2:inst7|                   ; 2 (2)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |pattern_generator|clk_div:inst1|clk_div_2:inst7                                                                                          ; work         ;
+;       |clk_div_2:inst8|                   ; 2 (2)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |pattern_generator|clk_div:inst1|clk_div_2:inst8                                                                                          ; work         ;
+;       |clk_div_2:inst|                    ; 2 (2)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |pattern_generator|clk_div:inst1|clk_div_2:inst                                                                                           ; work         ;
+;    |counter_group:inst10|                 ; 137 (137)         ; 131 (131)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |pattern_generator|counter_group:inst10                                                                                                   ; work         ;
+;    |dac_control:inst5|                    ; 79 (59)           ; 58 (58)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |pattern_generator|dac_control:inst5                                                                                                      ; work         ;
+;       |lpm_divide:Mod0|                   ; 20 (0)            ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |pattern_generator|dac_control:inst5|lpm_divide:Mod0                                                                                      ; work         ;
+;          |lpm_divide_a8m:auto_generated|  ; 20 (0)            ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |pattern_generator|dac_control:inst5|lpm_divide:Mod0|lpm_divide_a8m:auto_generated                                                        ; work         ;
+;             |sign_div_unsign_8kh:divider| ; 20 (0)            ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |pattern_generator|dac_control:inst5|lpm_divide:Mod0|lpm_divide_a8m:auto_generated|sign_div_unsign_8kh:divider                            ; work         ;
+;                |alt_u_div_r2f:divider|    ; 20 (20)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |pattern_generator|dac_control:inst5|lpm_divide:Mod0|lpm_divide_a8m:auto_generated|sign_div_unsign_8kh:divider|alt_u_div_r2f:divider      ; work         ;
+;    |seven_segment_display:inst4|          ; 73 (73)           ; 51 (51)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |pattern_generator|seven_segment_display:inst4                                                                                            ; work         ;
+;    |step_curve_short:inst2|               ; 192 (173)         ; 58 (58)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |pattern_generator|step_curve_short:inst2                                                                                                 ; work         ;
+;       |lpm_divide:Mod0|                   ; 19 (0)            ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |pattern_generator|step_curve_short:inst2|lpm_divide:Mod0                                                                                 ; work         ;
+;          |lpm_divide_d8m:auto_generated|  ; 19 (0)            ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |pattern_generator|step_curve_short:inst2|lpm_divide:Mod0|lpm_divide_d8m:auto_generated                                                   ; work         ;
+;             |sign_div_unsign_bkh:divider| ; 19 (0)            ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |pattern_generator|step_curve_short:inst2|lpm_divide:Mod0|lpm_divide_d8m:auto_generated|sign_div_unsign_bkh:divider                       ; work         ;
+;                |alt_u_div_13f:divider|    ; 19 (19)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |pattern_generator|step_curve_short:inst2|lpm_divide:Mod0|lpm_divide_d8m:auto_generated|sign_div_unsign_bkh:divider|alt_u_div_13f:divider ; work         ;
+;    |switch_debounce:inst14|               ; 131 (131)         ; 54 (54)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |pattern_generator|switch_debounce:inst14                                                                                                 ; work         ;
+;    |switch_debounce:inst6|                ; 101 (101)         ; 50 (50)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |pattern_generator|switch_debounce:inst6                                                                                                  ; work         ;
+;    |switch_debounce:inst9|                ; 101 (101)         ; 50 (50)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |pattern_generator|switch_debounce:inst9                                                                                                  ; work         ;
++-------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+-------------------------------------------------------------------------------------------------------------------------------------------+--------------+
+Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
+
+
++----------------------------------------------------------------------------------------------+
+; Registers Removed During Synthesis                                                           ;
++----------------------------------------+-----------------------------------------------------+
+; Register name                          ; Reason for Removal                                  ;
++----------------------------------------+-----------------------------------------------------+
+; seven_segment_display:inst4|dp         ; Stuck at VCC due to stuck port data_in              ;
+; seven_segment_display:inst4|neg        ; Stuck at VCC due to stuck port data_in              ;
+; seven_segment_display:inst4|clr        ; Stuck at GND due to stuck port data_in              ;
+; step_curve_short:inst2|SPHI2           ; Merged with step_curve_short:inst2|SPHI1            ;
+; step_curve_short:inst2|stage[4..7]     ; Merged with step_curve_short:inst2|stage[3]         ;
+; switch_debounce:inst6|fast_cycle[23]   ; Merged with switch_debounce:inst14|fast_cycle[23]   ;
+; switch_debounce:inst9|fast_cycle[23]   ; Merged with switch_debounce:inst14|fast_cycle[23]   ;
+; switch_debounce:inst6|fast_cycle[22]   ; Merged with switch_debounce:inst14|fast_cycle[22]   ;
+; switch_debounce:inst9|fast_cycle[22]   ; Merged with switch_debounce:inst14|fast_cycle[22]   ;
+; switch_debounce:inst6|fast_cycle[21]   ; Merged with switch_debounce:inst14|fast_cycle[21]   ;
+; switch_debounce:inst9|fast_cycle[21]   ; Merged with switch_debounce:inst14|fast_cycle[21]   ;
+; switch_debounce:inst6|fast_cycle[20]   ; Merged with switch_debounce:inst14|fast_cycle[20]   ;
+; switch_debounce:inst9|fast_cycle[20]   ; Merged with switch_debounce:inst14|fast_cycle[20]   ;
+; switch_debounce:inst6|fast_cycle[19]   ; Merged with switch_debounce:inst14|fast_cycle[19]   ;
+; switch_debounce:inst9|fast_cycle[19]   ; Merged with switch_debounce:inst14|fast_cycle[19]   ;
+; switch_debounce:inst6|fast_cycle[18]   ; Merged with switch_debounce:inst14|fast_cycle[18]   ;
+; switch_debounce:inst9|fast_cycle[18]   ; Merged with switch_debounce:inst14|fast_cycle[18]   ;
+; switch_debounce:inst6|fast_cycle[17]   ; Merged with switch_debounce:inst14|fast_cycle[17]   ;
+; switch_debounce:inst9|fast_cycle[17]   ; Merged with switch_debounce:inst14|fast_cycle[17]   ;
+; switch_debounce:inst6|fast_cycle[16]   ; Merged with switch_debounce:inst14|fast_cycle[16]   ;
+; switch_debounce:inst9|fast_cycle[16]   ; Merged with switch_debounce:inst14|fast_cycle[16]   ;
+; switch_debounce:inst6|fast_cycle[15]   ; Merged with switch_debounce:inst14|fast_cycle[15]   ;
+; switch_debounce:inst9|fast_cycle[15]   ; Merged with switch_debounce:inst14|fast_cycle[15]   ;
+; switch_debounce:inst6|fast_cycle[14]   ; Merged with switch_debounce:inst14|fast_cycle[14]   ;
+; switch_debounce:inst9|fast_cycle[14]   ; Merged with switch_debounce:inst14|fast_cycle[14]   ;
+; switch_debounce:inst6|fast_cycle[13]   ; Merged with switch_debounce:inst14|fast_cycle[13]   ;
+; switch_debounce:inst9|fast_cycle[13]   ; Merged with switch_debounce:inst14|fast_cycle[13]   ;
+; switch_debounce:inst6|fast_cycle[12]   ; Merged with switch_debounce:inst14|fast_cycle[12]   ;
+; switch_debounce:inst9|fast_cycle[12]   ; Merged with switch_debounce:inst14|fast_cycle[12]   ;
+; switch_debounce:inst6|fast_cycle[11]   ; Merged with switch_debounce:inst14|fast_cycle[11]   ;
+; switch_debounce:inst9|fast_cycle[11]   ; Merged with switch_debounce:inst14|fast_cycle[11]   ;
+; switch_debounce:inst6|fast_cycle[10]   ; Merged with switch_debounce:inst14|fast_cycle[10]   ;
+; switch_debounce:inst9|fast_cycle[10]   ; Merged with switch_debounce:inst14|fast_cycle[10]   ;
+; switch_debounce:inst6|fast_cycle[9]    ; Merged with switch_debounce:inst14|fast_cycle[9]    ;
+; switch_debounce:inst9|fast_cycle[9]    ; Merged with switch_debounce:inst14|fast_cycle[9]    ;
+; switch_debounce:inst6|fast_cycle[8]    ; Merged with switch_debounce:inst14|fast_cycle[8]    ;
+; switch_debounce:inst9|fast_cycle[8]    ; Merged with switch_debounce:inst14|fast_cycle[8]    ;
+; switch_debounce:inst6|fast_cycle[7]    ; Merged with switch_debounce:inst14|fast_cycle[7]    ;
+; switch_debounce:inst9|fast_cycle[7]    ; Merged with switch_debounce:inst14|fast_cycle[7]    ;
+; switch_debounce:inst6|fast_cycle[6]    ; Merged with switch_debounce:inst14|fast_cycle[6]    ;
+; switch_debounce:inst9|fast_cycle[6]    ; Merged with switch_debounce:inst14|fast_cycle[6]    ;
+; switch_debounce:inst6|fast_cycle[5]    ; Merged with switch_debounce:inst14|fast_cycle[5]    ;
+; switch_debounce:inst9|fast_cycle[5]    ; Merged with switch_debounce:inst14|fast_cycle[5]    ;
+; switch_debounce:inst6|fast_cycle[4]    ; Merged with switch_debounce:inst14|fast_cycle[4]    ;
+; switch_debounce:inst9|fast_cycle[4]    ; Merged with switch_debounce:inst14|fast_cycle[4]    ;
+; switch_debounce:inst6|fast_cycle[3]    ; Merged with switch_debounce:inst14|fast_cycle[3]    ;
+; switch_debounce:inst9|fast_cycle[3]    ; Merged with switch_debounce:inst14|fast_cycle[3]    ;
+; switch_debounce:inst6|fast_cycle[2]    ; Merged with switch_debounce:inst14|fast_cycle[2]    ;
+; switch_debounce:inst9|fast_cycle[2]    ; Merged with switch_debounce:inst14|fast_cycle[2]    ;
+; switch_debounce:inst6|fast_cycle[1]    ; Merged with switch_debounce:inst14|fast_cycle[1]    ;
+; switch_debounce:inst9|fast_cycle[1]    ; Merged with switch_debounce:inst14|fast_cycle[1]    ;
+; switch_debounce:inst6|fast_cycle[0]    ; Merged with switch_debounce:inst14|fast_cycle[0]    ;
+; switch_debounce:inst9|fast_cycle[0]    ; Merged with switch_debounce:inst14|fast_cycle[0]    ;
+; seven_segment_display:inst4|clk_div[0] ; Merged with dac_control:inst5|clk_div[0]            ;
+; switch_debounce:inst14|fast_cycle[0]   ; Merged with dac_control:inst5|clk_div[0]            ;
+; seven_segment_display:inst4|clk_div[1] ; Merged with dac_control:inst5|clk_div[1]            ;
+; switch_debounce:inst14|fast_cycle[1]   ; Merged with dac_control:inst5|clk_div[1]            ;
+; seven_segment_display:inst4|clk_div[2] ; Merged with dac_control:inst5|clk_div[2]            ;
+; switch_debounce:inst14|fast_cycle[2]   ; Merged with dac_control:inst5|clk_div[2]            ;
+; seven_segment_display:inst4|clk_div[3] ; Merged with dac_control:inst5|clk_div[3]            ;
+; switch_debounce:inst14|fast_cycle[3]   ; Merged with dac_control:inst5|clk_div[3]            ;
+; seven_segment_display:inst4|clk_div[4] ; Merged with dac_control:inst5|clk_div[4]            ;
+; switch_debounce:inst14|fast_cycle[4]   ; Merged with dac_control:inst5|clk_div[4]            ;
+; seven_segment_display:inst4|clk_div[5] ; Merged with dac_control:inst5|clk_div[5]            ;
+; switch_debounce:inst14|fast_cycle[5]   ; Merged with dac_control:inst5|clk_div[5]            ;
+; seven_segment_display:inst4|clk_div[6] ; Merged with dac_control:inst5|clk_div[6]            ;
+; switch_debounce:inst14|fast_cycle[6]   ; Merged with dac_control:inst5|clk_div[6]            ;
+; seven_segment_display:inst4|clk_div[7] ; Merged with dac_control:inst5|clk_div[7]            ;
+; switch_debounce:inst14|fast_cycle[7]   ; Merged with dac_control:inst5|clk_div[7]            ;
+; switch_debounce:inst14|fast_cycle[8]   ; Merged with seven_segment_display:inst4|clk_div[8]  ;
+; switch_debounce:inst14|fast_cycle[9]   ; Merged with seven_segment_display:inst4|clk_div[9]  ;
+; switch_debounce:inst14|fast_cycle[10]  ; Merged with seven_segment_display:inst4|clk_div[10] ;
+; switch_debounce:inst14|fast_cycle[11]  ; Merged with seven_segment_display:inst4|clk_div[11] ;
+; switch_debounce:inst14|fast_cycle[12]  ; Merged with seven_segment_display:inst4|clk_div[12] ;
+; switch_debounce:inst14|fast_cycle[13]  ; Merged with seven_segment_display:inst4|clk_div[13] ;
+; switch_debounce:inst14|fast_cycle[14]  ; Merged with seven_segment_display:inst4|clk_div[14] ;
+; switch_debounce:inst14|fast_cycle[15]  ; Merged with seven_segment_display:inst4|clk_div[15] ;
+; switch_debounce:inst14|fast_cycle[16]  ; Merged with seven_segment_display:inst4|clk_div[16] ;
+; switch_debounce:inst14|fast_cycle[17]  ; Merged with seven_segment_display:inst4|clk_div[17] ;
+; switch_debounce:inst14|fast_cycle[18]  ; Merged with seven_segment_display:inst4|clk_div[18] ;
+; switch_debounce:inst14|fast_cycle[19]  ; Merged with seven_segment_display:inst4|clk_div[19] ;
+; step_curve_short:inst2|stage[3]        ; Stuck at GND due to stuck port data_in              ;
+; Total Number of Removed Registers = 85 ;                                                     ;
++----------------------------------------+-----------------------------------------------------+
+
+
++------------------------------------------------------+
+; General Register Statistics                          ;
++----------------------------------------------+-------+
+; Statistic                                    ; Value ;
++----------------------------------------------+-------+
+; Total registers                              ; 460   ;
+; Number of registers using Synchronous Clear  ; 108   ;
+; Number of registers using Synchronous Load   ; 2     ;
+; Number of registers using Asynchronous Clear ; 8     ;
+; Number of registers using Asynchronous Load  ; 0     ;
+; Number of registers using Clock Enable       ; 271   ;
+; Number of registers using Preset             ; 0     ;
++----------------------------------------------+-------+
+
+
++--------------------------------------------------+
+; Inverted Register Statistics                     ;
++----------------------------------------+---------+
+; Inverted Register                      ; Fan out ;
++----------------------------------------+---------+
+; clk_div:inst1|clk_div_2:inst8|inst     ; 2       ;
+; clk_div:inst1|clk_div_2:inst7|inst     ; 2       ;
+; clk_div:inst1|clk_div_2:inst6|inst     ; 2       ;
+; clk_div:inst1|clk_div_2:inst5|inst     ; 2       ;
+; clk_div:inst1|clk_div_2:inst4|inst     ; 2       ;
+; clk_div:inst1|clk_div_2:inst3|inst     ; 2       ;
+; clk_div:inst1|clk_div_2:inst2|inst     ; 2       ;
+; clk_div:inst1|clk_div_2:inst|inst      ; 2       ;
+; Total number of inverted registers = 8 ;         ;
++----------------------------------------+---------+
+
+
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                                            ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+-------------------------------------------------------------+
+; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                  ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+-------------------------------------------------------------+
+; 3:1                ; 19 bits   ; 38 LEs        ; 19 LEs               ; 19 LEs                 ; Yes        ; |pattern_generator|switch_debounce:inst14|jitter_counter[5] ;
+; 3:1                ; 19 bits   ; 38 LEs        ; 19 LEs               ; 19 LEs                 ; Yes        ; |pattern_generator|switch_debounce:inst9|jitter_counter[18] ;
+; 3:1                ; 19 bits   ; 38 LEs        ; 19 LEs               ; 19 LEs                 ; Yes        ; |pattern_generator|switch_debounce:inst6|jitter_counter[5]  ;
+; 4:1                ; 26 bits   ; 52 LEs        ; 52 LEs               ; 0 LEs                  ; Yes        ; |pattern_generator|switch_debounce:inst14|cnt[16]           ;
+; 4:1                ; 26 bits   ; 52 LEs        ; 52 LEs               ; 0 LEs                  ; Yes        ; |pattern_generator|switch_debounce:inst9|cnt[11]            ;
+; 4:1                ; 26 bits   ; 52 LEs        ; 52 LEs               ; 0 LEs                  ; Yes        ; |pattern_generator|switch_debounce:inst6|cnt[14]            ;
+; 5:1                ; 10 bits   ; 30 LEs        ; 10 LEs               ; 20 LEs                 ; Yes        ; |pattern_generator|counter_group:inst10|cntrs[7][14]        ;
+; 5:1                ; 6 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; Yes        ; |pattern_generator|counter_group:inst10|cntrs[7][6]         ;
+; 5:1                ; 10 bits   ; 30 LEs        ; 10 LEs               ; 20 LEs                 ; Yes        ; |pattern_generator|counter_group:inst10|cntrs[6][3]         ;
+; 5:1                ; 6 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; Yes        ; |pattern_generator|counter_group:inst10|cntrs[6][0]         ;
+; 5:1                ; 10 bits   ; 30 LEs        ; 10 LEs               ; 20 LEs                 ; Yes        ; |pattern_generator|counter_group:inst10|cntrs[5][3]         ;
+; 5:1                ; 6 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; Yes        ; |pattern_generator|counter_group:inst10|cntrs[5][0]         ;
+; 5:1                ; 10 bits   ; 30 LEs        ; 10 LEs               ; 20 LEs                 ; Yes        ; |pattern_generator|counter_group:inst10|cntrs[4][11]        ;
+; 5:1                ; 6 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; Yes        ; |pattern_generator|counter_group:inst10|cntrs[4][0]         ;
+; 5:1                ; 10 bits   ; 30 LEs        ; 10 LEs               ; 20 LEs                 ; Yes        ; |pattern_generator|counter_group:inst10|cntrs[3][3]         ;
+; 5:1                ; 6 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; Yes        ; |pattern_generator|counter_group:inst10|cntrs[3][6]         ;
+; 5:1                ; 10 bits   ; 30 LEs        ; 10 LEs               ; 20 LEs                 ; Yes        ; |pattern_generator|counter_group:inst10|cntrs[2][9]         ;
+; 5:1                ; 6 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; Yes        ; |pattern_generator|counter_group:inst10|cntrs[2][5]         ;
+; 5:1                ; 10 bits   ; 30 LEs        ; 10 LEs               ; 20 LEs                 ; Yes        ; |pattern_generator|counter_group:inst10|cntrs[1][10]        ;
+; 5:1                ; 6 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; Yes        ; |pattern_generator|counter_group:inst10|cntrs[1][5]         ;
+; 5:1                ; 10 bits   ; 30 LEs        ; 10 LEs               ; 20 LEs                 ; Yes        ; |pattern_generator|counter_group:inst10|cntrs[0][10]        ;
+; 5:1                ; 6 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; Yes        ; |pattern_generator|counter_group:inst10|cntrs[0][4]         ;
+; 16:1               ; 7 bits    ; 70 LEs        ; 14 LEs               ; 56 LEs                 ; Yes        ; |pattern_generator|seven_segment_display:inst4|dig[5]       ;
+; 16:1               ; 8 bits    ; 80 LEs        ; 16 LEs               ; 64 LEs                 ; Yes        ; |pattern_generator|dac_control:inst5|db[0]                  ;
+; 7:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; Yes        ; |pattern_generator|step_curve_short:inst2|LE                ;
+; 10:1               ; 32 bits   ; 192 LEs       ; 32 LEs               ; 160 LEs                ; Yes        ; |pattern_generator|step_curve_short:inst2|counter[29]       ;
+; 11:1               ; 16 bits   ; 112 LEs       ; 16 LEs               ; 96 LEs                 ; Yes        ; |pattern_generator|step_curve_short:inst2|stage_iter[8]     ;
+; 9:1                ; 3 bits    ; 18 LEs        ; 3 LEs                ; 15 LEs                 ; Yes        ; |pattern_generator|step_curve_short:inst2|stage[2]          ;
+; 8:1                ; 16 bits   ; 80 LEs        ; 80 LEs               ; 0 LEs                  ; No         ; |pattern_generator|counter_group:inst10|Mux25               ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+-------------------------------------------------------------+
+
+
++-----------------------------------------------------------------------------------------+
+; Parameter Settings for Inferred Entity Instance: step_curve_short:inst2|lpm_divide:Mod0 ;
++------------------------+----------------+-----------------------------------------------+
+; Parameter Name         ; Value          ; Type                                          ;
++------------------------+----------------+-----------------------------------------------+
+; LPM_WIDTHN             ; 9              ; Untyped                                       ;
+; LPM_WIDTHD             ; 3              ; Untyped                                       ;
+; LPM_NREPRESENTATION    ; UNSIGNED       ; Untyped                                       ;
+; LPM_DREPRESENTATION    ; UNSIGNED       ; Untyped                                       ;
+; LPM_PIPELINE           ; 0              ; Untyped                                       ;
+; LPM_REMAINDERPOSITIVE  ; TRUE           ; Untyped                                       ;
+; MAXIMIZE_SPEED         ; 5              ; Untyped                                       ;
+; CBXI_PARAMETER         ; lpm_divide_d8m ; Untyped                                       ;
+; CARRY_CHAIN            ; MANUAL         ; Untyped                                       ;
+; OPTIMIZE_FOR_SPEED     ; 5              ; Untyped                                       ;
+; AUTO_CARRY_CHAINS      ; ON             ; AUTO_CARRY                                    ;
+; IGNORE_CARRY_BUFFERS   ; OFF            ; IGNORE_CARRY                                  ;
+; AUTO_CASCADE_CHAINS    ; ON             ; AUTO_CASCADE                                  ;
+; IGNORE_CASCADE_BUFFERS ; OFF            ; IGNORE_CASCADE                                ;
++------------------------+----------------+-----------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++------------------------------------------------------------------------------------+
+; Parameter Settings for Inferred Entity Instance: dac_control:inst5|lpm_divide:Mod0 ;
++------------------------+----------------+------------------------------------------+
+; Parameter Name         ; Value          ; Type                                     ;
++------------------------+----------------+------------------------------------------+
+; LPM_WIDTHN             ; 5              ; Untyped                                  ;
+; LPM_WIDTHD             ; 4              ; Untyped                                  ;
+; LPM_NREPRESENTATION    ; UNSIGNED       ; Untyped                                  ;
+; LPM_DREPRESENTATION    ; UNSIGNED       ; Untyped                                  ;
+; LPM_PIPELINE           ; 0              ; Untyped                                  ;
+; LPM_REMAINDERPOSITIVE  ; TRUE           ; Untyped                                  ;
+; MAXIMIZE_SPEED         ; 5              ; Untyped                                  ;
+; CBXI_PARAMETER         ; lpm_divide_a8m ; Untyped                                  ;
+; CARRY_CHAIN            ; MANUAL         ; Untyped                                  ;
+; OPTIMIZE_FOR_SPEED     ; 5              ; Untyped                                  ;
+; AUTO_CARRY_CHAINS      ; ON             ; AUTO_CARRY                               ;
+; IGNORE_CARRY_BUFFERS   ; OFF            ; IGNORE_CARRY                             ;
+; AUTO_CASCADE_CHAINS    ; ON             ; AUTO_CASCADE                             ;
+; IGNORE_CASCADE_BUFFERS ; OFF            ; IGNORE_CASCADE                           ;
++------------------------+----------------+------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-------------------------------+
+; Elapsed Time Per Partition    ;
++----------------+--------------+
+; Partition Name ; Elapsed Time ;
++----------------+--------------+
+; Top            ; 00:00:06     ;
++----------------+--------------+
+
+
++-------------------------------+
+; Analysis & Synthesis Messages ;
++-------------------------------+
+Info: *******************************************************************
+Info: Running Quartus II 32-bit Analysis & Synthesis
+    Info: Version 13.1.0 Build 162 10/23/2013 SJ Full Version
+    Info: Processing started: Tue Nov  3 15:48:13 2015
+Info: Command: quartus_map --read_settings_files=on --write_settings_files=off pattern_generator -c pattern_generator
+Warning (125092): Tcl Script File cycle_counter.qip not found
+    Info (125063): set_global_assignment -name QIP_FILE cycle_counter.qip
+Warning (125092): Tcl Script File const0.qip not found
+    Info (125063): set_global_assignment -name QIP_FILE const0.qip
+Info (11104): Parallel Compilation has detected 4 hyper-threaded processors. However, the extra hyper-threaded processors will not be used by default. Parallel Compilation will use 2 of the 2 physical processors detected instead.
+Info (12021): Found 1 design units, including 1 entities, in source file step_curve_sub.v
+    Info (12023): Found entity 1: step_curve_sub
+Info (12021): Found 1 design units, including 1 entities, in source file step_curve_new.v
+    Info (12023): Found entity 1: step_curve_new
+Info (12021): Found 1 design units, including 1 entities, in source file rbo_test.v
+    Info (12023): Found entity 1: rbo_test
+Info (12021): Found 1 design units, including 1 entities, in source file counter_group.v
+    Info (12023): Found entity 1: counter_group
+Warning (10261): Verilog HDL Event Control warning at dac_control.v(41): Event Control contains a complex event expression
+Info (12021): Found 1 design units, including 1 entities, in source file dac_control.v
+    Info (12023): Found entity 1: dac_control
+Warning (10229): Verilog HDL Expression warning at switch_debounce.v(1): truncated literal to match 19 bits
+Warning (10229): Verilog HDL Expression warning at switch_debounce.v(1): truncated literal to match 26 bits
+Info (12021): Found 1 design units, including 1 entities, in source file switch_debounce.v
+    Info (12023): Found entity 1: switch_debounce
+Info (12021): Found 1 design units, including 1 entities, in source file seven_segment_display.v
+    Info (12023): Found entity 1: seven_segment_display
+Info (12021): Found 1 design units, including 1 entities, in source file step_curve.v
+    Info (12023): Found entity 1: step_curve
+Info (12021): Found 1 design units, including 1 entities, in source file step_curve_short.v
+    Info (12023): Found entity 1: step_curve_short
+Info (12021): Found 1 design units, including 1 entities, in source file pattern_generator.bdf
+    Info (12023): Found entity 1: pattern_generator
+Info (12021): Found 1 design units, including 1 entities, in source file clk_div_2.bdf
+    Info (12023): Found entity 1: clk_div_2
+Info (12021): Found 1 design units, including 1 entities, in source file clk_div.bdf
+    Info (12023): Found entity 1: clk_div
+Info (12127): Elaborating entity "pattern_generator" for the top level hierarchy
+Info (12128): Elaborating entity "step_curve_short" for hierarchy "step_curve_short:inst2"
+Warning (10230): Verilog HDL assignment warning at step_curve_short.v(73): truncated value with size 32 to match size of target (8)
+Warning (10230): Verilog HDL assignment warning at step_curve_short.v(77): truncated value with size 32 to match size of target (16)
+Warning (10230): Verilog HDL assignment warning at step_curve_short.v(98): truncated value with size 32 to match size of target (8)
+Warning (10230): Verilog HDL assignment warning at step_curve_short.v(102): truncated value with size 32 to match size of target (16)
+Warning (10230): Verilog HDL assignment warning at step_curve_short.v(143): truncated value with size 32 to match size of target (8)
+Warning (10230): Verilog HDL assignment warning at step_curve_short.v(147): truncated value with size 32 to match size of target (16)
+Warning (10230): Verilog HDL assignment warning at step_curve_short.v(177): truncated value with size 32 to match size of target (8)
+Warning (10230): Verilog HDL assignment warning at step_curve_short.v(181): truncated value with size 32 to match size of target (16)
+Warning (10230): Verilog HDL assignment warning at step_curve_short.v(202): truncated value with size 32 to match size of target (8)
+Warning (10230): Verilog HDL assignment warning at step_curve_short.v(206): truncated value with size 32 to match size of target (16)
+Info (12128): Elaborating entity "clk_div" for hierarchy "clk_div:inst1"
+Info (12128): Elaborating entity "clk_div_2" for hierarchy "clk_div:inst1|clk_div_2:inst8"
+Info (12128): Elaborating entity "switch_debounce" for hierarchy "switch_debounce:inst14"
+Warning (10230): Verilog HDL assignment warning at switch_debounce.v(1): truncated value with size 32 to match size of target (19)
+Warning (10230): Verilog HDL assignment warning at switch_debounce.v(1): truncated value with size 32 to match size of target (26)
+Warning (10230): Verilog HDL assignment warning at switch_debounce.v(1): truncated value with size 32 to match size of target (24)
+Info (12128): Elaborating entity "counter_group" for hierarchy "counter_group:inst10"
+Warning (10230): Verilog HDL assignment warning at counter_group.v(60): truncated value with size 32 to match size of target (3)
+Warning (10230): Verilog HDL assignment warning at counter_group.v(62): truncated value with size 32 to match size of target (3)
+Warning (10230): Verilog HDL assignment warning at counter_group.v(65): truncated value with size 32 to match size of target (16)
+Warning (10230): Verilog HDL assignment warning at counter_group.v(67): truncated value with size 32 to match size of target (16)
+Info (12128): Elaborating entity "seven_segment_display" for hierarchy "seven_segment_display:inst4"
+Warning (10230): Verilog HDL assignment warning at seven_segment_display.v(30): truncated value with size 32 to match size of target (20)
+Info (10264): Verilog HDL Case Statement information at seven_segment_display.v(43): all case item expressions in this case statement are onehot
+Info (12128): Elaborating entity "dac_control" for hierarchy "dac_control:inst5"
+Warning (10230): Verilog HDL assignment warning at dac_control.v(24): truncated value with size 32 to match size of target (8)
+Warning (10230): Verilog HDL assignment warning at dac_control.v(56): truncated value with size 32 to match size of target (4)
+Warning (10034): Output port "cs_n" at dac_control.v(15) has no driver
+Warning (19016): Clock multiplexers are found and protected
+    Warning (19017): Found clock multiplexer clk_div:inst1|clk_div_2:inst8|inst5~0
+    Warning (19017): Found clock multiplexer clk_div:inst1|clk_div_2:inst7|inst5~0
+    Warning (19017): Found clock multiplexer clk_div:inst1|clk_div_2:inst6|inst5~0
+    Warning (19017): Found clock multiplexer clk_div:inst1|clk_div_2:inst5|inst5~0
+    Warning (19017): Found clock multiplexer clk_div:inst1|clk_div_2:inst4|inst5~0
+    Warning (19017): Found clock multiplexer clk_div:inst1|clk_div_2:inst3|inst5~0
+    Warning (19017): Found clock multiplexer clk_div:inst1|clk_div_2:inst2|inst5~0
+    Warning (19017): Found clock multiplexer clk_div:inst1|clk_div_2:inst|inst5~0
+Info (278001): Inferred 2 megafunctions from design logic
+    Info (278004): Inferred divider/modulo megafunction ("lpm_divide") from the following logic: "step_curve_short:inst2|Mod0"
+    Info (278004): Inferred divider/modulo megafunction ("lpm_divide") from the following logic: "dac_control:inst5|Mod0"
+Info (12130): Elaborated megafunction instantiation "step_curve_short:inst2|lpm_divide:Mod0"
+Info (12133): Instantiated megafunction "step_curve_short:inst2|lpm_divide:Mod0" with the following parameter:
+    Info (12134): Parameter "LPM_WIDTHN" = "9"
+    Info (12134): Parameter "LPM_WIDTHD" = "3"
+    Info (12134): Parameter "LPM_NREPRESENTATION" = "UNSIGNED"
+    Info (12134): Parameter "LPM_DREPRESENTATION" = "UNSIGNED"
+Info (12021): Found 1 design units, including 1 entities, in source file db/lpm_divide_d8m.tdf
+    Info (12023): Found entity 1: lpm_divide_d8m
+Info (12021): Found 1 design units, including 1 entities, in source file db/sign_div_unsign_bkh.tdf
+    Info (12023): Found entity 1: sign_div_unsign_bkh
+Info (12021): Found 1 design units, including 1 entities, in source file db/alt_u_div_13f.tdf
+    Info (12023): Found entity 1: alt_u_div_13f
+Info (12021): Found 1 design units, including 1 entities, in source file db/add_sub_unc.tdf
+    Info (12023): Found entity 1: add_sub_unc
+Info (12021): Found 1 design units, including 1 entities, in source file db/add_sub_vnc.tdf
+    Info (12023): Found entity 1: add_sub_vnc
+Info (12130): Elaborated megafunction instantiation "dac_control:inst5|lpm_divide:Mod0"
+Info (12133): Instantiated megafunction "dac_control:inst5|lpm_divide:Mod0" with the following parameter:
+    Info (12134): Parameter "LPM_WIDTHN" = "5"
+    Info (12134): Parameter "LPM_WIDTHD" = "4"
+    Info (12134): Parameter "LPM_NREPRESENTATION" = "UNSIGNED"
+    Info (12134): Parameter "LPM_DREPRESENTATION" = "UNSIGNED"
+Info (12021): Found 1 design units, including 1 entities, in source file db/lpm_divide_a8m.tdf
+    Info (12023): Found entity 1: lpm_divide_a8m
+Info (12021): Found 1 design units, including 1 entities, in source file db/sign_div_unsign_8kh.tdf
+    Info (12023): Found entity 1: sign_div_unsign_8kh
+Info (12021): Found 1 design units, including 1 entities, in source file db/alt_u_div_r2f.tdf
+    Info (12023): Found entity 1: alt_u_div_r2f
+Info (13000): Registers with preset signals will power-up high
+Info (13003): DEV_CLRn pin will set, and not reset, register with preset signal due to NOT Gate Push-Back
+Warning (13024): Output pins are stuck at VCC or GND
+    Warning (13410): Pin "gnd1" is stuck at GND
+    Warning (13410): Pin "gnd2" is stuck at GND
+    Warning (13410): Pin "CS" is stuck at GND
+    Warning (13410): Pin "IS1" is stuck at VCC
+    Warning (13410): Pin "IS2" is stuck at GND
+    Warning (13410): Pin "SEB" is stuck at VCC
+    Warning (13410): Pin "R12" is stuck at GND
+    Warning (13410): Pin "SR" is stuck at VCC
+    Warning (13410): Pin "SBI" is stuck at GND
+    Warning (13410): Pin "dp" is stuck at VCC
+    Warning (13410): Pin "neg" is stuck at VCC
+    Warning (13410): Pin "clr" is stuck at GND
+    Warning (13410): Pin "clr_n" is stuck at VCC
+    Warning (13410): Pin "pd_n" is stuck at VCC
+    Warning (13410): Pin "cs_n" is stuck at GND
+Info (286030): Timing-Driven Synthesis is running
+Info (144001): Generated suppressed messages file /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/apc128_pattern_generator/output_files/pattern_generator.map.smsg
+Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
+    Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
+Info (21057): Implemented 1068 device resources after synthesis - the final resource count might be different
+    Info (21058): Implemented 13 input pins
+    Info (21059): Implemented 54 output pins
+    Info (21061): Implemented 1001 logic cells
+Info: Quartus II 32-bit Analysis & Synthesis was successful. 0 errors, 51 warnings
+    Info: Peak virtual memory: 400 megabytes
+    Info: Processing ended: Tue Nov  3 15:48:23 2015
+    Info: Elapsed time: 00:00:10
+    Info: Total CPU time (on all processors): 00:00:10
+
+
++------------------------------------------+
+; Analysis & Synthesis Suppressed Messages ;
++------------------------------------------+
+The suppressed messages can be found in /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/apc128_pattern_generator/output_files/pattern_generator.map.smsg.
+
+

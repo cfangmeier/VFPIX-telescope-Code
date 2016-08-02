@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<LOG_ROOT>
+	<PROJECT NAME="pattern_generator">
+		<CBX_INST_ENTRY INSTANCE_NAME="|pattern_generator|dac_control:inst5|lpm_divide:Mod0" CBX_FILE_NAME="lpm_divide_a8m.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|pattern_generator|step_curve_short:inst2|lpm_divide:Mod0" CBX_FILE_NAME="lpm_divide_d8m.tdf"/>
+	</PROJECT>
+</LOG_ROOT>

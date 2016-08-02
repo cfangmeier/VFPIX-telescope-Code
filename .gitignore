@@ -9,3 +9,7 @@
 
 *.bak
 *.qws
+
+
+.ropeproject
+FrontPanel/

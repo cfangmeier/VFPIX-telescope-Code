@@ -1,0 +1,1 @@
+Warning (10268): Verilog HDL information at switch_debounce.v(1): always construct contains both blocking and non-blocking assignments
