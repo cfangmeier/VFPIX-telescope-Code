@@ -1,15 +1,2 @@
-
-
-#Quartus build directory
-*/db/
-*/incremental_db/
-*/output_files/
-*/simulation/
-*/greybox_tmp/
-
-*.bak
-*.qws
-
-
 .ropeproject
 FrontPanel/
