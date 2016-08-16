@@ -4,6 +4,8 @@ from __future__ import (print_function, absolute_import,
                         division, with_statement)
 # from time import sleep
 import binascii
+import time
+import random
 
 import ok
 
@@ -59,6 +61,17 @@ def test():
             print()
 
 
+def test2(rndm=True):
+    for i in range(100):
+        time.sleep(.01)
+        addr = 0
+        if rndm:
+            val = random.randint(0, 0xFF)
+        else:
+            val = i
+        FP.WriteRegister(addr, val)
+
+
 def main():
     global FP
     FP = ok.okCFrontPanel()
@@ -73,7 +86,7 @@ def main():
     filename = ("/home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/"
                 "DAQ_Firmware/output_files/daq_firmware.rbf")
     program_device(filename)
-    test()
+    test2(False)
     FP.Close()
 
 if __name__ == '__main__':

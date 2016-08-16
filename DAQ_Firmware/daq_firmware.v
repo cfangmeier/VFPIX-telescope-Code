@@ -22,7 +22,12 @@ module daq_firmware(
 	inout  wire [  1: 0]       mem_dqs,
 	output wire [  0: 0]       mem_odt,
 	output wire                mem_ras_n,
-	output wire                mem_we_n
+	output wire                mem_we_n,
+
+  output wire                rj45_led_sck,
+  output wire                rj45_led_sin,
+  output wire                rj45_led_lat,
+  output wire                rj45_led_blk
   );
 
 // Target interface bus:
@@ -37,6 +42,7 @@ wire fiforead;
 wire [15:0] datain;
 wire [15:0] dataout;
 wire [15:0] wireout;
+
 
 // Memory Interface
 wire mem_aux_full_rate_clk;
@@ -96,19 +102,6 @@ ram_controller ram_controller_inst (
 	.soft_reset_n             (1'b1)
 );
 
-wire [65*2-1:0]  okEHx;
-okHost okHI(
-  .okUH(okUH),
-  .okHU(okHU),
-  .okUHU(okUHU),
-  .okAA(okAA),
-  .okClk(okClk),
-  .okHE(okHE),
-  .okEH(okEH)
-);
-okWireOR # (.N(2)) wireOR (okEH, okEHx);
-
-
 wire request_write;
 wire request_read;
 
@@ -128,27 +121,69 @@ fifo32  fifo32_inst (
   .usedw ( )
 );
 
+reg [31:0] led_data;
+wire regWrite;
+wire [31:0] regDataOut;
+always @(negedge okClk) begin
+  if (regWrite) begin
+    led_data <= regDataOut;
+  end
+end
+
+rj45_led_controller led_controller(
+  .sys_clk ( sys_clk ),
+  .led_vals ( led_data[7:0] ),
+  .write_request ( 1'b1 ),
+  .rj45_led_sck ( rj45_led_sck ),
+  .rj45_led_sin ( rj45_led_sin ),
+  .rj45_led_lat ( rj45_led_lat ),
+  .rj45_led_blk ( rj45_led_blk )
+);
+
 // FrontPanel module instantiations
+wire [65*3-1:0]  okEHx;
+okHost okHI(
+  .okUH(okUH),
+  .okHU(okHU),
+  .okUHU(okUHU),
+  .okAA(okAA),
+  .okClk(okClk),
+  .okHE(okHE),
+  .okEH(okEH)
+);
+okWireOR # (.N(3)) wireOR (okEH, okEHx);
+
+
 okWireIn wire10(
-      .okHE(okHE),
-      .ep_addr(8'h10),
-      .ep_dataout(wireout)
+  .okHE(okHE),
+  .ep_addr(8'h10),
+  .ep_dataout(wireout)
 );
 
 okPipeIn pipe80(
-      .okHE(okHE),
-      .okEH(okEHx[0*65 +: 65]),
-      .ep_addr(8'h80),
-      .ep_write(request_write),
-      .ep_dataout(data_in)
+  .okHE(okHE),
+  .okEH(okEHx[0*65 +: 65]),
+  .ep_addr(8'h80),
+  .ep_write(request_write),
+  .ep_dataout(data_in)
 );
 
 okPipeOut pipeA0(
-      .okHE(okHE),
-      .okEH(okEHx[1*65 +: 65]),
-      .ep_addr(8'hA0),
-      .ep_read(request_read),
-      .ep_datain(data_out)
+  .okHE(okHE),
+  .okEH(okEHx[1*65 +: 65]),
+  .ep_addr(8'hA0),
+  .ep_read(request_read),
+  .ep_datain(data_out)
+);
+
+okRegisterBridge regBridge (
+  .okHE(okHE),
+  .okEH(okEHx[2*65 +: 65]),
+  .ep_write(regWrite),
+  .ep_read(),
+  .ep_address(),
+  .ep_dataout(regDataOut),
+  .ep_datain()
 );
 
 endmodule
