@@ -62,8 +62,8 @@ def test():
 
 
 def test2(rndm=True):
-    for i in range(100):
-        time.sleep(.01)
+    for i in range(0x100):
+        time.sleep(.05)
         addr = 0
         if rndm:
             val = random.randint(0, 0xFF)

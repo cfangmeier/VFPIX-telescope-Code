@@ -1,9 +1,26 @@
+ /* rj45_led_controller
+  * 
+  * This is an interface implementation for controlling a series
+  * of eight LEDs on the 8xRJ-45 jack on the Telescope DAQ Board
+  * The physical controller is a TLC59282 constant-current LED
+  * driver.
+  *
+  * It works by shifting 16 bits into a register on the
+  * chip and then latching the value of the shift register into
+  * the active register. This controller simply adapts the interface
+  * to a simple 8-bit parallel value, a clock, and a write_request input.
+  * When write_request goes high, the current value of led_vals is stored
+  * and then written to the output.
+  *
+  * To continuously sample the value of led_vals, simply tie write_request
+  * high.
+  */
 `default_nettype none
 
 module rj45_led_controller(
-  input wire          sys_clk,
-  input wire [7:0]   led_vals,
-  input wire          write_request,
+  input  wire         sys_clk,
+  input  wire [7:0]   led_vals,
+  input  wire         write_request,
   output wire         rj45_led_sck,
   output wire         rj45_led_sin,
   output wire         rj45_led_lat,
