@@ -1,0 +1,50 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 d/home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim
+vspi_controller
+Z1 !s110 1471471894
+!i10b 1
+!s100 X?mNkgNNOz6TaTDRa[^SC0
+IWDDb=Q91ZV2XIjl=SX1b`0
+Z2 VDg1SIo80bB@j0V0VzS_@n1
+R0
+Z3 w1471471885
+8/home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v
+F/home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v
+L0 12
+Z4 OV;L;10.4d;61
+r1
+!s85 0
+31
+Z5 !s108 1471471894.000000
+!s107 /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v|
+!s90 -reportprogress|300|-work|work|/home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v|
+!i113 1
+Z6 o-work work
+vspi_interface
+R1
+!i10b 1
+!s100 S`BM7MPV511P3j93OEh_F0
+I:>D3o[c0=63PTnA4>VVa21
+R2
+R0
+R3
+8/home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v
+F/home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v
+L0 10
+R4
+r1
+!s85 0
+31
+R5
+!s107 /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v|
+!s90 -reportprogress|300|-work|work|/home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v|
+!i113 1
+R6
