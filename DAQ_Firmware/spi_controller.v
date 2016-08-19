@@ -28,6 +28,9 @@ always @(posedge sys_clk) begin
   end
 end
 
+wire sclk_internal;
+assign sclk = sclk_internal;
+
 wire clk;
 assign clk = clk_div[4];
 
@@ -60,7 +63,7 @@ spi_interface spi_interface_inst(
   .write_bits ( 6'h20 ),
   .request_action ( request_action ),
   .busy ( busy ),
-  .sclk ( sclk ),
+  .sclk ( sclk_internal ),
   .sdio ( sdio ),
   .csb ( csb )
 );

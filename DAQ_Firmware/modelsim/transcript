@@ -1,861 +1,342 @@
-vsim my_lib.spi_controller
-# vsim my_lib.spi_controller 
-# Start time: 15:47:43 on Aug 17,2016
-# Loading my_lib.spi_controller
-# Loading my_lib.spi_interface
 vsim work.spi_controller
-# End time: 15:48:04 on Aug 17,2016, Elapsed time: 0:00:21
-# Errors: 0, Warnings: 0
 # vsim work.spi_controller 
-# Start time: 15:48:04 on Aug 17,2016
+# Start time: 14:59:50 on Aug 19,2016
 # Loading work.spi_controller
 # Loading work.spi_interface
-add wave -position insertpoint  \
-sim:/spi_controller/sys_clk
-add wave -position insertpoint  \
-sim:/spi_controller/sdio
-add wave -position insertpoint  \
-sim:/spi_controller/csb
-run -all
-# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
-vsim my_lib.lock
-# End time: 15:49:57 on Aug 17,2016, Elapsed time: 0:01:53
-# Errors: 0, Warnings: 1
-# vsim my_lib.lock 
-# Start time: 15:49:57 on Aug 17,2016
-# ** Error: (vsim-3170) Could not find '/home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/my_lib.lock'.
-# Error loading design
-# End time: 15:49:57 on Aug 17,2016, Elapsed time: 0:00:00
-# Errors: 1, Warnings: 0
-view objects
-# .main_pane.objects.interior.cs.body.tree
-view locals
-# .main_pane.locals.interior.cs.body
-view source
-view wave -undock
-# .main_pane.wave.interior.cs.body.pw.wf
-add wave *
-vsim my_lib.spi_controller
-# vsim my_lib.spi_controller 
-# Start time: 15:52:13 on Aug 17,2016
-# Loading my_lib.spi_controller
-# Loading my_lib.spi_interface
-add wave *
-force -deposit /spi_controller/sys_clk 1 0, 0 {10 ns} -repeat 50
-# ** Error: (vsim-3464) Period of -repeat must not be less than the waveform length.
-# 
-force -deposit /spi_controller/sys_clk 1 0, 0 {10 ns} -repeat 20
-# ** Error: (vsim-3464) Period of -repeat must not be less than the waveform length.
-# 
-force -deposit /spi_controller/sys_clk 1 0, 0 {10 ns} -repeat 20 ns
-run
-# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
-run
-run -all
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-add wave -position insertpoint  \
-sim:/spi_controller/sys_clk
-add wave -position insertpoint  \
-sim:/spi_controller/csb
-add wave -position insertpoint  \
-sim:/spi_controller/busy
-vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v
+# Load canceled
+vlog -work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/my_lib -refresh -force_refresh
 # Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 16:14:34 on Aug 17,2016
-# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v 
-# -- Compiling module spi_controller
-# ** Error: /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v(39): (vlog-2110) Illegal reference to net "busy".
-# End time: 16:14:34 on Aug 17,2016, Elapsed time: 0:00:00
-# Errors: 1, Warnings: 0
-vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v
-# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 16:14:34 on Aug 17,2016
-# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v 
-# -- Compiling module spi_interface
-# 
-# Top level modules:
-# 	spi_interface
-# End time: 16:14:34 on Aug 17,2016, Elapsed time: 0:00:00
+# Start time: 15:08:43 on Aug 19,2016
+# vlog -reportprogress 300 -work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/my_lib -refresh -force_refresh 
+# -- Refreshing module spi_controller
+# -- Refreshing module spi_interface
+# End time: 15:08:43 on Aug 19,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
+vcom -work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/my_lib -refresh -force_refresh
+# Model Technology ModelSim ALTERA vcom 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 15:08:43 on Aug 19,2016
+# vcom -reportprogress 300 -work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/my_lib -refresh -force_refresh 
+# -- Skipping module spi_controller
+# -- Skipping module spi_interface
+# End time: 15:08:43 on Aug 19,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 15:09:34 on Aug 19,2016
+# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v 
+# ** Error: /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v(2): (vlog-2155) Global declarations are illegal in Verilog 2001 syntax.
+# ** Error: (vlog-13069) /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v(8): near "dut": syntax error, unexpected IDENTIFIER.
+# ** Error: /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v(8): (vlog-13205) Syntax error found in the scope following 'spi_controller'. Is there a missing '::'?
+# End time: 15:09:34 on Aug 19,2016, Elapsed time: 0:00:00
+# Errors: 3, Warnings: 0
 vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v
 # Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 16:15:10 on Aug 17,2016
+# Start time: 15:10:28 on Aug 19,2016
 # vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v 
 # -- Compiling module spi_controller
 # 
 # Top level modules:
 # 	spi_controller
-# End time: 16:15:10 on Aug 17,2016, Elapsed time: 0:00:00
+# End time: 15:10:28 on Aug 19,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 15:10:28 on Aug 19,2016
+# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v 
+# ** Error: /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v(2): (vlog-2155) Global declarations are illegal in Verilog 2001 syntax.
+# ** Error: (vlog-13069) /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v(8): near "dut": syntax error, unexpected IDENTIFIER.
+# ** Error: /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v(8): (vlog-13205) Syntax error found in the scope following 'spi_controller'. Is there a missing '::'?
+# End time: 15:10:28 on Aug 19,2016, Elapsed time: 0:00:00
+# Errors: 3, Warnings: 0
 vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v
 # Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 16:15:10 on Aug 17,2016
+# Start time: 15:10:28 on Aug 19,2016
 # vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v 
 # -- Compiling module spi_interface
 # 
 # Top level modules:
 # 	spi_interface
-# End time: 16:15:10 on Aug 17,2016, Elapsed time: 0:00:00
+# End time: 15:10:28 on Aug 19,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 15:12:46 on Aug 19,2016
+# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v 
+# -- Compiling module spi_controller
+# 
+# Top level modules:
+# 	spi_controller
+# End time: 15:12:46 on Aug 19,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 15:12:46 on Aug 19,2016
+# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v 
+# -- Compiling module spi_controller_testbench
+# ** Error (suppressible): /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v(10): (vlog-2388) 'sclk' already declared in this scope (spi_controller_testbench).
+# ** Error (suppressible): /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v(11): (vlog-2388) 'sdio' already declared in this scope (spi_controller_testbench).
+# ** Error (suppressible): /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v(12): (vlog-2388) 'csb' already declared in this scope (spi_controller_testbench).
+# ** Error: (vlog-13069) /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v(26): near "sys_clk": syntax error, unexpected IDENTIFIER, expecting ';'.
+# End time: 15:12:46 on Aug 19,2016, Elapsed time: 0:00:00
+# Errors: 4, Warnings: 0
+vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 15:12:46 on Aug 19,2016
+# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v 
+# -- Compiling module spi_interface
+# 
+# Top level modules:
+# 	spi_interface
+# End time: 15:12:46 on Aug 19,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 15:13:32 on Aug 19,2016
+# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v 
+# -- Compiling module spi_controller
+# 
+# Top level modules:
+# 	spi_controller
+# End time: 15:13:32 on Aug 19,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 15:13:32 on Aug 19,2016
+# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v 
+# -- Compiling module spi_controller_testbench
+# ** Error (suppressible): /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v(12): (vlog-2388) 'sclk' already declared in this scope (spi_controller_testbench).
+# ** Error (suppressible): /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v(13): (vlog-2388) 'sdio' already declared in this scope (spi_controller_testbench).
+# ** Error (suppressible): /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v(14): (vlog-2388) 'csb' already declared in this scope (spi_controller_testbench).
+# ** Error: (vlog-13069) /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v(28): near "sys_clk": syntax error, unexpected IDENTIFIER, expecting ';'.
+# End time: 15:13:32 on Aug 19,2016, Elapsed time: 0:00:00
+# Errors: 4, Warnings: 0
+vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 15:13:32 on Aug 19,2016
+# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v 
+# -- Compiling module spi_interface
+# 
+# Top level modules:
+# 	spi_interface
+# End time: 15:13:32 on Aug 19,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 15:13:43 on Aug 19,2016
+# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v 
+# -- Compiling module spi_controller
+# 
+# Top level modules:
+# 	spi_controller
+# End time: 15:13:43 on Aug 19,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 15:13:43 on Aug 19,2016
+# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v 
+# -- Compiling module spi_controller_testbench
+# ** Error: (vlog-13069) /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v(25): near "sys_clk": syntax error, unexpected IDENTIFIER, expecting ';'.
+# End time: 15:13:43 on Aug 19,2016, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 0
+vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 15:13:43 on Aug 19,2016
+# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v 
+# -- Compiling module spi_interface
+# 
+# Top level modules:
+# 	spi_interface
+# End time: 15:13:43 on Aug 19,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 15:14:03 on Aug 19,2016
+# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v 
+# -- Compiling module spi_controller
+# 
+# Top level modules:
+# 	spi_controller
+# End time: 15:14:03 on Aug 19,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 15:14:03 on Aug 19,2016
+# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v 
+# -- Compiling module spi_controller_testbench
+# ** Error: /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v(25): (vlog-2110) Illegal reference to net "sys_clk".
+# ** Error: /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v(26): (vlog-2110) Illegal reference to net "reset".
+# ** Error: /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v(27): (vlog-2110) Illegal reference to net "reset".
+# ** Error: /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v(32): (vlog-2110) Illegal reference to net "sys_clk".
+# End time: 15:14:03 on Aug 19,2016, Elapsed time: 0:00:00
+# Errors: 4, Warnings: 0
+vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 15:14:03 on Aug 19,2016
+# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v 
+# -- Compiling module spi_interface
+# 
+# Top level modules:
+# 	spi_interface
+# End time: 15:14:03 on Aug 19,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 15:15:25 on Aug 19,2016
+# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v 
+# -- Compiling module spi_controller
+# 
+# Top level modules:
+# 	spi_controller
+# End time: 15:15:25 on Aug 19,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 15:15:25 on Aug 19,2016
+# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v 
+# -- Compiling module spi_controller_testbench
+# ** Error: (vlog-13069) /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v(7): near "wire": syntax error, unexpected wire, expecting IDENTIFIER or TYPE_IDENTIFIER or NETTYPE_IDENTIFIER.
+# End time: 15:15:25 on Aug 19,2016, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 0
+vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 15:15:25 on Aug 19,2016
+# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v 
+# -- Compiling module spi_interface
+# 
+# Top level modules:
+# 	spi_interface
+# End time: 15:15:25 on Aug 19,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 15:15:46 on Aug 19,2016
+# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v 
+# -- Compiling module spi_controller
+# 
+# Top level modules:
+# 	spi_controller
+# End time: 15:15:46 on Aug 19,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 15:15:46 on Aug 19,2016
+# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v 
+# -- Compiling module spi_controller_testbench
+# ** Error: /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v(25): (vlog-2110) Illegal reference to net "sys_clk".
+# ** Error: /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v(26): (vlog-2110) Illegal reference to net "reset".
+# ** Error: /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v(27): (vlog-2110) Illegal reference to net "reset".
+# ** Error: /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v(32): (vlog-2110) Illegal reference to net "sys_clk".
+# End time: 15:15:46 on Aug 19,2016, Elapsed time: 0:00:00
+# Errors: 4, Warnings: 0
+vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 15:15:46 on Aug 19,2016
+# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v 
+# -- Compiling module spi_interface
+# 
+# Top level modules:
+# 	spi_interface
+# End time: 15:15:46 on Aug 19,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 15:16:40 on Aug 19,2016
+# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v 
+# -- Compiling module spi_controller
+# 
+# Top level modules:
+# 	spi_controller
+# End time: 15:16:40 on Aug 19,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 15:16:40 on Aug 19,2016
+# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v 
+# -- Compiling module spi_controller_testbench
+# 
+# Top level modules:
+# 	spi_controller_testbench
+# End time: 15:16:40 on Aug 19,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 15:16:40 on Aug 19,2016
+# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v 
+# -- Compiling module spi_interface
+# 
+# Top level modules:
+# 	spi_interface
+# End time: 15:16:41 on Aug 19,2016, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+vsim work.spi_controller_testbench
+# End time: 15:16:58 on Aug 19,2016, Elapsed time: 0:17:08
+# Errors: 19, Warnings: 0
+# vsim work.spi_controller_testbench 
+# Start time: 15:16:58 on Aug 19,2016
+# Loading work.spi_controller_testbench
+# Loading work.spi_controller
+# Loading work.spi_interface
+add wave -position insertpoint  \
+sim:/spi_controller_testbench/sys_clk
+add wave -position insertpoint  \
+sim:/spi_controller_testbench/reset
+add wave -position insertpoint  \
+sim:/spi_controller_testbench/sclk
+add wave -position insertpoint  \
+sim:/spi_controller_testbench/sdio
+add wave -position insertpoint  \
+sim:/spi_controller_testbench/csb
+run
+# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
+#                    0 << Starting the Simulation >>
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 15:19:12 on Aug 19,2016
+# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v 
+# -- Compiling module spi_controller
+# 
+# Top level modules:
+# 	spi_controller
+# End time: 15:19:12 on Aug 19,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 15:19:12 on Aug 19,2016
+# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v 
+# -- Compiling module spi_controller_testbench
+# 
+# Top level modules:
+# 	spi_controller_testbench
+# End time: 15:19:12 on Aug 19,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 15:19:12 on Aug 19,2016
+# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v 
+# -- Compiling module spi_interface
+# 
+# Top level modules:
+# 	spi_interface
+# End time: 15:19:12 on Aug 19,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 restart -f
-# Loading my_lib.spi_controller
-# Loading my_lib.spi_interface
-run
-# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-restart
-force -deposit /spi_controller/sys_clk 1 0, 0 {10 ns} -repeat 20 ns
-run
-# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-restart
-force -deposit /spi_controller/sys_clk 1 0, 0 {10 ns} -repeat 20 ns
-force -deposit /spi_controller/reset 1 0, 0 {30 ns}
-run
-# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
-add wave -position insertpoint  \
-sim:/spi_controller/reset
-add wave -position insertpoint  \
-sim:/spi_controller/sclk
-add wave -position insertpoint  \
-sim:/spi_controller/sdio
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v
-# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 16:22:15 on Aug 17,2016
-# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v 
-# -- Compiling module spi_controller
-# 
-# Top level modules:
-# 	spi_controller
-# End time: 16:22:15 on Aug 17,2016, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v
-# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 16:22:15 on Aug 17,2016
-# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v 
-# -- Compiling module spi_interface
-# 
-# Top level modules:
-# 	spi_interface
-# End time: 16:22:15 on Aug 17,2016, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-restart
-# Loading my_lib.spi_controller
-# Loading my_lib.spi_interface
-force -deposit /spi_controller/reset 1 0, 0 {30 ns}
-force -deposit /spi_controller/sys_clk 1 0, 0 {10 ns} -repeat 20 ns
-run
-# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v
-# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 16:23:36 on Aug 17,2016
-# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v 
-# -- Compiling module spi_controller
-# 
-# Top level modules:
-# 	spi_controller
-# End time: 16:23:36 on Aug 17,2016, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v
-# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 16:23:36 on Aug 17,2016
-# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v 
-# -- Compiling module spi_interface
-# 
-# Top level modules:
-# 	spi_interface
-# End time: 16:23:36 on Aug 17,2016, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-restart
-# Loading my_lib.spi_controller
-# Loading my_lib.spi_interface
-force -deposit /spi_controller/sys_clk 1 0, 0 {10 ns} -repeat 20 ns
-force -deposit /spi_controller/reset 1 0, 0 {30 ns}
-run
-# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-add wave -position insertpoint  \
-sim:/spi_controller/data_in
-vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v
-# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 16:34:26 on Aug 17,2016
-# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v 
-# -- Compiling module spi_controller
-# 
-# Top level modules:
-# 	spi_controller
-# End time: 16:34:26 on Aug 17,2016, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v
-# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 16:34:26 on Aug 17,2016
-# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v 
-# -- Compiling module spi_interface
-# 
-# Top level modules:
-# 	spi_interface
-# End time: 16:34:26 on Aug 17,2016, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-restart
-# Loading my_lib.spi_controller
-# Loading my_lib.spi_interface
-force -deposit /spi_controller/reset 1 0, 0 {30 ns}
-force -deposit /spi_controller/sys_clk 1 0, 0 {10 ns} -repeat 20 ns
-run
-# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-restart
-vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v
-# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 16:38:53 on Aug 17,2016
-# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v 
-# -- Compiling module spi_controller
-# 
-# Top level modules:
-# 	spi_controller
-# End time: 16:38:53 on Aug 17,2016, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v
-# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 16:38:53 on Aug 17,2016
-# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v 
-# -- Compiling module spi_interface
-# ** Error: /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v(66): (vlog-2110) Illegal reference to net "data_in".
-# End time: 16:38:53 on Aug 17,2016, Elapsed time: 0:00:00
-# Errors: 1, Warnings: 0
-vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v
-# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 16:39:36 on Aug 17,2016
-# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v 
-# -- Compiling module spi_controller
-# 
-# Top level modules:
-# 	spi_controller
-# End time: 16:39:36 on Aug 17,2016, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v
-# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 16:39:36 on Aug 17,2016
-# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v 
-# -- Compiling module spi_interface
-# 
-# Top level modules:
-# 	spi_interface
-# End time: 16:39:36 on Aug 17,2016, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v
-# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 16:39:39 on Aug 17,2016
-# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v 
-# -- Compiling module spi_controller
-# 
-# Top level modules:
-# 	spi_controller
-# End time: 16:39:39 on Aug 17,2016, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v
-# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 16:39:39 on Aug 17,2016
-# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v 
-# -- Compiling module spi_interface
-# 
-# Top level modules:
-# 	spi_interface
-# End time: 16:39:39 on Aug 17,2016, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-force -deposit /spi_controller/sys_clk 1 0, 0 {10 ns} -repeat 20 ns
-force -deposit /spi_controller/reset 1 0, 0 {30 ns}
-run
-# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v
-# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 16:59:41 on Aug 17,2016
-# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v 
-# -- Compiling module spi_controller
-# 
-# Top level modules:
-# 	spi_controller
-# End time: 16:59:41 on Aug 17,2016, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v
-# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 16:59:41 on Aug 17,2016
-# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v 
-# -- Compiling module spi_interface
-# 
-# Top level modules:
-# 	spi_interface
-# End time: 16:59:41 on Aug 17,2016, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-force -deposit /spi_controller/sys_clk 1 0, 0 {10 ns} -repeat 20 ns
-force -deposit /spi_controller/reset 1 0, 0 {30 ns}
-restart
-# Loading my_lib.spi_controller
-# Loading my_lib.spi_interface
-# Warning in wave window restart: (vish-4014) No objects found matching '/spi_controller/data_in'. 
-run
-# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
-run
-run
-restart
-force -deposit /spi_controller/reset 1 0, 0 {30 ns}
-force -deposit /spi_controller/sys_clk 1 0, 0 {10 ns} -repeat 20 ns
-run
-# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
-run
-run
-run
-run
-run
-restart
-vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v
-# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 17:03:30 on Aug 17,2016
-# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v 
-# -- Compiling module spi_controller
-# 
-# Top level modules:
-# 	spi_controller
-# End time: 17:03:30 on Aug 17,2016, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v
-# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 17:03:30 on Aug 17,2016
-# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v 
-# -- Compiling module spi_interface
-# 
-# Top level modules:
-# 	spi_interface
-# End time: 17:03:30 on Aug 17,2016, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-force -deposit /spi_controller/sys_clk 1 0, 0 {10 ns} -repeat 20 ns
-force -deposit /spi_controller/reset 1 0, 0 {30 ns}
-view objects
-# .main_pane.objects.interior.cs.body.tree
-vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v
-# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 17:05:30 on Aug 17,2016
-# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v 
-# -- Compiling module spi_controller
-# 
-# Top level modules:
-# 	spi_controller
-# End time: 17:05:30 on Aug 17,2016, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v
-# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 17:05:30 on Aug 17,2016
-# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v 
-# -- Compiling module spi_interface
-# 
-# Top level modules:
-# 	spi_interface
-# End time: 17:05:30 on Aug 17,2016, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-vsim work.spi_controller
-# End time: 17:05:59 on Aug 17,2016, Elapsed time: 1:13:46
-# Errors: 5, Warnings: 10
-# vsim work.spi_controller 
-# Start time: 17:05:59 on Aug 17,2016
+# Loading work.spi_controller_testbench
 # Loading work.spi_controller
 # Loading work.spi_interface
-# ** Warning: (vsim-3015) /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v(55): [PCDPC] - Port size (32) does not match connection size (1) for port 'data_out_shifter'. The port definition is at: /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v(14).
-#    Time: 0 ps  Iteration: 0  Instance: /spi_controller/spi_interface_inst File: /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v
-force -deposit /spi_controller/reset 1 0, 0 {30 ns}
-force -deposit /spi_controller/sys_clk 1 0, 0 {10 ns} -repeat 20 ns
-add wave -position insertpoint  \
-sim:/spi_controller/sclk
-add wave -position insertpoint  \
-sim:/spi_controller/sdio
-add wave -position insertpoint  \
-sim:/spi_controller/reset
-add wave -position insertpoint  \
-sim:/spi_controller/data_out_shifter
 run
 # ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
+#                    0 << Starting the Simulation >>
 run
 run
 run
@@ -869,136 +350,151 @@ run
 run
 run
 run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v
-# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 17:07:56 on Aug 17,2016
-# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v 
-# -- Compiling module spi_interface
-# 
-# Top level modules:
-# 	spi_interface
-# End time: 17:07:56 on Aug 17,2016, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
 vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v
 # Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 17:07:56 on Aug 17,2016
+# Start time: 15:21:40 on Aug 19,2016
 # vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v 
 # -- Compiling module spi_controller
 # 
 # Top level modules:
 # 	spi_controller
-# End time: 17:07:56 on Aug 17,2016, Elapsed time: 0:00:00
+# End time: 15:21:40 on Aug 19,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-vsim work.spi_controller
-# End time: 17:08:06 on Aug 17,2016, Elapsed time: 0:02:07
-# Errors: 0, Warnings: 2
-# vsim work.spi_controller 
-# Start time: 17:08:06 on Aug 17,2016
+vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 15:21:40 on Aug 19,2016
+# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v 
+# -- Compiling module spi_controller_testbench
+# 
+# Top level modules:
+# 	spi_controller_testbench
+# End time: 15:21:40 on Aug 19,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 15:21:40 on Aug 19,2016
+# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v 
+# -- Compiling module spi_interface
+# 
+# Top level modules:
+# 	spi_interface
+# End time: 15:21:40 on Aug 19,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 15:21:43 on Aug 19,2016
+# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v 
+# -- Compiling module spi_controller
+# 
+# Top level modules:
+# 	spi_controller
+# End time: 15:21:43 on Aug 19,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 15:21:43 on Aug 19,2016
+# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v 
+# -- Compiling module spi_controller_testbench
+# 
+# Top level modules:
+# 	spi_controller_testbench
+# End time: 15:21:43 on Aug 19,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 15:21:43 on Aug 19,2016
+# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v 
+# -- Compiling module spi_interface
+# 
+# Top level modules:
+# 	spi_interface
+# End time: 15:21:43 on Aug 19,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+restart -f
+# Loading work.spi_controller_testbench
 # Loading work.spi_controller
 # Loading work.spi_interface
-force -deposit /spi_controller/reset 1 0, 0 {30 ns}
-force -deposit /spi_controller/sys_clk 1 0, 0 {10 ns} -repeat 20 ns
-add wave -position insertpoint  \
-sim:/spi_controller/sclk
-add wave -position insertpoint  \
-sim:/spi_controller/sdio
-add wave -position insertpoint  \
-sim:/spi_controller/csb
-add wave -position insertpoint  \
-sim:/spi_controller/data_out_shifter
-add wave -position insertpoint  \
-sim:/spi_controller/data_out
-add wave -position insertpoint  \
-sim:/spi_controller/reset
 run
 # ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
-run
-run
-run
-run
+#                    0 << Starting the Simulation >>
 run
 run
 run
 run
 vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v
 # Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 17:11:34 on Aug 17,2016
+# Start time: 15:29:50 on Aug 19,2016
 # vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v 
 # -- Compiling module spi_controller
 # 
 # Top level modules:
 # 	spi_controller
-# End time: 17:11:34 on Aug 17,2016, Elapsed time: 0:00:00
+# End time: 15:29:50 on Aug 19,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 15:29:50 on Aug 19,2016
+# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v 
+# -- Compiling module spi_controller_testbench
+# 
+# Top level modules:
+# 	spi_controller_testbench
+# End time: 15:29:51 on Aug 19,2016, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 0
 vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v
 # Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 17:11:34 on Aug 17,2016
+# Start time: 15:29:51 on Aug 19,2016
 # vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v 
 # -- Compiling module spi_interface
 # 
 # Top level modules:
 # 	spi_interface
-# End time: 17:11:34 on Aug 17,2016, Elapsed time: 0:00:00
+# End time: 15:29:51 on Aug 19,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-vsim my_lib.spi_controller
-# End time: 17:11:44 on Aug 17,2016, Elapsed time: 0:03:38
-# Errors: 0, Warnings: 1
-# vsim my_lib.spi_controller 
-# Start time: 17:11:44 on Aug 17,2016
-# Loading my_lib.spi_controller
-# Loading my_lib.spi_interface
-add wave -position insertpoint  \
-sim:/spi_controller/sdio
-add wave -position insertpoint  \
-sim:/spi_controller/sclk
-add wave -position insertpoint  \
-sim:/spi_controller/csb
-force -deposit /spi_controller/sys_clk 1 0, 0 {10 ns} -repeat 20 ns
-force -deposit /spi_controller/reset 1 0, 0 {30 ns}
+restart -f
+# Loading work.spi_controller_testbench
+# Loading work.spi_controller
+# Loading work.spi_interface
 run
 # ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
+#                    0 << Starting the Simulation >>
+vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 16:08:56 on Aug 19,2016
+# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller.v 
+# -- Compiling module spi_controller
+# 
+# Top level modules:
+# 	spi_controller
+# End time: 16:08:56 on Aug 19,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 16:08:56 on Aug 19,2016
+# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_controller_testbench.v 
+# -- Compiling module spi_controller_testbench
+# 
+# Top level modules:
+# 	spi_controller_testbench
+# End time: 16:08:56 on Aug 19,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 16:08:56 on Aug 19,2016
+# vlog -reportprogress 300 -work work /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/src/spi_interface.v 
+# -- Compiling module spi_interface
+# 
+# Top level modules:
+# 	spi_interface
+# End time: 16:08:56 on Aug 19,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+restart -f
+# Loading work.spi_controller_testbench
+# Loading work.spi_controller
+# Loading work.spi_interface
 run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-# End time: 17:50:28 on Aug 17,2016, Elapsed time: 0:38:44
-# Errors: 0, Warnings: 1
+# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
+#                    0 << Starting the Simulation >>
+# Break key hit
+# End time: 16:54:34 on Aug 19,2016, Elapsed time: 1:37:36
+# Errors: 0, Warnings: 5

@@ -28,7 +28,7 @@ reg is_writing;
 reg sdio_int;
 
 assign sdio = is_writing ? sdio_int : 1'bz;
-assign sclk = clk & busy;
+assign sclk = clk | ~busy;
 always @(posedge clk or posedge reset) begin
   if (reset) begin
     busy <= 0;
@@ -51,8 +51,8 @@ always @(posedge clk or posedge reset) begin
     else begin
       if (cycle_counter < write_bits) begin  // writing
         is_writing <= 1;
-        sdio_int <= data_out_shifter[0];
-        data_out_shifter[31:0] <= {1'b0, data_out_shifter[31:1]};
+        sdio_int <= data_out_shifter[31];
+        data_out_shifter[31:0] <= {data_out_shifter[30:0], 1'b0};
         cycle_counter <= cycle_counter + 1;
         csb <= 0;
       end
