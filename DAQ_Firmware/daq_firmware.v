@@ -36,7 +36,8 @@ module daq_firmware(
   output wire sclk,
   inout  wire sdio,
   output wire supdac_csb,
-  output wire rngdac_csb
+  output wire rngdac_csb,
+  output wire [7:0] adc_csb
   );
 
 // Target interface bus:
@@ -50,8 +51,9 @@ wire fifowrite;
 wire fiforead;
 wire [15:0] datain;
 wire [15:0] dataout;
-wire [15:0] wireout;
+wire [31:0] wireout;
 
+wire soft_reset = wireout[0];
 
 // Memory Interface
 wire mem_aux_full_rate_clk;
@@ -111,24 +113,44 @@ ram_controller ram_controller_inst (
   .soft_reset_n             (1'b1)
 );
 
-wire request_write;
-wire request_read;
+wire command_buffer_request_read;
+wire command_buffer_request_write;
+wire readback_buffer_request_read;
+wire readback_buffer_request_write;
 
 wire [31:0] data_in;
 wire [31:0] data_out;
 
 
 // 32 bit wide 1024 depth fifo
-fifo32  fifo32_inst (
-  .clock ( okClk ),
-  .data ( data_in ),
-  .rdreq ( request_read ),
-  .wrreq ( request_write ),
-  .empty ( ),
-  .full ( ),
-  .q ( data_out ),
-  .usedw ( )
-);
+testfifo	command_buffer (
+	.aclr ( reset ),
+	.data ( data_in ),
+	.rdclk ( sys_clk ),
+	.rdreq ( command_buffer_request_read ),
+	.wrclk ( okClk ),
+	.wrreq ( command_buffer_request_write ),
+	.q ( q_sig ),
+	.rdempty (  ),
+	.rdusedw (  ),
+	.wrfull (  ),
+	.wrusedw (  )
+	);
+
+// 32 bit wide 1024 depth fifo
+testfifo	readback_buffer (
+	.aclr ( reset ),
+	.data ( data_sig ),
+	.rdclk ( okClk ),
+	.rdreq ( readback_buffer_request_read ),
+	.wrclk ( sys_clk ),
+	.wrreq ( readback_buffer_request_write ),
+	.q ( data_out ),
+	.rdempty (  ),
+	.rdusedw (  ),
+	.wrfull (  ),
+	.wrusedw (  )
+	);
 
 reg [31:0] led_data;
 wire regWrite;
@@ -151,10 +173,20 @@ rj45_led_controller led_controller(
 
 spi_controller spi_controller_inst(
   .sys_clk ( sys_clk ),
+  .reset ( soft_reset ),
+  .dac_request_write ( dac_request_write ),
+  .dac_address ( dac_address ),
+  .dac_value ( dac_value ),
+  .adc_request_write ( adc_request_write ),
+  .adc_request_read ( adc_request_read ),
+  .adc_address ( adc_address ),
+  .adc_value ( adc_value ),
+  .adc_value_readback ( adc_value_readback ),
+  .busy ( busy ),
   .sclk ( sclk ),
   .sdio ( sdio ),
-  .csb ( supdac_csb ),
-  .reset ( )
+  .adc_csb ( adc_csb ),
+  .dac_csb ( {supdac_csb, rngdac_csb} ),
 );
 
 // FrontPanel module instantiations
@@ -177,6 +209,13 @@ okWireIn wire10(
   .ep_dataout(wireout)
 );
 
+okTriggerOut trigOut0A(
+  .okHE(okHE),
+  .ep_addr(8'h0A),
+  .ep_clk(sys_clk),
+  .ep_trigger(data_ready)
+);
+
 okPipeIn pipe80(
   .okHE(okHE),
   .okEH(okEHx[0*65 +: 65]),
@@ -189,7 +228,7 @@ okPipeOut pipeA0(
   .okHE(okHE),
   .okEH(okEHx[1*65 +: 65]),
   .ep_addr(8'hA0),
-  .ep_read(request_read),
+  .ep_read( readback_buffer_request_read ),
   .ep_datain(data_out)
 );
 

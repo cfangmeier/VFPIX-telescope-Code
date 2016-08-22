@@ -2,24 +2,24 @@
 #Path, Setup Margin, Hold Margin
 "Address Command (Slow 1200mV 85C Model)",4.015,1.740
 "DQS vs CK (Slow 1200mV 85C Model)",1.452,1.527
-"Mimic (Slow 1200mV 85C Model)",0.574,
-"Phy (Slow 1200mV 85C Model)",0.574,0.349
-"Phy Reset (Slow 1200mV 85C Model)",3.238,1.139
-"Read Capture (Slow 1200mV 85C Model)",0.516,0.531
+"Mimic (Slow 1200mV 85C Model)",0.575,
+"Phy (Slow 1200mV 85C Model)",0.575,0.406
+"Phy Reset (Slow 1200mV 85C Model)",3.923,1.349
+"Read Capture (Slow 1200mV 85C Model)",0.514,0.529
 "Write (Slow 1200mV 85C Model)",0.623,0.857
  
 "Address Command (Slow 1200mV 0C Model)",4.175,1.686
 "DQS vs CK (Slow 1200mV 0C Model)",1.489,1.551
-"Mimic (Slow 1200mV 0C Model)",0.545,
-"Phy (Slow 1200mV 0C Model)",0.545,0.326
-"Phy Reset (Slow 1200mV 0C Model)",3.533,1.043
-"Read Capture (Slow 1200mV 0C Model)",0.471,0.486
+"Mimic (Slow 1200mV 0C Model)",0.546,
+"Phy (Slow 1200mV 0C Model)",0.546,0.392
+"Phy Reset (Slow 1200mV 0C Model)",4.271,1.208
+"Read Capture (Slow 1200mV 0C Model)",0.470,0.485
 "Write (Slow 1200mV 0C Model)",0.631,0.879
  
 "Address Command (Fast 1200mV 0C Model)",4.561,1.554
 "DQS vs CK (Fast 1200mV 0C Model)",1.626,1.633
 "Mimic (Fast 1200mV 0C Model)",1.549,
-"Phy (Fast 1200mV 0C Model)",1.549,0.103
-"Phy Reset (Fast 1200mV 0C Model)",5.552,0.484
-"Read Capture (Fast 1200mV 0C Model)",0.777,0.782
+"Phy (Fast 1200mV 0C Model)",1.549,0.137
+"Phy Reset (Fast 1200mV 0C Model)",5.798,0.554
+"Read Capture (Fast 1200mV 0C Model)",0.780,0.785
 "Write (Fast 1200mV 0C Model)",0.742,1.000
