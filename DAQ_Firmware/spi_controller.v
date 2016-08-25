@@ -15,21 +15,21 @@ module spi_controller(
 
   input  wire        dac_request_write,
   input  wire [4:0]  dac_address,
-  input  wire [11:0] dac_value,
+  input  wire [11:0] dac_data,
 
   input  wire        adc_request_write,
   input  wire        adc_request_read,
   input  wire [15:0] adc_address,
-  input  wire [7:0]  adc_value,
-  output wire [7:0]  adc_value_readback,
+  input  wire [7:0]  adc_data,
+  output wire [7:0]  adc_data_readback,
 
   output wire        busy,
 
   output wire        sclk,
   inout  wire        sdio,
 
-  output wire [7:0] adc_csb;
-  output wire [1:0] dac_csb;
+  output wire [7:0] adc_csb,
+  output wire [1:0] dac_csb
   );
 
 
@@ -53,8 +53,8 @@ reg [31:0] data_out;
 reg request_action;
 reg [5:0] read_bits;
 reg [5:0] write_bits;
-wire [31:0] value_readback;
-assign adc_value_readback[7:0] = value_readback[7:0];
+wire [31:0] data_readback;
+assign adc_data_readback[7:0] = data_readback[7:0];
 
 reg [2:0] adc_select;
 wire csb;
@@ -79,7 +79,7 @@ always @(posedge clk or posedge reset) begin
   end
   else begin
     if ( !busy & dac_request_write ) begin
-      data_out[19:8] <= dac_value[11:0];
+      data_out[19:8] <= dac_data[11:0];
       data_out[23:20] <= dac_address[3:0];
       data_out[27:24] <= 4'b0011;
       read_bits <= 6'h00;
@@ -92,7 +92,7 @@ always @(posedge clk or posedge reset) begin
       data_out[31] <= 0; // r/wb
       data_out[30:29] <= 2'h0; // w1,w0
       data_out[28:16] <= adc_address[12:0]; // A12:A0
-      data_out[15:8] <= adc_value[7:0]; // D7:D0
+      data_out[15:8] <= adc_data[7:0]; // D7:D0
       read_bits <= 6'd00;
       write_bits <= 6'd24;
       request_action <= 1;
@@ -118,7 +118,7 @@ end
 spi_interface spi_interface_inst(
   .clk ( clk ),
   .reset ( reset ),
-  .data_in ( value_readback ),
+  .data_in ( data_readback ),
   .data_out ( data_out ),
   .read_bits ( read_bits ),
   .write_bits ( write_bits ),
