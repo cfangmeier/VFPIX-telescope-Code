@@ -37,3 +37,6 @@ simulation/
 timing/
 testbench/
 *_sim/
+qmegawiz_errors_log.txt
+.cnxerr
+

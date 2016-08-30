@@ -1,4 +1,4 @@
-testfifo	testfifo_inst (
+fifo32_clock_crossing	fifo32_clock_crossing_inst (
 	.aclr ( aclr_sig ),
 	.data ( data_sig ),
 	.rdclk ( rdclk_sig ),
@@ -7,7 +7,5 @@ testfifo	testfifo_inst (
 	.wrreq ( wrreq_sig ),
 	.q ( q_sig ),
 	.rdempty ( rdempty_sig ),
-	.rdusedw ( rdusedw_sig ),
-	.wrfull ( wrfull_sig ),
-	.wrusedw ( wrusedw_sig )
+	.wrfull ( wrfull_sig )
 	);

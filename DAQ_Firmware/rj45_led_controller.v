@@ -48,7 +48,8 @@ module rj45_led_controller(
 //
 // REGISTERS
 //
-reg [1:0] clk_div;
+reg [1:0] clk_div1;
+reg [1:0] clk_div2;
 reg clk_veto;
 reg [15:0] led_value_shift;
 reg [4:0] write_counter;
@@ -57,52 +58,53 @@ reg latch;
 //
 // ASSIGNMENTS
 //
-assign rj45_led_sck = clk & !clk_veto;
+assign rj45_led_sck = clk_div1[1] & !clk_veto;
 assign rj45_led_sin = led_value_shift[15];
 assign rj45_led_lat = latch;
 assign rj45_led_blk = 0;
 
 always @(posedge clk or posedge reset) begin
   if ( reset ) begin
-    clk_div <= 2'b11;
+    clk_div1 <= 2'b00;
+    clk_div2 <= 2'b00;
     clk_veto <= 0;
     led_value_shift <= 16'h0000;
     write_counter <= 5'h00;
     latch <= 0;
   end
   else begin
-    clk_div <= clk_div+1;
-  end
-end
-
-always @(negedge clk_div[1]) begin
-  if (write_counter < 5'h11) begin
-      write_counter <= write_counter + 1;
-  end
-  if (write_counter == 5'h11) begin
-    if (led_vals_i != led_vals_o) begin
-      led_vals_o <= led_vals_i;
-      write_counter <= 5'h00;
-      led_value_shift <= { 1'b0, led_vals_i[0],
-                           1'b0, led_vals_i[1],
-                           1'b0, led_vals_i[2],
-                           1'b0, led_vals_i[3],
-                           1'b0, led_vals_i[4],
-                           1'b0, led_vals_i[5],
-                           1'b0, led_vals_i[6],
-                           1'b0, led_vals_i[7]};
+    clk_div1 <= clk_div1+1;
+    clk_div2 <= clk_div1;
+    if ( clk_div1[1] & ~clk_div2[1] ) begin  // posedge clk_div1
+      if (write_counter < 5'h11) begin
+          write_counter <= write_counter + 1;
+      end
+      if (write_counter == 5'h11) begin
+        if (led_vals_i != led_vals_o) begin
+          led_vals_o <= led_vals_i;
+          write_counter <= 5'h00;
+          led_value_shift <= { 1'b0, led_vals_i[0],
+                               1'b0, led_vals_i[1],
+                               1'b0, led_vals_i[2],
+                               1'b0, led_vals_i[3],
+                               1'b0, led_vals_i[4],
+                               1'b0, led_vals_i[5],
+                               1'b0, led_vals_i[6],
+                               1'b0, led_vals_i[7]};
+        end
+      end
+      else if (write_counter < 5'h0F) begin
+        led_value_shift <= {led_value_shift[14:0], 1'b0};
+      end
+      else if (write_counter == 5'h0F) begin
+        latch <= 1;
+        clk_veto <= 1;
+      end
+      else if (write_counter == 5'h10) begin
+        latch <= 0;
+        clk_veto <= 0;
+      end
     end
-  end
-  if (write_counter < 5'h0F) begin
-    led_value_shift <= {led_value_shift[14:0], 1'b0};
-  end
-  else if (write_counter == 5'h0F) begin
-    latch <= 1;
-    clk_veto <= 1;
-  end
-  else if (write_counter == 5'h10) begin
-    latch <= 0;
-    clk_veto <= 0;
   end
 end
 

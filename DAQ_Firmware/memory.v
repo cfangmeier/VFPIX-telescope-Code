@@ -18,7 +18,7 @@ module memory(
   inout  wire [  1: 0]       mem_dqs,
   output wire [  0: 0]       mem_odt,
   output wire                mem_ras_n,
-  output wire                mem_we_n,
+  output wire                mem_we_n
 );
 
 // Memory Interface
@@ -78,3 +78,4 @@ ram_controller ram_controller_inst (
   .reset_request_n          (local_pll_locked),
   .soft_reset_n             (1'b1)
 );
+endmodule

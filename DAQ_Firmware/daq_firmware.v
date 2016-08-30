@@ -50,6 +50,7 @@ module daq_firmware(
   output wire                mem_ras_n,
   output wire                mem_we_n,
 
+  output wire [7:0]          rj45_led_data,
   output wire                rj45_led_sck,
   output wire                rj45_led_sin,
   output wire                rj45_led_lat,
@@ -69,20 +70,6 @@ module daq_firmware(
   input   wire [7:0]  adc_dat_c,
   input   wire [7:0]  adc_dat_d
   );
-
-`include "instruction_set.vh"
-`include "register_space.vh"
-
-//
-// PARAMETERS
-//
-// State Listing
-parameter IDLE          = 3'h0;
-parameter READ_COMMAND  = 3'h1;
-parameter PROC_COMMAND  = 3'h2;
-parameter READ_DATA     = 3'h3;
-parameter PUSH_DATA     = 3'h4;
-parameter WAIT_COMPLETE = 3'h5;
 
 
 //
@@ -123,144 +110,83 @@ wire readback_buffer_q;
 wire readback_buffer_full;
 wire readback_buffer_read;
 
-wire int_reg_data;
-wire int_reg_addr;
-wire int_reg_write;
 
 wire dac_request_write;
-wire dac_address;
-wire dac_data;
+wire [4:0] dac_address;
+wire [11:0] dac_data;
 
 wire adc_request_write;
 wire adc_request_read;
-wire adc_address;
-wire adc_data;
+wire [15:0] adc_address;
+wire [7:0] adc_data;
+wire [7:0] adc_data_readback;
 
 wire spi_busy;
 
+wire instr;
+wire instr_ready;
+wire instr_empty;
+wire instr_ack;
+wire instr_request_write;
 //
 // REGISTERS
 //
-reg [2:0] state;
-wire [31:0] command;
-
-
+reg [31:0] pipe_out_buf;
 
 //
 // ASSIGNMENTS
 //
 assign reset = wireout[0];
+assign instr_ready = ~instr_empty;
 
-//
-// SYNCHRONOUS
-//
-always @(posedge sys_clk or posedge reset) begin
-  if ( !reset ) begin
-    state <= IDLE;
-  end
-  else begin
-    state <= state_next;
-  end
-end
 
-always_comb
-//
-// ASYNCHRONOUS
-//
-always @(state or
-         command) begin
-  //Default states
-  state_next = state;
-  command_request_read = 0;
-  int_reg_write = 0;
-  case (state)
-    IDLE: begin
-      if ( !command_available_n) begin
-        state_next = READ_COMMAND;
-        command_request_read = 1;
-      end
-    end
-    READ_COMMAND: begin
-      command_request_read = 1;
-      state_next = PROC_COMMAND;
-    end
-    PROC_COMMAND: begin
-      case (command[31:27])
-        NOOP: begin
-          state_next = IDLE;
-        end
-        WRITE_REG: begin
-          case (command[26:25])
-            //SEL_ADC:
-              // TODO: Write to ADC
-            //SEL_DAC:
-              // TODO: Write to DAC
-            SEL_INT: begin
-              int_reg_addr = command[24:20];
-              int_reg_data = command[19:4];
-              int_reg_write = 1;
-              next_state = IDLE;
-            end
-          endcase
-
-        end
-        READ_REG: begin
-          case (command[26:25])
-            //SEL_ADC:
-              // TODO: Read from ADC
-            //SEL_DAC:
-              // TODO: Read from DAC
-            SEL_INT: begin
-              int_reg_addr = command[24:20];
-              readback_buffer_data = int_reg_data;
-              if ( !readback_buffer_full ) begin
-                readback_buffer_write = 1;
-                next_state = IDLE;
-              end
-            end
-          endcase
-        end
-        WRITE_RAM: begin
-
-        end
-        READ_RAM: begin
-
-        end
-      endcase
-    end
-    READ_DATA: begin
-
-    end
-    PUSH_DATA: begin
-
-    end
-    WAIT_COMPLETE: begin
-
-    end
-  endcase
+always @(posedge okClk) begin
+  pipe_out_buf <= readback_buffer_q;
 end
 
 //
 // INSTANTIATIONS
 //
 
-// 32 bit wide 1024 depth fifo
-testfifo  instructionbuffer (
-  .aclr ( reset ),
-  .data ( data_in ),
-  .rdclk ( sys_clk ),
-  .rdreq ( command_request_read ),
-  .wrclk ( okClk ),
-  .wrreq ( command_request_write ),
-  .q ( command ),
-  .rdempty ( command_available_n ),
-  .rdusedw (  ),
-  .wrfull (  ),
-  .wrusedw (  )
+// High-Level Control Unit
+control_unit control_unit_inst (
+  .clk ( sys_clk ),
+  .reset ( reset ),
+
+  .instr_ready ( instr_ready ),
+  .instr_ack ( instr_ack ),
+  .instr_in ( instr ),
+
+  .dac_request_write ( dac_request_write ),
+  .dac_address ( dac_address ),
+  .dac_data ( dac_data ),
+
+  .adc_request_write ( adc_request_write ),
+  .adc_request_read ( adc_request_read ),
+  .adc_address ( adc_address ),
+  .adc_data ( adc_data ),
+  .adc_data_readback ( adc_data_readback ),
+
+  .spi_busy ( spi_busy )
+
+
 );
 
 // 32 bit wide 1024 depth fifo
-testfifo  readback_buffer (
+fifo32_clock_crossing  instructionbuffer (
+  .aclr ( reset ),
+  .data ( data_in ),
+  .rdclk ( sys_clk ),
+  .rdreq ( instr_ack ),
+  .wrclk ( okClk ),
+  .wrreq ( instr_request_write ),
+  .q ( instr ),
+  .rdempty ( instr_empty ),
+  .wrfull (  ),
+);
+
+// 32 bit wide 1024 depth fifo
+fifo32_clock_crossing  readback_buffer (
   .aclr ( reset ),
   .data ( readback_buffer_data ),
   .rdclk ( okClk ),
@@ -269,23 +195,12 @@ testfifo  readback_buffer (
   .wrreq ( readback_buffer_write ),
   .q ( readback_buffer_q ),
   .rdempty (  ),
-  .rdusedw (  ),
   .wrfull ( readback_buffer_full ),
-  .wrusedw (  )
 );
-
-internal_registers internal_registers_inst(
-  .clk( sys_clk ),
-  .data( int_reg_data ),
-  .addr( int_reg_addr ),
-  .write( int_reg_write ),
-  .reset( reset )
-);
-
 
 rj45_led_controller rj45_led_controller_inst(
-  .sys_clk ( sys_clk ),
-  .led_vals_i ( led_data[7:0] ),
+  .clk ( sys_clk ),
+  .led_vals_i ( rj45_led_data[7:0] ),
   .led_vals_o (  ),
   .rj45_led_sck ( rj45_led_sck ),
   .rj45_led_sin ( rj45_led_sin ),
@@ -367,7 +282,7 @@ okPipeOut pipeA0(
   .okEH(okEHx[1*65 +: 65]),
   .ep_addr(8'hA0),
   .ep_read( readback_buffer_read ),
-  .ep_datain( readback_buffer_q )
+  .ep_datain( pipe_out_buf )
 );
 
 okRegisterBridge regBridge (
