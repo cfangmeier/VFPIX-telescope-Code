@@ -1,0 +1,8 @@
+/home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/control_unit_testbench.v {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/control_unit_testbench.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module control_unit_testbench
+
+Top level modules:
+	control_unit_testbench
+
+} {} {}}

@@ -17,8 +17,7 @@
 //-------------------------------------------------------------------------
 // Title       : control_unit
 // Author      : Caleb Fangmeier
-// Description : This is the top-level design file for the telescope
-//               firmware
+// Description : This is the control unit for the the firmware.
 //
 // $Id$
 //-------------------------------------------------------------------------
@@ -33,6 +32,10 @@ module control_unit(
   output reg          instr_ack,
   input  wire [31:0]  instr_in,
 
+  input  wire         readback_ready,
+  output reg          readback_write,
+  output reg  [31:0]  readback_data,
+
   output wire         dac_request_write,
   output wire [4:0]   dac_address,
   output wire [11:0]  dac_data,
@@ -43,7 +46,11 @@ module control_unit(
   output wire [7:0]   adc_data,
   input  wire [7:0]   adc_data_readback,
 
-  input wire          spi_busy
+  input wire          spi_busy,
+
+  // Debug outputs
+  output wire [2:0]   cu_state,
+  output wire [4:0]   cu_instr
   );
 
 `include "instruction_set.vh"
@@ -77,7 +84,8 @@ reg [15:0] regs[15:0];
 //
 // ASSIGNMENTS
 //
-
+assign cu_state = state;
+assign cu_instr = instr[31:27];
 //
 // SYNCHRONOUS
 //
@@ -88,6 +96,8 @@ always @(posedge clk or posedge reset) begin
   else begin
     //Default states
     instr_ack <= 0;
+    readback_write <= 0;
+    readback_data <= 32'b0;
 
     if ( state == IDLE) begin
         if ( instr_ready ) begin
@@ -147,6 +157,8 @@ always @(posedge clk or posedge reset) begin
                 end
                 SEL_INT: begin
                   // TODO: Read Internal registers
+                    readback_write <= 1;
+                    readback_data <= {16'h0, regs[instr[24:21]]};
                     state <= IDLE;
                 end
                 default: begin

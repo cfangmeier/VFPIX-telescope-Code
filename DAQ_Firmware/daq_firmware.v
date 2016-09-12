@@ -17,7 +17,6 @@
 //-------------------------------------------------------------------------
 // Title       : daq_firmware
 // Author      : Caleb Fangmeier
-// Created     : Aug. 24, 2016
 // Description : This is the top-level design file for the telescope
 //               firmware
 //
@@ -32,9 +31,10 @@ module daq_firmware(
   inout  wire [31:0]  okUHU,
   inout  wire         okAA,
 
-  input  wire         sys_clk,  // 50 MHz
+  input  wire         sys_clk_ext,  // 50 MHz
 
   output wire [1:0]   led,
+  output wire [1:0]   led_ext,
 
   output wire [ 12: 0]       mem_addr,
   output wire [  2: 0]       mem_ba,
@@ -81,29 +81,14 @@ wire [112:0] okHE;
 wire [64:0]  okEH;
 
 // Circuit wires
-wire fifowrite;
-wire fiforead;
-wire [15:0] datain;
-wire [15:0] dataout;
-wire [31:0] wireout;
+wire [31:0] wirein;
+wire [63:0] debug_wireout;
 
 wire reset;
-
-wire readback_request_read;
-wire command_request_write;
 
 wire [31:0] data_in;
 wire [31:0] data_out;
 
-wire regWrite;
-wire [31:0] regDataOut;
-
-wire command_available_n;
-
-wire sys_clk_n;
-wire [2:0] state_next;
-
-wire command_request_read;
 wire readback_buffer_write;
 wire readback_buffer_data;
 wire readback_buffer_q;
@@ -123,11 +108,19 @@ wire [7:0] adc_data_readback;
 
 wire spi_busy;
 
-wire instr;
-wire instr_ready;
+wire [31:0] instr;
 wire instr_empty;
 wire instr_ack;
-wire instr_request_write;
+wire instr_write;
+
+wire sys_clk;
+wire debug_enable;
+wire single_step_enable;
+wire [7:0] debug_clock_counter;
+
+wire [2:0] cu_state;
+wire [4:0] cu_instr;
+
 //
 // REGISTERS
 //
@@ -136,9 +129,18 @@ reg [31:0] pipe_out_buf;
 //
 // ASSIGNMENTS
 //
-assign reset = wireout[0];
-assign instr_ready = ~instr_empty;
+assign reset = wirein[0];
+assign debug_enable = wirein[1];
+assign single_step_enable = wirein[2];
+assign led = ~wirein[4:3];
+assign led_ext = wirein[6:5];
 
+assign debug_wireout[0] = instr_empty;
+assign debug_wireout[1] = instr_ack;
+assign debug_wireout[4:2] = cu_state;
+assign debug_wireout[9:5] = cu_instr;
+assign debug_wireout[31:10] = 22'h0;
+assign debug_wireout[63:32] = instr;
 
 always @(posedge okClk) begin
   pipe_out_buf <= readback_buffer_q;
@@ -153,9 +155,13 @@ control_unit control_unit_inst (
   .clk ( sys_clk ),
   .reset ( reset ),
 
-  .instr_ready ( instr_ready ),
+  .instr_ready ( ~instr_empty ),
   .instr_ack ( instr_ack ),
   .instr_in ( instr ),
+
+  .readback_ready ( ~readback_buffer_full ),
+  .readback_write ( readback_buffer_write ),
+  .readback_data ( readback_buffer_data ),
 
   .dac_request_write ( dac_request_write ),
   .dac_address ( dac_address ),
@@ -167,25 +173,34 @@ control_unit control_unit_inst (
   .adc_data ( adc_data ),
   .adc_data_readback ( adc_data_readback ),
 
-  .spi_busy ( spi_busy )
-
-
+  .spi_busy ( spi_busy ),
+  .cu_state ( cu_state ),
+  .cu_instr ( cu_instr )
 );
 
-// 32 bit wide 1024 depth fifo
+debug_unit debug_unit_inst (
+  .sys_clk_ext ( sys_clk_ext ),
+  .reset ( reset ),
+  .sys_clk ( sys_clk ),
+  .debug_enable ( debug_enable ),
+  .single_step ( single_step_enable ),
+  .clock_counter ( debug_clock_counter )
+);
+
+// 32 bit wide 1024 depth read-ahead fifo
 fifo32_clock_crossing  instructionbuffer (
   .aclr ( reset ),
   .data ( data_in ),
   .rdclk ( sys_clk ),
   .rdreq ( instr_ack ),
   .wrclk ( okClk ),
-  .wrreq ( instr_request_write ),
+  .wrreq ( instr_write ),
   .q ( instr ),
   .rdempty ( instr_empty ),
-  .wrfull (  ),
+  .wrfull (  )
 );
 
-// 32 bit wide 1024 depth fifo
+// 32 bit wide 1024 depth read-ahead fifo
 fifo32_clock_crossing  readback_buffer (
   .aclr ( reset ),
   .data ( readback_buffer_data ),
@@ -195,7 +210,7 @@ fifo32_clock_crossing  readback_buffer (
   .wrreq ( readback_buffer_write ),
   .q ( readback_buffer_q ),
   .rdempty (  ),
-  .wrfull ( readback_buffer_full ),
+  .wrfull ( readback_buffer_full )
 );
 
 rj45_led_controller rj45_led_controller_inst(
@@ -222,28 +237,11 @@ spi_controller spi_controller_inst(
   .sclk ( sclk ),
   .sdio ( sdio ),
   .adc_csb ( adc_csb ),
-  .dac_csb ( {supdac_csb, rngdac_csb} ),
-);
-
-memory memory_inst(
-  .sys_clk(sys_clk),
-  .mem_addr(mem_addr),
-  .mem_ba(mem_ba),
-  .mem_cas_n(mem_cas_n),
-  .mem_cke(mem_cke),
-  .mem_clk(mem_clk),
-  .mem_clk_n(mem_clk_n),
-  .mem_cs_n(mem_cs_n),
-  .mem_dm(mem_dm),
-  .mem_dq(mem_dq),
-  .mem_dqs(mem_dqs),
-  .mem_odt(mem_odt),
-  .mem_ras_n(mem_ras_n),
-  .mem_we_n(mem_we_n)
+  .dac_csb ( {supdac_csb, rngdac_csb} )
 );
 
 // FrontPanel module instantiations
-wire [65*3-1:0]  okEHx;
+wire [65*6-1:0]  okEHx;
 okHost okHI(
   .okUH(okUH),
   .okHU(okHU),
@@ -253,27 +251,21 @@ okHost okHI(
   .okHE(okHE),
   .okEH(okEH)
 );
-okWireOR # (.N(3)) wireOR (okEH, okEHx);
+okWireOR # (.N(6)) wireOR (okEH, okEHx);
 
 
 okWireIn wire10(
   .okHE(okHE),
   .ep_addr(8'h10),
-  .ep_dataout(wireout)
+  .ep_dataout(wirein)
 );
 
-okTriggerOut trigOut0A(
-  .okHE(okHE),
-  .ep_addr(8'h0A),
-  .ep_clk(sys_clk),
-  .ep_trigger()
-);
 
 okPipeIn pipe80(
   .okHE(okHE),
   .okEH(okEHx[0*65 +: 65]),
   .ep_addr(8'h80),
-  .ep_write(command_request_write),
+  .ep_write(instr_write),
   .ep_dataout(data_in)
 );
 
@@ -285,14 +277,32 @@ okPipeOut pipeA0(
   .ep_datain( pipe_out_buf )
 );
 
-okRegisterBridge regBridge (
+okWireOut debug_out20(
   .okHE(okHE),
   .okEH(okEHx[2*65 +: 65]),
-  .ep_write(regWrite),
-  .ep_read(),
-  .ep_address(),
-  .ep_dataout(regDataOut),
-  .ep_datain()
+  .ep_addr(8'h20),
+  .ep_datain(debug_wireout[15:0])
+);
+
+okWireOut debug_out21(
+  .okHE(okHE),
+  .okEH(okEHx[3*65 +: 65]),
+  .ep_addr(8'h21),
+  .ep_datain(debug_wireout[31:16])
+);
+
+okWireOut debug_out22(
+  .okHE(okHE),
+  .okEH(okEHx[4*65 +: 65]),
+  .ep_addr(8'h22),
+  .ep_datain(debug_wireout[47:32])
+);
+
+okWireOut debug_out23(
+  .okHE(okHE),
+  .okEH(okEHx[5*65 +: 65]),
+  .ep_addr(8'h23),
+  .ep_datain(debug_wireout[63:48])
 );
 
 endmodule

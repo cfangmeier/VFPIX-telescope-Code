@@ -29,17 +29,17 @@ parameter NOOP          = 5'h00;
  * Input command stream.
  * FORMAT:
  * 0000 0XXX XXXX XXXX XXXX XXXX XXXX XXXX
- * LSB                                   MSB
+ * MSB                                   LSB
  */
 
 parameter WRITE_REG     = 5'h01;
 /* WRITE_REG
  * Write to register. Sets one of the internal registers.
  * FORMAT:
- * 0000 1AAA AAAA DDDD DDDD DDDD DDDD DDDD
- * LSB                                   MSB
- * A: 7-bit Register Address
- * D: 20-bit Register Data
+ * 0000 110A AAAD DDDD DDDD DDDD DDDX XXXX
+ * MSB                                   LSB
+ * A: 4-bit Register Address
+ * D: 16-bit Register Data
  */
 
 parameter READ_REG     = 5'h02;
@@ -47,9 +47,9 @@ parameter READ_REG     = 5'h02;
  * Read from register. Reads one of the internal registers, and places
  * its data into the readback buffer.
  * FORMAT:
- * 0001 0AAA AAAA XXXX XXXX XXXX XXXX XXXX
- * LSB                                   MSB
- * A: 7-bit Register Address
+ * 0001 010A AAAX XXXX XXXX XXXX XXXX XXXX
+ * MSB                                   LSB
+ * A: 4-bit Register Address
  */
 
 parameter WRITE_RAM = 5'h03;
@@ -58,7 +58,7 @@ parameter WRITE_RAM = 5'h03;
  * to RAM at the specified address.
  * FORMAT:
  * 0001 1AAA AAAA AAAA AAAA AAAA AAAA AAXX
- * LSB                                   MSB
+ * MSB                                   LSB
  * A: 25-bit RAM Address
  */
 
@@ -68,6 +68,6 @@ parameter READ_RAM = 5'h04;
  * address in RAM. Places the data into the readback buffer.
  * FORMAT:
  * 0010 0AAA AAAA AAAA AAAA AAAA AAAA AAXX
- * LSB                                   MSB
+ * MSB                                   LSB
  * A: 25-bit Register Address
  */
