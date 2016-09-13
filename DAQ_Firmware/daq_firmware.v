@@ -90,8 +90,8 @@ wire [31:0] data_in;
 wire [31:0] data_out;
 
 wire readback_buffer_write;
-wire readback_buffer_data;
-wire readback_buffer_q;
+wire [31:0] readback_buffer_data;
+wire [31:0] readback_buffer_q;
 wire readback_buffer_full;
 wire readback_buffer_read;
 
@@ -139,7 +139,11 @@ assign debug_wireout[0] = instr_empty;
 assign debug_wireout[1] = instr_ack;
 assign debug_wireout[4:2] = cu_state;
 assign debug_wireout[9:5] = cu_instr;
-assign debug_wireout[31:10] = 22'h0;
+assign debug_wireout[14:10] = dac_address;
+assign debug_wireout[25:15] = dac_data[10:0];
+assign debug_wireout[26] = dac_request_write;
+assign debug_wireout[27] = spi_busy;
+assign debug_wireout[31:28] = 4'h0;
 assign debug_wireout[63:32] = instr;
 
 always @(posedge okClk) begin

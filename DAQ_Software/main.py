@@ -6,11 +6,9 @@ from enum import IntEnum
 from Queue import deque
 import binascii
 import time
-import random
 
 import ok
-from utils import long_to_bytes
-from binascii import unhexlify
+from utils import bcolors
 
 
 class LED(IntEnum):
@@ -23,6 +21,7 @@ class LED(IntEnum):
 class WireState(IntEnum):
     ON = 0xFFFFFFFF
     OFF = 0x00000000
+
 
 class InstructionSet(IntEnum):
     NOOP = 0x00
@@ -40,8 +39,6 @@ class InstructionSet(IntEnum):
             bytes_.append(int(byte, 2))
         byte_array = bytearray(bytes_)
         byte_array.reverse()
-        # byte_array = bytearray(unhexlify('{:08X}'.format(instr)))
-        print(''.join(['{:02X}'.format(b) for b in byte_array]))
         return byte_array
 
     @staticmethod
@@ -67,11 +64,23 @@ class InstructionSet(IntEnum):
             D: 16-bit Register Data
         '''
         instruction = 0x0C000000
-        print('{:032b}'.format(instruction))
         instruction |= (reg_addr << 21)
-        print('{:032b}'.format(instruction))
         instruction |= (reg_data << 5)
-        print('{:032b}'.format(instruction))
+        return InstructionSet._to_bytearray(instruction)
+
+    @staticmethod
+    def write_dac_reg(reg_addr, reg_data):
+        '''
+        Write to register. Sets one of the internal registers.
+            FORMAT:
+            0000 101A AAAA XXXX DDDD DDDD DDDD XXXX
+            LSB                                   MSB
+            A: 5-bit Register Address
+            D: 12-bit Register Data
+        '''
+        instruction = 0x0A000000
+        instruction |= (reg_addr << 21)
+        instruction |= (reg_data << 4)
         return InstructionSet._to_bytearray(instruction)
 
     @staticmethod
@@ -98,7 +107,22 @@ class DAQBoard:
     DEBUG_LABELS = {
             0: 'instr_empty', 1: 'instr_ack',
             2: 'cu_state[0]', 3: 'cu_state[1]', 4: 'cu_state[2]',
-            5: 'cu_instr[0]', 6: 'cu_instr[1]', 7: 'cu_instr[2]', 8: 'cu_instr[3]', 9: 'cu_instr[4]',
+            5: 'cu_instr[0]', 6: 'cu_instr[1]', 7: 'cu_instr[2]',
+            8: 'cu_instr[3]', 9: 'cu_instr[4]',
+
+            10: 'dac_addr[0]', 11: 'dac_addr[1]', 12: 'dac_addr[2]',
+            13: 'dac_addr[3]', 14: 'dac_addr[4]',
+            15: 'dac_data[0]', 16: 'dac_data[1]', 17: 'dac_data[2]',
+            18: 'dac_data[3]', 19: 'dac_data[4]', 20: 'dac_data[5]',
+            21: 'dac_data[6]', 22: 'dac_data[7]', 23: 'dac_data[8]',
+            24: 'dac_data[9]', 25: 'dac_data[10]',
+            26: 'dac_request_write',
+            27: 'spi_busy',
+            # 10: 'rdbck[0]', 11: 'rdbck[1]', 12: 'rdbck[2]', 13: 'rdbck[3]',
+            # 14: 'rdbck[4]', 15: 'rdbck[5]', 16: 'rdbck[6]', 17: 'rdbck[7]',
+            # 18: 'rdbck[8]', 19: 'rdbck[9]', 20: 'rdbck[10]', 21: 'rdbck[11]',
+            # 22: 'rdbck[12]', 23: 'rdbck[13]', 24: 'rdbck[14]', 25: 'rdbck[15]',
+
             32: 'instr[0]', 33: 'instr[1]', 34: 'instr[2]', 35: 'instr[3]',
             36: 'instr[4]', 37: 'instr[5]', 38: 'instr[6]', 39: 'instr[7]',
             40: 'instr[8]', 41: 'instr[9]', 42: 'instr[10]', 43: 'instr[11]',
@@ -127,6 +151,26 @@ class DAQBoard:
     def __exit__(self, exc_type, exc_value, traceback):
         self.front_panel.Close()
 
+    def _set_wire_in_value(self, value, mask, update_now=True):
+        fp = self.front_panel
+        fp.SetWireInValue(self.INPUT_WIRE_ADDR, value, mask)
+        if update_now:
+            fp.UpdateWireIns()
+
+    def _get_wire_out_value(self, address):
+        fp = self.front_panel
+        fp.UpdateWireOuts()
+        return fp.GetWireOutValue(address)
+
+    def _get_debug_output(self):
+        fp = self.front_panel
+        fp.UpdateWireOuts()
+        values = []
+        for addr in self.DEBUG_OUTPUT_ADDRS:
+            single_value = self._get_wire_out_value(addr)
+            values.insert(0, '{:16b}'.format(single_value))
+        return ''.join(values)
+
     @staticmethod
     def enumerate_devices():
         front_panel = ok.okCFrontPanel()
@@ -149,32 +193,12 @@ class DAQBoard:
             print("Download Error: ", status)
         self.front_panel.ResetFPGA()
 
-    def set_wire_in_value(self, value, mask, update_now=True):
-        fp = self.front_panel
-        fp.SetWireInValue(self.INPUT_WIRE_ADDR, value, mask)
-        if update_now:
-            fp.UpdateWireIns()
-
-    def get_wire_out_value(self, address):
-        fp = self.front_panel
-        fp.UpdateWireOuts()
-        return fp.GetWireOutValue(address)
-
-    def get_debug_output(self):
-        fp = self.front_panel
-        fp.UpdateWireOuts()
-        values = []
-        for addr in self.DEBUG_OUTPUT_ADDRS:
-            single_value = self.get_wire_out_value(addr)
-            values.insert(0,'{:16b}'.format(single_value))
-        return ''.join(values)
-
     def soft_reset(self):
-        self.set_wire_in_value(WireState.ON, self.RESET)
-        self.set_wire_in_value(WireState.OFF, self.RESET)
+        self._set_wire_in_value(WireState.ON, self.RESET)
+        self._set_wire_in_value(WireState.OFF, self.RESET)
 
     def set_led(self, led, value=WireState.ON):
-        self.set_wire_in_value(value, led)
+        self._set_wire_in_value(value, led)
 
     def send_command(self, command):
         fp = self.front_panel
@@ -184,78 +208,123 @@ class DAQBoard:
         if ret_val < 0:
             print('Error: ', ret_val)
 
-    def read_data(self, words=256):
+    def read_data(self, words=4, verbose=False):
+        if words < 4:
+            raise ValueError('Cannot read fewer than four words')
+
         fp = self.front_panel
         data = bytearray(words*4)
         ret_val = fp.ReadFromPipeOut(self.READBACK_PIPE_ADDR, data)
-        print('Return Value:', ret_val)
-        h = binascii.hexlify(data)
-        for i in range(len(h)//4):
-            print(h[i*4:i*4+4], end=' ')
-            if i % 8 == 7:
-                print()
+        if ret_val != len(data):
+            fmt = 'Error (Code: {}) reading from device'
+            raise RuntimeError(fmt.format(ret_val))
+        for i in range(words):
+            word = data[i*4:(i+1)*4]
+            word.reverse()
+            for j in range(4):
+                data[i*4+j] = word[j]
+        if verbose:
+            h = binascii.hexlify(data)
+            for i in range(len(h)//4):
+                print(h[i*4:i*4+4], end=' ')
+                if i % 8 == 7:
+                    print()
+        return data
 
     def welcome(self):
         for _ in range(4):
-            self.set_wire_in_value(WireState.ON, LED.LED0, False)
-            self.set_wire_in_value(WireState.OFF, LED.LED1)
+            self._set_wire_in_value(WireState.ON, LED.LED0, False)
+            self._set_wire_in_value(WireState.OFF, LED.LED1)
             time.sleep(.05)
-            self.set_wire_in_value(WireState.OFF, LED.LED0, False)
-            self.set_wire_in_value(WireState.ON, LED.LED1)
+            self._set_wire_in_value(WireState.OFF, LED.LED0, False)
+            self._set_wire_in_value(WireState.ON, LED.LED1)
             time.sleep(.05)
-        self.set_wire_in_value(WireState.OFF, LED.LED0, False)
-        self.set_wire_in_value(WireState.OFF, LED.LED1)
-
+        self._set_wire_in_value(WireState.OFF, LED.LED0, False)
+        self._set_wire_in_value(WireState.OFF, LED.LED1)
 
     def debug(self):
-        self.set_wire_in_value(WireState.ON, self.DEBUG)
+        self._set_wire_in_value(WireState.ON, self.DEBUG)
         self.soft_reset()
         history = deque([], 80)
-        while True:
-            cmd = raw_input('>>> ').lower().strip().split()
-            cmd, args = cmd[0], cmd[1:]
 
-            if cmd == 'clk':  # clock n cycles
-                n = 1 if not args else int(args[0])
-                for _ in range(n):
-                    self.set_wire_in_value(WireState.ON, self.SINGLE_STEP)
-                    self.set_wire_in_value(WireState.OFF, self.SINGLE_STEP)
-                    history.append(self.get_debug_output())
-            elif cmd == 'list':  # list out debug signals
-                print(self.get_debug_output())
-            elif cmd == 'wave':  # outputs history waveform
-                waves = [[] for _ in range(64)]
-                for step in history:
-                    for value, wave in zip(reversed(step), waves):
-                        wave.append('-' if (value == '1') else '_')
-                labels = [self.DEBUG_LABELS.get(i) for i in range(64)]
-                waves = [''.join(wave) for wave in waves]
-                max_label_len = max(1 if label is None else len(label) for label in labels)
-                for label, wave in zip(labels, waves):
-                    if label is not None:
-                        fmt = '{:>'+str(max_label_len)+'}: {}'
-                        print(fmt.format(label, wave))
-            elif cmd == 'write':
-                if len(args) == 2:
-                    write_instr = InstructionSet.write_int_reg(int(args[0], 16), int(args[1], 16))
-                    self.send_command(write_instr)
-                else:
-                    print(('usage: write {addr} {data}\n'
-                           '\teg. write 0x01 0xF234'))
-            elif cmd == 'read':
-                if args:
-                    read_instr = InstructionSet.read_int_reg(int(args[0], 16))
-                    self.send_command(read_instr)
-                else:
-                    print('usage: write {addr}\n\teg. read 0x01')
-            elif cmd == 'bufread':
-                bytes_ = 256 if not args else int(args[0])
-                self.read_data(bytes_)
-            elif cmd in ('quit', 'exit'):
-                break
+        def cmd_clk(args):
+            n = 1 if not args else int(args[0])
+            for _ in range(n):
+                self._set_wire_in_value(WireState.ON, self.SINGLE_STEP)
+                self._set_wire_in_value(WireState.OFF, self.SINGLE_STEP)
+                history.append(self._get_debug_output())
+
+        def cmd_list(args):
+            print(self._get_debug_output())
+
+        def cmd_wave(args):
+            waves = [[] for _ in range(64)]
+            for step in history:
+                for value, wave in zip(reversed(step), waves):
+                    wave.append('-' if (value == '1') else '_')
+            labels = [self.DEBUG_LABELS.get(i) for i in range(64)]
+            waves = [''.join(wave) for wave in waves]
+            max_label_len = max(1 if label is None else len(label)
+                                for label in labels)
+            for i, (label, wave) in enumerate(zip(labels, waves)):
+                if label is not None:
+                    fmt = '{:>'+str(max_label_len)+'}: {}'
+                    if i % 2:
+                        fmt = bcolors.BOLD + fmt + bcolors.ENDC
+                    print(fmt.format(label, wave))
+
+        def cmd_write(args):
+            try:
+                addr = int(args[0], 16)
+                val = int(args[1], 16)
+                write_instr = InstructionSet.write_int_reg(addr, val)
+                self.send_command(write_instr)
+            except (IndexError, ValueError):
+                print('usage: write 0x{addr} 0x{data}')
+
+        def cmd_dac_write(args):
+            try:
+                addr = int(args[0], 16)
+                val = int(args[1], 16)
+                write_instr = InstructionSet.write_dac_reg(addr, val)
+                self.send_command(write_instr)
+            except (IndexError, ValueError):
+                print('usage: dac_write 0x{addr} 0x{data}')
+
+        def cmd_read(args):
+            if args:
+                read_instr = InstructionSet.read_int_reg(int(args[0], 16))
+                self.send_command(read_instr)
             else:
-                print('command unknown')
-        self.set_wire_in_value(WireState.OFF, self.DEBUG)
+                print('usage: write {addr}\n\teg. read 0x01')
+
+        def cmd_bufread(args):
+            bytes_ = 256 if not args else int(args[0])
+            self.read_data(bytes_)
+
+        cmd_map = {'clk': cmd_clk,
+                   'list': cmd_list,
+                   'wave': cmd_wave,
+                   'write': cmd_write,
+                   'dac_write': cmd_dac_write,
+                   'read': cmd_read,
+                   'bufread': cmd_bufread}
+        while True:
+            try:
+                cmd = raw_input('>>> ').lower().strip().split()
+                cmd, args = cmd[0], cmd[1:]
+            except IndexError:
+                continue
+            if cmd in ('h', 'help'):
+                print('available commands: ', ', '.join(sorted(cmd_map.keys())))
+                continue
+            if cmd in ('quit', 'exit'):
+                break
+            try:
+                cmd_map[cmd](args)
+            except KeyError:
+                print('unknown command \"{}\"'.format(cmd))
+        self._set_wire_in_value(WireState.OFF, self.DEBUG)
 
 
 def main():
@@ -268,18 +337,14 @@ def main():
         daq_board.soft_reset()
         daq_board.welcome()
         daq_board.debug()
-        # for i in range(10):
-        #     try:
+        # steps = [0x000, 0x800, 0xFFF]
+        # while True:
+        #     for i in range(256):
+        #         write_instr = InstructionSet.write_dac_reg(0x0F, steps[i % 3])
         #         daq_board.send_command(write_instr)
-        #         for i in range(50):
-        #             daq_board.send_command(read_instr)
-        #         daq_board.read_data(words=16)
-        #         time.sleep(.1)
-        #     except KeyboardInterrupt:
-        #         break
-            # daq_board.send_command(bytearray([0x0C, 0x18, i, 0x60]))
-            # daq_board.send_command(bytearray([0x14, 0x18, 0x00, 0x60]))
-        # daq_board.read_data(words=16)
+                # read_instr = InstructionSet.read_int_reg(i)
+                # daq_board.send_command(read_instr)
+                # daq_board.read_data(verbose=True)
 
 if __name__ == '__main__':
     main()

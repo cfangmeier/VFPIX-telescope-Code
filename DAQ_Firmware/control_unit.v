@@ -36,9 +36,9 @@ module control_unit(
   output reg          readback_write,
   output reg  [31:0]  readback_data,
 
-  output wire         dac_request_write,
-  output wire [4:0]   dac_address,
-  output wire [11:0]  dac_data,
+  output reg         dac_request_write,
+  output reg  [4:0]   dac_address,
+  output reg  [11:0]  dac_data,
 
   output wire         adc_request_write,
   output wire         adc_request_read,
@@ -61,10 +61,10 @@ module control_unit(
 //
 // State Listing
 parameter IDLE          = 3'h0;
-parameter PROC_INSTR    = 3'h1;
-parameter READ_DATA     = 3'h2;
-parameter PUSH_DATA     = 3'h3;
-parameter WAIT_COMPLETE = 3'h4;
+parameter STAGE_1    = 3'h1;
+parameter STAGE_2     = 3'h2;
+parameter STAGE_3     = 3'h3;
+parameter STAGE_4          = 3'h4;
 
 
 //
@@ -98,10 +98,13 @@ always @(posedge clk or posedge reset) begin
     instr_ack <= 0;
     readback_write <= 0;
     readback_data <= 32'b0;
+    dac_request_write <= 0;
+    dac_address <= 5'h0;
+    dac_data <= 11'h0;
 
     if ( state == IDLE) begin
         if ( instr_ready ) begin
-          state <= PROC_INSTR;
+          state <= STAGE_1;
           instr_ack <= 1;
           instr <= instr_in;
         end
@@ -119,15 +122,17 @@ always @(posedge clk or posedge reset) begin
       //-----------------------------------------------------------
         WRITE_REG: begin
           case (state)  // CASE STAGE
-            PROC_INSTR: begin
+            STAGE_1: begin
               case (instr[26:25]) // CASE REGISTER TYPE
                 SEL_ADC: begin
                   // TODO: Write to ADC
                   state <= IDLE;
                 end
                 SEL_DAC: begin
-                  // TODO: Write to DAC
-                  state <= IDLE;
+                  dac_request_write <= 1;
+                  dac_address <= instr[24:20];
+                  dac_data <= instr[15:4];
+                  state <= STAGE_2;
                 end
                 SEL_INT: begin
                   regs[instr[24:21]] <= instr[20:5];
@@ -138,6 +143,14 @@ always @(posedge clk or posedge reset) begin
                 end
               endcase  // END CASE REGISTER TYPE
             end
+            STAGE_2: begin
+                state <= STAGE_3;
+            end
+            STAGE_3: begin
+              if ( ~spi_busy ) begin
+                state <= IDLE;
+              end
+            end
           endcase  // END CASE STATE
         end
       //-----------------------------------------------------------
@@ -145,7 +158,7 @@ always @(posedge clk or posedge reset) begin
       //-----------------------------------------------------------
         READ_REG: begin
           case (state)  // CASE STAGE
-            PROC_INSTR: begin
+            STAGE_1: begin
               case (instr[26:25]) // CASE REGISTER TYPE
                 SEL_ADC: begin
                   // TODO: Read from ADC
