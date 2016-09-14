@@ -61,24 +61,4 @@ parameter SEL_DAC = 2'b01;
 parameter SEL_INT = 2'b10;
 parameter SEL_RES = 2'b11;
 
-//
-// Internal Register Listing
-//
-parameter R0 = 5'h00;
-parameter R1 = 5'h01;
-parameter R2 = 5'h02;
-parameter R3 = 5'h03;
-parameter R4 = 5'h04;
-parameter R5 = 5'h05;
-parameter R6 = 5'h06;
-parameter R7 = 5'h07;
-parameter R8 = 5'h08;
-parameter R9 = 5'h09;
-parameter RA = 5'h0A;
-parameter RB = 5'h0B;
-parameter RC = 5'h0C;
-parameter RD = 5'h0D;
-parameter RE = 5'h0E;
-parameter RF = 5'h0F;
-
 parameter RJ45_LEDS = 5'h10;

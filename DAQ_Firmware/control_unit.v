@@ -40,10 +40,10 @@ module control_unit(
   output reg  [4:0]   dac_address,
   output reg  [11:0]  dac_data,
 
-  output wire         adc_request_write,
-  output wire         adc_request_read,
-  output wire [15:0]  adc_address,
-  output wire [7:0]   adc_data,
+  output reg          adc_request_write,
+  output reg          adc_request_read,
+  output reg  [10:0]  adc_address,
+  output reg  [7:0]   adc_data,
   input  wire [7:0]   adc_data_readback,
 
   input wire          spi_busy,
@@ -101,6 +101,10 @@ always @(posedge clk or posedge reset) begin
     dac_request_write <= 0;
     dac_address <= 5'h0;
     dac_data <= 11'h0;
+    adc_request_write <= 0;
+    adc_request_read <= 0;
+    adc_address <= 11'h0;
+    adc_data <= 8'h0;
 
     if ( state == IDLE) begin
         if ( instr_ready ) begin
@@ -125,8 +129,10 @@ always @(posedge clk or posedge reset) begin
             STAGE_1: begin
               case (instr[26:25]) // CASE REGISTER TYPE
                 SEL_ADC: begin
-                  // TODO: Write to ADC
-                  state <= IDLE;
+                  adc_request_write <= 1;
+                  adc_address <= instr[24:14];
+                  adc_data <= instr[13:6];
+                  state <= STAGE_2;
                 end
                 SEL_DAC: begin
                   dac_request_write <= 1;
@@ -144,18 +150,17 @@ always @(posedge clk or posedge reset) begin
               endcase  // END CASE REGISTER TYPE
             end
             STAGE_2: begin
+              if ( spi_busy ) begin
                 state <= STAGE_3;
+              end
             end
             STAGE_3: begin
-              state <= STAGE_4;
-            end
-            STAGE_4: begin
               if ( ~spi_busy ) begin
                 state <= IDLE;
               end
             end
           endcase  // END CASE STATE
-        end
+        end  // END WRITE_REG
       //-----------------------------------------------------------
       //------------BEGIN INSTRUCTION: READ_REG--------------------
       //-----------------------------------------------------------
@@ -164,15 +169,17 @@ always @(posedge clk or posedge reset) begin
             STAGE_1: begin
               case (instr[26:25]) // CASE REGISTER TYPE
                 SEL_ADC: begin
-                  // TODO: Read from ADC
-                  state <= IDLE;
+                  adc_request_read <= 1;
+                  adc_address <= instr[24:14];
+                  state <= STAGE_2;
                 end
                 SEL_DAC: begin
-                  // TODO: Read from DAC
-                  state <= IDLE;
+                  // Cannot readback from DAC, this is a NOOP
+                    readback_write <= 1;
+                    readback_data <= 32'h0;
+                    state <= IDLE;
                 end
                 SEL_INT: begin
-                  // TODO: Read Internal registers
                     readback_write <= 1;
                     readback_data <= {16'h0, regs[instr[24:21]]};
                     state <= IDLE;
@@ -182,8 +189,20 @@ always @(posedge clk or posedge reset) begin
                 end
               endcase
             end // END STAGE
+            STAGE_2: begin
+              if ( spi_busy ) begin
+                state <= STAGE_3;
+              end
+            end // END STAGE
+            STAGE_3: begin
+              if ( ~spi_busy ) begin
+                readback_data[7:0] <= adc_data_readback;
+                readback_write <= 1;
+                state <= IDLE;
+              end
+            end  // END STAGE
           endcase  // END CASE STATE
-        end
+        end  // END READ_REG
       endcase  // END CASE INSTRUCTION
     end  // END ELSE (NOT IDLE)
   end  // END ELSE (NO RESET)

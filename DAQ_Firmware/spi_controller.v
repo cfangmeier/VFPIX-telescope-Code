@@ -19,7 +19,7 @@ module spi_controller(
 
   input  wire        adc_request_write,
   input  wire        adc_request_read,
-  input  wire [15:0] adc_address,
+  input  wire [10:0] adc_address,
   input  wire [7:0]  adc_data,
   output wire [7:0]  adc_data_readback,
 
@@ -52,19 +52,20 @@ wire [31:0] data_readback;
 assign adc_data_readback[7:0] = data_readback[7:0];
 
 reg [2:0] adc_select;
-wire csb;
-assign adc_csb[0] = csb | (adc_select != 3'h0);
-assign adc_csb[1] = csb | (adc_select != 3'h1);
-assign adc_csb[2] = csb | (adc_select != 3'h2);
-assign adc_csb[3] = csb | (adc_select != 3'h3);
-assign adc_csb[4] = csb | (adc_select != 3'h4);
-assign adc_csb[5] = csb | (adc_select != 3'h5);
-assign adc_csb[6] = csb | (adc_select != 3'h6);
-assign adc_csb[7] = csb | (adc_select != 3'h7);
+reg  dev_select;
+wire cs;
+assign adc_csb[0] = ~(cs & (adc_select == 3'h0) & dev_select);
+assign adc_csb[1] = ~(cs & (adc_select == 3'h1) & dev_select);
+assign adc_csb[2] = ~(cs & (adc_select == 3'h2) & dev_select);
+assign adc_csb[3] = ~(cs & (adc_select == 3'h3) & dev_select);
+assign adc_csb[4] = ~(cs & (adc_select == 3'h4) & dev_select);
+assign adc_csb[5] = ~(cs & (adc_select == 3'h5) & dev_select);
+assign adc_csb[6] = ~(cs & (adc_select == 3'h6) & dev_select);
+assign adc_csb[7] = ~(cs & (adc_select == 3'h7) & dev_select);
 
 reg  dac_select;
-assign dac_csb[0] = csb | (dac_select != 1'b0);
-assign dac_csb[1] = csb | (dac_select != 1'b1);
+assign dac_csb[0] = ~(cs & (dac_select == 1'b0) & ~dev_select);
+assign dac_csb[1] = ~(cs & (dac_select == 1'b1) & ~dev_select);
 
 always @(posedge sys_clk or posedge reset) begin
   if (reset) begin
@@ -83,27 +84,32 @@ always @(posedge sys_clk or posedge reset) begin
       request_action <= 1;
       invert_sclk <= 1;
       dac_select <= dac_address[4];
+      dev_select <= 0;
     end
     else if ( !busy & adc_request_write ) begin
       data_out[31] <= 0; // r/wb
       data_out[30:29] <= 2'h0; // w1,w0
-      data_out[28:16] <= adc_address[12:0]; // A12:A0
+      data_out[28:24] <= 5'h00; // A12:A8
+      data_out[23:16] <= adc_address[7:0]; // A7:A0
       data_out[15:8] <= adc_data[7:0]; // D7:D0
       read_bits <= 6'd00;
       write_bits <= 6'd24;
       request_action <= 1;
-      invert_sclk <= 1;
-      adc_select <= adc_address[15:13];
+      invert_sclk <= 0;
+      adc_select <= adc_address[10:8];
+      dev_select <= 1;
     end
     else if ( !busy & adc_request_read ) begin
       data_out[31] <= 1; // r/wb
       data_out[30:29] <= 2'h0; // w1,w0
-      data_out[28:16] <= adc_address[12:0]; // A12:A0
+      data_out[28:24] <= 5'h00; // A12:A8
+      data_out[23:16] <= adc_address[7:0]; // A7:A0
       read_bits <= 6'd08;
       write_bits <= 6'd16;
       request_action <= 1;
-      invert_sclk <= 1;
-      adc_select <= adc_address[15:13];
+      invert_sclk <= 0;
+      adc_select <= adc_address[10:8];
+      dev_select <= 1;
     end
     else begin
       request_action <= 0;
@@ -122,6 +128,6 @@ spi_interface spi_interface_inst(
   .busy ( busy ),
   .sclk ( sclk_int ),
   .sdio ( sdio ),
-  .csb ( csb )
+  .cs ( cs )
 );
 endmodule

@@ -43,13 +43,26 @@ parameter WRITE_REG     = 5'h01;
  */
 
 parameter READ_REG     = 5'h02;
-/* READ_REG
- * Read from register. Reads one of the internal registers, and places
- * its data into the readback buffer.
- * FORMAT:
- * 0001 010A AAAX XXXX XXXX XXXX XXXX XXXX
- * MSB                                   LSB
- * A: 4-bit Register Address
+/*
+ * READ_REG:Internal
+ *   Read from internal register. Places its data into the readback buffer.
+ *   FORMAT:
+ *   0001 010A AAAX XXXX XXXX XXXX XXXX XXXX
+ *   MSB                                   LSB
+ *   A: 4-bit Register Address
+ * READ_REG:ADC
+ *   Read from ADC register. Places its data into the readback buffer.
+ *   FORMAT:
+ *   0001 000A AARR RRRR RRXX DXXX XXXX XXXX
+ *   MSB                                   LSB
+ *   A: 3-bit ADC select
+ *   R: 8-bit register address
+ * READ_REG:DAC
+ *   Read from DAC register. Not implemented. Places null onto readback
+ *   buffer.
+ *   FORMAT:
+ *   0001 001X XXXX XXXX XXXX XXXX XXXX XXXX
+ *   MSB                                   LSB
  */
 
 parameter WRITE_RAM = 5'h03;

@@ -50,7 +50,6 @@ module daq_firmware(
   output wire                mem_ras_n,
   output wire                mem_we_n,
 
-  output wire [7:0]          rj45_led_data,
   output wire                rj45_led_sck,
   output wire                rj45_led_sin,
   output wire                rj45_led_lat,
@@ -107,7 +106,7 @@ wire [11:0] dac_data;
 
 wire adc_request_write;
 wire adc_request_read;
-wire [15:0] adc_address;
+wire [10:0] adc_address;
 wire [7:0] adc_data;
 wire [7:0] adc_data_readback;
 
@@ -122,6 +121,7 @@ wire sys_clk;
 wire debug_enable;
 wire single_step_enable;
 wire [7:0] debug_clock_counter;
+wire [7:0] rj45_led_data;
 
 wire [2:0] cu_state;
 wire [4:0] cu_instr;
@@ -154,6 +154,7 @@ assign debug_wireout[64] = sclk;
 assign debug_wireout[65] = sdio;
 assign debug_wireout[66] = supdac_csb;
 assign debug_wireout[67] = rngdac_csb;
+assign debug_wireout[75:68] = adc_csb;
 /* assign debug_wireout[127:68] = 60'h_A0A0_A0A0_A0A0_A0A0; */
 
 /* generate */

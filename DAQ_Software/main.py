@@ -23,7 +23,24 @@ class WireState(IntEnum):
     OFF = 0x00000000
 
 
-class InstructionSet(IntEnum):
+class InstructionSet:
+    ''' DAQ Board InstructionSet Helpers
+    See instruction_set.vh in the firmware for instruction definitions
+    '''
+
+    class DAC(IntEnum):
+        ADC_RANGE_ADJUST = 0x0
+        APC_REFERENCE = 0x1
+
+    class ADC(IntEnum):
+        A = 0x0
+        B = 0x1
+        C = 0x2
+        D = 0x3
+        E = 0x4
+        F = 0x5
+        G = 0x6
+        H = 0x7
 
     @staticmethod
     def _to_bytearray(instr):
@@ -38,58 +55,43 @@ class InstructionSet(IntEnum):
 
     @staticmethod
     def noop():
-        '''
-        This is the no-op command. Needed for padding data in input command
-        stream.
-           FORMAT:
-           0000 0XXX XXXX XXXX XXXX XXXX XXXX XXXX
-           LSB                                   MSB
-        '''
         instruction = 0x00000000
         return InstructionSet._to_bytearray(instruction)
 
     @staticmethod
+    def read_int_reg(reg_addr):
+        instruction = 0x14000000
+        instruction |= (reg_addr << 21)
+        return InstructionSet._to_bytearray(instruction)
+
+    @staticmethod
     def write_int_reg(reg_addr, reg_data):
-        '''
-        Write to register. Sets one of the internal registers.
-            FORMAT:
-            0000 110A AAAD DDDD DDDD DDDD DDDX XXXX
-            LSB                                   MSB
-            A: 4-bit Register Address
-            D: 16-bit Register Data
-        '''
         instruction = 0x0C000000
         instruction |= ((reg_addr & 0xF) << 21)
         instruction |= ((reg_data & 0xFFFF) << 5)
         return InstructionSet._to_bytearray(instruction)
 
     @staticmethod
-    def write_dac_reg(reg_addr, reg_data):
-        '''
-        Write to dac register.
-            FORMAT:
-            0000 101A AAAA XXXX DDDD DDDD DDDD XXXX
-            LSB                                   MSB
-            A: 5-bit Register Address
-            D: 12-bit Register Data
-        '''
+    def write_dac_reg(dac_select, reg_addr, reg_data):
         instruction = 0x0A000000
-        instruction |= ((reg_addr & 0x1F) << 20)
+        instruction |= ((dac_select & 0x1) << 24)
+        instruction |= ((reg_addr & 0xF) << 20)
         instruction |= ((reg_data & 0xFFF) << 4)
         return InstructionSet._to_bytearray(instruction)
 
     @staticmethod
-    def read_int_reg(reg_addr):
-        '''
-        Read from register. Reads one of the internal registers, and places
-        its data into the readback buffer.
-            FORMAT:
-            0001 010A AAAX XXXX XXXX XXXX XXXX XXXX
-            LSB                                   MSB
-            A: 4-bit Register Address
-        '''
-        instruction = 0x14000000
-        instruction |= (reg_addr << 21)
+    def read_adc_reg(adc_select, reg_addr):
+        instruction = 0x10000000
+        instruction |= ((adc_select & 0x7) << 22)
+        instruction |= ((reg_addr & 0xFF) << 14)
+        return InstructionSet._to_bytearray(instruction)
+
+    @staticmethod
+    def write_adc_reg(adc_select, reg_addr, reg_data):
+        instruction = 0x08000000
+        instruction |= ((adc_select & 0x7) << 22)
+        instruction |= ((reg_addr & 0xFF) << 14)
+        instruction |= ((reg_data & 0xFF) << 6)
         return InstructionSet._to_bytearray(instruction)
 
 
@@ -118,6 +120,9 @@ class DAQBoard:
             65: 'sdio',
             66: 'supdac_csb',
             67: 'rngdac_csb',
+            68: 'adc_csb[0]', 69: 'adc_csb[1]', 70: 'adc_csb[2]',
+            71: 'adc_csb[3]', 72: 'adc_csb[4]', 73: 'adc_csb[5]',
+            74: 'adc_csb[6]', 75: 'adc_csb[7]',
             # 10: 'rdbck[0]', 11: 'rdbck[1]', 12: 'rdbck[2]', 13: 'rdbck[3]',
             # 14: 'rdbck[4]', 15: 'rdbck[5]', 16: 'rdbck[6]', 17: 'rdbck[7]',
             # 18: 'rdbck[8]', 19: 'rdbck[9]', 20: 'rdbck[10]', 21: 'rdbck[11]',
@@ -292,6 +297,16 @@ class DAQBoard:
             except (IndexError, ValueError):
                 print('usage: dac_write 0x{addr} 0x{data}')
 
+        def cmd_adc_read(args):
+            print(args)
+            try:
+                adc = InstructionSet.ADC[args[0].upper()]
+                addr = int(args[1], 16)
+                write_instr = InstructionSet.read_adc_reg(adc, addr)
+                self.send_command(write_instr)
+            except (KeyError, IndexError, ValueError):
+                print('usage: adc_read [A-H] 0x{addr}')
+
         def cmd_read(args):
             if args:
                 read_instr = InstructionSet.read_int_reg(int(args[0], 16))
@@ -307,8 +322,9 @@ class DAQBoard:
                    'list': cmd_list,
                    'wave': cmd_wave,
                    'write': cmd_write,
-                   'dac_write': cmd_dac_write,
                    'read': cmd_read,
+                   'dac_write': cmd_dac_write,
+                   'adc_read': cmd_adc_read,
                    'bufread': cmd_bufread}
         cont = True
         while cont:
@@ -343,12 +359,13 @@ def main():
     with daq_board:
         daq_board.soft_reset()
         daq_board.welcome()
-        # daq_board.debug()
-        steps = [0x000, 0x800, 0xFFF]
-        while True:
-            for i in range(256):
-                write_instr = InstructionSet.write_dac_reg(0x1F, steps[i % 3])
-                daq_board.send_command(write_instr)
+        daq_board.debug()
+        # steps = [0x000, 0x800, 0xFFF]
+        # dac = InstructionSet.DAC.APC_REFERENCE
+        # while True:
+        #     for i in range(256):
+        #         write_instr = InstructionSet.write_dac_reg(dac, 0xF, steps[i % 3])
+        #         daq_board.send_command(write_instr)
 
 if __name__ == '__main__':
     main()
