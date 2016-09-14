@@ -33,11 +33,6 @@ module spi_controller(
   );
 
 
-reg clk; // 25 MHz
-always @(posedge sys_clk) begin
-  clk <= reset ? 1'b0 : ~clk;
-end
-
 /*
  * Depending on the output device, data is updated either
  * on the rising or falling edge of the clock. Therefore,
@@ -58,20 +53,20 @@ assign adc_data_readback[7:0] = data_readback[7:0];
 
 reg [2:0] adc_select;
 wire csb;
-assign adc_csb[0] = csb & (adc_select == 3'h0);
-assign adc_csb[1] = csb & (adc_select == 3'h1);
-assign adc_csb[2] = csb & (adc_select == 3'h2);
-assign adc_csb[3] = csb & (adc_select == 3'h3);
-assign adc_csb[4] = csb & (adc_select == 3'h4);
-assign adc_csb[5] = csb & (adc_select == 3'h5);
-assign adc_csb[6] = csb & (adc_select == 3'h6);
-assign adc_csb[7] = csb & (adc_select == 3'h7);
+assign adc_csb[0] = csb | (adc_select != 3'h0);
+assign adc_csb[1] = csb | (adc_select != 3'h1);
+assign adc_csb[2] = csb | (adc_select != 3'h2);
+assign adc_csb[3] = csb | (adc_select != 3'h3);
+assign adc_csb[4] = csb | (adc_select != 3'h4);
+assign adc_csb[5] = csb | (adc_select != 3'h5);
+assign adc_csb[6] = csb | (adc_select != 3'h6);
+assign adc_csb[7] = csb | (adc_select != 3'h7);
 
 reg  dac_select;
-assign dac_csb[0] = csb & (dac_select == 1'b0);
-assign dac_csb[1] = csb & (dac_select == 1'b1);
+assign dac_csb[0] = csb | (dac_select != 1'b0);
+assign dac_csb[1] = csb | (dac_select != 1'b1);
 
-always @(posedge clk or posedge reset) begin
+always @(posedge sys_clk or posedge reset) begin
   if (reset) begin
     data_out <= 32'b00000000;
     request_action <= 0;
@@ -82,10 +77,11 @@ always @(posedge clk or posedge reset) begin
       data_out[19:8] <= dac_data[11:0];
       data_out[23:20] <= dac_address[3:0];
       data_out[27:24] <= 4'b0011;
+      data_out[31:28] <= 4'b1001;
       read_bits <= 6'h00;
       write_bits <= 6'h20;
       request_action <= 1;
-      invert_sclk <= 0;
+      invert_sclk <= 1;
       dac_select <= dac_address[4];
     end
     else if ( !busy & adc_request_write ) begin
@@ -116,7 +112,7 @@ always @(posedge clk or posedge reset) begin
 end
 
 spi_interface spi_interface_inst(
-  .clk ( clk ),
+  .clk ( sys_clk ),
   .reset ( reset ),
   .data_in ( data_readback ),
   .data_out ( data_out ),

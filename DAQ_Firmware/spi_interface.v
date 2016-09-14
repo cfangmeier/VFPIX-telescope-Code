@@ -16,19 +16,25 @@ module spi_interface (
   input  wire [5:0]   write_bits,
   input  wire         request_action,
   output reg          busy,
-  output wire         sclk,
+  output wire         sclk, // 25 MHz
   inout  wire         sdio,
   output reg          csb
 );
+
+wire [4:0] sclk_next;
 
 reg [6:0] cycle_counter;
 reg [31:0] data_in_shifter;
 reg [31:0] data_out_shifter;
 reg is_writing;
 reg sdio_int;
+reg [4:0] sclk_int;
+
 
 assign sdio = is_writing ? sdio_int : 1'bz;
-assign sclk = clk | ~busy;
+assign sclk = sclk_int[4] | ~busy;
+assign sclk_next = sclk_int + 1;
+
 always @(posedge clk or posedge reset) begin
   if (reset) begin
     busy <= 0;
@@ -37,8 +43,11 @@ always @(posedge clk or posedge reset) begin
     cycle_counter <= 7'h00;
     data_in_shifter <= 32'h00000000;
     data_out_shifter <= 32'h00000000;
+    csb <= 1;
+    sclk_int <= 0;
   end
   else begin
+    sclk_int <= sclk_next;
     if (!busy) begin
       if (request_action) begin
         busy <= 1;
@@ -47,26 +56,32 @@ always @(posedge clk or posedge reset) begin
         data_in_shifter <= 32'h00000000;
         csb <= 1;
       end
+      else begin
+        sclk_int <= 5'h00;
+      end
     end
     else begin
-      if (cycle_counter < write_bits) begin  // writing
-        is_writing <= 1;
-        sdio_int <= data_out_shifter[31];
-        data_out_shifter[31:0] <= {data_out_shifter[30:0], 1'b0};
-        cycle_counter <= cycle_counter + 1;
-        csb <= 0;
-      end
-      else if (cycle_counter < (write_bits+read_bits)) begin  // reading
-        is_writing <= 0;
-        data_in_shifter <= {data_in_shifter[30:0], sdio};
-        cycle_counter <= cycle_counter + 1;
-        csb <= 0;
-      end
-      else begin
-        data_in <= data_in_shifter;
-        busy <= 0;
-        cycle_counter <= 6'h00;
-        csb <= 1;
+      if ( sclk_int[4] & ~(sclk_next[4]) ) begin
+        if (cycle_counter < write_bits) begin  // writing
+          is_writing <= 1;
+          sdio_int <= data_out_shifter[31];
+          data_out_shifter[31:0] <= {data_out_shifter[30:0], 1'b0};
+          csb <= 0;
+          cycle_counter <= cycle_counter + 1;
+        end
+        else if (cycle_counter < (write_bits+read_bits)) begin  // reading
+          is_writing <= 0;
+          data_in_shifter <= {data_in_shifter[30:0], sdio};
+          csb <= 0;
+          cycle_counter <= cycle_counter + 1;
+        end
+        else begin
+          data_in <= data_in_shifter;
+          busy <= 0;
+          cycle_counter <= 6'h00;
+          csb <= 1;
+          sclk_int <= 5'h00;
+        end
       end
     end
   end

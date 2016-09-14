@@ -24,11 +24,6 @@ class WireState(IntEnum):
 
 
 class InstructionSet(IntEnum):
-    NOOP = 0x00
-    WRITE_REG = 0x01
-    READ_REG = 0x02
-    WRITE_RAM = 0x03
-    READ_RAM = 0x04
 
     @staticmethod
     def _to_bytearray(instr):
@@ -64,14 +59,14 @@ class InstructionSet(IntEnum):
             D: 16-bit Register Data
         '''
         instruction = 0x0C000000
-        instruction |= (reg_addr << 21)
-        instruction |= (reg_data << 5)
+        instruction |= ((reg_addr & 0xF) << 21)
+        instruction |= ((reg_data & 0xFFFF) << 5)
         return InstructionSet._to_bytearray(instruction)
 
     @staticmethod
     def write_dac_reg(reg_addr, reg_data):
         '''
-        Write to register. Sets one of the internal registers.
+        Write to dac register.
             FORMAT:
             0000 101A AAAA XXXX DDDD DDDD DDDD XXXX
             LSB                                   MSB
@@ -79,8 +74,8 @@ class InstructionSet(IntEnum):
             D: 12-bit Register Data
         '''
         instruction = 0x0A000000
-        instruction |= (reg_addr << 21)
-        instruction |= (reg_data << 4)
+        instruction |= ((reg_addr & 0x1F) << 20)
+        instruction |= ((reg_data & 0xFFF) << 4)
         return InstructionSet._to_bytearray(instruction)
 
     @staticmethod
@@ -102,7 +97,8 @@ class DAQBoard:
     INSTRUCTION_PIPE_ADDR = 0x80
     READBACK_PIPE_ADDR = 0xA0
     INPUT_WIRE_ADDR = 0x10
-    DEBUG_OUTPUT_ADDRS = [0x20, 0x21, 0x22, 0x23]
+    DEBUG_SIZE = 8
+    DEBUG_OUTPUT_ADDRS = range(0x20, 0x20+DEBUG_SIZE)
 
     DEBUG_LABELS = {
             0: 'instr_empty', 1: 'instr_ack',
@@ -118,19 +114,24 @@ class DAQBoard:
             24: 'dac_data[9]', 25: 'dac_data[10]',
             26: 'dac_request_write',
             27: 'spi_busy',
+            64: 'sclk',
+            65: 'sdio',
+            66: 'supdac_csb',
+            67: 'rngdac_csb',
             # 10: 'rdbck[0]', 11: 'rdbck[1]', 12: 'rdbck[2]', 13: 'rdbck[3]',
             # 14: 'rdbck[4]', 15: 'rdbck[5]', 16: 'rdbck[6]', 17: 'rdbck[7]',
             # 18: 'rdbck[8]', 19: 'rdbck[9]', 20: 'rdbck[10]', 21: 'rdbck[11]',
             # 22: 'rdbck[12]', 23: 'rdbck[13]', 24: 'rdbck[14]', 25: 'rdbck[15]',
 
-            32: 'instr[0]', 33: 'instr[1]', 34: 'instr[2]', 35: 'instr[3]',
-            36: 'instr[4]', 37: 'instr[5]', 38: 'instr[6]', 39: 'instr[7]',
-            40: 'instr[8]', 41: 'instr[9]', 42: 'instr[10]', 43: 'instr[11]',
-            44: 'instr[12]', 45: 'instr[13]', 46: 'instr[14]', 47: 'instr[15]',
-            48: 'instr[16]', 49: 'instr[17]', 50: 'instr[18]', 51: 'instr[19]',
-            52: 'instr[20]', 53: 'instr[21]', 54: 'instr[22]', 55: 'instr[23]',
-            56: 'instr[24]', 57: 'instr[25]', 58: 'instr[26]', 59: 'instr[27]',
-            60: 'instr[28]', 61: 'instr[29]', 62: 'instr[30]', 63: 'instr[31]'}
+            # 32: 'instr[0]', 33: 'instr[1]', 34: 'instr[2]', 35: 'instr[3]',
+            # 36: 'instr[4]', 37: 'instr[5]', 38: 'instr[6]', 39: 'instr[7]',
+            # 40: 'instr[8]', 41: 'instr[9]', 42: 'instr[10]', 43: 'instr[11]',
+            # 44: 'instr[12]', 45: 'instr[13]', 46: 'instr[14]', 47: 'instr[15]',
+            # 48: 'instr[16]', 49: 'instr[17]', 50: 'instr[18]', 51: 'instr[19]',
+            # 52: 'instr[20]', 53: 'instr[21]', 54: 'instr[22]', 55: 'instr[23]',
+            # 56: 'instr[24]', 57: 'instr[25]', 58: 'instr[26]', 59: 'instr[27]',
+            # 60: 'instr[28]', 61: 'instr[29]', 62: 'instr[30]', 63: 'instr[31]'
+            }
 
     RESET = 0x00000001
     DEBUG = 0x00000002
@@ -168,7 +169,7 @@ class DAQBoard:
         values = []
         for addr in self.DEBUG_OUTPUT_ADDRS:
             single_value = self._get_wire_out_value(addr)
-            values.insert(0, '{:16b}'.format(single_value))
+            values.insert(0, '{:016b}'.format(single_value))
         return ''.join(values)
 
     @staticmethod
@@ -245,7 +246,7 @@ class DAQBoard:
     def debug(self):
         self._set_wire_in_value(WireState.ON, self.DEBUG)
         self.soft_reset()
-        history = deque([], 80)
+        history = deque([], 160)
 
         def cmd_clk(args):
             n = 1 if not args else int(args[0])
@@ -258,11 +259,11 @@ class DAQBoard:
             print(self._get_debug_output())
 
         def cmd_wave(args):
-            waves = [[] for _ in range(64)]
+            waves = [[] for _ in range(16*self.DEBUG_SIZE)]
             for step in history:
                 for value, wave in zip(reversed(step), waves):
                     wave.append('-' if (value == '1') else '_')
-            labels = [self.DEBUG_LABELS.get(i) for i in range(64)]
+            labels = [self.DEBUG_LABELS.get(i) for i in range(16*self.DEBUG_SIZE)]
             waves = [''.join(wave) for wave in waves]
             max_label_len = max(1 if label is None else len(label)
                                 for label in labels)
@@ -300,7 +301,7 @@ class DAQBoard:
 
         def cmd_bufread(args):
             bytes_ = 256 if not args else int(args[0])
-            self.read_data(bytes_)
+            self.read_data(bytes_, verbose=True)
 
         cmd_map = {'clk': cmd_clk,
                    'list': cmd_list,
@@ -309,21 +310,27 @@ class DAQBoard:
                    'dac_write': cmd_dac_write,
                    'read': cmd_read,
                    'bufread': cmd_bufread}
-        while True:
+        cont = True
+        while cont:
             try:
-                cmd = raw_input('>>> ').lower().strip().split()
-                cmd, args = cmd[0], cmd[1:]
+                cmds = []
+                for cmd in raw_input('>>> ').lower().strip().split(';'):
+                    toks = cmd.split()
+                    cmds.append((toks[0], toks[1:]))
             except IndexError:
                 continue
-            if cmd in ('h', 'help'):
-                print('available commands: ', ', '.join(sorted(cmd_map.keys())))
-                continue
-            if cmd in ('quit', 'exit'):
-                break
-            try:
-                cmd_map[cmd](args)
-            except KeyError:
-                print('unknown command \"{}\"'.format(cmd))
+            for cmd, args in cmds:
+                if cmd in ('h', 'help'):
+                    print('available commands: ', ', '.join(sorted(cmd_map.keys())))
+                    continue
+                if cmd in ('quit', 'exit'):
+                    cont = False
+                    break
+                try:
+                    cmd_map[cmd](args)
+                except KeyError:
+                    print('unknown command \"{}\"'.format(cmd))
+                    break
         self._set_wire_in_value(WireState.OFF, self.DEBUG)
 
 
@@ -336,15 +343,12 @@ def main():
     with daq_board:
         daq_board.soft_reset()
         daq_board.welcome()
-        daq_board.debug()
-        # steps = [0x000, 0x800, 0xFFF]
-        # while True:
-        #     for i in range(256):
-        #         write_instr = InstructionSet.write_dac_reg(0x0F, steps[i % 3])
-        #         daq_board.send_command(write_instr)
-                # read_instr = InstructionSet.read_int_reg(i)
-                # daq_board.send_command(read_instr)
-                # daq_board.read_data(verbose=True)
+        # daq_board.debug()
+        steps = [0x000, 0x800, 0xFFF]
+        while True:
+            for i in range(256):
+                write_instr = InstructionSet.write_dac_reg(0x1F, steps[i % 3])
+                daq_board.send_command(write_instr)
 
 if __name__ == '__main__':
     main()

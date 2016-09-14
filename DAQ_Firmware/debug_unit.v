@@ -25,21 +25,25 @@
 `default_nettype none
 `timescale 1ns / 1ps
 
-module debug_unit(
-  input  wire      sys_clk_ext,
-  input  wire      reset,
-  output wire      sys_clk,
-  input  wire      debug_enable,
-  input  wire      single_step,
-  output reg [7:0] clock_counter
+module debug_unit (
+  input  wire                     sys_clk_ext,
+  input  wire                     reset,
+  output wire                     sys_clk,
+  input  wire                     debug_enable,
+  input  wire                     single_step,
+  output reg  [7:0]               clock_counter,
+  input  wire [DEBUG_SIZE*16-1:0] debug_wireout,
+  input  wire [112:0]             okHE,
+  output wire [DEBUG_SIZE*65-1:0] okEHx
 );
+
+parameter DEBUG_SIZE = 4;
 
 wire do_single_step;
 reg single_step_p1;
 reg single_step_p2;
 
 assign do_single_step = single_step_p1 & ~single_step_p2;
-/* assign sys_clk = sys_clk_ext & ( debug_enable == do_single_step ); */
 assign sys_clk = (debug_enable) ? (do_single_step) : sys_clk_ext;
 
 always @(posedge sys_clk_ext or posedge reset) begin
@@ -63,13 +67,17 @@ always @(posedge sys_clk or posedge reset) begin
   end
 end
 
-/* always @(sys_clk_ext or do_single_step or debug_enable) begin */
-/*   if (~debug_enable | do_single_step) begin */
-/*     sys_clk = sys_clk_ext; */
-/*   end */
-/*   else begin */
-/*     sys_clk = 1'b0; */
-/*   end */
-/* end */
+// Debug Wireouts
+generate
+  genvar i;
+  for (i=0; i<DEBUG_SIZE; i=i+1) begin: blk_name
+    okWireOut debug_wire_inst(
+      .okHE(okHE),
+      .okEH(okEHx[i*65 +: 65]),
+      .ep_addr(8'h20+i),
+      .ep_datain(debug_wireout[16*(i+1)-1 -: 16])
+    );
+  end
+endgenerate
 
 endmodule

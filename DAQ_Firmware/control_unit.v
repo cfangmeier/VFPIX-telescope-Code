@@ -36,7 +36,7 @@ module control_unit(
   output reg          readback_write,
   output reg  [31:0]  readback_data,
 
-  output reg         dac_request_write,
+  output reg          dac_request_write,
   output reg  [4:0]   dac_address,
   output reg  [11:0]  dac_data,
 
@@ -60,11 +60,11 @@ module control_unit(
 // PARAMETERS
 //
 // State Listing
-parameter IDLE          = 3'h0;
-parameter STAGE_1    = 3'h1;
-parameter STAGE_2     = 3'h2;
-parameter STAGE_3     = 3'h3;
-parameter STAGE_4          = 3'h4;
+parameter IDLE    = 3'h0;
+parameter STAGE_1 = 3'h1;
+parameter STAGE_2 = 3'h2;
+parameter STAGE_3 = 3'h3;
+parameter STAGE_4 = 3'h4;
 
 
 //
@@ -147,6 +147,9 @@ always @(posedge clk or posedge reset) begin
                 state <= STAGE_3;
             end
             STAGE_3: begin
+              state <= STAGE_4;
+            end
+            STAGE_4: begin
               if ( ~spi_busy ) begin
                 state <= IDLE;
               end

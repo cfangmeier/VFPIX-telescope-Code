@@ -71,6 +71,11 @@ module daq_firmware(
   input   wire [7:0]  adc_dat_d
   );
 
+//
+// PARAMETERS
+//
+parameter DEBUG_SIZE = 8; // Number of 16-bit wireouts in debug_unit
+parameter OK_SIZE = DEBUG_SIZE+2;
 
 //
 // WIRES
@@ -82,7 +87,7 @@ wire [64:0]  okEH;
 
 // Circuit wires
 wire [31:0] wirein;
-wire [63:0] debug_wireout;
+wire [DEBUG_SIZE*16-1:0] debug_wireout;
 
 wire reset;
 
@@ -137,14 +142,26 @@ assign led_ext = wirein[6:5];
 
 assign debug_wireout[0] = instr_empty;
 assign debug_wireout[1] = instr_ack;
-assign debug_wireout[4:2] = cu_state;
-assign debug_wireout[9:5] = cu_instr;
+assign debug_wireout[4:2] = cu_state[2:0];
+assign debug_wireout[9:5] = cu_instr[4:0];
 assign debug_wireout[14:10] = dac_address;
 assign debug_wireout[25:15] = dac_data[10:0];
 assign debug_wireout[26] = dac_request_write;
 assign debug_wireout[27] = spi_busy;
 assign debug_wireout[31:28] = 4'h0;
 assign debug_wireout[63:32] = instr;
+assign debug_wireout[64] = sclk;
+assign debug_wireout[65] = sdio;
+assign debug_wireout[66] = supdac_csb;
+assign debug_wireout[67] = rngdac_csb;
+/* assign debug_wireout[127:68] = 60'h_A0A0_A0A0_A0A0_A0A0; */
+
+/* generate */
+/* genvar i; */
+/* for (i=0; i< 16; i=i+1) begin: loop_label */
+/*   assign debug_wireout[(i+1)*8-1 -: 7] = i; */
+/* end */
+/* endgenerate */
 
 always @(posedge okClk) begin
   pipe_out_buf <= readback_buffer_q;
@@ -153,6 +170,43 @@ end
 //
 // INSTANTIATIONS
 //
+// FrontPanel module instantiations
+wire [65*OK_SIZE-1:0]  okEHx;
+okHost okHI(
+  .okUH(okUH),
+  .okHU(okHU),
+  .okUHU(okUHU),
+  .okAA(okAA),
+  .okClk(okClk),
+  .okHE(okHE),
+  .okEH(okEH)
+);
+okWireOR # (.N(OK_SIZE)) wireOR (okEH, okEHx);
+
+
+okWireIn wire10(
+  .okHE(okHE),
+  .ep_addr(8'h10),
+  .ep_dataout(wirein)
+);
+
+
+okPipeIn pipe80(
+  .okHE(okHE),
+  .okEH(okEHx[(DEBUG_SIZE + 0)*65 +: 65]),
+  .ep_addr(8'h80),
+  .ep_write(instr_write),
+  .ep_dataout(data_in)
+);
+
+okPipeOut pipeA0(
+  .okHE(okHE),
+  .okEH(okEHx[(DEBUG_SIZE + 1)*65 +: 65]),
+  .ep_addr(8'hA0),
+  .ep_read( readback_buffer_read ),
+  .ep_datain( pipe_out_buf )
+);
+
 
 // High-Level Control Unit
 control_unit control_unit_inst (
@@ -182,13 +236,16 @@ control_unit control_unit_inst (
   .cu_instr ( cu_instr )
 );
 
-debug_unit debug_unit_inst (
+debug_unit #(.DEBUG_SIZE(DEBUG_SIZE)) debug_unit_inst (
   .sys_clk_ext ( sys_clk_ext ),
   .reset ( reset ),
   .sys_clk ( sys_clk ),
   .debug_enable ( debug_enable ),
   .single_step ( single_step_enable ),
-  .clock_counter ( debug_clock_counter )
+  .clock_counter ( debug_clock_counter ),
+  .debug_wireout ( debug_wireout),
+  .okHE ( okHE ),
+  .okEHx ( okEHx[65*DEBUG_SIZE:0] )
 );
 
 // 32 bit wide 1024 depth read-ahead fifo
@@ -242,71 +299,6 @@ spi_controller spi_controller_inst(
   .sdio ( sdio ),
   .adc_csb ( adc_csb ),
   .dac_csb ( {supdac_csb, rngdac_csb} )
-);
-
-// FrontPanel module instantiations
-wire [65*6-1:0]  okEHx;
-okHost okHI(
-  .okUH(okUH),
-  .okHU(okHU),
-  .okUHU(okUHU),
-  .okAA(okAA),
-  .okClk(okClk),
-  .okHE(okHE),
-  .okEH(okEH)
-);
-okWireOR # (.N(6)) wireOR (okEH, okEHx);
-
-
-okWireIn wire10(
-  .okHE(okHE),
-  .ep_addr(8'h10),
-  .ep_dataout(wirein)
-);
-
-
-okPipeIn pipe80(
-  .okHE(okHE),
-  .okEH(okEHx[0*65 +: 65]),
-  .ep_addr(8'h80),
-  .ep_write(instr_write),
-  .ep_dataout(data_in)
-);
-
-okPipeOut pipeA0(
-  .okHE(okHE),
-  .okEH(okEHx[1*65 +: 65]),
-  .ep_addr(8'hA0),
-  .ep_read( readback_buffer_read ),
-  .ep_datain( pipe_out_buf )
-);
-
-okWireOut debug_out20(
-  .okHE(okHE),
-  .okEH(okEHx[2*65 +: 65]),
-  .ep_addr(8'h20),
-  .ep_datain(debug_wireout[15:0])
-);
-
-okWireOut debug_out21(
-  .okHE(okHE),
-  .okEH(okEHx[3*65 +: 65]),
-  .ep_addr(8'h21),
-  .ep_datain(debug_wireout[31:16])
-);
-
-okWireOut debug_out22(
-  .okHE(okHE),
-  .okEH(okEHx[4*65 +: 65]),
-  .ep_addr(8'h22),
-  .ep_datain(debug_wireout[47:32])
-);
-
-okWireOut debug_out23(
-  .okHE(okHE),
-  .okEH(okEHx[5*65 +: 65]),
-  .ep_addr(8'h23),
-  .ep_datain(debug_wireout[63:48])
 );
 
 endmodule
