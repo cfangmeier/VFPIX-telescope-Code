@@ -34,6 +34,17 @@ def long_to_bytes (val, endianness='big'):
     return s
 
 
+def bytes_to_ints(byte_array):
+    n = len(byte_array) // 4
+    ints = []
+    for i in range(n):
+        int_ = byte_array[i*4]
+        int_ = (int_ << 8) | byte_array[i*4+1]
+        int_ = (int_ << 8) | byte_array[i*4+2]
+        int_ = (int_ << 8) | byte_array[i*4+3]
+        ints.append(int_)
+    return ints
+
 
 class bcolors:
     HEADER = '\033[95m'

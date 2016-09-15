@@ -1,13 +1,29 @@
- /* spi_controller
-  *
-  * Controller responsible for multiplexing the SPI interface to allow
-  * controll by multiple agents.
-  *
-  * The interfacing HDL must also supply clk_inv to determine
-  * if data is read by the device on the rising(clk_inv=1)
-  * or falling(clk_inv=0) clock edge.
-  */
+//-------------------------------------------------------------------------
+//  COPYRIGHT (C) 2016  Univ. of Nebraska - Lincoln
+//
+//  This program is free software; you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation; either version 2 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License along
+//  with this program; if not, write to the Free Software Foundation, Inc.,
+//  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+//-------------------------------------------------------------------------
+// Title       : spi_controller
+// Author      : Caleb Fangmeier
+// Description : Controller responsible for multiplexing the SPI interface
+//               to allow controll by multiple agents.
+//
+// $Id$
+//-------------------------------------------------------------------------
 `default_nettype none
+`timescale 1ns / 1ps
 
 module spi_controller(
   input  wire        sys_clk, // 50 MHz
@@ -75,10 +91,11 @@ always @(posedge sys_clk or posedge reset) begin
   end
   else begin
     if ( !busy & dac_request_write ) begin
-      data_out[19:8] <= dac_data[11:0];
-      data_out[23:20] <= dac_address[3:0];
-      data_out[27:24] <= 4'b0011;
       data_out[31:28] <= 4'b1001;
+      data_out[27:24] <= 4'b0011;
+      data_out[23:20] <= dac_address[3:0];
+      data_out[19:8] <= dac_data[11:0];
+      data_out[7:0] <= 0;
       read_bits <= 6'h00;
       write_bits <= 6'h20;
       request_action <= 1;
@@ -92,6 +109,7 @@ always @(posedge sys_clk or posedge reset) begin
       data_out[28:24] <= 5'h00; // A12:A8
       data_out[23:16] <= adc_address[7:0]; // A7:A0
       data_out[15:8] <= adc_data[7:0]; // D7:D0
+      data_out[7:0] <= 0;
       read_bits <= 6'd00;
       write_bits <= 6'd24;
       request_action <= 1;
@@ -104,6 +122,7 @@ always @(posedge sys_clk or posedge reset) begin
       data_out[30:29] <= 2'h0; // w1,w0
       data_out[28:24] <= 5'h00; // A12:A8
       data_out[23:16] <= adc_address[7:0]; // A7:A0
+      data_out[15:0] <= 0;
       read_bits <= 6'd08;
       write_bits <= 6'd16;
       request_action <= 1;

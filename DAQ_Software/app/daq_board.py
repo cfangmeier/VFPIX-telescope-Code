@@ -3,12 +3,13 @@
 from __future__ import (print_function, absolute_import,
                         division, with_statement)
 from enum import IntEnum
+from functools import reduce
 from Queue import deque
 import binascii
 import time
 
 import ok
-from utils import bcolors
+from app.utils import bcolors, bytes_to_ints
 
 
 class LED(IntEnum):
@@ -108,13 +109,13 @@ class DAQBoard:
             5: 'cu_instr[0]', 6: 'cu_instr[1]', 7: 'cu_instr[2]',
             8: 'cu_instr[3]', 9: 'cu_instr[4]',
 
-            10: 'dac_addr[0]', 11: 'dac_addr[1]', 12: 'dac_addr[2]',
-            13: 'dac_addr[3]', 14: 'dac_addr[4]',
-            15: 'dac_data[0]', 16: 'dac_data[1]', 17: 'dac_data[2]',
-            18: 'dac_data[3]', 19: 'dac_data[4]', 20: 'dac_data[5]',
-            21: 'dac_data[6]', 22: 'dac_data[7]', 23: 'dac_data[8]',
-            24: 'dac_data[9]', 25: 'dac_data[10]',
-            26: 'dac_request_write',
+            # 10: 'dac_addr[0]', 11: 'dac_addr[1]', 12: 'dac_addr[2]',
+            # 13: 'dac_addr[3]', 14: 'dac_addr[4]',
+            # 15: 'dac_data[0]', 16: 'dac_data[1]', 17: 'dac_data[2]',
+            # 18: 'dac_data[3]', 19: 'dac_data[4]', 20: 'dac_data[5]',
+            # 21: 'dac_data[6]', 22: 'dac_data[7]', 23: 'dac_data[8]',
+            # 24: 'dac_data[9]', 25: 'dac_data[10]',
+            # 26: 'dac_request_write',
             27: 'spi_busy',
             64: 'sclk',
             65: 'sdio',
@@ -123,10 +124,11 @@ class DAQBoard:
             68: 'adc_csb[0]', 69: 'adc_csb[1]', 70: 'adc_csb[2]',
             71: 'adc_csb[3]', 72: 'adc_csb[4]', 73: 'adc_csb[5]',
             74: 'adc_csb[6]', 75: 'adc_csb[7]',
-            # 10: 'rdbck[0]', 11: 'rdbck[1]', 12: 'rdbck[2]', 13: 'rdbck[3]',
-            # 14: 'rdbck[4]', 15: 'rdbck[5]', 16: 'rdbck[6]', 17: 'rdbck[7]',
-            # 18: 'rdbck[8]', 19: 'rdbck[9]', 20: 'rdbck[10]', 21: 'rdbck[11]',
-            # 22: 'rdbck[12]', 23: 'rdbck[13]', 24: 'rdbck[14]', 25: 'rdbck[15]',
+
+            10: 'rdbck[0]', 11: 'rdbck[1]', 12: 'rdbck[2]', 13: 'rdbck[3]',
+            14: 'rdbck[4]', 15: 'rdbck[5]', 16: 'rdbck[6]', 17: 'rdbck[7]',
+            18: 'rdbck[8]', 19: 'rdbck[9]', 20: 'rdbck[10]', 21: 'rdbck[11]',
+            22: 'rdbck[12]', 23: 'rdbck[13]', 24: 'rdbck[14]', 25: 'rdbck[15]',
 
             # 32: 'instr[0]', 33: 'instr[1]', 34: 'instr[2]', 35: 'instr[3]',
             # 36: 'instr[4]', 37: 'instr[5]', 38: 'instr[6]', 39: 'instr[7]',
@@ -152,7 +154,8 @@ class DAQBoard:
     def __enter__(self):
         self.front_panel.OpenBySerial(self.serial)
         if self.firmware_path is not None:
-            self.program_device(self.firmware_path)
+            self._program_device()
+        self.welcome()
 
     def __exit__(self, exc_type, exc_value, traceback):
         self.front_panel.Close()
@@ -180,23 +183,19 @@ class DAQBoard:
     @staticmethod
     def enumerate_devices():
         front_panel = ok.okCFrontPanel()
-        print("Connected Devices:")
-        print("==================")
         dev_count = front_panel.GetDeviceCount()
         devices = []
         for i in range(dev_count):
             serial = front_panel.GetDeviceListSerial(i)
-            device = (i, serial)
-            print("{:02d}:{}".format(*device))
-            devices.append(device)
+            devices.append(serial)
         return devices
 
-    def program_device(self, filename):
-        status = self.front_panel.ConfigureFPGA(filename)
-        if status == self.front_panel.NoError:
-            print("Download Success")
-        else:
-            print("Download Error: ", status)
+    def _program_device(self):
+        fw = self.firmware_path
+        status = self.front_panel.ConfigureFPGA(fw)
+        if status != self.front_panel.NoError:
+            fmt = 'Failed to Program Device, Error Code: \{}'
+            raise RuntimeError(fmt.format(status))
         self.front_panel.ResetFPGA()
 
     def soft_reset(self):
@@ -205,6 +204,15 @@ class DAQBoard:
 
     def set_led(self, led, value=WireState.ON):
         self._set_wire_in_value(value, led)
+
+    def send_commands(self, commands):
+        fp = self.front_panel
+        pad_length = len(commands) % 4
+        commands += [bytearray(4)]*pad_length
+        data = reduce(bytearray.__add__, commands)
+        ret_val = fp.WriteToPipeIn(self.INSTRUCTION_PIPE_ADDR, data)
+        if ret_val < 0:
+            print('Error: ', ret_val)
 
     def send_command(self, command):
         fp = self.front_panel
@@ -235,7 +243,7 @@ class DAQBoard:
                 print(h[i*4:i*4+4], end=' ')
                 if i % 8 == 7:
                     print()
-        return data
+        return bytes_to_ints(data)
 
     def welcome(self):
         for _ in range(4):
@@ -290,15 +298,17 @@ class DAQBoard:
 
         def cmd_dac_write(args):
             try:
-                addr = int(args[0], 16)
-                val = int(args[1], 16)
-                write_instr = InstructionSet.write_dac_reg(addr, val)
+                dac = InstructionSet.DAC[args[0].upper()]
+                addr = int(args[1], 16)
+                val = int(args[2], 16)
+                write_instr = InstructionSet.write_dac_reg(dac, addr, val)
                 self.send_command(write_instr)
             except (IndexError, ValueError):
-                print('usage: dac_write 0x{addr} 0x{data}')
+                print(('usage: dac_write '
+                       '[ADC_RANGE_ADJUST|APC_REFERENCE] '
+                       '0x{addr} 0x{data}'))
 
         def cmd_adc_read(args):
-            print(args)
             try:
                 adc = InstructionSet.ADC[args[0].upper()]
                 addr = int(args[1], 16)
@@ -306,6 +316,16 @@ class DAQBoard:
                 self.send_command(write_instr)
             except (KeyError, IndexError, ValueError):
                 print('usage: adc_read [A-H] 0x{addr}')
+
+        def cmd_adc_write(args):
+            try:
+                adc = InstructionSet.ADC[args[0].upper()]
+                addr = int(args[1], 16)
+                val = int(args[2], 16)
+                write_instr = InstructionSet.write_adc_reg(adc, addr, val)
+                self.send_command(write_instr)
+            except (KeyError, IndexError, ValueError):
+                print('usage: adc_write [A-H] 0x{addr} 0x{val}')
 
         def cmd_read(args):
             if args:
@@ -325,6 +345,7 @@ class DAQBoard:
                    'read': cmd_read,
                    'dac_write': cmd_dac_write,
                    'adc_read': cmd_adc_read,
+                   'adc_write': cmd_adc_write,
                    'bufread': cmd_bufread}
         cont = True
         while cont:
@@ -337,7 +358,8 @@ class DAQBoard:
                 continue
             for cmd, args in cmds:
                 if cmd in ('h', 'help'):
-                    print('available commands: ', ', '.join(sorted(cmd_map.keys())))
+                    cmd_list = ', '.join(sorted(cmd_map.keys()))
+                    print('available commands: ', cmd_list)
                     continue
                 if cmd in ('quit', 'exit'):
                     cont = False
@@ -348,24 +370,3 @@ class DAQBoard:
                     print('unknown command \"{}\"'.format(cmd))
                     break
         self._set_wire_in_value(WireState.OFF, self.DEBUG)
-
-
-def main():
-    firmware_path = ("/home/caleb/Sources/Telescope_Project/"
-                     "VFPIX-telescope-Code/DAQ_Firmware/"
-                     "output_files/daq_firmware.rbf")
-    _, serial = DAQBoard.enumerate_devices()[0]
-    daq_board = DAQBoard(firmware_path, serial)
-    with daq_board:
-        daq_board.soft_reset()
-        daq_board.welcome()
-        daq_board.debug()
-        # steps = [0x000, 0x800, 0xFFF]
-        # dac = InstructionSet.DAC.APC_REFERENCE
-        # while True:
-        #     for i in range(256):
-        #         write_instr = InstructionSet.write_dac_reg(dac, 0xF, steps[i % 3])
-        #         daq_board.send_command(write_instr)
-
-if __name__ == '__main__':
-    main()

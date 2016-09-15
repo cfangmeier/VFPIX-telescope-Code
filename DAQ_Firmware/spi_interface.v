@@ -41,11 +41,11 @@ module spi_interface (
   output reg          cs
 );
 
-parameter DIVIDE = 1;
+parameter DIVIDE = 2;
 wire [DIVIDE-1:0] sclk_next;
 
 reg [6:0] cycle_counter;
-reg [31:0] data_in_shifter;
+reg [30:0] data_in_shifter;
 reg [31:0] data_out_shifter;
 reg is_writing;
 reg sdio_int;
@@ -76,11 +76,11 @@ always @(posedge clk or posedge reset) begin
         data_out_shifter <= data_out;
         data_in_shifter <= 32'h00000000;
         cs <= 0;
-        sclk_int <= 5'h00;
+        sclk_int <= 0;
       end
     end
     else begin
-      if ( sclk_int[DIVIDE-1] & ~(sclk_next[DIVIDE-1]) ) begin
+      if ( ~sclk_int[DIVIDE-1] & sclk_next[DIVIDE-1] ) begin
         if (cycle_counter < write_bits) begin  // writing
           is_writing <= 1;
           sdio_int <= data_out_shifter[31];
@@ -90,12 +90,12 @@ always @(posedge clk or posedge reset) begin
         end
         else if (cycle_counter < (write_bits+read_bits)) begin  // reading
           is_writing <= 0;
-          data_in_shifter <= {data_in_shifter[30:0], sdio};
+          data_in_shifter <= {data_in_shifter[29:0], sdio};
           cs <= 1;
           cycle_counter <= cycle_counter + 1;
         end
         else begin
-          data_in <= data_in_shifter;
+          data_in <= {data_in_shifter, sdio};
           busy <= 0;
           cycle_counter <= 6'h00;
           cs <= 0;

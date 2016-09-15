@@ -295,6 +295,7 @@ spi_controller spi_controller_inst(
   .adc_request_read ( adc_request_read ),
   .adc_address ( adc_address ),
   .adc_data ( adc_data ),
+  .adc_data_readback ( adc_data_readback ),
   .busy ( spi_busy ),
   .sclk ( sclk ),
   .sdio ( sdio ),
