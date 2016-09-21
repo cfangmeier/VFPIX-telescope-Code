@@ -67,14 +67,23 @@ module daq_firmware(
   input   wire [7:0]  adc_dat_a,
   input   wire [7:0]  adc_dat_b,
   input   wire [7:0]  adc_dat_c,
-  input   wire [7:0]  adc_dat_d
+  input   wire [7:0]  adc_dat_d,
+
+  inout  wire  [3:0]         flash_dq,
+  output wire                flash_dq0,
+  output wire                rj45_led_lat,
+  output wire                rj45_led_blk,
+  output wire                rj45_led_sck,
+  output wire                rj45_led_sin,
+  output wire                rj45_led_lat,
+  output wire                rj45_led_blk,
   );
 
 //
 // PARAMETERS
 //
 parameter DEBUG_SIZE = 8; // Number of 16-bit wireouts in debug_unit
-parameter OK_SIZE = DEBUG_SIZE+2;
+parameter OK_SIZE = DEBUG_SIZE+3;
 
 //
 // WIRES
@@ -191,10 +200,22 @@ okWireIn wire10(
   .ep_dataout(wirein)
 );
 
+wire flashprog_write;
+wire [31:0] flashprog_data;
+wire flashprog_ready;
+okBTPipeIn programming_input_btpipe(
+  .okHE ( okHE ),
+  .okEH ( okEHx[(DEBUG_SIZE + 0)*65 +: 65] ),
+  .ep_addr ( 8'h81 ),
+  .ep_write ( flashprog_write ),
+  .ep_dataout ( flashprog_data )
+  .ep_blockstrobe ( )
+  .ep_ready ( flashprog_ready )
+);
 
 okPipeIn pipe80(
   .okHE(okHE),
-  .okEH(okEHx[(DEBUG_SIZE + 0)*65 +: 65]),
+  .okEH(okEHx[(DEBUG_SIZE + 1)*65 +: 65]),
   .ep_addr(8'h80),
   .ep_write(instr_write),
   .ep_dataout(data_in)
@@ -202,7 +223,7 @@ okPipeIn pipe80(
 
 okPipeOut pipeA0(
   .okHE(okHE),
-  .okEH(okEHx[(DEBUG_SIZE + 1)*65 +: 65]),
+  .okEH(okEHx[(DEBUG_SIZE + 2)*65 +: 65]),
   .ep_addr(8'hA0),
   .ep_read( readback_buffer_read ),
   .ep_datain( pipe_out_buf )
@@ -210,32 +231,32 @@ okPipeOut pipeA0(
 
 
 // High-Level Control Unit
-control_unit control_unit_inst (
-  .clk ( sys_clk ),
-  .reset ( reset ),
+/* control_unit control_unit_inst ( */
+/*   .clk ( sys_clk ), */
+/*   .reset ( reset ), */
 
-  .instr_ready ( ~instr_empty ),
-  .instr_ack ( instr_ack ),
-  .instr_in ( instr ),
+/*   .instr_ready ( ~instr_empty ), */
+/*   .instr_ack ( instr_ack ), */
+/*   .instr_in ( instr ), */
 
-  .readback_ready ( ~readback_buffer_full ),
-  .readback_write ( readback_buffer_write ),
-  .readback_data ( readback_buffer_data ),
+/*   .readback_ready ( ~readback_buffer_full ), */
+/*   .readback_write ( readback_buffer_write ), */
+/*   .readback_data ( readback_buffer_data ), */
 
-  .dac_request_write ( dac_request_write ),
-  .dac_address ( dac_address ),
-  .dac_data ( dac_data ),
+/*   .dac_request_write ( dac_request_write ), */
+/*   .dac_address ( dac_address ), */
+/*   .dac_data ( dac_data ), */
 
-  .adc_request_write ( adc_request_write ),
-  .adc_request_read ( adc_request_read ),
-  .adc_address ( adc_address ),
-  .adc_data ( adc_data ),
-  .adc_data_readback ( adc_data_readback ),
+/*   .adc_request_write ( adc_request_write ), */
+/*   .adc_request_read ( adc_request_read ), */
+/*   .adc_address ( adc_address ), */
+/*   .adc_data ( adc_data ), */
+/*   .adc_data_readback ( adc_data_readback ), */
 
-  .spi_busy ( spi_busy ),
-  .cu_state ( cu_state ),
-  .cu_instr ( cu_instr )
-);
+/*   .spi_busy ( spi_busy ), */
+/*   .cu_state ( cu_state ), */
+/*   .cu_instr ( cu_instr ) */
+/* ); */
 
 debug_unit #(.DEBUG_SIZE(DEBUG_SIZE)) debug_unit_inst (
   .sys_clk_ext ( sys_clk_ext ),
@@ -273,34 +294,6 @@ fifo32_clock_crossing  readback_buffer (
   .q ( readback_buffer_q ),
   .rdempty (  ),
   .wrfull ( readback_buffer_full )
-);
-
-rj45_led_controller rj45_led_controller_inst(
-  .clk ( sys_clk ),
-  .led_vals_i ( rj45_led_data[7:0] ),
-  .led_vals_o (  ),
-  .rj45_led_sck ( rj45_led_sck ),
-  .rj45_led_sin ( rj45_led_sin ),
-  .rj45_led_lat ( rj45_led_lat ),
-  .rj45_led_blk ( rj45_led_blk )
-);
-
-spi_controller spi_controller_inst(
-  .sys_clk ( sys_clk ),
-  .reset ( reset ),
-  .dac_request_write ( dac_request_write ),
-  .dac_address ( dac_address ),
-  .dac_data ( dac_data ),
-  .adc_request_write ( adc_request_write ),
-  .adc_request_read ( adc_request_read ),
-  .adc_address ( adc_address ),
-  .adc_data ( adc_data ),
-  .adc_data_readback ( adc_data_readback ),
-  .busy ( spi_busy ),
-  .sclk ( sclk ),
-  .sdio ( sdio ),
-  .adc_csb ( adc_csb ),
-  .dac_csb ( {supdac_csb, rngdac_csb} )
 );
 
 endmodule

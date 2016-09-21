@@ -1,41 +1,109 @@
 # Loading project modelsim
-vsim work.control_unit_testbench
-# vsim work.control_unit_testbench 
-# Start time: 14:46:30 on Sep 01,2016
+source control_unit_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 17:47:39 on Sep 21,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v lshift.v multiplier.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module lshift
+# -- Compiling module multiplier
+# ** Error: multiplier.v(45): (vlog-2892) Net type of 'dataa' must be explicitly declared.
+# ** Error: multiplier.v(46): (vlog-2892) Net type of 'datab' must be explicitly declared.
+# End time: 17:47:40 on Sep 21,2016, Elapsed time: 0:00:01
+# Errors: 2, Warnings: 0
+# /opt/altera/16.0/modelsim_ase/linuxaloem/vlog failed.
+source control_unit_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 17:48:34 on Sep 21,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v lshift.v multiplier.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module lshift
+# -- Compiling module multiplier
+# 
+# Top level modules:
+# 	comb_test
+# 	control_unit_testbench
+# End time: 17:48:35 on Sep 21,2016, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# vsim -L 220model_ver -voptargs=""+acc"" work.control_unit_testbench 
+# Start time: 17:48:35 on Sep 21,2016
 # Loading work.control_unit_testbench
 # Loading work.control_unit
-# ** Warning: (vsim-3015) /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/control_unit_testbench.v(60): [PCDPC] - Port size (5) does not match connection size (1) for port 'dac_address'. The port definition is at: /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/control_unit.v(40).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst File: /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/control_unit.v
-# ** Warning: (vsim-3015) /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/control_unit_testbench.v(60): [PCDPC] - Port size (12) does not match connection size (1) for port 'dac_data'. The port definition is at: /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/control_unit.v(41).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst File: /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/control_unit.v
-# ** Warning: (vsim-3015) /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/control_unit_testbench.v(60): [PCDPC] - Port size (16) does not match connection size (1) for port 'adc_address'. The port definition is at: /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/control_unit.v(45).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst File: /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/control_unit.v
-# ** Warning: (vsim-3015) /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/control_unit_testbench.v(60): [PCDPC] - Port size (8) does not match connection size (1) for port 'adc_data'. The port definition is at: /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/control_unit.v(46).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst File: /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/control_unit.v
-# ** Warning: (vsim-3015) /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/control_unit_testbench.v(60): [PCDPC] - Port size (8) does not match connection size (1) for port 'adc_data_readback'. The port definition is at: /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/control_unit.v(47).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst File: /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/control_unit.v
-add wave -position insertpoint  \
-sim:/control_unit_testbench/sys_clk
-add wave -position insertpoint  \
-sim:/control_unit_testbench/reset
-add wave -position insertpoint  \
-sim:/control_unit_testbench/instr_empty
-add wave -position insertpoint  \
-sim:/control_unit_testbench/instr_ack
-add wave -position insertpoint  \
-sim:/control_unit_testbench/instr
-add wave -position insertpoint  \
-sim:/control_unit_testbench/readback_buffer_full
-add wave -position insertpoint  \
-sim:/control_unit_testbench/readback_buffer_write
-add wave -position insertpoint  \
-sim:/control_unit_testbench/readback_buffer_data
-run
+# Loading work.lshift
+# Loading 220model_ver.lpm_clshift
+# Loading work.multiplier
+# Loading 220model_ver.lpm_mult
+# Loading 220model_ver.LPM_HINT_EVALUATION
+# ** Warning: (vsim-3015) control_unit.v(494): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: lshift.v(44).
+#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/lshift_inst File: lshift.v
+# ** Warning: (vsim-3015) control_unit.v(502): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: multiplier.v(43).
+#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/multiplier_inst File: multiplier.v
 # ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
-run
-run
-run
-run
-# Break key hit
-# End time: 17:22:05 on Sep 01,2016, Elapsed time: 2:35:35
-# Errors: 0, Warnings: 6
+# {0 ps} {840 ns}
+source control_unit_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 17:52:03 on Sep 21,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v lshift.v multiplier.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module lshift
+# -- Compiling module multiplier
+# 
+# Top level modules:
+# 	comb_test
+# 	control_unit_testbench
+# End time: 17:52:03 on Sep 21,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# End time: 17:52:04 on Sep 21,2016, Elapsed time: 0:03:29
+# Errors: 0, Warnings: 3
+# vsim -L 220model_ver -voptargs=""+acc"" work.control_unit_testbench 
+# Start time: 17:52:04 on Sep 21,2016
+# Loading work.control_unit_testbench
+# Loading work.control_unit
+# Loading work.lshift
+# Loading 220model_ver.lpm_clshift
+# Loading work.multiplier
+# Loading 220model_ver.lpm_mult
+# Loading 220model_ver.LPM_HINT_EVALUATION
+# ** Warning: (vsim-3015) control_unit.v(494): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: lshift.v(44).
+#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/lshift_inst File: lshift.v
+# ** Warning: (vsim-3015) control_unit.v(502): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: multiplier.v(43).
+#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/multiplier_inst File: multiplier.v
+# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
+# {0 ps} {840 ns}
+source control_unit_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 17:53:30 on Sep 21,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v lshift.v multiplier.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module lshift
+# -- Compiling module multiplier
+# 
+# Top level modules:
+# 	comb_test
+# 	control_unit_testbench
+# End time: 17:53:30 on Sep 21,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# End time: 17:53:30 on Sep 21,2016, Elapsed time: 0:01:26
+# Errors: 0, Warnings: 3
+# vsim -L 220model_ver -voptargs=""+acc"" work.control_unit_testbench 
+# Start time: 17:53:30 on Sep 21,2016
+# Loading work.control_unit_testbench
+# Loading work.control_unit
+# Loading work.lshift
+# Loading 220model_ver.lpm_clshift
+# Loading work.multiplier
+# Loading 220model_ver.lpm_mult
+# Loading 220model_ver.LPM_HINT_EVALUATION
+# ** Warning: (vsim-3015) control_unit.v(494): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: lshift.v(44).
+#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/lshift_inst File: lshift.v
+# ** Warning: (vsim-3015) control_unit.v(502): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: multiplier.v(43).
+#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/multiplier_inst File: multiplier.v
+# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
+# {0 ps} {840 ns}

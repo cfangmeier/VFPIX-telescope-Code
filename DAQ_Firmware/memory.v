@@ -1,11 +1,47 @@
- /* memory.v
-  *
-  * This is the top-level design file for the telescope firmware
-  */
+//-------------------------------------------------------------------------
+//  COPYRIGHT (C) 2016  Univ. of Nebraska - Lincoln
+//
+//  This program is free software; you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation; either version 2 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License along
+//  with this program; if not, write to the Free Software Foundation, Inc.,
+//  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+//-------------------------------------------------------------------------
+// Title       : memory
+// Author      : Caleb Fangmeier
+// Description : Memory interface
+//
+// $Id$
+//-------------------------------------------------------------------------
 `default_nettype none
+`timescale 1ns / 1ps
 
 module memory(
-  input wire sys_clk,
+
+  //--------------------------------------------------------------------------
+  //------------------------CONTROL INTERFACE---------------------------------
+  //--------------------------------------------------------------------------
+  input  wire sys_clk,
+  input  wire reset,
+  input  wire [31:0] data_i,
+  output wire [31:0] data_o,
+  input  wire [19:0] addr,
+  input  wire write_req,
+  input  wire read_req,
+  output reg  busy
+
+  //--------------------------------------------------------------------------
+  //---------------------------HW INTERFACE-----------------------------------
+  //--------------------------------------------------------------------------
+  //===RAM===
   output wire [ 12: 0]       mem_addr,
   output wire [  2: 0]       mem_ba,
   output wire                mem_cas_n,
@@ -19,63 +55,59 @@ module memory(
   output wire [  0: 0]       mem_odt,
   output wire                mem_ras_n,
   output wire                mem_we_n
+  //===RJ-45 LEDs===
+  //===SPI-Interface===
+  );
+
+
+
+always @( posedge sys_clk  or posedge reset ) begin
+
+
+
+end
+
+rj45_led_controller rj45_led_controller_inst(
+  .clk ( sys_clk ),
+  .led_vals_i ( rj45_led_data[7:0] ),
+  .led_vals_o (  ),
+  .rj45_led_sck ( rj45_led_sck ),
+  .rj45_led_sin ( rj45_led_sin ),
+  .rj45_led_lat ( rj45_led_lat ),
+  .rj45_led_blk ( rj45_led_blk )
 );
 
-// Memory Interface
-wire mem_aux_full_rate_clk;
-wire mem_aux_half_rate_clk;
-wire global_reset_n;
-wire local_init_done;
-wire local_burstbegin;
-wire mem_local_addr;
-wire mem_local_be;
-wire mem_local_rdata;
-wire mem_local_rdata_valid;
-wire mem_local_read_req;
-wire mem_local_ready;
-wire mem_local_size;
-wire mem_local_wdata;
-wire mem_local_write_req;
-wire phy_clk;
-wire reset_phy_clk_n;
-wire local_pll_locked;
-
-ram_controller ram_controller_inst (
-  .aux_full_rate_clk        (mem_aux_full_rate_clk),
-  .aux_half_rate_clk        (mem_aux_half_rate_clk),
-  .global_reset_n           (global_reset_n),
-
-  .local_init_done          (local_init_done),
-  .local_burstbegin         (local_burstbegin),
-
-  .local_address            (mem_local_addr),
-  .local_be                 (mem_local_be),
-  .local_rdata              (mem_local_rdata),
-  .local_rdata_valid        (mem_local_rdata_valid),
-  .local_read_req           (mem_local_read_req),
-  .local_ready              (mem_local_ready),
-  .local_size               (mem_local_size),
-  .local_wdata              (mem_local_wdata),
-  .local_write_req          (mem_local_write_req),
-
-  .mem_addr                 (mem_addr[12 : 0]),
-  .mem_ba                   (mem_ba),
-  .mem_cas_n                (mem_cas_n),
-  .mem_cke                  (mem_cke),
-  .mem_clk                  (mem_clk),
-  .mem_clk_n                (mem_clk_n),
-  .mem_cs_n                 (mem_cs_n),
-  .mem_dm                   (mem_dm[1 : 0]),
-  .mem_dq                   (mem_dq),
-  .mem_dqs                  (mem_dqs[1 : 0]),
-  .mem_odt                  (mem_odt),
-  .mem_ras_n                (mem_ras_n),
-  .mem_we_n                 (mem_we_n),
-
-  .phy_clk                  (phy_clk),
-  .pll_ref_clk              (sys_clk),
-  .reset_phy_clk_n          (reset_phy_clk_n),
-  .reset_request_n          (local_pll_locked),
-  .soft_reset_n             (1'b1)
+spi_controller spi_controller_inst(
+  .sys_clk ( sys_clk ),
+  .reset ( reset ),
+  .dac_request_write ( dac_request_write ),
+  .dac_address ( dac_address ),
+  .dac_data ( dac_data ),
+  .adc_request_write ( adc_request_write ),
+  .adc_request_read ( adc_request_read ),
+  .adc_address ( adc_address ),
+  .adc_data ( adc_data ),
+  .adc_data_readback ( adc_data_readback ),
+  .busy ( spi_busy ),
+  .sclk ( sclk ),
+  .sdio ( sdio ),
+  .adc_csb ( adc_csb ),
+  .dac_csb ( {supdac_csb, rngdac_csb} )
 );
-endmodule
+
+memory memory_inst(
+  .sys_clk (  ),
+  .mem_addr (  ),
+  .mem_ba (  ),
+  .mem_cas_n (  ),
+  .mem_cke (  ),
+  .mem_clk (  ),
+  .mem_clk_n (  ),
+  .mem_cs_n (  ),
+  .mem_dm (  ),
+  .mem_dq (  ),
+  .mem_dqs (  ),
+  .mem_odt (  ),
+  .mem_ras_n (  ),
+  .mem_we_n (  )
+);

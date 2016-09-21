@@ -39,4 +39,4 @@ testbench/
 *_sim/
 qmegawiz_errors_log.txt
 .cnxerr
-
+.qsys_edit/

@@ -1,0 +1,29 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 d/home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim
+vcontrol_unit
+!s110 1474480301
+!i10b 1
+!s100 HY67A7`jGON@_GjP:QzM11
+IHZYiF3P@eSo::JMB=O4jG2
+VDg1SIo80bB@j0V0VzS_@n1
+R0
+w1474422158
+8control_unit.v
+Fcontrol_unit.v
+L0 27
+OV;L;10.4d;61
+r1
+!s85 0
+31
+!s108 1474480301.000000
+!s107 control_unit.v|
+!s90 -reportprogress|300|control_unit.v|
+!i113 1

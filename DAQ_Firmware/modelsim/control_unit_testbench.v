@@ -33,54 +33,33 @@ module control_unit_testbench
 reg sys_clk;
 reg reset;
 
-reg instr_empty;
-wire instr_ack;
-reg [31:0] instr[3:0];
-
-reg readback_buffer_full;
-wire readback_buffer_write;
-wire [31:0] readback_buffer_data;
-
-wire dac_request_write;
-wire dac_address;
-wire dac_data;
-
-wire adc_request_write;
-wire adc_request_read;
-wire adc_address;
-wire adc_data;
-wire adc_data_readback;
-
-reg spi_busy;
-
 integer i;
 
 parameter CLK_PERIOD = 10;
+parameter MEM_WORDS = 16;
+
+wire        read_req;
+wire        write_req;
+wire [16:0] addr;
+wire [31:0] data_o;
+reg  [31:0] data_i;
+reg         busy;
+
+/* reg [7:0] mem[0:4096]; // 1k words */
+reg [7:0] mem[0:4*MEM_WORDS]; // 1k words
 
 control_unit control_unit_inst (
   .clk ( sys_clk ),
   .reset ( reset ),
 
-  .instr_ready ( ~instr_empty ),
-  .instr_ack ( instr_ack ),
-  .instr_in ( instr[0] ),
-
-  .readback_ready ( ~readback_buffer_full ),
-  .readback_write ( readback_buffer_write ),
-  .readback_data ( readback_buffer_data ),
-
-  .dac_request_write ( dac_request_write ),
-  .dac_address ( dac_address ),
-  .dac_data ( dac_data ),
-
-  .adc_request_write ( adc_request_write ),
-  .adc_request_read ( adc_request_read ),
-  .adc_address ( adc_address ),
-  .adc_data ( adc_data ),
-  .adc_data_readback ( adc_data_readback ),
-
-  .spi_busy ( spi_busy )
+  .memory_read_req ( read_req ),
+  .memory_write_req ( write_req ),
+  .memory_addr ( addr ),
+  .memory_data_o ( data_o ),
+  .memory_data_i ( data_i ),
+  .memory_busy ( busy )
 );
+initial i = 0;
 
 initial sys_clk = 1'b0;
 always #( CLK_PERIOD/2.0 )
@@ -89,24 +68,79 @@ always #( CLK_PERIOD/2.0 )
 initial reset = 1'b1;
 always @( posedge sys_clk ) begin
   i = i + 1;
-  if ( i == 20 )
-    #1 reset <= 1'b0;
+  if ( i == 2 )
+    reset <= 1'b0;
 end
 
-initial i = 0;
-initial instr_empty = 1'b0;
-initial instr[0] = 32'h_0C_18_00_60;
-initial instr[1] = 32'h_14_18_00_60;
-initial instr[2] = 32'h_00_00_00_00;
-initial instr[3] = 32'h_00_00_00_00;
-initial readback_buffer_full = 1'b0;
+always @(posedge sys_clk or reset) begin
+  if ( reset ) begin
+    /* //add $r0 $r0 $r1 */
+    /* mem[0] = 8'b000011_00; */
+    /* mem[1] = 8'b00_0_0000_0; */
+    /* mem[2] = 8'b001_0000_0; */
+    /* mem[3] = 8'b10_000000; */
+    //bal 12
+    /* mem[0] = 8'b001001_00; */
+    /* mem[1] = 8'b00_000000; */
+    /* mem[2] = 8'b00000000; */
+    /* mem[3] = 8'b00001100; */
 
-always @(posedge sys_clk) begin
-  if ( instr_ack ) begin
-    instr[0] <= instr[1];
-    instr[1] <= instr[2];
-    instr[2] <= instr[3];
-    instr[3] <= instr[0];
+    //jr $r15
+    /* mem[12] = 8'b001011_00; */
+    /* mem[13] = 8'b00_0_1111_0; */
+    /* mem[14] = 8'b000_0000_0; */
+    /* mem[15] = 8'b00_000000; */
+
+    /* //ldw $r10 $r0 24 */
+    /* mem[0] = 8'b000010_00; */
+    /* mem[1] = 8'b00_0_1010_0; */
+    /* mem[2] = 8'b00000000; */
+    /* mem[3] = 8'b00011000; */
+
+    /* //stw $r10 $r0 28 */
+    /* mem[4] = 8'b000110_00; */
+    /* mem[5] = 8'b00_0_1010_0; */
+    /* mem[6] = 8'b00000000; */
+    /* mem[7] = 8'b00011100; */
+
+    //andil $r10 $r0 {}
+    mem[0] = 8'b011010_00;
+    mem[1] = 8'b00_0_1010_0;
+    mem[2] = 8'b11111111;
+    mem[3] = 8'b11111111;
+
+    //andih $r10 $r10 {}
+    mem[4] = 8'b011110_10;
+    mem[5] = 8'b10_0_1010_0;
+    mem[6] = 8'b10101010;
+    mem[7] = 8'b11111111;
+
+    //andih $r10 $r10 {}
+    mem[8] = 8'b011110_10;
+    mem[9] = 8'b10_0_1010_0;
+    mem[10] = 8'b00000000;
+    mem[11] = 8'b10101010;
+
+    mem[24] = 8'b10000001;
+    mem[25] = 8'b01010101;
+    mem[26] = 8'b10101010;
+    mem[27] = 8'b01111110;
+  end
+  else begin
+    busy <= 0;
+    if ( read_req ) begin
+      data_i <= {mem[addr[11:0]+0],
+                 mem[addr[11:0]+1],
+                 mem[addr[11:0]+2],
+                 mem[addr[11:0]+3]};
+    end
+    if ( write_req ) begin
+      mem[addr[11:0]+0] <= data_o[31:24];
+      mem[addr[11:0]+1] <= data_o[23:16];
+      mem[addr[11:0]+2] <= data_o[15:8];
+      mem[addr[11:0]+3] <= data_o[7:0];
+    end
   end
 end
+
 endmodule

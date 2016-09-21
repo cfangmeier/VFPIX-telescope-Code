@@ -8,45 +8,98 @@ z2
 !i10f 100
 cModel Technology
 d/home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Software
-vcontrol_unit
-Z0 !s110 1472679664
+vcomb_test
+Z0 !s110 1474498410
 !i10b 1
-!s100 jTU1_Fk5U1YKA>Zd3Yk[@0
-Ii84QA7=7N4g^A7c5FgYjL2
+!s100 i=zmS8?C`I5^h1mQ6RPoQ2
+I8zHaMhJB[<JMjnJDz4djX2
 Z1 VDg1SIo80bB@j0V0VzS_@n1
 Z2 d/home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim
-w1472676991
-8/home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/control_unit.v
-F/home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/control_unit.v
-Finstruction_set.vh
-Fregister_space.vh
-Z3 L0 27
-Z4 OV;L;10.4d;61
+w1474410028
+8comb_test.v
+Fcomb_test.v
+L0 4
+Z3 OV;L;10.4d;61
 r1
 !s85 0
 31
-Z5 !s108 1472679664.000000
-!s107 register_space.vh|instruction_set.vh|/home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/control_unit.v|
-!s90 -reportprogress|300|-work|work|-stats=none|/home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/control_unit.v|
+Z4 !s108 1474498410.000000
+Z5 !s107 multiplier.v|lshift.v|control_unit_testbench.v|control_unit.v|comb_test.v|
+Z6 !s90 -reportprogress|300|comb_test.v|control_unit.v|control_unit_testbench.v|lshift.v|multiplier.v|
 !i113 1
-Z6 o-work work
+vcontrol_unit
+R0
+!i10b 1
+!s100 [508N;c]jH91l3YVNKI@<0
+IKCM6_GoJH9gd60AdgiX;X2
+R1
+R2
+w1474498405
+8control_unit.v
+Fcontrol_unit.v
+Z7 L0 27
+R3
+r1
+!s85 0
+31
+R4
+R5
+R6
+!i113 1
 vcontrol_unit_testbench
 R0
 !i10b 1
-!s100 Ne:1?F>nXbS[z3mWlP1Fo3
-I07XX_8R<B?9;TngJ9@o_N3
+!s100 40VAoJJVcggBQI]z;jTgA0
+If7nzhBTi][PaiWn]6?cEM2
 R1
 R2
-w1472679661
-8/home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/control_unit_testbench.v
-F/home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/control_unit_testbench.v
+w1474498320
+8control_unit_testbench.v
+Fcontrol_unit_testbench.v
+R7
 R3
-R4
 r1
 !s85 0
 31
+R4
 R5
-!s107 /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/control_unit_testbench.v|
-!s90 -reportprogress|300|-work|work|-stats=none|/home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/control_unit_testbench.v|
-!i113 1
 R6
+!i113 1
+vlshift
+R0
+!i10b 1
+!s100 1LJJZJ0F15XFQHc8dc1oz1
+Ic5m:`CfTN59zC[9id0mCl2
+R1
+R2
+w1474481001
+8lshift.v
+Flshift.v
+Z8 L0 40
+R3
+r1
+!s85 0
+31
+R4
+R5
+R6
+!i113 1
+vmultiplier
+R0
+!i10b 1
+!s100 AUlCeL9H]zAT5ICnF@3co2
+IRX]99?Ga7Yb@488>B1_Q83
+R1
+R2
+w1474498111
+8multiplier.v
+Fmultiplier.v
+R8
+R3
+r1
+!s85 0
+31
+R4
+R5
+R6
+!i113 1
