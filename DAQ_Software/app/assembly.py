@@ -16,10 +16,10 @@ opcodes_d_type = {
         'stw':   '000110',
         'addil': '001010',
         'addih': '001110',
-        'orih':  '010010',
-        'oril':  '010110',
-        'andih': '011010',
-        'andil': '011110',
+        'oril':  '010010',
+        'orih':  '010110',
+        'andil': '011010',
+        'andih': '011110',
         }
 
 opcodes_b_type = {
@@ -142,13 +142,10 @@ def remove_comments(ass_lines):
         pre_comment = line.split('#')[0].strip()
         if pre_comment != '':
             yield line_number, instruction_number, pre_comment
+            instruction_number += 1
 
 
 def assemble(ass_text):
-    print()
-    print('='*80)
-    print(ass_text)
-    print('='*80)
     lines = list(enumerate(ass_text.split('\n')))
     lines = remove_comments(lines)
     labels = {}
@@ -160,5 +157,4 @@ def assemble(ass_text):
         instructions.append(instr)
 
     bins = [instr.get_bin() for instr in instructions]
-    print(bins)
     return bins
