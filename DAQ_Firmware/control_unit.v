@@ -60,6 +60,8 @@ parameter ALU_MULT = 5'b01001;
 parameter OP_NOOP  = 6'b00_0000;
 parameter OP_ALU   = 6'b00_0011;
 parameter OP_JR    = 6'b00_1011;
+parameter OP_SPUSH = 6'b00_0111;
+parameter OP_SPOP  = 6'b00_1111;
 
 parameter OP_B     = 6'b00_0001;
 parameter OP_BAL   = 6'b00_1001;
@@ -72,6 +74,24 @@ parameter OP_ORIL  = 6'b01_0010;
 parameter OP_ORIH  = 6'b01_0110;
 parameter OP_ANDIL = 6'b01_1010;
 parameter OP_ANDIH = 6'b01_1110;
+
+parameter COND_EQ  = 4'b0000; // Z==1
+parameter COND_NE  = 4'b0001; // Z==0
+parameter COND_HS  = 4'b0010; // C==1
+parameter COND_LO  = 4'b0011; // C==0
+parameter COND_MI  = 4'b0100; // N==1
+parameter COND_PL  = 4'b0101; // N==0
+parameter COND_VS  = 4'b0110; // V==1
+parameter COND_VC  = 4'b0111; // V==0
+
+parameter COND_HI  = 4'b1000; // C==1 & Z == 0
+parameter COND_LS  = 4'b1001; // C==0 | Z == 1
+parameter COND_GE  = 4'b1010; // (N==1 & V==1) | (N==0 & V==0)
+parameter COND_LT  = 4'b1011; // (N==1 & V==0) | (N==0 & V==1)
+parameter COND_GT  = 4'b1100; // Z==0 | (N==1 & V==1) | (N==0 & V==0)
+parameter COND_LE  = 4'b1101; // Z==1 | (N==1 & V==0) | (N==0 & V==1)
+parameter COND_AL  = 4'b1110; // 1
+parameter COND_NV  = 4'b1111; // 0
 
 //----------------------------------------------------------------------------
 // WIRES
@@ -92,8 +112,15 @@ wire [16:0] muxMA_out;
 wire lshift_result;
 wire lshift_overflow;
 wire lshift_underflow;
-
 wire multiply_result;
+
+// ALU Status Registers
+wire alu_stat_N; // Result Negative
+wire alu_stat_Z; // Result Zero
+wire alu_stat_C; // Carry
+wire alu_stat_V; // Overflow
+
+wire cycle_start;
 //----------------------------------------------------------------------------
 // REGISTERS
 //----------------------------------------------------------------------------
@@ -103,6 +130,7 @@ reg [3:0]  wr_addr_a;
 reg [3:0]  wr_addr_b;
 reg [3:0]  wr_addr_c;
 reg        wr_write;
+
 // Program Counter
 reg [15:0] pc;
 reg [15:0] ret_addr;
@@ -111,16 +139,25 @@ reg [31:0] ir;
 
 // Intermediate Registers
 reg [31:0] ra;
+reg [31:0] rax;
 reg [31:0] rb;
 reg [31:0] rz;
 reg [31:0] ry;
 reg [31:0] rm;
 
+// ALU Status Register
+reg N;
+reg Z;
+reg C;
+reg V;
+reg status_pass;
+reg status_pass_temp;
+
 // Control Unit outputs
 reg        pc_enable;
 reg        ir_enable;
 reg [31:0] immediate;
-reg [31:0] immediate_comb;
+reg [31:0] immediate_temp;
 reg [2:0]  alu_op;
 reg [2:0]  cpu_stage;
 reg [2:0]  cpu_stage_next;
@@ -129,50 +166,62 @@ reg        muxB_sel;
 reg [1:0]  muxY_sel;
 reg        muxPC_sel;
 reg        muxINC_sel;
-reg        muxMA_sel;
+reg [1:0]  muxMA_sel;
 //----------------------------------------------------------------------------
 // ASSIGNMENTS
 //----------------------------------------------------------------------------
 assign muxB_out = (muxB_sel == 1'h0) ? rb : immediate;
 assign muxY_out = (muxY_sel == 2'h0) ? rz            :
                   (muxY_sel == 2'h1) ? memory_data_i :
-                  (muxY_sel == 2'h2) ? ret_addr      : 0;
+                  (muxY_sel == 2'h2) ? ret_addr + 4  :
+                  /* else         */   alu_out;
 assign alu_inA = ra;
 assign alu_inB = muxB_out;
 
 assign muxINC_out = (muxINC_sel == 1'h0) ? 32'h4 : immediate;
 assign muxPC_out = (muxPC_sel == 1'h0) ? ra : pc + muxINC_out;
 
-assign muxMA_out = (muxMA_sel == 1'h0) ? rz[16:0] : {1'b0,pc};
+assign muxMA_out = (muxMA_sel == 2'h0) ? rz[16:0] :
+                   (muxMA_sel == 2'h1) ? {1'b0,pc}:
+                   (muxMA_sel == 2'h2) ? rax[16:0]:
+                   /* else         */    0;
 
-assign wr_out_a = wr[wr_addr_a];
-assign wr_out_b = wr[wr_addr_b];
+assign wr_out_a = (wr_addr_a == 0) ? 0: wr[wr_addr_a-1];
+assign wr_out_b = (wr_addr_b == 0) ? 0: wr[wr_addr_b-1];
 
 assign memory_data_o = rm;
 assign memory_addr = muxMA_out;
 
+assign cycle_start = (cpu_stage == STAGE_1);
+
+assign alu_stat_N = alu_out[31];
+assign alu_stat_Z = (alu_out == 32'h0);
+assign alu_stat_C = 0; //TODO: Implement Carry Bit
+assign alu_stat_V = 0; //TODO: Implement Overflow Bit
 //----------------------------------------------------------------------------
 // ALU
 //----------------------------------------------------------------------------
 always @(alu_inA or alu_inB or alu_op) begin
   case ( alu_op )
     ALU_ADD:
-      alu_out = alu_inA + alu_inB;
+      alu_out <= alu_inA + alu_inB;
     ALU_SUB:
-      alu_out = alu_inA - alu_inB;
+      alu_out <= alu_inA - alu_inB;
     ALU_AND:
-      alu_out = alu_inA & alu_inB;
+      alu_out <= alu_inA & alu_inB;
     ALU_OR:
-      alu_out = alu_inA | alu_inB;
+      alu_out <= alu_inA | alu_inB;
     ALU_XOR:
-      alu_out = alu_inA ^ alu_inB;
+      alu_out <= alu_inA ^ alu_inB;
     ALU_SLL:
-      alu_out = lshift_result;
+      alu_out <= lshift_result;
     ALU_MULT:
-      alu_out = multiply_result;
+      alu_out <= multiply_result;
     default:
-      alu_out = 0;
+      alu_out <= 0;
   endcase
+  /* alu_stat_N <= alu_out[31]; */
+  /* alu_stat_Z <= (alu_out == 32'h0); */
 end
 
 //----------------------------------------------------------------------------
@@ -202,12 +251,15 @@ integer j;
 always @(posedge clk or posedge reset) begin
   if ( reset ) begin
     for (j=0; j < 16; j=j+1) begin
-      wr[j] <= j;
+      /* wr[j] <= j; */
+      wr[j] <= 0;
     end
   end
   else begin
     if ( wr_write ) begin
-      wr[wr_addr_c] <= ry;
+      if ( wr_addr_c != 0 ) begin
+        wr[wr_addr_c-1] <= ry;
+      end
     end
   end
 end
@@ -218,6 +270,7 @@ end
 always @(posedge clk or posedge reset) begin
   if ( reset ) begin
     ra <= 0;
+    rax <= 0;
     rb <= 0;
     rz <= 0;
     rm <= 0;
@@ -225,17 +278,87 @@ always @(posedge clk or posedge reset) begin
     ret_addr <= 0;
     cpu_stage <= STAGE_5;
     immediate <= 0;
+    N <= 0;
+    Z <= 0;
+    C <= 0;
+    V <= 0;
   end
   else begin
     ra <= wr_out_a;
+    rax <= ra;
     rb <= wr_out_b;
     rz <= alu_out;
     rm <= rb;
     ry <= muxY_out;
     ret_addr <= pc;
     cpu_stage <= cpu_stage_next;
-    immediate <= immediate_comb;
+    immediate <= immediate_temp;
+    if (ir[21] & cpu_stage == STAGE_3) begin
+      N <= alu_stat_N;
+      Z <= alu_stat_Z;
+      C <= alu_stat_C;
+      V <= alu_stat_V;
+    end
+    if (cpu_stage == STAGE_2 ) begin
+      status_pass <= status_pass_temp;
+    end
   end
+end
+
+//----------------------------------------------------------------------------
+// Condition Codes
+//----------------------------------------------------------------------------
+always @(ir or Z or C or N or V) begin
+  case ( ir[25:22] )
+    COND_EQ: begin
+      status_pass_temp = Z;
+    end
+    COND_NE: begin
+      status_pass_temp = ~Z;
+    end
+    COND_HS: begin
+      status_pass_temp = C;
+    end
+    COND_LO: begin
+      status_pass_temp = ~C;
+    end
+    COND_MI: begin
+      status_pass_temp = N;
+    end
+    COND_PL: begin
+      status_pass_temp = ~N;
+    end
+    COND_VS: begin
+      status_pass_temp = V;
+    end
+    COND_VC: begin
+      status_pass_temp = ~V;
+    end
+    COND_HI: begin
+      status_pass_temp = C & ~Z;
+    end
+    COND_LS: begin
+      status_pass_temp = ~C | Z;
+    end
+    COND_GE: begin
+      status_pass_temp = (N & V) | (~N & ~V);
+    end
+    COND_LT: begin
+      status_pass_temp = (N & ~V) | (~N & V);
+    end
+    COND_GT: begin
+      status_pass_temp = ~Z & (N & V) | (~N & ~V);
+    end
+    COND_LE: begin
+      status_pass_temp = Z | (N & ~V) | (~N & V);
+    end
+    COND_AL: begin
+      status_pass_temp = 1;
+    end
+    COND_NV: begin
+      status_pass_temp = 0;
+    end
+  endcase
 end
 
 //----------------------------------------------------------------------------
@@ -245,7 +368,7 @@ always @(cpu_stage or ir or memory_busy) begin
   if ( reset ) begin
     cpu_stage_next <= STAGE_5;
     pc_enable <= 0;
-    immediate_comb <= 0;
+    immediate_temp <= 0;
     alu_op <= 0;
     memory_read_req <= 0;
     memory_write_req <= 0;
@@ -254,7 +377,7 @@ always @(cpu_stage or ir or memory_busy) begin
     // Set defaults
     pc_enable <= 0;
     ir_enable <= 0;
-    immediate_comb <= 0;
+    immediate_temp <= 0;
     alu_op <= 0;
     muxB_sel <= 0;
     muxY_sel <= 0;
@@ -282,59 +405,68 @@ always @(cpu_stage or ir or memory_busy) begin
             wr_addr_a <= ir[20:17];
             wr_addr_b <= ir[16:13];
           end
+          OP_SPUSH: begin
+            wr_addr_a <= 4'd14;
+            wr_addr_b <= ir[12:9];
+            immediate_temp <= 4;
+          end
+          OP_SPOP: begin
+            wr_addr_a <= 4'd14;
+            immediate_temp <= 4;
+          end
           OP_B: begin
             if ( ir[15] )
-              immediate_comb <= {16'hFFFF, ir[15:0]};
+              immediate_temp <= {16'hFFFF, ir[15:0]};
             else
-              immediate_comb <= {16'h0000, ir[15:0]};
+              immediate_temp <= {16'h0000, ir[15:0]};
           end
           OP_BAL: begin
             if ( ir[15] )
-              immediate_comb <= {16'hFFFF, ir[15:0]};
+              immediate_temp <= {16'hFFFF, ir[15:0]};
             else
-              immediate_comb <= {16'h0000, ir[15:0]};
+              immediate_temp <= {16'h0000, ir[15:0]};
           end
           OP_LDW: begin
             wr_addr_a <= ir[25:22];
             if ( ir[15] )
-              immediate_comb <= {16'hFFFF, ir[15:0]};
+              immediate_temp <= {16'hFFFF, ir[15:0]};
             else
-              immediate_comb <= {16'h0000, ir[15:0]};
+              immediate_temp <= {16'h0000, ir[15:0]};
           end
           OP_STW: begin
             wr_addr_a <= ir[25:22];
             wr_addr_b <= ir[20:17];
             if ( ir[15] )
-              immediate_comb <= {16'hFFFF, ir[15:0]};
+              immediate_temp <= {16'hFFFF, ir[15:0]};
             else
-              immediate_comb <= {16'h0000, ir[15:0]};
+              immediate_temp <= {16'h0000, ir[15:0]};
           end
           OP_ADDIL: begin
             wr_addr_a <= ir[25:22];
             if ( ir[15] )
-              immediate_comb <= {16'hFFFF, ir[15:0]};
+              immediate_temp <= {16'hFFFF, ir[15:0]};
             else
-              immediate_comb <= {16'h0000, ir[15:0]};
+              immediate_temp <= {16'h0000, ir[15:0]};
           end
           OP_ADDIH: begin
             wr_addr_a <= ir[25:22];
-            immediate_comb <= {ir[15:0], 16'h0000};
+            immediate_temp <= {ir[15:0], 16'h0000};
           end
           OP_ORIL: begin
             wr_addr_a <= ir[25:22];
-            immediate_comb <= {16'h0000, ir[15:0]};
+            immediate_temp <= {16'h0000, ir[15:0]};
           end
           OP_ORIH: begin
             wr_addr_a <= ir[25:22];
-            immediate_comb <= {ir[15:0], 16'h0000};
+            immediate_temp <= {ir[15:0], 16'h0000};
           end
           OP_ANDIL: begin
             wr_addr_a <= ir[25:22];
-            immediate_comb <= {16'hFFFF, ir[15:0]};
+            immediate_temp <= {16'hFFFF, ir[15:0]};
           end
           OP_ANDIH: begin
             wr_addr_a <= ir[25:22];
-            immediate_comb <= {ir[15:0], 16'hFFFF};
+            immediate_temp <= {ir[15:0], 16'hFFFF};
           end
           default: begin
           end
@@ -349,13 +481,29 @@ always @(cpu_stage or ir or memory_busy) begin
             alu_op <= ir[8:4];
           end
           OP_JR: begin
-            muxPC_sel <= 0;
+            if ( status_pass ) begin
+              muxPC_sel <= 0;
+            end
+          end
+          OP_SPUSH: begin
+            muxB_sel <= 1;
+            alu_op <= ALU_SUB;
+            muxY_sel <= 3;
+          end
+          OP_SPOP: begin
+            muxB_sel <= 1;
+            alu_op <= ALU_ADD;
+            muxY_sel <= 3;
           end
           OP_B: begin
-            muxINC_sel <= 1;
+            if ( status_pass ) begin
+              muxINC_sel <= 1;
+            end
           end
           OP_BAL: begin
-            muxINC_sel <= 1;
+            if ( status_pass ) begin
+              muxINC_sel <= 1;
+            end
           end
           OP_LDW: begin
             muxB_sel <= 1;
@@ -398,6 +546,30 @@ always @(cpu_stage or ir or memory_busy) begin
         case ( ir[31:26] )
           OP_ALU: begin
             muxY_sel <= 0;
+          end
+          OP_SPUSH: begin
+            wr_addr_c <= 14;
+            muxMA_sel <= 0;
+            if ( status_pass ) begin
+              wr_write <= 1;
+              memory_write_req <= 1;
+              cpu_stage_next <= STAGE_4_MEM;
+            end
+            else begin
+              cpu_stage_next <= STAGE_5;
+            end
+          end
+          OP_SPOP: begin
+            wr_addr_c <= 14;
+            muxMA_sel <= 2;
+            if ( status_pass ) begin
+              wr_write <= 1;
+              memory_read_req <= 1;
+              cpu_stage_next <= STAGE_4_MEM;
+            end
+            else begin
+              cpu_stage_next <= STAGE_5;
+            end
           end
           OP_BAL: begin
             muxY_sel <= 2;
@@ -447,11 +619,11 @@ always @(cpu_stage or ir or memory_busy) begin
         memory_read_req <= 1;
         case ( ir[31:26] )
           OP_ALU: begin
-            wr_write <= 1;
+            wr_write <= status_pass;
             wr_addr_c <= ir[12:9];
           end
           OP_BAL: begin
-            wr_write <= 1;
+            wr_write <= status_pass;
             wr_addr_c <= 15;
           end
           OP_LDW: begin
@@ -481,6 +653,10 @@ always @(cpu_stage or ir or memory_busy) begin
           OP_ANDIH: begin
             wr_write <= 1;
             wr_addr_c <= ir[20:17];
+          end
+          OP_SPOP: begin
+            wr_write <= status_pass;
+            wr_addr_c <= ir[12:9];
           end
           default: begin
           end

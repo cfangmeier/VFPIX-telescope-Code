@@ -36,7 +36,7 @@ reg reset;
 integer i;
 
 parameter CLK_PERIOD = 10;
-parameter MEM_WORDS = 16;
+parameter MEM_WORDS = 128;
 
 wire        read_req;
 wire        write_req;
@@ -46,7 +46,7 @@ reg  [31:0] data_i;
 reg         busy;
 
 /* reg [7:0] mem[0:4096]; // 1k words */
-reg [7:0] mem[0:4*MEM_WORDS]; // 1k words
+reg [31:0] mem[0:MEM_WORDS-1]; // 1k words
 
 control_unit control_unit_inst (
   .clk ( sys_clk ),
@@ -71,6 +71,8 @@ always @( posedge sys_clk ) begin
   if ( i == 2 )
     reset <= 1'b0;
 end
+
+initial $readmemh("instructions.txt", mem);
 
 always @(posedge sys_clk or reset) begin
   if ( reset ) begin
@@ -104,43 +106,47 @@ always @(posedge sys_clk or reset) begin
     /* mem[7] = 8'b00011100; */
 
     //andil $r10 $r0 {}
-    mem[0] = 8'b011010_00;
-    mem[1] = 8'b00_0_1010_0;
-    mem[2] = 8'b11111111;
-    mem[3] = 8'b11111111;
+    /* mem[0] = 8'b011010_00; */
+    /* mem[1] = 8'b00_0_1010_0; */
+    /* mem[2] = 8'b11111111; */
+    /* mem[3] = 8'b11111111; */
 
-    //andih $r10 $r10 {}
-    mem[4] = 8'b011110_10;
-    mem[5] = 8'b10_0_1010_0;
-    mem[6] = 8'b10101010;
-    mem[7] = 8'b11111111;
+    /* //andih $r10 $r10 {} */
+    /* mem[4] = 8'b011110_10; */
+    /* mem[5] = 8'b10_0_1010_0; */
+    /* mem[6] = 8'b10101010; */
+    /* mem[7] = 8'b11111111; */
 
-    //andih $r10 $r10 {}
-    mem[8] = 8'b011110_10;
-    mem[9] = 8'b10_0_1010_0;
-    mem[10] = 8'b00000000;
-    mem[11] = 8'b10101010;
+    /* //andih $r10 $r10 {} */
+    /* mem[8] = 8'b011110_10; */
+    /* mem[9] = 8'b10_0_1010_0; */
+    /* mem[10] = 8'b00000000; */
+    /* mem[11] = 8'b10101010; */
 
-    mem[24] = 8'b10000001;
-    mem[25] = 8'b01010101;
-    mem[26] = 8'b10101010;
-    mem[27] = 8'b01111110;
+    /* mem[24] = 8'b10000001; */
+    /* mem[25] = 8'b01010101; */
+    /* mem[26] = 8'b10101010; */
+    /* mem[27] = 8'b01111110; */
   end
   else begin
     busy <= 0;
     if ( read_req ) begin
-      data_i <= {mem[addr[11:0]+0],
-                 mem[addr[11:0]+1],
-                 mem[addr[11:0]+2],
-                 mem[addr[11:0]+3]};
+      data_i <= mem[addr>>2];
     end
     if ( write_req ) begin
-      mem[addr[11:0]+0] <= data_o[31:24];
-      mem[addr[11:0]+1] <= data_o[23:16];
-      mem[addr[11:0]+2] <= data_o[15:8];
-      mem[addr[11:0]+3] <= data_o[7:0];
+      mem[addr>>2] <= data_o;
     end
   end
 end
 
+integer j;
+reg [7:0] memory [0:15]; // 8 bit memory with 16 entries
+
+initial begin
+    for (j=0; j<16; j=j+1) begin
+        memory[j] = j;
+    end
+    $writememb("memory_binary.txt", memory);
+    $writememh("memory_hex.txt", memory);
+end
 endmodule
