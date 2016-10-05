@@ -88,7 +88,6 @@ set_location_assignment PIN_E1 -to okUHU[29]
 set_location_assignment PIN_F2 -to okUHU[30]
 set_location_assignment PIN_F1 -to okUHU[31]
 set_location_assignment PIN_J3 -to okAA
-set_location_assignment PIN_B2 -to user_reset
 set_location_assignment PIN_G5 -to led[0]
 set_location_assignment PIN_H5 -to led[1]
 set_location_assignment PIN_A15 -to mem_dq[0]
@@ -185,7 +184,6 @@ set_instance_assignment -name IO_STANDARD "1.8 V" -to okUHU[30]
 set_instance_assignment -name IO_STANDARD "1.8 V" -to okUHU[31]
 
 set_instance_assignment -name IO_STANDARD "1.8 V" -to okAA
-set_instance_assignment -name IO_STANDARD "1.8 V" -to user_reset
 
 set_instance_assignment -name IO_STANDARD "SSTL-18 CLASS I" -to mem_odt[0]
 set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to mem_odt[0]
@@ -350,8 +348,9 @@ set_global_assignment -name EDA_OUTPUT_DATA_FORMAT NONE -section_id eda_simulati
 set_location_assignment PIN_N22 -to rngdac_csb
 set_location_assignment PIN_W15 -to led_ext[0]
 set_location_assignment PIN_U12 -to led_ext[1]
-set_location_assignment PIN_A12 -to sys_clk_ext
-set_instance_assignment -name IO_STANDARD "1.8 V" -to sys_clk_ext
+set_location_assignment PIN_AA13 -to adc_csb[0]
+set_location_assignment PIN_AB13 -to adc_csb[1]
+set_global_assignment -name VERILOG_FILE hal.v
 set_global_assignment -name VERILOG_FILE control_unit.v
 set_global_assignment -name VERILOG_FILE debug_unit.v
 set_global_assignment -name VERILOG_FILE fifo32_clock_crossing.v
@@ -367,13 +366,197 @@ set_global_assignment -name VERILOG_FILE okEndpoints.v
 set_global_assignment -name VERILOG_FILE fifo32.v
 set_global_assignment -name QIP_FILE fifo32.qip
 set_global_assignment -name QIP_FILE ram_controller.qip
-set_global_assignment -name SDC_FILE okHost.sdc
 set_global_assignment -name QIP_FILE ADC_PLL.qip
 set_global_assignment -name SOURCE_FILE db/daq_firmware.cmp.rdb
-set_location_assignment PIN_AA13 -to adc_csb[0]
-set_location_assignment PIN_AB13 -to adc_csb[1]
-set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
 set_global_assignment -name QIP_FILE fifo32_clk_crossing_with_usage.qip
 set_global_assignment -name QIP_FILE lshift.qip
 set_global_assignment -name QIP_FILE multiplier.qip
-set_global_assignment -name QIP_FILE sqrt.qip
+set_global_assignment -name QIP_FILE on_chip_rom.qip
+set_global_assignment -name SDC_FILE okHost.sdc
+set_global_assignment -name VERILOG_FILE memory.v
+set_instance_assignment -name IO_STANDARD LVDS -to adc_fco[0]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_dat_a[7]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_dat_a[6]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_dat_a[5]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_dat_a[4]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_dat_a[3]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_dat_a[2]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_dat_a[1]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_dat_a[0]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_dat_a
+set_instance_assignment -name IO_STANDARD LVDS -to adc_dat_b[7]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_dat_b[6]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_dat_b[5]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_dat_b[4]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_dat_b[3]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_dat_b[2]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_dat_b[1]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_dat_b[0]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_dat_b
+set_instance_assignment -name IO_STANDARD LVDS -to adc_dat_c[7]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_dat_c[6]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_dat_c[5]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_dat_c[4]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_dat_c[3]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_dat_c[2]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_dat_c[1]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_dat_c[0]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_dat_c
+set_instance_assignment -name IO_STANDARD LVDS -to adc_dat_d[7]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_dat_d[6]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_dat_d[5]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_dat_d[4]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_dat_d[3]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_dat_d[2]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_dat_d[1]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_dat_d[0]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_dat_d
+set_instance_assignment -name IO_STANDARD LVDS -to adc_dco[7]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_dco[6]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_dco[5]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_dco[4]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_dco[3]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_dco[2]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_dco[1]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_dco[0]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_dco
+set_instance_assignment -name IO_STANDARD LVDS -to adc_fco[7]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_fco[6]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_fco[5]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_fco[4]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_fco[3]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_fco[2]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_fco[1]
+set_instance_assignment -name IO_STANDARD LVDS -to adc_fco
+set_location_assignment PIN_Y14 -to adc_dat_a[7]
+set_location_assignment PIN_Y15 -to "adc_dat_a[7](n)"
+set_location_assignment PIN_N19 -to adc_dat_a[6]
+set_location_assignment PIN_N20 -to "adc_dat_a[6](n)"
+set_location_assignment PIN_N2 -to adc_dat_a[2]
+set_location_assignment PIN_N1 -to "adc_dat_a[2](n)"
+set_location_assignment PIN_W6 -to adc_dat_a[1]
+set_location_assignment PIN_V7 -to "adc_dat_a[1](n)"
+set_location_assignment PIN_T10 -to adc_dat_a[0]
+set_location_assignment PIN_T11 -to "adc_dat_a[0](n)"
+set_location_assignment PIN_B22 -to "adc_dat_a[5](n)"
+set_location_assignment PIN_B21 -to adc_dat_a[5]
+set_location_assignment PIN_F22 -to "adc_dat_a[4](n)"
+set_location_assignment PIN_F21 -to adc_dat_a[4]
+set_location_assignment PIN_R3 -to "adc_dat_a[3](n)"
+set_location_assignment PIN_R4 -to adc_dat_a[3]
+set_location_assignment PIN_V14 -to adc_dat_b[7]
+set_location_assignment PIN_U14 -to "adc_dat_b[7](n)"
+set_location_assignment PIN_N18 -to adc_dat_b[6]
+set_location_assignment PIN_N17 -to "adc_dat_b[6](n)"
+set_location_assignment PIN_C22 -to "adc_dat_b[5](n)"
+set_location_assignment PIN_C21 -to adc_dat_b[5]
+set_location_assignment PIN_J22 -to "adc_dat_b[4](n)"
+set_location_assignment PIN_J21 -to adc_dat_b[4]
+set_location_assignment PIN_V1 -to "adc_dat_b[3](n)"
+set_location_assignment PIN_V2 -to adc_dat_b[3]
+set_location_assignment PIN_M3 -to "adc_dat_b[2](n)"
+set_location_assignment PIN_M4 -to adc_dat_b[2]
+set_location_assignment PIN_AA5 -to adc_dat_b[1]
+set_location_assignment PIN_AA6 -to "adc_dat_b[1](n)"
+set_location_assignment PIN_AA9 -to adc_dat_b[0]
+set_location_assignment PIN_AB9 -to "adc_dat_b[0](n)"
+set_location_assignment PIN_W17 -to adc_dat_c[7]
+set_location_assignment PIN_Y17 -to "adc_dat_c[7](n)"
+set_location_assignment PIN_R14 -to adc_dat_c[6]
+set_location_assignment PIN_R15 -to "adc_dat_c[6](n)"
+set_location_assignment PIN_D22 -to "adc_dat_c[5](n)"
+set_location_assignment PIN_D21 -to adc_dat_c[5]
+set_location_assignment PIN_M22 -to "adc_dat_c[4](n)"
+set_location_assignment PIN_M21 -to adc_dat_c[4]
+set_location_assignment PIN_U1 -to "adc_dat_c[3](n)"
+set_location_assignment PIN_U2 -to adc_dat_c[3]
+set_location_assignment PIN_M1 -to "adc_dat_c[2](n)"
+set_location_assignment PIN_M2 -to adc_dat_c[2]
+set_location_assignment PIN_AB6 -to adc_dat_c[1]
+set_location_assignment PIN_AB5 -to "adc_dat_c[1](n)"
+set_location_assignment PIN_W10 -to adc_dat_c[0]
+set_location_assignment PIN_Y10 -to "adc_dat_c[0](n)"
+set_location_assignment PIN_P21 -to adc_dat_d[7]
+set_location_assignment PIN_P22 -to "adc_dat_d[7](n)"
+set_location_assignment PIN_U15 -to adc_dat_d[6]
+set_location_assignment PIN_V15 -to "adc_dat_d[6](n)"
+set_location_assignment PIN_F20 -to "adc_dat_d[5](n)"
+set_location_assignment PIN_F19 -to adc_dat_d[5]
+set_location_assignment PIN_H20 -to "adc_dat_d[4](n)"
+set_location_assignment PIN_H19 -to adc_dat_d[4]
+set_location_assignment PIN_P3 -to "adc_dat_d[3](n)"
+set_location_assignment PIN_P4 -to adc_dat_d[3]
+set_location_assignment PIN_M6 -to "adc_dat_d[2](n)"
+set_location_assignment PIN_L6 -to adc_dat_d[2]
+set_location_assignment PIN_W7 -to adc_dat_d[1]
+set_location_assignment PIN_Y7 -to "adc_dat_d[1](n)"
+set_location_assignment PIN_U11 -to adc_dat_d[0]
+set_location_assignment PIN_V11 -to "adc_dat_d[0](n)"
+set_location_assignment PIN_AA20 -to adc_fco[7]
+set_location_assignment PIN_AB20 -to "adc_fco[7](n)"
+set_location_assignment PIN_T14 -to adc_fco[6]
+set_location_assignment PIN_T15 -to "adc_fco[6](n)"
+set_location_assignment PIN_C20 -to "adc_fco[5](n)"
+set_location_assignment PIN_D20 -to adc_fco[5]
+set_location_assignment PIN_H22 -to "adc_fco[4](n)"
+set_location_assignment PIN_H21 -to adc_fco[4]
+set_location_assignment PIN_W1 -to "adc_fco[3](n)"
+set_location_assignment PIN_W2 -to adc_fco[3]
+set_location_assignment PIN_P1 -to "adc_fco[2](n)"
+set_location_assignment PIN_P2 -to adc_fco[2]
+set_location_assignment PIN_U7 -to adc_fco[1]
+set_location_assignment PIN_U8 -to "adc_fco[1](n)"
+set_location_assignment PIN_AA8 -to adc_fco[0]
+set_location_assignment PIN_AB8 -to "adc_fco[0](n)"
+set_location_assignment PIN_AA17 -to adc_dco[7]
+set_location_assignment PIN_AB17 -to "adc_dco[7](n)"
+set_location_assignment PIN_U16 -to adc_dco[6]
+set_location_assignment PIN_U17 -to "adc_dco[6](n)"
+set_location_assignment PIN_F17 -to "adc_dco[5](n)"
+set_location_assignment PIN_G17 -to adc_dco[5]
+set_location_assignment PIN_E22 -to "adc_dco[4](n)"
+set_location_assignment PIN_E21 -to adc_dco[4]
+set_location_assignment PIN_Y1 -to "adc_dco[3](n)"
+set_location_assignment PIN_Y2 -to adc_dco[3]
+set_location_assignment PIN_R1 -to "adc_dco[2](n)"
+set_location_assignment PIN_R2 -to adc_dco[2]
+set_location_assignment PIN_V6 -to adc_dco[1]
+set_location_assignment PIN_V5 -to "adc_dco[1](n)"
+set_location_assignment PIN_AA7 -to adc_dco[0]
+set_location_assignment PIN_AB7 -to "adc_dco[0](n)"
+set_location_assignment PIN_A12 -to sys_clk
+set_instance_assignment -name IO_STANDARD "1.8 V" -to sys_clk
+set_instance_assignment -name IO_MAXIMUM_TOGGLE_RATE "0 MHz" -to led_ext[0]
+set_instance_assignment -name IO_MAXIMUM_TOGGLE_RATE "0 MHz" -to rj45_led_lat
+set_instance_assignment -name IO_MAXIMUM_TOGGLE_RATE "0 MHz" -to rngdac_csb
+set_instance_assignment -name IO_MAXIMUM_TOGGLE_RATE "0 MHz" -to led_ext[1]
+set_instance_assignment -name IO_MAXIMUM_TOGGLE_RATE "0 MHz" -to led_ext
+set_instance_assignment -name IO_MAXIMUM_TOGGLE_RATE "0 MHz" -to sclk
+set_instance_assignment -name IO_MAXIMUM_TOGGLE_RATE "0 MHz" -to supdac_csb
+set_instance_assignment -name IO_MAXIMUM_TOGGLE_RATE "0 MHz" -to sdio
+set_instance_assignment -name IO_MAXIMUM_TOGGLE_RATE "0 MHz" -to rj45_led_blk
+set_location_assignment PIN_J4 -to flash_sb
+set_location_assignment PIN_G4 -to flash_dq[0]
+set_location_assignment PIN_K7 -to flash_dq[1]
+set_location_assignment PIN_J2 -to flash_dq[2]
+set_location_assignment PIN_J1 -to flash_dq[3]
+set_location_assignment PIN_G3 -to flash_c
+set_instance_assignment -name IO_STANDARD LVDS_E_3R -to adc_clk
+set_location_assignment PIN_AA3 -to adc_clk
+set_location_assignment PIN_AB3 -to "adc_clk(n)"
+set_location_assignment PIN_AA14 -to adc_csb[2]
+set_location_assignment PIN_AB14 -to adc_csb[3]
+set_location_assignment PIN_W13 -to adc_csb[4]
+set_location_assignment PIN_Y13 -to adc_csb[5]
+set_location_assignment PIN_AA15 -to adc_csb[6]
+set_location_assignment PIN_AB15 -to adc_csb[7]
+set_instance_assignment -name IO_MAXIMUM_TOGGLE_RATE "0 MHz" -to adc_csb[6]
+set_instance_assignment -name IO_MAXIMUM_TOGGLE_RATE "0 MHz" -to adc_csb[7]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to flash_sb
+set_instance_assignment -name IO_STANDARD "1.8 V" -to flash_dq[3]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to flash_dq[2]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to flash_dq[1]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to flash_dq[0]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to flash_dq
+set_instance_assignment -name IO_STANDARD "1.8 V" -to flash_c
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

@@ -61,7 +61,7 @@ parameter READ_START = 3'b110;
 
 wire [9:0] words_available;
 reg [15:0] writes_remaining;
-always @(posedge clk or posedge reset) begin
+always @( posedge clk ) begin
   if ( reset ) begin
     writes_remaining <= 0;
 

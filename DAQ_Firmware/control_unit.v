@@ -30,99 +30,88 @@ module control_unit(
 
   output reg         memory_read_req,
   output reg         memory_write_req,
-  output wire [16:0] memory_addr,
-  output wire [31:0] memory_data_o,
-  input  wire [31:0] memory_data_i,
+  output wire [25:0] memory_addr,
+  output wire [31:0] memory_data_write,
+  input  wire [31:0] memory_data_read,
   input  wire        memory_busy
 );
 
 
 //----------------------------------------------------------------------------
-// PARAMETERS
+// Parameters
 //----------------------------------------------------------------------------
 // State Listing
-parameter STAGE_1     = 3'h1;
-parameter STAGE_2     = 3'h2;
-parameter STAGE_3     = 3'h3;
-parameter STAGE_4     = 3'h4;
-parameter STAGE_4_MEM = 3'h6;
-parameter STAGE_5     = 3'h5;
+localparam STAGE_1     = 3'h1,
+           STAGE_2     = 3'h2,
+           STAGE_3     = 3'h3,
+           STAGE_4     = 3'h4,
+           STAGE_4_MEM = 3'h6,
+           STAGE_5     = 3'h5;
 // ALU Operations
-parameter ALU_SUB  = 5'b00000;
-parameter ALU_SLL  = 5'b00001;
-parameter ALU_ADD  = 5'b00010;
-parameter ALU_XOR  = 5'b00100;
-parameter ALU_OR   = 5'b00101;
-parameter ALU_AND  = 5'b00110;
-parameter ALU_MULT = 5'b01001;
+localparam ALU_SUB  = 5'b00000,
+           ALU_SLL  = 5'b00001,
+           ALU_ADD  = 5'b00010,
+           ALU_XOR  = 5'b00100,
+           ALU_OR   = 5'b00101,
+           ALU_AND  = 5'b00110,
+           ALU_MULT = 5'b01001;
 
 // Op-Code Enumeration
-parameter OP_NOOP  = 6'b00_0000;
-parameter OP_ALU   = 6'b00_0011;
-parameter OP_JR    = 6'b00_1011;
-parameter OP_SPUSH = 6'b00_0111;
-parameter OP_SPOP  = 6'b00_1111;
+localparam OP_NOOP  = 6'b00_0000,
+           OP_ALU   = 6'b00_0011,
+           OP_JR    = 6'b00_1011,
+           OP_SPUSH = 6'b00_0111,
+           OP_SPOP  = 6'b00_1111,
+           OP_B     = 6'b00_0001,
+           OP_BAL   = 6'b00_1001,
+           OP_LDW   = 6'b00_0010,
+           OP_STW   = 6'b00_0110,
+           OP_ADDIL = 6'b00_1010,
+           OP_ADDIH = 6'b00_1110,
+           OP_ORIL  = 6'b01_0010,
+           OP_ORIH  = 6'b01_0110,
+           OP_ANDIL = 6'b01_1010,
+           OP_ANDIH = 6'b01_1110;
 
-parameter OP_B     = 6'b00_0001;
-parameter OP_BAL   = 6'b00_1001;
-
-parameter OP_LDW   = 6'b00_0010;
-parameter OP_STW   = 6'b00_0110;
-parameter OP_ADDIL = 6'b00_1010;
-parameter OP_ADDIH = 6'b00_1110;
-parameter OP_ORIL  = 6'b01_0010;
-parameter OP_ORIH  = 6'b01_0110;
-parameter OP_ANDIL = 6'b01_1010;
-parameter OP_ANDIH = 6'b01_1110;
-
-parameter COND_EQ  = 4'b0000; // Z==1
-parameter COND_NE  = 4'b0001; // Z==0
-parameter COND_HS  = 4'b0010; // C==1
-parameter COND_LO  = 4'b0011; // C==0
-parameter COND_MI  = 4'b0100; // N==1
-parameter COND_PL  = 4'b0101; // N==0
-parameter COND_VS  = 4'b0110; // V==1
-parameter COND_VC  = 4'b0111; // V==0
-
-parameter COND_HI  = 4'b1000; // C==1 & Z == 0
-parameter COND_LS  = 4'b1001; // C==0 | Z == 1
-parameter COND_GE  = 4'b1010; // (N==1 & V==1) | (N==0 & V==0)
-parameter COND_LT  = 4'b1011; // (N==1 & V==0) | (N==0 & V==1)
-parameter COND_GT  = 4'b1100; // Z==0 | (N==1 & V==1) | (N==0 & V==0)
-parameter COND_LE  = 4'b1101; // Z==1 | (N==1 & V==0) | (N==0 & V==1)
-parameter COND_AL  = 4'b1110; // 1
-parameter COND_NV  = 4'b1111; // 0
+localparam COND_EQ  = 4'b0000, // Z==1
+           COND_NE  = 4'b0001, // Z==0
+           COND_HS  = 4'b0010, // C==1
+           COND_LO  = 4'b0011, // C==0
+           COND_MI  = 4'b0100, // N==1
+           COND_PL  = 4'b0101, // N==0
+           COND_VS  = 4'b0110, // V==1
+           COND_VC  = 4'b0111, // V==0
+           COND_HI  = 4'b1000, // C==1 & Z==0
+           COND_LS  = 4'b1001, // C==0 | Z==1
+           COND_GE  = 4'b1010, // (N==1 & V==1) | (N==0 & V==0)
+           COND_LT  = 4'b1011, // (N==1 & V==0) | (N==0 & V==1)
+           COND_GT  = 4'b1100, // Z==0 | (N==1 & V==1) | (N==0 & V==0)
+           COND_LE  = 4'b1101, // Z==1 | (N==1 & V==0) | (N==0 & V==1)
+           COND_AL  = 4'b1110, // 1
+           COND_NV  = 4'b1111; // 0
 
 //----------------------------------------------------------------------------
-// WIRES
+// Wires
 //----------------------------------------------------------------------------
 wire [31:0] alu_inA;
 wire [31:0] alu_inB;
-reg  [31:0] alu_out;
 
 wire [31:0] wr_out_a;
 wire [31:0] wr_out_b;
 
 wire [31:0] muxB_out;
 wire [31:0] muxY_out;
-wire [15:0] muxPC_out;
+wire [24:0] muxPC_out;
 wire [15:0] muxINC_out;
-wire [16:0] muxMA_out;
+wire [25:0] muxMA_out;
 
 wire lshift_result;
 wire lshift_overflow;
 wire lshift_underflow;
 wire multiply_result;
 
-// ALU Status Registers
-wire alu_stat_N; // Result Negative
-wire alu_stat_Z; // Result Zero
-wire alu_stat_C; // Carry
-wire alu_stat_V; // Overflow
-
-wire cycle_start;
 //----------------------------------------------------------------------------
-// REGISTERS
+// Registers
 //----------------------------------------------------------------------------
 // Working Registers
 reg [31:0] wr[15:0];
@@ -132,8 +121,8 @@ reg [3:0]  wr_addr_c;
 reg        wr_write;
 
 // Program Counter
-reg [15:0] pc;
-reg [15:0] ret_addr;
+reg [24:0] pc;
+reg [24:0] ret_addr;
 // Instruction Register
 reg [31:0] ir;
 
@@ -145,11 +134,18 @@ reg [31:0] rz;
 reg [31:0] ry;
 reg [31:0] rm;
 
-// ALU Status Register
+// ALU Status Registers
+reg  [32:0] alu_out;
+reg alu_comb_N; // Result Negative
+reg alu_comb_Z; // Result Zero
+reg alu_comb_C; // Carry
+reg alu_comb_V; // Overflow
+// Persistent flags that only get updated when set-bit is set
 reg N;
 reg Z;
 reg C;
 reg V;
+
 reg status_pass;
 reg status_pass_temp;
 
@@ -158,7 +154,7 @@ reg        pc_enable;
 reg        ir_enable;
 reg [31:0] immediate;
 reg [31:0] immediate_temp;
-reg [2:0]  alu_op;
+reg [4:0]  alu_op;
 reg [2:0]  cpu_stage;
 reg [2:0]  cpu_stage_next;
 
@@ -168,36 +164,31 @@ reg        muxPC_sel;
 reg        muxINC_sel;
 reg [1:0]  muxMA_sel;
 //----------------------------------------------------------------------------
-// ASSIGNMENTS
+// Assignments
 //----------------------------------------------------------------------------
 assign muxB_out = (muxB_sel == 1'h0) ? rb : immediate;
 assign muxY_out = (muxY_sel == 2'h0) ? rz            :
-                  (muxY_sel == 2'h1) ? memory_data_i :
-                  (muxY_sel == 2'h2) ? ret_addr + 4  :
-                  /* else         */   alu_out;
+                  (muxY_sel == 2'h1) ? memory_data_read :
+                  (muxY_sel == 2'h2) ? ret_addr + 1  :
+                  /* else         */   alu_out[31:0];
 assign alu_inA = ra;
 assign alu_inB = muxB_out;
 
-assign muxINC_out = (muxINC_sel == 1'h0) ? 32'h4 : immediate;
-assign muxPC_out = (muxPC_sel == 1'h0) ? ra : pc + muxINC_out;
+assign muxINC_out = (muxINC_sel == 1'h0) ? 16'h1 : immediate[15:0];
+assign muxPC_out = (muxPC_sel == 1'h0) ? ra[24:0] : pc + muxINC_out;
 
-assign muxMA_out = (muxMA_sel == 2'h0) ? rz[16:0] :
+assign muxMA_out = (muxMA_sel == 2'h0) ? rz[25:0] :
                    (muxMA_sel == 2'h1) ? {1'b0,pc}:
-                   (muxMA_sel == 2'h2) ? rax[16:0]:
+                   (muxMA_sel == 2'h2) ? rax[25:0]:
                    /* else         */    0;
 
 assign wr_out_a = (wr_addr_a == 0) ? 0: wr[wr_addr_a-1];
 assign wr_out_b = (wr_addr_b == 0) ? 0: wr[wr_addr_b-1];
 
-assign memory_data_o = rm;
-assign memory_addr = muxMA_out;
+assign memory_data_write = rm;
+assign memory_addr = muxMA_out[25:0];
 
-assign cycle_start = (cpu_stage == STAGE_1);
 
-assign alu_stat_N = alu_out[31];
-assign alu_stat_Z = (alu_out == 32'h0);
-assign alu_stat_C = 0; //TODO: Implement Carry Bit
-assign alu_stat_V = 0; //TODO: Implement Overflow Bit
 //----------------------------------------------------------------------------
 // ALU
 //----------------------------------------------------------------------------
@@ -208,26 +199,49 @@ always @(alu_inA or alu_inB or alu_op) begin
     ALU_SUB:
       alu_out <= alu_inA - alu_inB;
     ALU_AND:
-      alu_out <= alu_inA & alu_inB;
+      alu_out <= {1'b0, alu_inA & alu_inB};
     ALU_OR:
-      alu_out <= alu_inA | alu_inB;
+      alu_out <= {1'b0, alu_inA | alu_inB};
     ALU_XOR:
-      alu_out <= alu_inA ^ alu_inB;
+      alu_out <= {1'b0, alu_inA ^ alu_inB};
     ALU_SLL:
-      alu_out <= lshift_result;
+      alu_out <= {1'b0, lshift_result};
     ALU_MULT:
-      alu_out <= multiply_result;
+      alu_out <= {1'b0, multiply_result};
     default:
       alu_out <= 0;
   endcase
-  /* alu_stat_N <= alu_out[31]; */
-  /* alu_stat_Z <= (alu_out == 32'h0); */
 end
+
+//----------------------------------------------------------------------------
+// ALU Status Flags
+//----------------------------------------------------------------------------
+always @(alu_inA or alu_inB or alu_op or alu_out) begin
+  alu_comb_N <= alu_out[31];
+  alu_comb_Z <= (alu_out == 0);
+  case ( alu_op )
+    ALU_ADD: begin
+      alu_comb_V <= (alu_inA[31] & alu_inB[31] & ~alu_out[31]) |
+                   (~alu_inA[31] & ~alu_inB[31] & alu_out[31]);
+      alu_comb_C <= alu_out[32];
+    end
+    ALU_SUB: begin
+      alu_comb_V <= (alu_inA[31] & ~alu_inB[31] & ~alu_out[31]) |
+                   (~alu_inA[31] & alu_inB[31] & alu_out[31]);
+      alu_comb_C <= ~alu_out[32];
+    end
+    default: begin
+      alu_comb_V <= 0;
+      alu_comb_C <= 0;
+    end
+  endcase
+end
+
 
 //----------------------------------------------------------------------------
 // PC Logic
 //----------------------------------------------------------------------------
-always @(posedge clk or posedge reset) begin
+always @( posedge clk ) begin
   if ( reset )
     pc <= 0;
   else if ( pc_enable )
@@ -237,18 +251,18 @@ end
 //----------------------------------------------------------------------------
 // IR Logic
 //----------------------------------------------------------------------------
-always @(posedge clk or posedge reset) begin
+always @( posedge clk ) begin
   if ( reset )
     ir <= 0;
   else if ( ir_enable )
-    ir <= memory_data_i;
+    ir <= memory_data_read;
 end
 
 //----------------------------------------------------------------------------
 // Working Registers
 //----------------------------------------------------------------------------
 integer j;
-always @(posedge clk or posedge reset) begin
+always @( posedge clk ) begin
   if ( reset ) begin
     for (j=0; j < 16; j=j+1) begin
       /* wr[j] <= j; */
@@ -267,7 +281,7 @@ end
 //----------------------------------------------------------------------------
 // Register clocking
 //----------------------------------------------------------------------------
-always @(posedge clk or posedge reset) begin
+always @( posedge clk ) begin
   if ( reset ) begin
     ra <= 0;
     rax <= 0;
@@ -287,17 +301,17 @@ always @(posedge clk or posedge reset) begin
     ra <= wr_out_a;
     rax <= ra;
     rb <= wr_out_b;
-    rz <= alu_out;
+    rz <= alu_out[31:0];
     rm <= rb;
     ry <= muxY_out;
     ret_addr <= pc;
     cpu_stage <= cpu_stage_next;
     immediate <= immediate_temp;
     if (ir[21] & cpu_stage == STAGE_3) begin
-      N <= alu_stat_N;
-      Z <= alu_stat_Z;
-      C <= alu_stat_C;
-      V <= alu_stat_V;
+      N <= alu_comb_N;
+      Z <= alu_comb_Z;
+      C <= alu_comb_C;
+      V <= alu_comb_V;
     end
     if (cpu_stage == STAGE_2 ) begin
       status_pass <= status_pass_temp;

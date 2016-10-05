@@ -63,7 +63,7 @@ assign rj45_led_sin = led_value_shift[15];
 assign rj45_led_lat = latch;
 assign rj45_led_blk = 0;
 
-always @(posedge clk or posedge reset) begin
+always @( posedge clk ) begin
   if ( reset ) begin
     clk_div1 <= 2'b00;
     clk_div2 <= 2'b00;

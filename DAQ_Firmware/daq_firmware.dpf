@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<pin_planner>
+	<pin_info>
+		<pin name="adc_dat_a[7]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_dat_a[6]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_dat_a[5]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_dat_a[4]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_dat_a[3]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_dat_a[2]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_dat_a[1]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_dat_a[0]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_dat_b[7]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_dat_b[6]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_dat_b[5]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_dat_b[4]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_dat_b[3]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_dat_b[2]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_dat_b[1]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_dat_b[0]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_dat_c[7]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_dat_c[6]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_dat_c[5]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_dat_c[4]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_dat_c[3]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_dat_c[2]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_dat_c[1]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_dat_c[0]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_dat_d[7]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_dat_d[6]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_dat_d[5]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_dat_d[4]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_dat_d[3]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_dat_d[2]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_dat_d[1]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_dat_d[0]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_dco[7]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_dco[6]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_dco[5]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_dco[4]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_dco[3]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_dco[2]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_dco[1]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_dco[0]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_fco[7]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_fco[6]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_fco[5]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_fco[4]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_fco[3]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_fco[2]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_fco[1]" direction="Input" source="Pin Planner" >
+		</pin>
+		<pin name="adc_fco[0]" direction="Input" source="Pin Planner" >
+		</pin>
+	</pin_info>
+	<buses>
+		<bus name="adc_dat_a[7..0](n)" direction="" >
+			<member name="adc_dat_a[7]" />
+			<member name="adc_dat_a[6]" />
+			<member name="adc_dat_a[5]" />
+			<member name="adc_dat_a[4]" />
+			<member name="adc_dat_a[3]" />
+			<member name="adc_dat_a[2]" />
+			<member name="adc_dat_a[1]" />
+			<member name="adc_dat_a[0]" />
+		</bus>
+		<bus name="adc_dat_b[7..0](n)" direction="" >
+			<member name="adc_dat_b[7]" />
+			<member name="adc_dat_b[6]" />
+			<member name="adc_dat_b[5]" />
+			<member name="adc_dat_b[4]" />
+			<member name="adc_dat_b[3]" />
+			<member name="adc_dat_b[2]" />
+			<member name="adc_dat_b[1]" />
+			<member name="adc_dat_b[0]" />
+		</bus>
+		<bus name="adc_dat_c[7..0](n)" direction="" >
+			<member name="adc_dat_c[7]" />
+			<member name="adc_dat_c[6]" />
+			<member name="adc_dat_c[5]" />
+			<member name="adc_dat_c[4]" />
+			<member name="adc_dat_c[3]" />
+			<member name="adc_dat_c[2]" />
+			<member name="adc_dat_c[1]" />
+			<member name="adc_dat_c[0]" />
+		</bus>
+		<bus name="adc_dat_d[7..0](n)" direction="" >
+			<member name="adc_dat_d[7]" />
+			<member name="adc_dat_d[6]" />
+			<member name="adc_dat_d[5]" />
+			<member name="adc_dat_d[4]" />
+			<member name="adc_dat_d[3]" />
+			<member name="adc_dat_d[2]" />
+			<member name="adc_dat_d[1]" />
+			<member name="adc_dat_d[0]" />
+		</bus>
+		<bus name="adc_dco[7..0](n)" direction="" >
+			<member name="adc_dco[7]" />
+			<member name="adc_dco[6]" />
+			<member name="adc_dco[5]" />
+			<member name="adc_dco[4]" />
+			<member name="adc_dco[3]" />
+			<member name="adc_dco[2]" />
+			<member name="adc_dco[1]" />
+			<member name="adc_dco[0]" />
+		</bus>
+		<bus name="adc_fco[7..0](n)" direction="" >
+			<member name="adc_fco[7]" />
+			<member name="adc_fco[6]" />
+			<member name="adc_fco[5]" />
+			<member name="adc_fco[4]" />
+			<member name="adc_fco[3]" />
+			<member name="adc_fco[2]" />
+			<member name="adc_fco[1]" />
+			<member name="adc_fco[0]" />
+		</bus>
+	</buses>
+	<group_file_association>
+	</group_file_association>
+	<pin_planner_file_specifies>
+	</pin_planner_file_specifies>
+</pin_planner>

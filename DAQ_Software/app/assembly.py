@@ -50,6 +50,21 @@
  |--|--|--------------|-------------------------------------|
  | 0| 0| b   imm      | $pc <= $pc + label                  |
  | 1| 0| bal imm      | $pc <= $pc + label; $r15 <= $pc + 4 |
+
+#########################
+##Conditional Execution##
+#########################
+R-Type and B-Type instructions can be conditionally executed. The assembly
+syntax to use this feature is:
+
+    add $r0 $r0 $r0 s
+    b(ne) LABEL
+
+The trailing "s" in the add instruction will cause the status flags (N, Z, C, and V) to be updated
+based on the result of the operation. In this case, the result is 0 so the Z flag will will be set.
+The "ne" condition executes if the Z flag is unset. Therefore, the branch is not executed and the
+following command is loaded. Technically, the command is still executed, just it's effects are
+suppressed.
 '''
 from __future__ import division, print_function, absolute_import
 import re

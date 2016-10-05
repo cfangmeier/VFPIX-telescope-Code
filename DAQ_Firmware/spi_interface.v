@@ -56,7 +56,7 @@ assign sdio = is_writing ? sdio_int : 1'bz;
 assign sclk = sclk_int[DIVIDE-1] | ~busy;
 assign sclk_next = sclk_int + 1;
 
-always @(posedge clk or posedge reset) begin
+always @( posedge clk ) begin
   if (reset) begin
     busy <= 0;
     is_writing <= 0;
@@ -80,6 +80,7 @@ always @(posedge clk or posedge reset) begin
       end
     end
     else begin
+      data_in <= 0;
       if ( ~sclk_int[DIVIDE-1] & sclk_next[DIVIDE-1] ) begin
         if (cycle_counter < write_bits) begin  // writing
           is_writing <= 1;

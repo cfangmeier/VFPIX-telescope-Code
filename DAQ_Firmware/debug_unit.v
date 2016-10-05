@@ -26,7 +26,7 @@
 `timescale 1ns / 1ps
 
 module debug_unit (
-  input  wire                     sys_clk_ext,
+  input  wire                     phy_clk,
   input  wire                     reset,
   output wire                     sys_clk,
   input  wire                     debug_enable,
@@ -44,9 +44,9 @@ reg single_step_p1;
 reg single_step_p2;
 
 assign do_single_step = single_step_p1 & ~single_step_p2;
-assign sys_clk = (debug_enable) ? (do_single_step) : sys_clk_ext;
+assign sys_clk = (debug_enable) ? (do_single_step) : phy_clk;
 
-always @(posedge sys_clk_ext or posedge reset) begin
+always @( posedge phy_clk ) begin
   if ( reset ) begin
     single_step_p1 <= 1'b0;
     single_step_p2 <= 1'b0;
@@ -58,7 +58,7 @@ always @(posedge sys_clk_ext or posedge reset) begin
 end
 
 
-always @(posedge sys_clk or posedge reset) begin
+always @( posedge sys_clk ) begin
   if ( reset ) begin
     clock_counter = 8'h00;
   end
