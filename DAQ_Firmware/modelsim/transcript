@@ -1,1262 +1,1803 @@
 # Loading project modelsim
-do control_unit_testbench.do
+do flash_interface_testbench.do
 # Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 10:29:29 on Sep 28,2016
-# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v lshift.v multiplier.v 
+# Start time: 11:00:13 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v 
 # -- Compiling module comb_test
 # -- Compiling module control_unit
 # -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# ** Error: flash_interface_testbench.v(60): (vlog-2730) Undefined variable: 'i'.
 # -- Compiling module lshift
 # -- Compiling module multiplier
-# 
-# Top level modules:
-# 	comb_test
-# 	control_unit_testbench
-# End time: 10:29:29 on Sep 28,2016, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-# vsim -L 220model_ver -voptargs=""+acc"" work.control_unit_testbench 
-# Start time: 10:29:29 on Sep 28,2016
-# Loading work.control_unit_testbench
-# Loading work.control_unit
-# Loading work.lshift
-# Loading 220model_ver.lpm_clshift
-# Loading work.multiplier
-# Loading 220model_ver.lpm_mult
-# Loading 220model_ver.LPM_HINT_EVALUATION
-# ** Warning: (vsim-3015) control_unit.v(539): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: lshift.v(44).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/lshift_inst File: lshift.v
-# ** Warning: (vsim-3015) control_unit.v(547): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: multiplier.v(43).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/multiplier_inst File: multiplier.v
-# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
-# 0 ps
-# 840 ns
-do control_unit_testbench.do
-# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 10:30:41 on Sep 28,2016
-# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v lshift.v multiplier.v 
-# -- Compiling module comb_test
-# -- Compiling module control_unit
-# -- Compiling module control_unit_testbench
-# -- Compiling module lshift
-# -- Compiling module multiplier
-# 
-# Top level modules:
-# 	comb_test
-# 	control_unit_testbench
-# End time: 10:30:41 on Sep 28,2016, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-# End time: 10:30:41 on Sep 28,2016, Elapsed time: 0:01:12
-# Errors: 0, Warnings: 3
-# vsim -L 220model_ver -voptargs=""+acc"" work.control_unit_testbench 
-# Start time: 10:30:41 on Sep 28,2016
-# Loading work.control_unit_testbench
-# Loading work.control_unit
-# Loading work.lshift
-# Loading 220model_ver.lpm_clshift
-# Loading work.multiplier
-# Loading 220model_ver.lpm_mult
-# Loading 220model_ver.LPM_HINT_EVALUATION
-# ** Warning: (vsim-3015) control_unit.v(539): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: lshift.v(44).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/lshift_inst File: lshift.v
-# ** Warning: (vsim-3015) control_unit.v(547): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: multiplier.v(43).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/multiplier_inst File: multiplier.v
-# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
-# 0 ps
-# 840 ns
-do control_unit_testbench.do
-# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 10:31:32 on Sep 28,2016
-# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v lshift.v multiplier.v 
-# -- Compiling module comb_test
-# -- Compiling module control_unit
-# -- Compiling module control_unit_testbench
-# -- Compiling module lshift
-# -- Compiling module multiplier
-# 
-# Top level modules:
-# 	comb_test
-# 	control_unit_testbench
-# End time: 10:31:32 on Sep 28,2016, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-# End time: 10:31:32 on Sep 28,2016, Elapsed time: 0:00:51
-# Errors: 0, Warnings: 3
-# vsim -L 220model_ver -voptargs=""+acc"" work.control_unit_testbench 
-# Start time: 10:31:32 on Sep 28,2016
-# Loading work.control_unit_testbench
-# Loading work.control_unit
-# Loading work.lshift
-# Loading 220model_ver.lpm_clshift
-# Loading work.multiplier
-# Loading 220model_ver.lpm_mult
-# Loading 220model_ver.LPM_HINT_EVALUATION
-# ** Warning: (vsim-3015) control_unit.v(539): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: lshift.v(44).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/lshift_inst File: lshift.v
-# ** Warning: (vsim-3015) control_unit.v(547): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: multiplier.v(43).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/multiplier_inst File: multiplier.v
-# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
-# 0 ps
-# 840 ns
-do control_unit_testbench.do
-# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 10:31:41 on Sep 28,2016
-# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v lshift.v multiplier.v 
-# -- Compiling module comb_test
-# -- Compiling module control_unit
-# -- Compiling module control_unit_testbench
-# -- Compiling module lshift
-# -- Compiling module multiplier
-# 
-# Top level modules:
-# 	comb_test
-# 	control_unit_testbench
-# End time: 10:31:41 on Sep 28,2016, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-# End time: 10:31:42 on Sep 28,2016, Elapsed time: 0:00:10
-# Errors: 0, Warnings: 3
-# vsim -L 220model_ver -voptargs=""+acc"" work.control_unit_testbench 
-# Start time: 10:31:42 on Sep 28,2016
-# Loading work.control_unit_testbench
-# Loading work.control_unit
-# Loading work.lshift
-# Loading 220model_ver.lpm_clshift
-# Loading work.multiplier
-# Loading 220model_ver.lpm_mult
-# Loading 220model_ver.LPM_HINT_EVALUATION
-# ** Warning: (vsim-3015) control_unit.v(539): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: lshift.v(44).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/lshift_inst File: lshift.v
-# ** Warning: (vsim-3015) control_unit.v(547): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: multiplier.v(43).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/multiplier_inst File: multiplier.v
-# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
-# 0 ps
-# 840 ns
-do control_unit_testbench.do
-# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 10:32:33 on Sep 28,2016
-# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v lshift.v multiplier.v 
-# -- Compiling module comb_test
-# -- Compiling module control_unit
-# -- Compiling module control_unit_testbench
-# -- Compiling module lshift
-# -- Compiling module multiplier
-# 
-# Top level modules:
-# 	comb_test
-# 	control_unit_testbench
-# End time: 10:32:33 on Sep 28,2016, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-# End time: 10:32:33 on Sep 28,2016, Elapsed time: 0:00:51
-# Errors: 0, Warnings: 3
-# vsim -L 220model_ver -voptargs=""+acc"" work.control_unit_testbench 
-# Start time: 10:32:33 on Sep 28,2016
-# Loading work.control_unit_testbench
-# Loading work.control_unit
-# Loading work.lshift
-# Loading 220model_ver.lpm_clshift
-# Loading work.multiplier
-# Loading 220model_ver.lpm_mult
-# Loading 220model_ver.LPM_HINT_EVALUATION
-# ** Warning: (vsim-3015) control_unit.v(541): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: lshift.v(44).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/lshift_inst File: lshift.v
-# ** Warning: (vsim-3015) control_unit.v(549): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: multiplier.v(43).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/multiplier_inst File: multiplier.v
-# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
-# 0 ps
-# 840 ns
-do control_unit_testbench.do
-# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 10:46:06 on Sep 28,2016
-# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v lshift.v multiplier.v 
-# -- Compiling module comb_test
-# -- Compiling module control_unit
-# -- Compiling module control_unit_testbench
-# -- Compiling module lshift
-# -- Compiling module multiplier
-# 
-# Top level modules:
-# 	comb_test
-# 	control_unit_testbench
-# End time: 10:46:06 on Sep 28,2016, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-# End time: 10:46:07 on Sep 28,2016, Elapsed time: 0:13:34
-# Errors: 0, Warnings: 3
-# vsim -L 220model_ver -voptargs=""+acc"" work.control_unit_testbench 
-# Start time: 10:46:07 on Sep 28,2016
-# Loading work.control_unit_testbench
-# Loading work.control_unit
-# Loading work.lshift
-# Loading 220model_ver.lpm_clshift
-# Loading work.multiplier
-# Loading 220model_ver.lpm_mult
-# Loading 220model_ver.LPM_HINT_EVALUATION
-# ** Warning: (vsim-3015) control_unit.v(541): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: lshift.v(44).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/lshift_inst File: lshift.v
-# ** Warning: (vsim-3015) control_unit.v(549): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: multiplier.v(43).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/multiplier_inst File: multiplier.v
-# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
-# 0 ps
-# 840 ns
-do control_unit_testbench.do
-# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 10:46:26 on Sep 28,2016
-# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v lshift.v multiplier.v 
-# -- Compiling module comb_test
-# -- Compiling module control_unit
-# -- Compiling module control_unit_testbench
-# -- Compiling module lshift
-# -- Compiling module multiplier
-# 
-# Top level modules:
-# 	comb_test
-# 	control_unit_testbench
-# End time: 10:46:26 on Sep 28,2016, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-# End time: 10:46:27 on Sep 28,2016, Elapsed time: 0:00:20
-# Errors: 0, Warnings: 3
-# vsim -L 220model_ver -voptargs=""+acc"" work.control_unit_testbench 
-# Start time: 10:46:27 on Sep 28,2016
-# Loading work.control_unit_testbench
-# Loading work.control_unit
-# Loading work.lshift
-# Loading 220model_ver.lpm_clshift
-# Loading work.multiplier
-# Loading 220model_ver.lpm_mult
-# Loading 220model_ver.LPM_HINT_EVALUATION
-# ** Warning: (vsim-3015) control_unit.v(541): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: lshift.v(44).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/lshift_inst File: lshift.v
-# ** Warning: (vsim-3015) control_unit.v(549): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: multiplier.v(43).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/multiplier_inst File: multiplier.v
-# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
-# 0 ps
-# 840 ns
-do control_unit_testbench.do
-# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 10:51:45 on Sep 28,2016
-# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v lshift.v multiplier.v 
-# -- Compiling module comb_test
-# -- Compiling module control_unit
-# -- Compiling module control_unit_testbench
-# -- Compiling module lshift
-# -- Compiling module multiplier
-# 
-# Top level modules:
-# 	comb_test
-# 	control_unit_testbench
-# End time: 10:51:45 on Sep 28,2016, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-# End time: 10:51:45 on Sep 28,2016, Elapsed time: 0:05:18
-# Errors: 0, Warnings: 3
-# vsim -L 220model_ver -voptargs=""+acc"" work.control_unit_testbench 
-# Start time: 10:51:45 on Sep 28,2016
-# Loading work.control_unit_testbench
-# Loading work.control_unit
-# Loading work.lshift
-# Loading 220model_ver.lpm_clshift
-# Loading work.multiplier
-# Loading 220model_ver.lpm_mult
-# Loading 220model_ver.LPM_HINT_EVALUATION
-# ** Warning: (vsim-3015) control_unit.v(541): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: lshift.v(44).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/lshift_inst File: lshift.v
-# ** Warning: (vsim-3015) control_unit.v(549): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: multiplier.v(43).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/multiplier_inst File: multiplier.v
-# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
-# 0 ps
-# 840 ns
-do control_unit_testbench.do
-# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 10:53:21 on Sep 28,2016
-# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v lshift.v multiplier.v 
-# -- Compiling module comb_test
-# -- Compiling module control_unit
-# -- Compiling module control_unit_testbench
-# -- Compiling module lshift
-# -- Compiling module multiplier
-# 
-# Top level modules:
-# 	comb_test
-# 	control_unit_testbench
-# End time: 10:53:21 on Sep 28,2016, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-# End time: 10:53:22 on Sep 28,2016, Elapsed time: 0:01:37
-# Errors: 0, Warnings: 3
-# vsim -L 220model_ver -voptargs=""+acc"" work.control_unit_testbench 
-# Start time: 10:53:22 on Sep 28,2016
-# Loading work.control_unit_testbench
-# Loading work.control_unit
-# Loading work.lshift
-# Loading 220model_ver.lpm_clshift
-# Loading work.multiplier
-# Loading 220model_ver.lpm_mult
-# Loading 220model_ver.LPM_HINT_EVALUATION
-# ** Warning: (vsim-3015) control_unit.v(541): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: lshift.v(44).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/lshift_inst File: lshift.v
-# ** Warning: (vsim-3015) control_unit.v(549): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: multiplier.v(43).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/multiplier_inst File: multiplier.v
-# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
-# 0 ps
-# 840 ns
-do control_unit_testbench.do
-# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 10:54:04 on Sep 28,2016
-# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v lshift.v multiplier.v 
-# -- Compiling module comb_test
-# -- Compiling module control_unit
-# -- Compiling module control_unit_testbench
-# -- Compiling module lshift
-# -- Compiling module multiplier
-# 
-# Top level modules:
-# 	comb_test
-# 	control_unit_testbench
-# End time: 10:54:04 on Sep 28,2016, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-# End time: 10:54:05 on Sep 28,2016, Elapsed time: 0:00:43
-# Errors: 0, Warnings: 3
-# vsim -L 220model_ver -voptargs=""+acc"" work.control_unit_testbench 
-# Start time: 10:54:05 on Sep 28,2016
-# Loading work.control_unit_testbench
-# Loading work.control_unit
-# Loading work.lshift
-# Loading 220model_ver.lpm_clshift
-# Loading work.multiplier
-# Loading 220model_ver.lpm_mult
-# Loading 220model_ver.LPM_HINT_EVALUATION
-# ** Warning: (vsim-3015) control_unit.v(541): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: lshift.v(44).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/lshift_inst File: lshift.v
-# ** Warning: (vsim-3015) control_unit.v(549): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: multiplier.v(43).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/multiplier_inst File: multiplier.v
-# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
-# 0 ps
-# 840 ns
-do control_unit_testbench.do
-# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 10:55:02 on Sep 28,2016
-# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v lshift.v multiplier.v 
-# -- Compiling module comb_test
-# -- Compiling module control_unit
-# -- Compiling module control_unit_testbench
-# -- Compiling module lshift
-# -- Compiling module multiplier
-# 
-# Top level modules:
-# 	comb_test
-# 	control_unit_testbench
-# End time: 10:55:02 on Sep 28,2016, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-# End time: 10:55:02 on Sep 28,2016, Elapsed time: 0:00:57
-# Errors: 0, Warnings: 3
-# vsim -L 220model_ver -voptargs=""+acc"" work.control_unit_testbench 
-# Start time: 10:55:02 on Sep 28,2016
-# Loading work.control_unit_testbench
-# Loading work.control_unit
-# Loading work.lshift
-# Loading 220model_ver.lpm_clshift
-# Loading work.multiplier
-# Loading 220model_ver.lpm_mult
-# Loading 220model_ver.LPM_HINT_EVALUATION
-# ** Warning: (vsim-3015) control_unit.v(541): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: lshift.v(44).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/lshift_inst File: lshift.v
-# ** Warning: (vsim-3015) control_unit.v(549): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: multiplier.v(43).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/multiplier_inst File: multiplier.v
-# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
-# 0 ps
-# 840 ns
-do control_unit_testbench.do
-# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 10:57:07 on Sep 28,2016
-# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v lshift.v multiplier.v 
-# -- Compiling module comb_test
-# -- Compiling module control_unit
-# -- Compiling module control_unit_testbench
-# -- Compiling module lshift
-# -- Compiling module multiplier
-# 
-# Top level modules:
-# 	comb_test
-# 	control_unit_testbench
-# End time: 10:57:07 on Sep 28,2016, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-# End time: 10:57:07 on Sep 28,2016, Elapsed time: 0:02:05
-# Errors: 0, Warnings: 3
-# vsim -L 220model_ver -voptargs=""+acc"" work.control_unit_testbench 
-# Start time: 10:57:07 on Sep 28,2016
-# Loading work.control_unit_testbench
-# Loading work.control_unit
-# Loading work.lshift
-# Loading 220model_ver.lpm_clshift
-# Loading work.multiplier
-# Loading 220model_ver.lpm_mult
-# Loading 220model_ver.LPM_HINT_EVALUATION
-# ** Warning: (vsim-3015) control_unit.v(543): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: lshift.v(44).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/lshift_inst File: lshift.v
-# ** Warning: (vsim-3015) control_unit.v(551): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: multiplier.v(43).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/multiplier_inst File: multiplier.v
-# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
-# 0 ps
-# 840 ns
-do control_unit_testbench.do
-# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 11:38:17 on Sep 28,2016
-# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v lshift.v multiplier.v 
-# -- Compiling module comb_test
-# -- Compiling module control_unit
-# -- Compiling module control_unit_testbench
-# -- Compiling module lshift
-# -- Compiling module multiplier
-# 
-# Top level modules:
-# 	comb_test
-# 	control_unit_testbench
-# End time: 11:38:17 on Sep 28,2016, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-# End time: 11:38:17 on Sep 28,2016, Elapsed time: 0:41:10
-# Errors: 0, Warnings: 3
-# vsim -L 220model_ver -voptargs=""+acc"" work.control_unit_testbench 
-# Start time: 11:38:17 on Sep 28,2016
-# Loading work.control_unit_testbench
-# Loading work.control_unit
-# Loading work.lshift
-# Loading 220model_ver.lpm_clshift
-# Loading work.multiplier
-# Loading 220model_ver.lpm_mult
-# Loading 220model_ver.LPM_HINT_EVALUATION
-# ** Warning: (vsim-3015) control_unit.v(551): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: lshift.v(44).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/lshift_inst File: lshift.v
-# ** Warning: (vsim-3015) control_unit.v(559): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: multiplier.v(43).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/multiplier_inst File: multiplier.v
-# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
-# 0 ps
-# 840 ns
-do control_unit_testbench.do
-# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 11:52:06 on Sep 28,2016
-# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v lshift.v multiplier.v 
-# -- Compiling module comb_test
-# -- Compiling module control_unit
-# ** Error: control_unit.v(251): (vlog-2730) Undefined variable: 'stat_reg'.
-# -- Compiling module control_unit_testbench
-# -- Compiling module lshift
-# -- Compiling module multiplier
-# End time: 11:52:06 on Sep 28,2016, Elapsed time: 0:00:00
+# End time: 11:00:14 on Oct 07,2016, Elapsed time: 0:00:01
 # Errors: 1, Warnings: 0
 # ** Error: /opt/altera/16.0/modelsim_ase/linuxaloem/vlog failed.
-# Error in macro ./control_unit_testbench.do line 1
+# Error in macro ./flash_interface_testbench.do line 1
 # /opt/altera/16.0/modelsim_ase/linuxaloem/vlog failed.
 #     while executing
 # "vlog *.v"
-do control_unit_testbench.do
+do flash_interface_testbench.do
 # Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 11:52:31 on Sep 28,2016
-# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v lshift.v multiplier.v 
+# Start time: 11:01:03 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v 
 # -- Compiling module comb_test
 # -- Compiling module control_unit
 # -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
 # -- Compiling module lshift
 # -- Compiling module multiplier
 # 
 # Top level modules:
 # 	comb_test
 # 	control_unit_testbench
-# End time: 11:52:32 on Sep 28,2016, Elapsed time: 0:00:01
+# 	flash_interface_testbench
+# End time: 11:01:03 on Oct 07,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-# End time: 11:52:32 on Sep 28,2016, Elapsed time: 0:14:15
-# Errors: 4, Warnings: 3
-# vsim -L 220model_ver -voptargs=""+acc"" work.control_unit_testbench 
-# Start time: 11:52:32 on Sep 28,2016
-# Loading work.control_unit_testbench
-# Loading work.control_unit
-# Loading work.lshift
-# Loading 220model_ver.lpm_clshift
-# Loading work.multiplier
-# Loading 220model_ver.lpm_mult
-# Loading 220model_ver.LPM_HINT_EVALUATION
-# ** Warning: (vsim-3015) control_unit.v(559): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: lshift.v(44).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/lshift_inst File: lshift.v
-# ** Warning: (vsim-3015) control_unit.v(567): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: multiplier.v(43).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/multiplier_inst File: multiplier.v
-# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
-# 0 ps
-# 840 ns
-do control_unit_testbench.do
+# vsim -L 220model_ver -voptargs=""+acc"" work.flash_interface_testbench 
+# Start time: 11:01:03 on Oct 07,2016
+# Loading work.flash_interface_testbench
+# ** Error: (vsim-3033) flash_interface_testbench.v(69): Instantiation of 'flash_interface' failed. The design unit was not found.
+#    Time: 0 ps  Iteration: 0  Instance: /flash_interface_testbench File: flash_interface_testbench.v
+#         Searched libraries:
+#             /opt/altera/16.0/modelsim_ase/altera/verilog/220model
+#             /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/work
+# Error loading design
+# Error: Error loading design
+#        Pausing macro execution
+# MACRO ./flash_interface_testbench.do PAUSED at line 2
+do flash_interface_testbench.do
 # Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 11:55:22 on Sep 28,2016
-# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v lshift.v multiplier.v 
+# Start time: 11:01:50 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v 
 # -- Compiling module comb_test
 # -- Compiling module control_unit
 # -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
 # -- Compiling module lshift
 # -- Compiling module multiplier
-# 
-# Top level modules:
-# 	comb_test
-# 	control_unit_testbench
-# End time: 11:55:22 on Sep 28,2016, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-# End time: 11:55:22 on Sep 28,2016, Elapsed time: 0:02:50
-# Errors: 0, Warnings: 3
-# vsim -L 220model_ver -voptargs=""+acc"" work.control_unit_testbench 
-# Start time: 11:55:22 on Sep 28,2016
-# Loading work.control_unit_testbench
-# Loading work.control_unit
-# Loading work.lshift
-# Loading 220model_ver.lpm_clshift
-# Loading work.multiplier
-# Loading 220model_ver.lpm_mult
-# Loading 220model_ver.LPM_HINT_EVALUATION
-# ** Warning: (vsim-3015) control_unit.v(559): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: lshift.v(44).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/lshift_inst File: lshift.v
-# ** Warning: (vsim-3015) control_unit.v(567): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: multiplier.v(43).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/multiplier_inst File: multiplier.v
-# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
-# 0 ps
-# 840 ns
-do control_unit_testbench.do
-# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 12:09:22 on Sep 28,2016
-# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v lshift.v multiplier.v 
-# -- Compiling module comb_test
-# -- Compiling module control_unit
-# -- Compiling module control_unit_testbench
-# -- Compiling module lshift
-# -- Compiling module multiplier
-# 
-# Top level modules:
-# 	comb_test
-# 	control_unit_testbench
-# End time: 12:09:22 on Sep 28,2016, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-# End time: 12:09:23 on Sep 28,2016, Elapsed time: 0:14:01
-# Errors: 0, Warnings: 3
-# vsim -L 220model_ver -voptargs=""+acc"" work.control_unit_testbench 
-# Start time: 12:09:23 on Sep 28,2016
-# Loading work.control_unit_testbench
-# Loading work.control_unit
-# Loading work.lshift
-# Loading 220model_ver.lpm_clshift
-# Loading work.multiplier
-# Loading 220model_ver.lpm_mult
-# Loading 220model_ver.LPM_HINT_EVALUATION
-# ** Warning: (vsim-3015) control_unit.v(559): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: lshift.v(44).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/lshift_inst File: lshift.v
-# ** Warning: (vsim-3015) control_unit.v(567): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: multiplier.v(43).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/multiplier_inst File: multiplier.v
-# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
-# 0 ps
-# 840 ns
-do control_unit_testbench.do
-# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 12:11:34 on Sep 28,2016
-# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v lshift.v multiplier.v 
-# -- Compiling module comb_test
-# -- Compiling module control_unit
-# ** Error: control_unit.v(171): (vlog-2730) Undefined variable: 'stage'.
-# -- Compiling module control_unit_testbench
-# -- Compiling module lshift
-# -- Compiling module multiplier
-# End time: 12:11:34 on Sep 28,2016, Elapsed time: 0:00:00
-# Errors: 1, Warnings: 0
+# -- Compiling module flash_interface
+# ** Error: (vlog-13069) ../flash_interface.v(67): near "localparam": syntax error, unexpected localparam, expecting IDENTIFIER or TYPE_IDENTIFIER or NETTYPE_IDENTIFIER.
+# ** Error: ../flash_interface.v(114): (vlog-2730) Undefined variable: 'write_buffer_read_req'.
+# ** Error: ../flash_interface.v(115): (vlog-2730) Undefined variable: 'read_buffer_write_req'.
+# ** Error: ../flash_interface.v(120): (vlog-2730) Undefined variable: 'state'.
+# ** Error: ../flash_interface.v(123): (vlog-2730) Undefined variable: 'DATA_WRITE_0'.
+# ** Error: ../flash_interface.v(130): (vlog-2730) Undefined variable: 'DATA_WRITE'.
+# ** Error: ../flash_interface.v(140): (vlog-2730) Undefined variable: 'write_buffer_empty'.
+# ** Error: ../flash_interface.v(141): (vlog-2730) Undefined variable: 'write_buffer_q'.
+# ** Error: ../flash_interface.v(144): (vlog-2730) Undefined variable: 'read_bytes'.
+# ** Error: ../flash_interface.v(145): (vlog-2730) Undefined variable: 'DATA_READ_1'.
+# ** Error: ../flash_interface.v(156): (vlog-2730) Undefined variable: 'DATA_READ_0'.
+# ** Error: ../flash_interface.v(158): (vlog-2730) Undefined variable: 'DATA_READ'.
+# ** Error: (vlog-13069) ../flash_interface.v(202): near "EOF": syntax error, unexpected end of source code.
+# End time: 11:01:50 on Oct 07,2016, Elapsed time: 0:00:00
+# Errors: 13, Warnings: 0
 # ** Error: /opt/altera/16.0/modelsim_ase/linuxaloem/vlog failed.
-# Error in macro ./control_unit_testbench.do line 1
+# Error in macro ./flash_interface_testbench.do line 1
 # /opt/altera/16.0/modelsim_ase/linuxaloem/vlog failed.
 #     while executing
-# "vlog *.v"
-do control_unit_testbench.do
+# "vlog *.v ../flash_interface.v"
+do flash_interface_testbench.do
 # Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 12:12:16 on Sep 28,2016
-# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v lshift.v multiplier.v 
+# Start time: 11:03:26 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v 
 # -- Compiling module comb_test
 # -- Compiling module control_unit
 # -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
 # -- Compiling module lshift
 # -- Compiling module multiplier
-# 
-# Top level modules:
-# 	comb_test
-# 	control_unit_testbench
-# End time: 12:12:16 on Sep 28,2016, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-# End time: 12:12:16 on Sep 28,2016, Elapsed time: 0:02:53
-# Errors: 4, Warnings: 3
-# vsim -L 220model_ver -voptargs=""+acc"" work.control_unit_testbench 
-# Start time: 12:12:16 on Sep 28,2016
-# Loading work.control_unit_testbench
-# Loading work.control_unit
-# Loading work.lshift
-# Loading 220model_ver.lpm_clshift
-# Loading work.multiplier
-# Loading 220model_ver.lpm_mult
-# Loading 220model_ver.LPM_HINT_EVALUATION
-# ** Warning: (vsim-3015) control_unit.v(562): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: lshift.v(44).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/lshift_inst File: lshift.v
-# ** Warning: (vsim-3015) control_unit.v(570): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: multiplier.v(43).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/multiplier_inst File: multiplier.v
-# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
-# 0 ps
-# 840 ns
-do control_unit_testbench.do
+# -- Compiling module flash_interface
+# ** Error: ../flash_interface.v(117): (vlog-2730) Undefined variable: 'write_buffer_read_req'.
+# ** Error: ../flash_interface.v(118): (vlog-2730) Undefined variable: 'read_buffer_write_req'.
+# ** Error: ../flash_interface.v(123): (vlog-2730) Undefined variable: 'state'.
+# ** Error: ../flash_interface.v(143): (vlog-2730) Undefined variable: 'write_buffer_empty'.
+# ** Error: ../flash_interface.v(144): (vlog-2730) Undefined variable: 'write_buffer_q'.
+# ** Error: ../flash_interface.v(147): (vlog-2730) Undefined variable: 'read_bytes'.
+# ** Error: ../flash_interface.v(148): (vlog-2730) Undefined variable: 'DATA_READ_1'.
+# ** Error: (vlog-13069) ../flash_interface.v(205): near "EOF": syntax error, unexpected end of source code.
+# End time: 11:03:26 on Oct 07,2016, Elapsed time: 0:00:00
+# Errors: 8, Warnings: 0
+# ** Error: /opt/altera/16.0/modelsim_ase/linuxaloem/vlog failed.
+# Error in macro ./flash_interface_testbench.do line 1
+# /opt/altera/16.0/modelsim_ase/linuxaloem/vlog failed.
+#     while executing
+# "vlog *.v ../flash_interface.v"
+do flash_interface_testbench.do
 # Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 12:16:03 on Sep 28,2016
-# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v lshift.v multiplier.v 
+# Start time: 11:06:10 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v 
 # -- Compiling module comb_test
 # -- Compiling module control_unit
 # -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
 # -- Compiling module lshift
 # -- Compiling module multiplier
-# 
-# Top level modules:
-# 	comb_test
-# 	control_unit_testbench
-# End time: 12:16:03 on Sep 28,2016, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-# End time: 12:16:03 on Sep 28,2016, Elapsed time: 0:03:47
-# Errors: 0, Warnings: 3
-# vsim -L 220model_ver -voptargs=""+acc"" work.control_unit_testbench 
-# Start time: 12:16:03 on Sep 28,2016
-# Loading work.control_unit_testbench
-# Loading work.control_unit
-# Loading work.lshift
-# Loading 220model_ver.lpm_clshift
-# Loading work.multiplier
-# Loading 220model_ver.lpm_mult
-# Loading 220model_ver.LPM_HINT_EVALUATION
-# ** Warning: (vsim-3015) control_unit.v(562): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: lshift.v(44).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/lshift_inst File: lshift.v
-# ** Warning: (vsim-3015) control_unit.v(570): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: multiplier.v(43).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/multiplier_inst File: multiplier.v
-# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
-# 0 ps
-# 840 ns
-do control_unit_testbench.do
-# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 12:16:53 on Sep 28,2016
-# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v lshift.v multiplier.v 
-# -- Compiling module comb_test
-# -- Compiling module control_unit
-# -- Compiling module control_unit_testbench
-# -- Compiling module lshift
-# -- Compiling module multiplier
-# 
-# Top level modules:
-# 	comb_test
-# 	control_unit_testbench
-# End time: 12:16:53 on Sep 28,2016, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-# End time: 12:16:53 on Sep 28,2016, Elapsed time: 0:00:50
-# Errors: 0, Warnings: 3
-# vsim -L 220model_ver -voptargs=""+acc"" work.control_unit_testbench 
-# Start time: 12:16:53 on Sep 28,2016
-# Loading work.control_unit_testbench
-# Loading work.control_unit
-# Loading work.lshift
-# Loading 220model_ver.lpm_clshift
-# Loading work.multiplier
-# Loading 220model_ver.lpm_mult
-# Loading 220model_ver.LPM_HINT_EVALUATION
-# ** Warning: (vsim-3015) control_unit.v(562): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: lshift.v(44).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/lshift_inst File: lshift.v
-# ** Warning: (vsim-3015) control_unit.v(570): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: multiplier.v(43).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/multiplier_inst File: multiplier.v
-# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
-# 0 ps
-# 840 ns
-do control_unit_testbench.do
-# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 12:19:12 on Sep 28,2016
-# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v lshift.v multiplier.v 
-# -- Compiling module comb_test
-# -- Compiling module control_unit
-# -- Compiling module control_unit_testbench
-# -- Compiling module lshift
-# -- Compiling module multiplier
-# 
-# Top level modules:
-# 	comb_test
-# 	control_unit_testbench
-# End time: 12:19:12 on Sep 28,2016, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-# End time: 12:19:12 on Sep 28,2016, Elapsed time: 0:02:19
-# Errors: 0, Warnings: 3
-# vsim -L 220model_ver -voptargs=""+acc"" work.control_unit_testbench 
-# Start time: 12:19:12 on Sep 28,2016
-# Loading work.control_unit_testbench
-# Loading work.control_unit
-# Loading work.lshift
-# Loading 220model_ver.lpm_clshift
-# Loading work.multiplier
-# Loading 220model_ver.lpm_mult
-# Loading 220model_ver.LPM_HINT_EVALUATION
-# ** Warning: (vsim-3015) control_unit.v(562): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: lshift.v(44).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/lshift_inst File: lshift.v
-# ** Warning: (vsim-3015) control_unit.v(570): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: multiplier.v(43).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/multiplier_inst File: multiplier.v
-# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
-# 0 ps
-# 840 ns
-do control_unit_testbench.do
-# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 12:26:19 on Sep 28,2016
-# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v lshift.v multiplier.v 
-# -- Compiling module comb_test
-# -- Compiling module control_unit
-# ** Error: control_unit.v(200): (vlog-2110) Illegal reference to net "alu_stat_C".
-# ** Error: control_unit.v(201): (vlog-2110) Illegal reference to net "alu_stat_V".
-# -- Compiling module control_unit_testbench
-# -- Compiling module lshift
-# -- Compiling module multiplier
-# End time: 12:26:19 on Sep 28,2016, Elapsed time: 0:00:00
+# -- Compiling module flash_interface
+# ** Error (suppressible): ../flash_interface.v(95): (vlog-2388) 'bytes_to_read' already declared in this scope (flash_interface).
+# ** Error: ../flash_interface.v(180): (vlog-2730) Undefined variable: 'bytes_read'.
+# End time: 11:06:10 on Oct 07,2016, Elapsed time: 0:00:00
 # Errors: 2, Warnings: 0
 # ** Error: /opt/altera/16.0/modelsim_ase/linuxaloem/vlog failed.
-# Error in macro ./control_unit_testbench.do line 1
+# Error in macro ./flash_interface_testbench.do line 1
 # /opt/altera/16.0/modelsim_ase/linuxaloem/vlog failed.
 #     while executing
-# "vlog *.v"
-do control_unit_testbench.do
+# "vlog *.v ../flash_interface.v"
+do flash_interface_testbench.do
 # Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 12:26:48 on Sep 28,2016
-# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v lshift.v multiplier.v 
+# Start time: 11:07:12 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v 
 # -- Compiling module comb_test
 # -- Compiling module control_unit
 # -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
 # -- Compiling module lshift
 # -- Compiling module multiplier
-# 
-# Top level modules:
-# 	comb_test
-# 	control_unit_testbench
-# End time: 12:26:49 on Sep 28,2016, Elapsed time: 0:00:01
-# Errors: 0, Warnings: 0
-# End time: 12:26:49 on Sep 28,2016, Elapsed time: 0:07:37
-# Errors: 5, Warnings: 3
-# vsim -L 220model_ver -voptargs=""+acc"" work.control_unit_testbench 
-# Start time: 12:26:49 on Sep 28,2016
-# Loading work.control_unit_testbench
-# Loading work.control_unit
-# Loading work.lshift
-# Loading 220model_ver.lpm_clshift
-# Loading work.multiplier
-# Loading 220model_ver.lpm_mult
-# Loading 220model_ver.LPM_HINT_EVALUATION
-# ** Warning: (vsim-3015) control_unit.v(566): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: lshift.v(44).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/lshift_inst File: lshift.v
-# ** Warning: (vsim-3015) control_unit.v(574): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: multiplier.v(43).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/multiplier_inst File: multiplier.v
-# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
-# 0 ps
-# 840 ns
-do control_unit_testbench.do
-# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 12:31:27 on Sep 28,2016
-# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v lshift.v multiplier.v 
-# -- Compiling module comb_test
-# -- Compiling module control_unit
-# -- Compiling module control_unit_testbench
-# -- Compiling module lshift
-# -- Compiling module multiplier
-# 
-# Top level modules:
-# 	comb_test
-# 	control_unit_testbench
-# End time: 12:31:27 on Sep 28,2016, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-# End time: 12:31:27 on Sep 28,2016, Elapsed time: 0:04:38
-# Errors: 0, Warnings: 3
-# vsim -L 220model_ver -voptargs=""+acc"" work.control_unit_testbench 
-# Start time: 12:31:27 on Sep 28,2016
-# Loading work.control_unit_testbench
-# Loading work.control_unit
-# Loading work.lshift
-# Loading 220model_ver.lpm_clshift
-# Loading work.multiplier
-# Loading 220model_ver.lpm_mult
-# Loading 220model_ver.LPM_HINT_EVALUATION
-# ** Warning: (vsim-3015) control_unit.v(566): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: lshift.v(44).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/lshift_inst File: lshift.v
-# ** Warning: (vsim-3015) control_unit.v(574): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: multiplier.v(43).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/multiplier_inst File: multiplier.v
-# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
-# 0 ps
-# 840 ns
-do control_unit_testbench.do
-# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 12:44:46 on Sep 28,2016
-# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v lshift.v multiplier.v 
-# -- Compiling module comb_test
-# -- Compiling module control_unit
-# -- Compiling module control_unit_testbench
-# -- Compiling module lshift
-# -- Compiling module multiplier
-# 
-# Top level modules:
-# 	comb_test
-# 	control_unit_testbench
-# End time: 12:44:46 on Sep 28,2016, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-# End time: 12:44:47 on Sep 28,2016, Elapsed time: 0:13:20
-# Errors: 0, Warnings: 3
-# vsim -L 220model_ver -voptargs=""+acc"" work.control_unit_testbench 
-# Start time: 12:44:47 on Sep 28,2016
-# Loading work.control_unit_testbench
-# Loading work.control_unit
-# Loading work.lshift
-# Loading 220model_ver.lpm_clshift
-# Loading work.multiplier
-# Loading 220model_ver.lpm_mult
-# Loading 220model_ver.LPM_HINT_EVALUATION
-# ** Warning: (vsim-3015) control_unit.v(566): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: lshift.v(44).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/lshift_inst File: lshift.v
-# ** Warning: (vsim-3015) control_unit.v(574): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: multiplier.v(43).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/multiplier_inst File: multiplier.v
-# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
-# 0 ps
-# 840 ns
-do control_unit_testbench.do
-# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 14:42:00 on Sep 28,2016
-# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v lshift.v multiplier.v 
-# -- Compiling module comb_test
-# -- Compiling module control_unit
-# -- Compiling module control_unit_testbench
-# -- Compiling module lshift
-# -- Compiling module multiplier
-# 
-# Top level modules:
-# 	comb_test
-# 	control_unit_testbench
-# End time: 14:42:00 on Sep 28,2016, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-# End time: 14:42:00 on Sep 28,2016, Elapsed time: 1:57:13
-# Errors: 0, Warnings: 3
-# vsim -L 220model_ver -voptargs=""+acc"" work.control_unit_testbench 
-# Start time: 14:42:00 on Sep 28,2016
-# Loading work.control_unit_testbench
-# Loading work.control_unit
-# Loading work.lshift
-# Loading 220model_ver.lpm_clshift
-# Loading work.multiplier
-# Loading 220model_ver.lpm_mult
-# Loading 220model_ver.LPM_HINT_EVALUATION
-# ** Warning: (vsim-3015) control_unit.v(660): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: lshift.v(44).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/lshift_inst File: lshift.v
-# ** Warning: (vsim-3015) control_unit.v(668): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: multiplier.v(43).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/multiplier_inst File: multiplier.v
-# ** Error: (vish-4014) No objects found matching '/control_unit_testbench/control_unit_inst/stat_reg'.
-# Error in macro ./control_unit_testbench.do line 21
-# (vish-4014) No objects found matching '/control_unit_testbench/control_unit_inst/stat_reg'.
+# -- Compiling module flash_interface
+# ** Error (suppressible): ../flash_interface.v(95): (vlog-2388) 'bytes_to_read' already declared in this scope (flash_interface).
+# ** Error: (vlog-13069) ../flash_interface.v(182): near "state": syntax error, unexpected IDENTIFIER, expecting ';'.
+# End time: 11:07:13 on Oct 07,2016, Elapsed time: 0:00:01
+# Errors: 2, Warnings: 0
+# ** Error: /opt/altera/16.0/modelsim_ase/linuxaloem/vlog failed.
+# Error in macro ./flash_interface_testbench.do line 1
+# /opt/altera/16.0/modelsim_ase/linuxaloem/vlog failed.
 #     while executing
-# "add wave -position insertpoint -label stat_reg                       sim:/control_unit_testbench/control_unit_inst/stat_reg"
-do control_unit_testbench.do
+# "vlog *.v ../flash_interface.v"
+do flash_interface_testbench.do
 # Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 14:42:34 on Sep 28,2016
-# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v lshift.v multiplier.v 
+# Start time: 11:07:22 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v 
 # -- Compiling module comb_test
 # -- Compiling module control_unit
 # -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
 # -- Compiling module lshift
 # -- Compiling module multiplier
+# -- Compiling module flash_interface
+# ** Error (suppressible): ../flash_interface.v(95): (vlog-2388) 'bytes_to_read' already declared in this scope (flash_interface).
+# End time: 11:07:22 on Oct 07,2016, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 0
+# ** Error: /opt/altera/16.0/modelsim_ase/linuxaloem/vlog failed.
+# Error in macro ./flash_interface_testbench.do line 1
+# /opt/altera/16.0/modelsim_ase/linuxaloem/vlog failed.
+#     while executing
+# "vlog *.v ../flash_interface.v"
+do flash_interface_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:08:35 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# -- Compiling module lshift
+# -- Compiling module multiplier
+# -- Compiling module flash_interface
+# ** Error: ../flash_interface.v(138): (vlog-2110) Illegal reference to net "busy".
+# ** Error: ../flash_interface.v(164): (vlog-2110) Illegal reference to net "busy".
+# ** Error: ../flash_interface.v(180): (vlog-2110) Illegal reference to net "read_buffer_data".
+# ** Error: ../flash_interface.v(199): (vlog-2892) Net type of 'write_buffer_write_req' must be explicitly declared.
+# ** Error: ../flash_interface.v(212): (vlog-2892) Net type of 'read_buffer_read_req' must be explicitly declared.
+# ** Error: ../flash_interface.v(214): (vlog-2892) Net type of 'read_buffer_q' must be explicitly declared.
+# End time: 11:08:35 on Oct 07,2016, Elapsed time: 0:00:00
+# Errors: 6, Warnings: 0
+# ** Error: /opt/altera/16.0/modelsim_ase/linuxaloem/vlog failed.
+# Error in macro ./flash_interface_testbench.do line 1
+# /opt/altera/16.0/modelsim_ase/linuxaloem/vlog failed.
+#     while executing
+# "vlog *.v ../flash_interface.v"
+do flash_interface_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:08:54 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# -- Compiling module lshift
+# -- Compiling module multiplier
+# -- Compiling module flash_interface
+# ** Error: ../flash_interface.v(180): (vlog-2110) Illegal reference to net "read_buffer_data".
+# ** Error: ../flash_interface.v(199): (vlog-2892) Net type of 'write_buffer_write_req' must be explicitly declared.
+# ** Error: ../flash_interface.v(212): (vlog-2892) Net type of 'read_buffer_read_req' must be explicitly declared.
+# ** Error: ../flash_interface.v(214): (vlog-2892) Net type of 'read_buffer_q' must be explicitly declared.
+# End time: 11:08:54 on Oct 07,2016, Elapsed time: 0:00:00
+# Errors: 4, Warnings: 0
+# ** Error: /opt/altera/16.0/modelsim_ase/linuxaloem/vlog failed.
+# Error in macro ./flash_interface_testbench.do line 1
+# /opt/altera/16.0/modelsim_ase/linuxaloem/vlog failed.
+#     while executing
+# "vlog *.v ../flash_interface.v"
+do flash_interface_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:09:20 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# -- Compiling module lshift
+# -- Compiling module multiplier
+# -- Compiling module flash_interface
+# ** Error: ../flash_interface.v(180): (vlog-2730) Undefined variable: 'read_buffer_data'.
+# End time: 11:09:20 on Oct 07,2016, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 0
+# ** Error: /opt/altera/16.0/modelsim_ase/linuxaloem/vlog failed.
+# Error in macro ./flash_interface_testbench.do line 1
+# /opt/altera/16.0/modelsim_ase/linuxaloem/vlog failed.
+#     while executing
+# "vlog *.v ../flash_interface.v"
+do flash_interface_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:39 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# -- Compiling module lshift
+# -- Compiling module multiplier
+# -- Compiling module flash_interface
+# ** Error: ../flash_interface.v(201): (vlog-2892) Net type of 'write_buffer_write_req' must be explicitly declared.
+# ** Error: ../flash_interface.v(214): (vlog-2892) Net type of 'read_buffer_read_req' must be explicitly declared.
+# End time: 11:10:39 on Oct 07,2016, Elapsed time: 0:00:00
+# Errors: 2, Warnings: 0
+# ** Error: /opt/altera/16.0/modelsim_ase/linuxaloem/vlog failed.
+# Error in macro ./flash_interface_testbench.do line 1
+# /opt/altera/16.0/modelsim_ase/linuxaloem/vlog failed.
+#     while executing
+# "vlog *.v ../flash_interface.v"
+do flash_interface_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:11:14 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# -- Compiling module lshift
+# -- Compiling module multiplier
+# -- Compiling module flash_interface
+# ** Error: ../flash_interface.v(203): (vlog-2892) Net type of 'write_buffer_read' must be explicitly declared.
+# ** Error: ../flash_interface.v(212): (vlog-2892) Net type of 'read_buffer_write' must be explicitly declared.
+# End time: 11:11:14 on Oct 07,2016, Elapsed time: 0:00:00
+# Errors: 2, Warnings: 0
+# ** Error: /opt/altera/16.0/modelsim_ase/linuxaloem/vlog failed.
+# Error in macro ./flash_interface_testbench.do line 1
+# /opt/altera/16.0/modelsim_ase/linuxaloem/vlog failed.
+#     while executing
+# "vlog *.v ../flash_interface.v"
+do flash_interface_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:11:52 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# -- Compiling module lshift
+# -- Compiling module multiplier
+# -- Compiling module flash_interface
+# ** Error: ../flash_interface.v(128): (vlog-2730) Undefined variable: 'write_buffer_read_req'.
+# ** Error: ../flash_interface.v(129): (vlog-2730) Undefined variable: 'read_buffer_write_req'.
+# End time: 11:11:52 on Oct 07,2016, Elapsed time: 0:00:00
+# Errors: 2, Warnings: 0
+# ** Error: /opt/altera/16.0/modelsim_ase/linuxaloem/vlog failed.
+# Error in macro ./flash_interface_testbench.do line 1
+# /opt/altera/16.0/modelsim_ase/linuxaloem/vlog failed.
+#     while executing
+# "vlog *.v ../flash_interface.v"
+do flash_interface_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:12:05 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# -- Compiling module lshift
+# -- Compiling module multiplier
+# -- Compiling module flash_interface
+# ** Error: ../flash_interface.v(183): (vlog-2730) Undefined variable: 'read_buffer_write_req'.
+# End time: 11:12:05 on Oct 07,2016, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 0
+# ** Error: /opt/altera/16.0/modelsim_ase/linuxaloem/vlog failed.
+# Error in macro ./flash_interface_testbench.do line 1
+# /opt/altera/16.0/modelsim_ase/linuxaloem/vlog failed.
+#     while executing
+# "vlog *.v ../flash_interface.v"
+do flash_interface_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:12:16 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# -- Compiling module lshift
+# -- Compiling module multiplier
+# -- Compiling module flash_interface
 # 
 # Top level modules:
 # 	comb_test
 # 	control_unit_testbench
-# End time: 14:42:34 on Sep 28,2016, Elapsed time: 0:00:00
+# 	flash_interface_testbench
+# End time: 11:12:16 on Oct 07,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-# End time: 14:42:34 on Sep 28,2016, Elapsed time: 0:00:34
-# Errors: 3, Warnings: 2
-# vsim -L 220model_ver -voptargs=""+acc"" work.control_unit_testbench 
-# Start time: 14:42:34 on Sep 28,2016
-# Loading work.control_unit_testbench
-# Loading work.control_unit
-# Loading work.lshift
-# Loading 220model_ver.lpm_clshift
-# Loading work.multiplier
-# Loading 220model_ver.lpm_mult
-# Loading 220model_ver.LPM_HINT_EVALUATION
-# ** Warning: (vsim-3015) control_unit.v(660): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: lshift.v(44).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/lshift_inst File: lshift.v
-# ** Warning: (vsim-3015) control_unit.v(668): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: multiplier.v(43).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/multiplier_inst File: multiplier.v
-# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
-# 0 ps
-# 840 ns
-do control_unit_testbench.do
+# vsim -L 220model_ver -voptargs=""+acc"" work.flash_interface_testbench 
+# Start time: 11:01:03 on Oct 07,2016
+# Loading work.flash_interface_testbench
+# Loading work.flash_interface
+# ** Error: (vsim-3033) ../flash_interface.v(197): Instantiation of 'fifo8_256' failed. The design unit was not found.
+#    Time: 0 ps  Iteration: 0  Instance: /flash_interface_testbench/flash_interface_inst File: ../flash_interface.v
+#         Searched libraries:
+#             /opt/altera/16.0/modelsim_ase/altera/verilog/220model
+#             /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/work
+# ** Error: (vsim-3033) ../flash_interface.v(208): Instantiation of 'fifo8_256' failed. The design unit was not found.
+#    Time: 0 ps  Iteration: 0  Instance: /flash_interface_testbench/flash_interface_inst File: ../flash_interface.v
+#         Searched libraries:
+#             /opt/altera/16.0/modelsim_ase/altera/verilog/220model
+#             /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/work
+# Error loading design
+# Error: Error loading design
+#        Pausing macro execution
+# MACRO ./flash_interface_testbench.do PAUSED at line 2
+do flash_interface_testbench.do
 # Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 14:43:43 on Sep 28,2016
-# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v lshift.v multiplier.v 
+# Start time: 11:12:51 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v ../fifo8_256.v 
 # -- Compiling module comb_test
 # -- Compiling module control_unit
 # -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
 # -- Compiling module lshift
 # -- Compiling module multiplier
+# -- Compiling module flash_interface
+# -- Compiling module fifo8_256
+# ** Error: ../fifo8_256.v(51): (vlog-2892) Net type of 'data' must be explicitly declared.
+# ** Error: ../fifo8_256.v(50): (vlog-2892) Net type of 'clock' must be explicitly declared.
+# ** Error: ../fifo8_256.v(52): (vlog-2892) Net type of 'rdreq' must be explicitly declared.
+# ** Error: ../fifo8_256.v(53): (vlog-2892) Net type of 'sclr' must be explicitly declared.
+# ** Error: ../fifo8_256.v(54): (vlog-2892) Net type of 'wrreq' must be explicitly declared.
+# End time: 11:12:51 on Oct 07,2016, Elapsed time: 0:00:00
+# Errors: 5, Warnings: 0
+# ** Error: /opt/altera/16.0/modelsim_ase/linuxaloem/vlog failed.
+# Error in macro ./flash_interface_testbench.do line 1
+# /opt/altera/16.0/modelsim_ase/linuxaloem/vlog failed.
+#     while executing
+# "vlog *.v ../flash_interface.v ../fifo8_256.v"
+do flash_interface_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:15:57 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v ../fifo8_256.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# -- Compiling module lshift
+# -- Compiling module multiplier
+# -- Compiling module flash_interface
+# -- Compiling module fifo8_256
 # 
 # Top level modules:
 # 	comb_test
 # 	control_unit_testbench
-# End time: 14:43:43 on Sep 28,2016, Elapsed time: 0:00:00
+# 	flash_interface_testbench
+# End time: 11:15:57 on Oct 07,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-# End time: 14:43:43 on Sep 28,2016, Elapsed time: 0:01:09
-# Errors: 0, Warnings: 3
-# vsim -L 220model_ver -voptargs=""+acc"" work.control_unit_testbench 
-# Start time: 14:43:43 on Sep 28,2016
-# Loading work.control_unit_testbench
-# Loading work.control_unit
-# Loading work.lshift
-# Loading 220model_ver.lpm_clshift
-# Loading work.multiplier
-# Loading 220model_ver.lpm_mult
-# Loading 220model_ver.LPM_HINT_EVALUATION
-# ** Warning: (vsim-3015) control_unit.v(660): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: lshift.v(44).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/lshift_inst File: lshift.v
-# ** Warning: (vsim-3015) control_unit.v(668): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: multiplier.v(43).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/multiplier_inst File: multiplier.v
-# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
-# 0 ps
-# 840 ns
-do control_unit_testbench.do
+# vsim -L 220model_ver -voptargs=""+acc"" work.flash_interface_testbench 
+# Start time: 11:01:03 on Oct 07,2016
+# Loading work.flash_interface_testbench
+# Loading work.flash_interface
+# Loading work.fifo8_256
+# ** Error: (vsim-3033) ../fifo8_256.v(61): Instantiation of 'scfifo' failed. The design unit was not found.
+#    Time: 0 ps  Iteration: 0  Instance: /flash_interface_testbench/flash_interface_inst/write_buffer File: ../fifo8_256.v
+#         Searched libraries:
+#             /opt/altera/16.0/modelsim_ase/altera/verilog/220model
+#             /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/work
+# ** Error: (vsim-3033) ../fifo8_256.v(61): Instantiation of 'scfifo' failed. The design unit was not found.
+#    Time: 0 ps  Iteration: 0  Instance: /flash_interface_testbench/flash_interface_inst/read_buffer File: ../fifo8_256.v
+#         Searched libraries:
+#             /opt/altera/16.0/modelsim_ase/altera/verilog/220model
+#             /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/work
+# Error loading design
+# Error: Error loading design
+#        Pausing macro execution
+# MACRO ./flash_interface_testbench.do PAUSED at line 2
+do flash_interface_testbench.do
 # Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 14:54:00 on Sep 28,2016
-# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v lshift.v multiplier.v 
+# Start time: 11:20:16 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v ../fifo8_256.v 
 # -- Compiling module comb_test
 # -- Compiling module control_unit
 # -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
 # -- Compiling module lshift
 # -- Compiling module multiplier
+# -- Compiling module flash_interface
+# -- Compiling module fifo8_256
 # 
 # Top level modules:
 # 	comb_test
 # 	control_unit_testbench
-# End time: 14:54:00 on Sep 28,2016, Elapsed time: 0:00:00
+# 	flash_interface_testbench
+# End time: 11:20:16 on Oct 07,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-# End time: 14:54:00 on Sep 28,2016, Elapsed time: 0:10:17
-# Errors: 0, Warnings: 3
-# vsim -L 220model_ver -voptargs=""+acc"" work.control_unit_testbench 
-# Start time: 14:54:00 on Sep 28,2016
-# Loading work.control_unit_testbench
-# Loading work.control_unit
-# Loading work.lshift
-# Loading 220model_ver.lpm_clshift
-# Loading work.multiplier
-# Loading 220model_ver.lpm_mult
-# Loading 220model_ver.LPM_HINT_EVALUATION
-# ** Warning: (vsim-3015) control_unit.v(660): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: lshift.v(44).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/lshift_inst File: lshift.v
-# ** Warning: (vsim-3015) control_unit.v(668): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: multiplier.v(43).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/multiplier_inst File: multiplier.v
-# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
-# 0 ps
-# 840 ns
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-do control_unit_testbench.do
+# vsim -L 220model_ver -L altera_mf_ver -voptargs=""+acc"" work.flash_interface_testbench 
+# Start time: 11:01:03 on Oct 07,2016
+# Loading work.flash_interface_testbench
+# Loading work.flash_interface
+# Loading work.fifo8_256
+# Loading altera_mf_ver.scfifo
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
+# ** Error: (vsim-3063) flash_interface_testbench.v(69): Port 'read_buffer_data' not found in the connected module (9th connection).
+#    Time: 0 ps  Iteration: 0  Instance: /flash_interface_testbench/flash_interface_inst File: ../flash_interface.v
+# Error loading design
+# Error: Error loading design
+#        Pausing macro execution
+# MACRO ./flash_interface_testbench.do PAUSED at line 2
+do flash_interface_testbench.do
 # Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 14:58:39 on Sep 28,2016
-# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v lshift.v multiplier.v 
+# Start time: 11:20:48 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v ../fifo8_256.v 
 # -- Compiling module comb_test
 # -- Compiling module control_unit
 # -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
 # -- Compiling module lshift
 # -- Compiling module multiplier
+# -- Compiling module flash_interface
+# -- Compiling module fifo8_256
 # 
 # Top level modules:
 # 	comb_test
 # 	control_unit_testbench
-# End time: 14:58:39 on Sep 28,2016, Elapsed time: 0:00:00
+# 	flash_interface_testbench
+# End time: 11:20:49 on Oct 07,2016, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 0
-# End time: 14:58:40 on Sep 28,2016, Elapsed time: 0:04:40
-# Errors: 0, Warnings: 3
-# vsim -L 220model_ver -voptargs=""+acc"" work.control_unit_testbench 
-# Start time: 14:58:40 on Sep 28,2016
-# Loading work.control_unit_testbench
-# Loading work.control_unit
-# Loading work.lshift
-# Loading 220model_ver.lpm_clshift
-# Loading work.multiplier
-# Loading 220model_ver.lpm_mult
-# Loading 220model_ver.LPM_HINT_EVALUATION
-# ** Warning: (vsim-3015) control_unit.v(664): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: lshift.v(44).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/lshift_inst File: lshift.v
-# ** Warning: (vsim-3015) control_unit.v(672): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: multiplier.v(43).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/multiplier_inst File: multiplier.v
+# vsim -L 220model_ver -L altera_mf_ver -voptargs=""+acc"" work.flash_interface_testbench 
+# Start time: 11:01:03 on Oct 07,2016
+# Loading work.flash_interface_testbench
+# Loading work.flash_interface
+# Loading work.fifo8_256
+# Loading altera_mf_ver.scfifo
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
 # ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
 # 0 ps
 # 840 ns
-run
-do control_unit_testbench.do
+do flash_interface_testbench.do
 # Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 15:00:59 on Sep 28,2016
-# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v lshift.v multiplier.v 
+# Start time: 11:36:14 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v ../fifo8_256.v 
 # -- Compiling module comb_test
 # -- Compiling module control_unit
 # -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# ** Error: (vlog-13069) flash_interface_testbench.v(79): near "initial": syntax error, unexpected initial.
+# ** Error: lshift.v(54): (vlog-2730) Undefined variable: 'data'.
+# ** Error: lshift.v(56): (vlog-2730) Undefined variable: 'distance'.
+# ** Error: lshift.v(57): (vlog-2730) Undefined variable: 'overflow'.
+# ** Error: lshift.v(58): (vlog-2730) Undefined variable: 'result'.
+# ** Error: lshift.v(59): (vlog-2730) Undefined variable: 'underflow'.
+# ** Error: lshift.v(66): Checker 'lpm_clshift' not found. Instantiation 'LPM_CLSHIFT_component' must be of a visible checker.
+# ** Error: (vlog-13069) lshift.v(67): near "defparam": syntax error, unexpected defparam.
+# ** Error: multiplier.v(50): (vlog-2730) Undefined variable: 'dataa'.
+# ** Error: multiplier.v(51): (vlog-2730) Undefined variable: 'datab'.
+# ** Error: multiplier.v(57): Checker 'lpm_mult' not found. Instantiation 'lpm_mult_component' must be of a visible checker.
+# ** Error: (vlog-13069) multiplier.v(58): near "defparam": syntax error, unexpected defparam.
+# ** Error: ../flash_interface.v(30): Compiler directive `default_nettype is not allowed inside a module.
+# ** Error: ../flash_interface.v(68): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(73): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(77): Illegal declaration after the statement near line '59'. Declarations must precede statements. Look for stray semicolons.
+# ** Error: ../flash_interface.v(87): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(88): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(90): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(91): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(93): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(94): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(95): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(97): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(99): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(100): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(102): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(106): Illegal declaration after the statement near line '82'. Declarations must precede statements. Look for stray semicolons.
+# ** Error: ../flash_interface.v(107): (vlog-2730) Undefined variable: 'update_out'.
+# ** Error: ../flash_interface.v(107): LHS in procedural continuous assignment may not be a net: update_out.
+# ** Error: ../flash_interface.v(109): LHS in procedural continuous assignment may not be a net: flash_c.
+# ** Error: ../flash_interface.v(110): LHS in procedural continuous assignment may not be a net: flash_dq.
+# ** Error: ../flash_interface.v(111): (vlog-2730) Undefined variable: 'sdi'.
+# ** Error: ../flash_interface.v(111): LHS in procedural continuous assignment may not be a net: sdi.
+# ** Error: ../flash_interface.v(112): LHS in procedural continuous assignment may not be a net: flash_dq.
+# ** Error: ../flash_interface.v(113): LHS in procedural continuous assignment may not be a net: flash_dq.
+# ** Error: (vlog-13069) ../flash_interface.v(118): near "always": syntax error, unexpected always.
+# ** Error: ../flash_interface.v(155): (vlog-2730) Undefined variable: 'write_buffer_empty'.
+# ** Error: ../flash_interface.v(156): (vlog-2730) Undefined variable: 'write_buffer_q'.
+# ** Error: ../flash_interface.v(172): (vlog-2730) Undefined variable: 'update_in'.
+# -- Compiling module fifo8_256
+# End time: 11:36:14 on Oct 07,2016, Elapsed time: 0:00:00
+# Errors: 40, Warnings: 0
+# ** Error: /opt/altera/16.0/modelsim_ase/linuxaloem/vlog failed.
+# Error in macro ./flash_interface_testbench.do line 1
+# /opt/altera/16.0/modelsim_ase/linuxaloem/vlog failed.
+#     while executing
+# "vlog *.v ../flash_interface.v ../fifo8_256.v"
+do flash_interface_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:36:49 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v ../fifo8_256.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# ** Error: flash_interface_testbench.v(99): Checker 'flash_interface' not found. Instantiation 'flash_interface_inst' must be of a visible checker.
+# ** Error: (vlog-13069) flash_interface_testbench.v(102): near "endmodule": syntax error, unexpected endmodule.
+# ** Error: lshift.v(54): (vlog-2730) Undefined variable: 'data'.
+# ** Error: lshift.v(56): (vlog-2730) Undefined variable: 'distance'.
+# ** Error: lshift.v(57): (vlog-2730) Undefined variable: 'overflow'.
+# ** Error: lshift.v(58): (vlog-2730) Undefined variable: 'result'.
+# ** Error: lshift.v(59): (vlog-2730) Undefined variable: 'underflow'.
+# ** Error: lshift.v(66): Checker 'lpm_clshift' not found. Instantiation 'LPM_CLSHIFT_component' must be of a visible checker.
+# ** Error: (vlog-13069) lshift.v(67): near "defparam": syntax error, unexpected defparam.
+# ** Error: multiplier.v(50): (vlog-2730) Undefined variable: 'dataa'.
+# ** Error: multiplier.v(51): (vlog-2730) Undefined variable: 'datab'.
+# ** Error: multiplier.v(57): Checker 'lpm_mult' not found. Instantiation 'lpm_mult_component' must be of a visible checker.
+# ** Error: (vlog-13069) multiplier.v(58): near "defparam": syntax error, unexpected defparam.
+# ** Error: ../flash_interface.v(30): Compiler directive `default_nettype is not allowed inside a module.
+# ** Error: ../flash_interface.v(68): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(73): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(77): Illegal declaration after the statement near line '59'. Declarations must precede statements. Look for stray semicolons.
+# ** Error: ../flash_interface.v(87): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(88): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(90): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(91): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(93): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(94): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(95): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(97): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(99): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(100): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(102): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(106): Illegal declaration after the statement near line '82'. Declarations must precede statements. Look for stray semicolons.
+# ** Error: ../flash_interface.v(107): (vlog-2730) Undefined variable: 'update_out'.
+# ** Error: ../flash_interface.v(107): LHS in procedural continuous assignment may not be a net: update_out.
+# ** Error: ../flash_interface.v(109): LHS in procedural continuous assignment may not be a net: flash_c.
+# ** Error: ../flash_interface.v(110): LHS in procedural continuous assignment may not be a net: flash_dq.
+# ** Error: ../flash_interface.v(111): (vlog-2730) Undefined variable: 'sdi'.
+# ** Error: ../flash_interface.v(111): LHS in procedural continuous assignment may not be a net: sdi.
+# ** Error: ../flash_interface.v(112): LHS in procedural continuous assignment may not be a net: flash_dq.
+# ** Error: ../flash_interface.v(113): LHS in procedural continuous assignment may not be a net: flash_dq.
+# ** Error: (vlog-13069) ../flash_interface.v(118): near "always": syntax error, unexpected always.
+# ** Error: ../flash_interface.v(155): (vlog-2730) Undefined variable: 'write_buffer_empty'.
+# ** Error: ../flash_interface.v(156): (vlog-2730) Undefined variable: 'write_buffer_q'.
+# ** Error: ../flash_interface.v(172): (vlog-2730) Undefined variable: 'update_in'.
+# -- Compiling module fifo8_256
+# End time: 11:36:49 on Oct 07,2016, Elapsed time: 0:00:00
+# Errors: 41, Warnings: 0
+# ** Error: /opt/altera/16.0/modelsim_ase/linuxaloem/vlog failed.
+# Error in macro ./flash_interface_testbench.do line 1
+# /opt/altera/16.0/modelsim_ase/linuxaloem/vlog failed.
+#     while executing
+# "vlog *.v ../flash_interface.v ../fifo8_256.v"
+do flash_interface_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:37:32 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v ../fifo8_256.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# ** Error: flash_interface_testbench.v(58): Register is illegal in left-hand side of continuous assignment
 # -- Compiling module lshift
 # -- Compiling module multiplier
+# -- Compiling module flash_interface
+# -- Compiling module fifo8_256
+# End time: 11:37:32 on Oct 07,2016, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 0
+# ** Error: /opt/altera/16.0/modelsim_ase/linuxaloem/vlog failed.
+# Error in macro ./flash_interface_testbench.do line 1
+# /opt/altera/16.0/modelsim_ase/linuxaloem/vlog failed.
+#     while executing
+# "vlog *.v ../flash_interface.v ../fifo8_256.v"
+do flash_interface_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:41:09 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v ../fifo8_256.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# -- Compiling module lshift
+# -- Compiling module multiplier
+# -- Compiling module flash_interface
+# -- Compiling module fifo8_256
 # 
 # Top level modules:
 # 	comb_test
 # 	control_unit_testbench
-# End time: 15:00:59 on Sep 28,2016, Elapsed time: 0:00:00
+# 	flash_interface_testbench
+# End time: 11:41:09 on Oct 07,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-# End time: 15:01:00 on Sep 28,2016, Elapsed time: 0:02:20
-# Errors: 0, Warnings: 3
-# vsim -L 220model_ver -voptargs=""+acc"" work.control_unit_testbench 
-# Start time: 15:01:00 on Sep 28,2016
-# Loading work.control_unit_testbench
-# Loading work.control_unit
-# Loading work.lshift
-# Loading 220model_ver.lpm_clshift
-# Loading work.multiplier
-# Loading 220model_ver.lpm_mult
-# Loading 220model_ver.LPM_HINT_EVALUATION
-# ** Warning: (vsim-3015) control_unit.v(664): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: lshift.v(44).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/lshift_inst File: lshift.v
-# ** Warning: (vsim-3015) control_unit.v(672): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: multiplier.v(43).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/multiplier_inst File: multiplier.v
+# End time: 11:41:10 on Oct 07,2016, Elapsed time: 0:40:07
+# Errors: 97, Warnings: 1
+# vsim -L 220model_ver -L altera_mf_ver -voptargs=""+acc"" work.flash_interface_testbench 
+# Start time: 11:41:10 on Oct 07,2016
+# Loading work.flash_interface_testbench
+# Loading work.flash_interface
+# Loading work.fifo8_256
+# Loading altera_mf_ver.scfifo
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
 # ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
 # 0 ps
 # 840 ns
-run
-run
-run
-do control_unit_testbench.do
+do flash_interface_testbench.do
 # Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 15:02:19 on Sep 28,2016
-# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v lshift.v multiplier.v 
+# Start time: 11:41:39 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v ../fifo8_256.v 
 # -- Compiling module comb_test
 # -- Compiling module control_unit
 # -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
 # -- Compiling module lshift
 # -- Compiling module multiplier
+# -- Compiling module flash_interface
+# -- Compiling module fifo8_256
 # 
 # Top level modules:
 # 	comb_test
 # 	control_unit_testbench
-# End time: 15:02:20 on Sep 28,2016, Elapsed time: 0:00:01
+# 	flash_interface_testbench
+# End time: 11:41:39 on Oct 07,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-# End time: 15:02:20 on Sep 28,2016, Elapsed time: 0:01:20
-# Errors: 0, Warnings: 3
-# vsim -L 220model_ver -voptargs=""+acc"" work.control_unit_testbench 
-# Start time: 15:02:20 on Sep 28,2016
-# Loading work.control_unit_testbench
-# Loading work.control_unit
-# Loading work.lshift
-# Loading 220model_ver.lpm_clshift
-# Loading work.multiplier
-# Loading 220model_ver.lpm_mult
-# Loading 220model_ver.LPM_HINT_EVALUATION
-# ** Warning: (vsim-3015) control_unit.v(670): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: lshift.v(44).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/lshift_inst File: lshift.v
-# ** Warning: (vsim-3015) control_unit.v(678): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: multiplier.v(43).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/multiplier_inst File: multiplier.v
+# End time: 11:41:40 on Oct 07,2016, Elapsed time: 0:00:30
+# Errors: 0, Warnings: 1
+# vsim -L 220model_ver -L altera_mf_ver -voptargs=""+acc"" work.flash_interface_testbench 
+# Start time: 11:41:40 on Oct 07,2016
+# Loading work.flash_interface_testbench
+# Loading work.flash_interface
+# Loading work.fifo8_256
+# Loading altera_mf_ver.scfifo
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
 # ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
 # 0 ps
 # 840 ns
-run
-run
-do control_unit_testbench.do
+do flash_interface_testbench.do
 # Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 15:05:55 on Sep 28,2016
-# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v lshift.v multiplier.v 
+# Start time: 11:42:23 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v ../fifo8_256.v 
 # -- Compiling module comb_test
 # -- Compiling module control_unit
 # -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
 # -- Compiling module lshift
 # -- Compiling module multiplier
+# -- Compiling module flash_interface
+# ** Error: (vlog-13069) ../flash_interface.v(133): near "end": syntax error, unexpected end, expecting ';'.
+# ** Error: ../flash_interface.v(145): A label for a block can be specified before 'begin' only in SystemVerilog.
+# ** Error: (vlog-13069) ../flash_interface.v(146): near "<=": syntax error, unexpected <=.
+# ** Error: ../flash_interface.v(146): (vlog-13205) Syntax error found in the scope following 'state'. Is there a missing '::'?
+# -- Compiling module fifo8_256
+# End time: 11:42:23 on Oct 07,2016, Elapsed time: 0:00:00
+# Errors: 4, Warnings: 0
+# ** Error: /opt/altera/16.0/modelsim_ase/linuxaloem/vlog failed.
+# Error in macro ./flash_interface_testbench.do line 1
+# /opt/altera/16.0/modelsim_ase/linuxaloem/vlog failed.
+#     while executing
+# "vlog *.v ../flash_interface.v ../fifo8_256.v"
+do flash_interface_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:42:34 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v ../fifo8_256.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# -- Compiling module lshift
+# -- Compiling module multiplier
+# -- Compiling module flash_interface
+# -- Compiling module fifo8_256
 # 
 # Top level modules:
 # 	comb_test
 # 	control_unit_testbench
-# End time: 15:05:55 on Sep 28,2016, Elapsed time: 0:00:00
+# 	flash_interface_testbench
+# End time: 11:42:34 on Oct 07,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-# End time: 15:05:56 on Sep 28,2016, Elapsed time: 0:03:36
-# Errors: 0, Warnings: 3
-# vsim -L 220model_ver -voptargs=""+acc"" work.control_unit_testbench 
-# Start time: 15:05:56 on Sep 28,2016
-# Loading work.control_unit_testbench
-# Loading work.control_unit
-# Loading work.lshift
-# Loading 220model_ver.lpm_clshift
-# Loading work.multiplier
-# Loading 220model_ver.lpm_mult
-# Loading 220model_ver.LPM_HINT_EVALUATION
-# ** Warning: (vsim-3015) control_unit.v(670): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: lshift.v(44).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/lshift_inst File: lshift.v
-# ** Warning: (vsim-3015) control_unit.v(678): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: multiplier.v(43).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/multiplier_inst File: multiplier.v
+# End time: 11:42:34 on Oct 07,2016, Elapsed time: 0:00:54
+# Errors: 7, Warnings: 1
+# vsim -L 220model_ver -L altera_mf_ver -voptargs=""+acc"" work.flash_interface_testbench 
+# Start time: 11:42:34 on Oct 07,2016
+# Loading work.flash_interface_testbench
+# Loading work.flash_interface
+# Loading work.fifo8_256
+# Loading altera_mf_ver.scfifo
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
 # ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
 # 0 ps
 # 840 ns
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-do control_unit_testbench.do
+do flash_interface_testbench.do
 # Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 15:07:24 on Sep 28,2016
-# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v lshift.v multiplier.v 
+# Start time: 11:43:40 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v ../fifo8_256.v 
 # -- Compiling module comb_test
 # -- Compiling module control_unit
 # -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
 # -- Compiling module lshift
 # -- Compiling module multiplier
+# -- Compiling module flash_interface
+# -- Compiling module fifo8_256
 # 
 # Top level modules:
 # 	comb_test
 # 	control_unit_testbench
-# End time: 15:07:24 on Sep 28,2016, Elapsed time: 0:00:00
+# 	flash_interface_testbench
+# End time: 11:43:40 on Oct 07,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-# End time: 15:07:24 on Sep 28,2016, Elapsed time: 0:01:28
-# Errors: 0, Warnings: 3
-# vsim -L 220model_ver -voptargs=""+acc"" work.control_unit_testbench 
-# Start time: 15:07:24 on Sep 28,2016
-# Loading work.control_unit_testbench
-# Loading work.control_unit
-# Loading work.lshift
-# Loading 220model_ver.lpm_clshift
-# Loading work.multiplier
-# Loading 220model_ver.lpm_mult
-# Loading 220model_ver.LPM_HINT_EVALUATION
-# ** Warning: (vsim-3015) control_unit.v(670): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: lshift.v(44).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/lshift_inst File: lshift.v
-# ** Warning: (vsim-3015) control_unit.v(678): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: multiplier.v(43).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/multiplier_inst File: multiplier.v
+# End time: 11:43:40 on Oct 07,2016, Elapsed time: 0:01:06
+# Errors: 0, Warnings: 1
+# vsim -L 220model_ver -L altera_mf_ver -voptargs=""+acc"" work.flash_interface_testbench 
+# Start time: 11:43:40 on Oct 07,2016
+# Loading work.flash_interface_testbench
+# Loading work.flash_interface
+# Loading work.fifo8_256
+# Loading altera_mf_ver.scfifo
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
 # ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
 # 0 ps
 # 840 ns
-run
-run
-run
-run
-run
-run
-run
-run
-run
-do control_unit_testbench.do
+do flash_interface_testbench.do
 # Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 15:07:57 on Sep 28,2016
-# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v lshift.v multiplier.v 
+# Start time: 11:44:33 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v ../fifo8_256.v 
 # -- Compiling module comb_test
 # -- Compiling module control_unit
 # -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
 # -- Compiling module lshift
 # -- Compiling module multiplier
+# -- Compiling module flash_interface
+# -- Compiling module fifo8_256
 # 
 # Top level modules:
 # 	comb_test
 # 	control_unit_testbench
-# End time: 15:07:57 on Sep 28,2016, Elapsed time: 0:00:00
+# 	flash_interface_testbench
+# End time: 11:44:33 on Oct 07,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-# End time: 15:07:57 on Sep 28,2016, Elapsed time: 0:00:33
-# Errors: 0, Warnings: 3
-# vsim -L 220model_ver -voptargs=""+acc"" work.control_unit_testbench 
-# Start time: 15:07:57 on Sep 28,2016
-# Loading work.control_unit_testbench
-# Loading work.control_unit
-# Loading work.lshift
-# Loading 220model_ver.lpm_clshift
-# Loading work.multiplier
-# Loading 220model_ver.lpm_mult
-# Loading 220model_ver.LPM_HINT_EVALUATION
-# ** Warning: (vsim-3015) control_unit.v(670): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: lshift.v(44).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/lshift_inst File: lshift.v
-# ** Warning: (vsim-3015) control_unit.v(678): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: multiplier.v(43).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/multiplier_inst File: multiplier.v
+# End time: 11:44:33 on Oct 07,2016, Elapsed time: 0:00:53
+# Errors: 0, Warnings: 1
+# vsim -L 220model_ver -L altera_mf_ver -voptargs=""+acc"" work.flash_interface_testbench 
+# Start time: 11:44:33 on Oct 07,2016
+# Loading work.flash_interface_testbench
+# Loading work.flash_interface
+# Loading work.fifo8_256
+# Loading altera_mf_ver.scfifo
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
 # ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
 # 0 ps
 # 840 ns
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-do control_unit_testbench.do
+do flash_interface_testbench.do
 # Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
-# Start time: 15:11:03 on Sep 28,2016
-# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v lshift.v multiplier.v 
+# Start time: 11:45:12 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v ../fifo8_256.v 
 # -- Compiling module comb_test
 # -- Compiling module control_unit
 # -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
 # -- Compiling module lshift
 # -- Compiling module multiplier
+# -- Compiling module flash_interface
+# -- Compiling module fifo8_256
 # 
 # Top level modules:
 # 	comb_test
 # 	control_unit_testbench
-# End time: 15:11:03 on Sep 28,2016, Elapsed time: 0:00:00
+# 	flash_interface_testbench
+# End time: 11:45:12 on Oct 07,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-# End time: 15:11:04 on Sep 28,2016, Elapsed time: 0:03:07
-# Errors: 0, Warnings: 3
-# vsim -L 220model_ver -voptargs=""+acc"" work.control_unit_testbench 
-# Start time: 15:11:04 on Sep 28,2016
-# Loading work.control_unit_testbench
-# Loading work.control_unit
-# Loading work.lshift
-# Loading 220model_ver.lpm_clshift
-# Loading work.multiplier
-# Loading 220model_ver.lpm_mult
-# Loading 220model_ver.LPM_HINT_EVALUATION
-# ** Warning: (vsim-3015) control_unit.v(670): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: lshift.v(44).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/lshift_inst File: lshift.v
-# ** Warning: (vsim-3015) control_unit.v(678): [PCDPC] - Port size (32) does not match connection size (1) for port 'result'. The port definition is at: multiplier.v(43).
-#    Time: 0 ps  Iteration: 0  Instance: /control_unit_testbench/control_unit_inst/multiplier_inst File: multiplier.v
+# End time: 11:45:12 on Oct 07,2016, Elapsed time: 0:00:39
+# Errors: 0, Warnings: 1
+# vsim -L 220model_ver -L altera_mf_ver -voptargs=""+acc"" work.flash_interface_testbench 
+# Start time: 11:45:12 on Oct 07,2016
+# Loading work.flash_interface_testbench
+# Loading work.flash_interface
+# Loading work.fifo8_256
+# Loading altera_mf_ver.scfifo
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
 # ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
 # 0 ps
 # 840 ns
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-# End time: 15:15:05 on Sep 28,2016, Elapsed time: 0:04:01
-# Errors: 0, Warnings: 3
+do flash_interface_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:47:39 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v ../fifo8_256.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# -- Compiling module lshift
+# -- Compiling module multiplier
+# -- Compiling module flash_interface
+# -- Compiling module fifo8_256
+# 
+# Top level modules:
+# 	comb_test
+# 	control_unit_testbench
+# 	flash_interface_testbench
+# End time: 11:47:39 on Oct 07,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# End time: 11:47:40 on Oct 07,2016, Elapsed time: 0:02:28
+# Errors: 0, Warnings: 1
+# vsim -L 220model_ver -L altera_mf_ver -voptargs=""+acc"" work.flash_interface_testbench 
+# Start time: 11:47:40 on Oct 07,2016
+# Loading work.flash_interface_testbench
+# Loading work.flash_interface
+# Loading work.fifo8_256
+# Loading altera_mf_ver.scfifo
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
+# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
+# 0 ps
+# 840 ns
+do flash_interface_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:48:31 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v ../fifo8_256.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# -- Compiling module lshift
+# -- Compiling module multiplier
+# -- Compiling module flash_interface
+# -- Compiling module fifo8_256
+# 
+# Top level modules:
+# 	comb_test
+# 	control_unit_testbench
+# 	flash_interface_testbench
+# End time: 11:48:31 on Oct 07,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# End time: 11:48:32 on Oct 07,2016, Elapsed time: 0:00:52
+# Errors: 0, Warnings: 1
+# vsim -L 220model_ver -L altera_mf_ver -voptargs=""+acc"" work.flash_interface_testbench 
+# Start time: 11:48:32 on Oct 07,2016
+# Loading work.flash_interface_testbench
+# Loading work.flash_interface
+# Loading work.fifo8_256
+# Loading altera_mf_ver.scfifo
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
+# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
+# 0 ps
+# 840 ns
+do flash_interface_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:58:22 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v ../fifo8_256.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# -- Compiling module lshift
+# -- Compiling module multiplier
+# -- Compiling module flash_interface
+# -- Compiling module fifo8_256
+# 
+# Top level modules:
+# 	comb_test
+# 	control_unit_testbench
+# 	flash_interface_testbench
+# End time: 11:58:23 on Oct 07,2016, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# End time: 11:58:23 on Oct 07,2016, Elapsed time: 0:09:51
+# Errors: 0, Warnings: 1
+# vsim -L 220model_ver -L altera_mf_ver -voptargs=""+acc"" work.flash_interface_testbench 
+# Start time: 11:58:23 on Oct 07,2016
+# Loading work.flash_interface_testbench
+# Loading work.flash_interface
+# Loading work.fifo8_256
+# Loading altera_mf_ver.scfifo
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
+# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
+# 0 ps
+# 1260 ns
+do flash_interface_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:59:24 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v ../fifo8_256.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# -- Compiling module lshift
+# -- Compiling module multiplier
+# -- Compiling module flash_interface
+# -- Compiling module fifo8_256
+# 
+# Top level modules:
+# 	comb_test
+# 	control_unit_testbench
+# 	flash_interface_testbench
+# End time: 11:59:24 on Oct 07,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# End time: 11:59:24 on Oct 07,2016, Elapsed time: 0:01:01
+# Errors: 0, Warnings: 1
+# vsim -L 220model_ver -L altera_mf_ver -voptargs=""+acc"" work.flash_interface_testbench 
+# Start time: 11:59:24 on Oct 07,2016
+# Loading work.flash_interface_testbench
+# Loading work.flash_interface
+# Loading work.fifo8_256
+# Loading altera_mf_ver.scfifo
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
+# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
+# 0 ps
+# 1260 ns
+do flash_interface_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 12:00:53 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v ../fifo8_256.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# -- Compiling module lshift
+# -- Compiling module multiplier
+# -- Compiling module flash_interface
+# -- Compiling module fifo8_256
+# 
+# Top level modules:
+# 	comb_test
+# 	control_unit_testbench
+# 	flash_interface_testbench
+# End time: 12:00:53 on Oct 07,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# End time: 12:00:54 on Oct 07,2016, Elapsed time: 0:01:30
+# Errors: 0, Warnings: 1
+# vsim -L 220model_ver -L altera_mf_ver -voptargs=""+acc"" work.flash_interface_testbench 
+# Start time: 12:00:54 on Oct 07,2016
+# Loading work.flash_interface_testbench
+# Loading work.flash_interface
+# Loading work.fifo8_256
+# Loading altera_mf_ver.scfifo
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
+# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
+# 0 ps
+# 1260 ns
+do flash_interface_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 12:04:26 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v ../fifo8_256.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# -- Compiling module lshift
+# -- Compiling module multiplier
+# -- Compiling module flash_interface
+# -- Compiling module fifo8_256
+# 
+# Top level modules:
+# 	comb_test
+# 	control_unit_testbench
+# 	flash_interface_testbench
+# End time: 12:04:26 on Oct 07,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# End time: 12:04:26 on Oct 07,2016, Elapsed time: 0:03:32
+# Errors: 0, Warnings: 1
+# vsim -L 220model_ver -L altera_mf_ver -voptargs=""+acc"" work.flash_interface_testbench 
+# Start time: 12:04:26 on Oct 07,2016
+# Loading work.flash_interface_testbench
+# Loading work.flash_interface
+# Loading work.fifo8_256
+# Loading altera_mf_ver.scfifo
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
+# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
+# 0 ps
+# 1260 ns
+do flash_interface_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 12:05:15 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v ../fifo8_256.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# -- Compiling module lshift
+# -- Compiling module multiplier
+# -- Compiling module flash_interface
+# -- Compiling module fifo8_256
+# 
+# Top level modules:
+# 	comb_test
+# 	control_unit_testbench
+# 	flash_interface_testbench
+# End time: 12:05:15 on Oct 07,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# End time: 12:05:16 on Oct 07,2016, Elapsed time: 0:00:50
+# Errors: 0, Warnings: 1
+# vsim -L 220model_ver -L altera_mf_ver -voptargs=""+acc"" work.flash_interface_testbench 
+# Start time: 12:05:16 on Oct 07,2016
+# Loading work.flash_interface_testbench
+# Loading work.flash_interface
+# Loading work.fifo8_256
+# Loading altera_mf_ver.scfifo
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
+# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
+# 0 ps
+# 1260 ns
+do flash_interface_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 12:05:51 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v ../fifo8_256.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# -- Compiling module lshift
+# -- Compiling module multiplier
+# -- Compiling module flash_interface
+# -- Compiling module fifo8_256
+# 
+# Top level modules:
+# 	comb_test
+# 	control_unit_testbench
+# 	flash_interface_testbench
+# End time: 12:05:51 on Oct 07,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# End time: 12:05:52 on Oct 07,2016, Elapsed time: 0:00:36
+# Errors: 0, Warnings: 1
+# vsim -L 220model_ver -L altera_mf_ver -voptargs=""+acc"" work.flash_interface_testbench 
+# Start time: 12:05:52 on Oct 07,2016
+# Loading work.flash_interface_testbench
+# Loading work.flash_interface
+# Loading work.fifo8_256
+# Loading altera_mf_ver.scfifo
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
+# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
+# 0 ps
+# 1260 ns
+do flash_interface_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 12:06:11 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v ../fifo8_256.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# -- Compiling module lshift
+# -- Compiling module multiplier
+# -- Compiling module flash_interface
+# -- Compiling module fifo8_256
+# 
+# Top level modules:
+# 	comb_test
+# 	control_unit_testbench
+# 	flash_interface_testbench
+# End time: 12:06:11 on Oct 07,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# End time: 12:06:11 on Oct 07,2016, Elapsed time: 0:00:19
+# Errors: 0, Warnings: 1
+# vsim -L 220model_ver -L altera_mf_ver -voptargs=""+acc"" work.flash_interface_testbench 
+# Start time: 12:06:11 on Oct 07,2016
+# Loading work.flash_interface_testbench
+# Loading work.flash_interface
+# Loading work.fifo8_256
+# Loading altera_mf_ver.scfifo
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
+# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
+# 0 ps
+# 1260 ns
+do flash_interface_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 12:06:27 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v ../fifo8_256.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# -- Compiling module lshift
+# -- Compiling module multiplier
+# -- Compiling module flash_interface
+# -- Compiling module fifo8_256
+# 
+# Top level modules:
+# 	comb_test
+# 	control_unit_testbench
+# 	flash_interface_testbench
+# End time: 12:06:27 on Oct 07,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# End time: 12:06:28 on Oct 07,2016, Elapsed time: 0:00:17
+# Errors: 0, Warnings: 1
+# vsim -L 220model_ver -L altera_mf_ver -voptargs=""+acc"" work.flash_interface_testbench 
+# Start time: 12:06:28 on Oct 07,2016
+# Loading work.flash_interface_testbench
+# Loading work.flash_interface
+# Loading work.fifo8_256
+# Loading altera_mf_ver.scfifo
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
+# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
+# 0 ps
+# 2100 ns
+do flash_interface_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 12:07:13 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v ../fifo8_256.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# -- Compiling module lshift
+# -- Compiling module multiplier
+# -- Compiling module flash_interface
+# -- Compiling module fifo8_256
+# 
+# Top level modules:
+# 	comb_test
+# 	control_unit_testbench
+# 	flash_interface_testbench
+# End time: 12:07:13 on Oct 07,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# End time: 12:07:13 on Oct 07,2016, Elapsed time: 0:00:45
+# Errors: 0, Warnings: 1
+# vsim -L 220model_ver -L altera_mf_ver -voptargs=""+acc"" work.flash_interface_testbench 
+# Start time: 12:07:13 on Oct 07,2016
+# Loading work.flash_interface_testbench
+# Loading work.flash_interface
+# Loading work.fifo8_256
+# Loading altera_mf_ver.scfifo
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
+# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
+# 0 ps
+# 2100 ns
+do flash_interface_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 12:09:35 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v ../fifo8_256.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# -- Compiling module lshift
+# -- Compiling module multiplier
+# -- Compiling module flash_interface
+# -- Compiling module fifo8_256
+# 
+# Top level modules:
+# 	comb_test
+# 	control_unit_testbench
+# 	flash_interface_testbench
+# End time: 12:09:36 on Oct 07,2016, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# End time: 12:09:36 on Oct 07,2016, Elapsed time: 0:02:23
+# Errors: 0, Warnings: 1
+# vsim -L 220model_ver -L altera_mf_ver -voptargs=""+acc"" work.flash_interface_testbench 
+# Start time: 12:09:36 on Oct 07,2016
+# Loading work.flash_interface_testbench
+# Loading work.flash_interface
+# Loading work.fifo8_256
+# Loading altera_mf_ver.scfifo
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
+# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
+# 0 ps
+# 2100 ns
+do flash_interface_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 12:12:03 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v ../fifo8_256.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# -- Compiling module lshift
+# -- Compiling module multiplier
+# -- Compiling module flash_interface
+# -- Compiling module fifo8_256
+# 
+# Top level modules:
+# 	comb_test
+# 	control_unit_testbench
+# 	flash_interface_testbench
+# End time: 12:12:03 on Oct 07,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# End time: 12:12:03 on Oct 07,2016, Elapsed time: 0:02:27
+# Errors: 0, Warnings: 1
+# vsim -L 220model_ver -L altera_mf_ver -voptargs=""+acc"" work.flash_interface_testbench 
+# Start time: 12:12:03 on Oct 07,2016
+# Loading work.flash_interface_testbench
+# Loading work.flash_interface
+# Loading work.fifo8_256
+# Loading altera_mf_ver.scfifo
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
+# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
+# 0 ps
+# 3150 ns
+do flash_interface_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 12:16:33 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v ../fifo8_256.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# -- Compiling module lshift
+# -- Compiling module multiplier
+# -- Compiling module flash_interface
+# -- Compiling module fifo8_256
+# 
+# Top level modules:
+# 	comb_test
+# 	control_unit_testbench
+# 	flash_interface_testbench
+# End time: 12:16:33 on Oct 07,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# End time: 12:16:34 on Oct 07,2016, Elapsed time: 0:04:31
+# Errors: 0, Warnings: 1
+# vsim -L 220model_ver -L altera_mf_ver -voptargs=""+acc"" work.flash_interface_testbench 
+# Start time: 12:16:34 on Oct 07,2016
+# Loading work.flash_interface_testbench
+# Loading work.flash_interface
+# Loading work.fifo8_256
+# Loading altera_mf_ver.scfifo
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
+# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
+# 0 ps
+# 3150 ns
+do flash_interface_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 12:21:00 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v ../fifo8_256.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# ** Error: flash_interface_testbench.v(152): Checker 'flash_interface' not found. Instantiation 'flash_interface_inst' must be of a visible checker.
+# ** Error: (vlog-13069) flash_interface_testbench.v(155): near "endmodule": syntax error, unexpected endmodule.
+# ** Error: lshift.v(54): (vlog-2730) Undefined variable: 'data'.
+# ** Error: lshift.v(56): (vlog-2730) Undefined variable: 'distance'.
+# ** Error: lshift.v(57): (vlog-2730) Undefined variable: 'overflow'.
+# ** Error: lshift.v(58): (vlog-2730) Undefined variable: 'result'.
+# ** Error: lshift.v(59): (vlog-2730) Undefined variable: 'underflow'.
+# ** Error: lshift.v(66): Checker 'lpm_clshift' not found. Instantiation 'LPM_CLSHIFT_component' must be of a visible checker.
+# ** Error: (vlog-13069) lshift.v(67): near "defparam": syntax error, unexpected defparam.
+# ** Error: multiplier.v(50): (vlog-2730) Undefined variable: 'dataa'.
+# ** Error: multiplier.v(51): (vlog-2730) Undefined variable: 'datab'.
+# ** Error: multiplier.v(57): Checker 'lpm_mult' not found. Instantiation 'lpm_mult_component' must be of a visible checker.
+# ** Error: (vlog-13069) multiplier.v(58): near "defparam": syntax error, unexpected defparam.
+# ** Error: ../flash_interface.v(30): Compiler directive `default_nettype is not allowed inside a module.
+# ** Error: ../flash_interface.v(68): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(73): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(75): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(79): Illegal declaration after the statement near line '59'. Declarations must precede statements. Look for stray semicolons.
+# ** Error: ../flash_interface.v(89): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(90): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(92): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(93): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(95): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(96): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(97): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(99): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(101): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(102): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(104): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(108): Illegal declaration after the statement near line '84'. Declarations must precede statements. Look for stray semicolons.
+# ** Error: ../flash_interface.v(109): (vlog-2730) Undefined variable: 'update_out'.
+# ** Error: ../flash_interface.v(109): LHS in procedural continuous assignment may not be a net: update_out.
+# ** Error: ../flash_interface.v(111): LHS in procedural continuous assignment may not be a net: flash_c.
+# ** Error: ../flash_interface.v(112): LHS in procedural continuous assignment may not be a net: flash_dq.
+# ** Error: ../flash_interface.v(113): (vlog-2730) Undefined variable: 'sdi'.
+# ** Error: ../flash_interface.v(113): LHS in procedural continuous assignment may not be a net: sdi.
+# ** Error: ../flash_interface.v(114): LHS in procedural continuous assignment may not be a net: flash_dq.
+# ** Error: ../flash_interface.v(115): LHS in procedural continuous assignment may not be a net: flash_dq.
+# ** Error: (vlog-13069) ../flash_interface.v(120): near "always": syntax error, unexpected always.
+# ** Error: (vlog-13069) ../flash_interface.v(125): near "else": syntax error, unexpected else.
+# ** Error: (vlog-13069) ../flash_interface.v(129): near "end": syntax error, unexpected end.
+# ** Error: ../flash_interface.v(137): (vlog-13205) Syntax error found in the scope following 'read_buffer_write'. Is there a missing '::'?
+# -- Compiling module fifo8_256
+# End time: 12:21:00 on Oct 07,2016, Elapsed time: 0:00:00
+# Errors: 42, Warnings: 0
+# ** Error: /opt/altera/16.0/modelsim_ase/linuxaloem/vlog failed.
+# Error in macro ./flash_interface_testbench.do line 1
+# /opt/altera/16.0/modelsim_ase/linuxaloem/vlog failed.
+#     while executing
+# "vlog *.v ../flash_interface.v ../fifo8_256.v"
+do flash_interface_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 12:21:25 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v ../fifo8_256.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# ** Error: flash_interface_testbench.v(153): Checker 'flash_interface' not found. Instantiation 'flash_interface_inst' must be of a visible checker.
+# ** Error: (vlog-13069) flash_interface_testbench.v(156): near "endmodule": syntax error, unexpected endmodule.
+# ** Error: lshift.v(54): (vlog-2730) Undefined variable: 'data'.
+# ** Error: lshift.v(56): (vlog-2730) Undefined variable: 'distance'.
+# ** Error: lshift.v(57): (vlog-2730) Undefined variable: 'overflow'.
+# ** Error: lshift.v(58): (vlog-2730) Undefined variable: 'result'.
+# ** Error: lshift.v(59): (vlog-2730) Undefined variable: 'underflow'.
+# ** Error: lshift.v(66): Checker 'lpm_clshift' not found. Instantiation 'LPM_CLSHIFT_component' must be of a visible checker.
+# ** Error: (vlog-13069) lshift.v(67): near "defparam": syntax error, unexpected defparam.
+# ** Error: multiplier.v(50): (vlog-2730) Undefined variable: 'dataa'.
+# ** Error: multiplier.v(51): (vlog-2730) Undefined variable: 'datab'.
+# ** Error: multiplier.v(57): Checker 'lpm_mult' not found. Instantiation 'lpm_mult_component' must be of a visible checker.
+# ** Error: (vlog-13069) multiplier.v(58): near "defparam": syntax error, unexpected defparam.
+# ** Error: ../flash_interface.v(30): Compiler directive `default_nettype is not allowed inside a module.
+# ** Error: ../flash_interface.v(68): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(73): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(75): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(79): Illegal declaration after the statement near line '59'. Declarations must precede statements. Look for stray semicolons.
+# ** Error: ../flash_interface.v(89): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(90): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(92): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(93): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(95): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(96): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(97): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(99): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(101): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(102): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(104): Declarations not allowed in unnamed block.
+# ** Error: ../flash_interface.v(108): Illegal declaration after the statement near line '84'. Declarations must precede statements. Look for stray semicolons.
+# ** Error: ../flash_interface.v(109): (vlog-2730) Undefined variable: 'update_out'.
+# ** Error: ../flash_interface.v(109): LHS in procedural continuous assignment may not be a net: update_out.
+# ** Error: ../flash_interface.v(111): LHS in procedural continuous assignment may not be a net: flash_c.
+# ** Error: ../flash_interface.v(112): LHS in procedural continuous assignment may not be a net: flash_dq.
+# ** Error: ../flash_interface.v(113): (vlog-2730) Undefined variable: 'sdi'.
+# ** Error: ../flash_interface.v(113): LHS in procedural continuous assignment may not be a net: sdi.
+# ** Error: ../flash_interface.v(114): LHS in procedural continuous assignment may not be a net: flash_dq.
+# ** Error: ../flash_interface.v(115): LHS in procedural continuous assignment may not be a net: flash_dq.
+# ** Error: (vlog-13069) ../flash_interface.v(120): near "always": syntax error, unexpected always.
+# ** Error: (vlog-13069) ../flash_interface.v(125): near "else": syntax error, unexpected else.
+# ** Error: ../flash_interface.v(127): (vlog-13205) Syntax error found in the scope following 'clk_div1'. Is there a missing '::'?
+# -- Compiling module fifo8_256
+# End time: 12:21:25 on Oct 07,2016, Elapsed time: 0:00:00
+# Errors: 41, Warnings: 0
+# ** Error: /opt/altera/16.0/modelsim_ase/linuxaloem/vlog failed.
+# Error in macro ./flash_interface_testbench.do line 1
+# /opt/altera/16.0/modelsim_ase/linuxaloem/vlog failed.
+#     while executing
+# "vlog *.v ../flash_interface.v ../fifo8_256.v"
+do flash_interface_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 12:22:01 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v ../fifo8_256.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# -- Compiling module lshift
+# -- Compiling module multiplier
+# -- Compiling module flash_interface
+# -- Compiling module fifo8_256
+# 
+# Top level modules:
+# 	comb_test
+# 	control_unit_testbench
+# 	flash_interface_testbench
+# End time: 12:22:01 on Oct 07,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# End time: 12:22:02 on Oct 07,2016, Elapsed time: 0:05:28
+# Errors: 89, Warnings: 1
+# vsim -L 220model_ver -L altera_mf_ver -voptargs=""+acc"" work.flash_interface_testbench 
+# Start time: 12:22:02 on Oct 07,2016
+# Loading work.flash_interface_testbench
+# Loading work.flash_interface
+# Loading work.fifo8_256
+# Loading altera_mf_ver.scfifo
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
+# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
+# 0 ps
+# 3150 ns
+do flash_interface_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 12:23:22 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v ../fifo8_256.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# -- Compiling module lshift
+# -- Compiling module multiplier
+# -- Compiling module flash_interface
+# -- Compiling module fifo8_256
+# 
+# Top level modules:
+# 	comb_test
+# 	control_unit_testbench
+# 	flash_interface_testbench
+# End time: 12:23:22 on Oct 07,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# End time: 12:23:23 on Oct 07,2016, Elapsed time: 0:01:21
+# Errors: 0, Warnings: 1
+# vsim -L 220model_ver -L altera_mf_ver -voptargs=""+acc"" work.flash_interface_testbench 
+# Start time: 12:23:23 on Oct 07,2016
+# Loading work.flash_interface_testbench
+# Loading work.flash_interface
+# Loading work.fifo8_256
+# Loading altera_mf_ver.scfifo
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
+# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
+# 0 ps
+# 3150 ns
+do flash_interface_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 12:25:26 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v ../fifo8_256.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# -- Compiling module lshift
+# -- Compiling module multiplier
+# -- Compiling module flash_interface
+# -- Compiling module fifo8_256
+# 
+# Top level modules:
+# 	comb_test
+# 	control_unit_testbench
+# 	flash_interface_testbench
+# End time: 12:25:26 on Oct 07,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# End time: 12:25:26 on Oct 07,2016, Elapsed time: 0:02:03
+# Errors: 0, Warnings: 1
+# vsim -L 220model_ver -L altera_mf_ver -voptargs=""+acc"" work.flash_interface_testbench 
+# Start time: 12:25:26 on Oct 07,2016
+# Loading work.flash_interface_testbench
+# Loading work.flash_interface
+# Loading work.fifo8_256
+# Loading altera_mf_ver.scfifo
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
+# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
+# 0 ps
+# 4200 ns
+do flash_interface_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 12:26:38 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v ../fifo8_256.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# -- Compiling module lshift
+# -- Compiling module multiplier
+# -- Compiling module flash_interface
+# -- Compiling module fifo8_256
+# 
+# Top level modules:
+# 	comb_test
+# 	control_unit_testbench
+# 	flash_interface_testbench
+# End time: 12:26:38 on Oct 07,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# End time: 12:26:38 on Oct 07,2016, Elapsed time: 0:01:12
+# Errors: 0, Warnings: 1
+# vsim -L 220model_ver -L altera_mf_ver -voptargs=""+acc"" work.flash_interface_testbench 
+# Start time: 12:26:38 on Oct 07,2016
+# Loading work.flash_interface_testbench
+# Loading work.flash_interface
+# Loading work.fifo8_256
+# Loading altera_mf_ver.scfifo
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
+# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
+# 0 ps
+# 4200 ns
+do flash_interface_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 12:27:28 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v ../fifo8_256.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# -- Compiling module lshift
+# -- Compiling module multiplier
+# -- Compiling module flash_interface
+# -- Compiling module fifo8_256
+# 
+# Top level modules:
+# 	comb_test
+# 	control_unit_testbench
+# 	flash_interface_testbench
+# End time: 12:27:28 on Oct 07,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# End time: 12:27:29 on Oct 07,2016, Elapsed time: 0:00:51
+# Errors: 0, Warnings: 1
+# vsim -L 220model_ver -L altera_mf_ver -voptargs=""+acc"" work.flash_interface_testbench 
+# Start time: 12:27:29 on Oct 07,2016
+# Loading work.flash_interface_testbench
+# Loading work.flash_interface
+# Loading work.fifo8_256
+# Loading altera_mf_ver.scfifo
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
+# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
+# 0 ps
+# 4200 ns
+do flash_interface_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 12:28:05 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v ../fifo8_256.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# -- Compiling module lshift
+# -- Compiling module multiplier
+# -- Compiling module flash_interface
+# -- Compiling module fifo8_256
+# 
+# Top level modules:
+# 	comb_test
+# 	control_unit_testbench
+# 	flash_interface_testbench
+# End time: 12:28:05 on Oct 07,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# End time: 12:28:05 on Oct 07,2016, Elapsed time: 0:00:36
+# Errors: 0, Warnings: 1
+# vsim -L 220model_ver -L altera_mf_ver -voptargs=""+acc"" work.flash_interface_testbench 
+# Start time: 12:28:05 on Oct 07,2016
+# Loading work.flash_interface_testbench
+# Loading work.flash_interface
+# Loading work.fifo8_256
+# Loading altera_mf_ver.scfifo
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
+# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
+# 0 ps
+# 4200 ns
+do flash_interface_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 12:30:17 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v ../fifo8_256.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# -- Compiling module lshift
+# -- Compiling module multiplier
+# -- Compiling module flash_interface
+# -- Compiling module fifo8_256
+# 
+# Top level modules:
+# 	comb_test
+# 	control_unit_testbench
+# 	flash_interface_testbench
+# End time: 12:30:17 on Oct 07,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# End time: 12:30:18 on Oct 07,2016, Elapsed time: 0:02:13
+# Errors: 0, Warnings: 1
+# vsim -L 220model_ver -L altera_mf_ver -voptargs=""+acc"" work.flash_interface_testbench 
+# Start time: 12:30:18 on Oct 07,2016
+# Loading work.flash_interface_testbench
+# Loading work.flash_interface
+# Loading work.fifo8_256
+# Loading altera_mf_ver.scfifo
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
+# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
+# 0 ps
+# 4200 ns
+do flash_interface_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 12:31:18 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v ../fifo8_256.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# -- Compiling module lshift
+# -- Compiling module multiplier
+# -- Compiling module flash_interface
+# ** Error: ../flash_interface.v(191): (vlog-2730) Undefined variable: 'sin'.
+# -- Compiling module fifo8_256
+# End time: 12:31:18 on Oct 07,2016, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 0
+# ** Error: /opt/altera/16.0/modelsim_ase/linuxaloem/vlog failed.
+# Error in macro ./flash_interface_testbench.do line 1
+# /opt/altera/16.0/modelsim_ase/linuxaloem/vlog failed.
+#     while executing
+# "vlog *.v ../flash_interface.v ../fifo8_256.v"
+do flash_interface_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 12:31:26 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v ../fifo8_256.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# -- Compiling module lshift
+# -- Compiling module multiplier
+# -- Compiling module flash_interface
+# ** Error: ../flash_interface.v(191): (vlog-2730) Undefined variable: 'flash_sin'.
+# -- Compiling module fifo8_256
+# End time: 12:31:26 on Oct 07,2016, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 0
+# ** Error: /opt/altera/16.0/modelsim_ase/linuxaloem/vlog failed.
+# Error in macro ./flash_interface_testbench.do line 1
+# /opt/altera/16.0/modelsim_ase/linuxaloem/vlog failed.
+#     while executing
+# "vlog *.v ../flash_interface.v ../fifo8_256.v"
+do flash_interface_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 12:31:50 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v ../fifo8_256.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# -- Compiling module lshift
+# -- Compiling module multiplier
+# -- Compiling module flash_interface
+# -- Compiling module fifo8_256
+# 
+# Top level modules:
+# 	comb_test
+# 	control_unit_testbench
+# 	flash_interface_testbench
+# End time: 12:31:50 on Oct 07,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# End time: 12:31:50 on Oct 07,2016, Elapsed time: 0:01:32
+# Errors: 8, Warnings: 1
+# vsim -L 220model_ver -L altera_mf_ver -voptargs=""+acc"" work.flash_interface_testbench 
+# Start time: 12:31:50 on Oct 07,2016
+# Loading work.flash_interface_testbench
+# Loading work.flash_interface
+# Loading work.fifo8_256
+# Loading altera_mf_ver.scfifo
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
+# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
+# 0 ps
+# 4200 ns
+do flash_interface_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 12:33:10 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v ../fifo8_256.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# -- Compiling module lshift
+# -- Compiling module multiplier
+# -- Compiling module flash_interface
+# -- Compiling module fifo8_256
+# 
+# Top level modules:
+# 	comb_test
+# 	control_unit_testbench
+# 	flash_interface_testbench
+# End time: 12:33:10 on Oct 07,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# End time: 12:33:10 on Oct 07,2016, Elapsed time: 0:01:20
+# Errors: 0, Warnings: 1
+# vsim -L 220model_ver -L altera_mf_ver -voptargs=""+acc"" work.flash_interface_testbench 
+# Start time: 12:33:10 on Oct 07,2016
+# Loading work.flash_interface_testbench
+# Loading work.flash_interface
+# Loading work.fifo8_256
+# Loading altera_mf_ver.scfifo
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
+# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
+# 0 ps
+# 4200 ns
+do flash_interface_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 12:34:35 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v ../fifo8_256.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# -- Compiling module lshift
+# -- Compiling module multiplier
+# -- Compiling module flash_interface
+# -- Compiling module fifo8_256
+# 
+# Top level modules:
+# 	comb_test
+# 	control_unit_testbench
+# 	flash_interface_testbench
+# End time: 12:34:35 on Oct 07,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# End time: 12:34:35 on Oct 07,2016, Elapsed time: 0:01:25
+# Errors: 0, Warnings: 1
+# vsim -L 220model_ver -L altera_mf_ver -voptargs=""+acc"" work.flash_interface_testbench 
+# Start time: 12:34:35 on Oct 07,2016
+# Loading work.flash_interface_testbench
+# Loading work.flash_interface
+# Loading work.fifo8_256
+# Loading altera_mf_ver.scfifo
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
+# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
+# 0 ps
+# 4200 ns
+do flash_interface_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 12:36:11 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v ../fifo8_256.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# -- Compiling module lshift
+# -- Compiling module multiplier
+# -- Compiling module flash_interface
+# -- Compiling module fifo8_256
+# 
+# Top level modules:
+# 	comb_test
+# 	control_unit_testbench
+# 	flash_interface_testbench
+# End time: 12:36:11 on Oct 07,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# End time: 12:36:11 on Oct 07,2016, Elapsed time: 0:01:36
+# Errors: 0, Warnings: 1
+# vsim -L 220model_ver -L altera_mf_ver -voptargs=""+acc"" work.flash_interface_testbench 
+# Start time: 12:36:11 on Oct 07,2016
+# Loading work.flash_interface_testbench
+# Loading work.flash_interface
+# Loading work.fifo8_256
+# Loading altera_mf_ver.scfifo
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
+# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
+# 0 ps
+# 4200 ns
+do flash_interface_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 13:01:30 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v ../fifo8_256.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# -- Compiling module lshift
+# -- Compiling module multiplier
+# -- Compiling module flash_interface
+# -- Compiling module fifo8_256
+# 
+# Top level modules:
+# 	comb_test
+# 	control_unit_testbench
+# 	flash_interface_testbench
+# End time: 13:01:30 on Oct 07,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# End time: 13:01:30 on Oct 07,2016, Elapsed time: 0:25:19
+# Errors: 0, Warnings: 1
+# vsim -L 220model_ver -L altera_mf_ver -voptargs=""+acc"" work.flash_interface_testbench 
+# Start time: 13:01:30 on Oct 07,2016
+# Loading work.flash_interface_testbench
+# Loading work.flash_interface
+# Loading work.fifo8_256
+# Loading altera_mf_ver.scfifo
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
+# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
+# 0 ps
+# 4200 ns
+do flash_interface_testbench.do
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 13:05:20 on Oct 07,2016
+# vlog -reportprogress 300 comb_test.v control_unit.v control_unit_testbench.v flash_interface_testbench.v lshift.v multiplier.v ../flash_interface.v ../fifo8_256.v 
+# -- Compiling module comb_test
+# -- Compiling module control_unit
+# -- Compiling module control_unit_testbench
+# -- Compiling module flash_interface_testbench
+# -- Compiling module lshift
+# -- Compiling module multiplier
+# -- Compiling module flash_interface
+# -- Compiling module fifo8_256
+# 
+# Top level modules:
+# 	comb_test
+# 	control_unit_testbench
+# 	flash_interface_testbench
+# End time: 13:05:20 on Oct 07,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# End time: 13:05:20 on Oct 07,2016, Elapsed time: 0:03:50
+# Errors: 0, Warnings: 1
+# vsim -L 220model_ver -L altera_mf_ver -voptargs=""+acc"" work.flash_interface_testbench 
+# Start time: 13:05:20 on Oct 07,2016
+# Loading work.flash_interface_testbench
+# Loading work.flash_interface
+# Loading work.fifo8_256
+# Loading altera_mf_ver.scfifo
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
+# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
+# 0 ps
+# 4200 ns
+# End time: 16:28:56 on Oct 07,2016, Elapsed time: 3:23:36
+# Errors: 0, Warnings: 1
