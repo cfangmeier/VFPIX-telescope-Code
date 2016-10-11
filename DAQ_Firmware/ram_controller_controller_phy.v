@@ -377,7 +377,8 @@ module ram_controller_controller_phy (
       .mem_we_n (mem_we_n),
       .pll_ref_clk (pll_ref_clk),
       .reset_request_n (reset_request_n),
-      .soft_reset_n (soft_reset_n)
+      .soft_reset_n (soft_reset_n),
+      .ctl_cal_warning ()
     );
 
 

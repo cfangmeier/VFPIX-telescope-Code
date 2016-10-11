@@ -1,25 +1,25 @@
 #Core: ram_controller_phy - Instance: hal_inst|memory_inst|ram_controller_inst|ram_controller_controller_phy_inst|ram_controller_phy_inst
 #Path, Setup Margin, Hold Margin
 "Address Command (Slow 1200mV 85C Model)",4.015,1.740
-"DQS vs CK (Slow 1200mV 85C Model)",1.452,1.526
-"Mimic (Slow 1200mV 85C Model)",0.571,
-"Phy (Slow 1200mV 85C Model)",0.287,0.449
-"Phy Reset (Slow 1200mV 85C Model)",3.811,1.153
-"Read Capture (Slow 1200mV 85C Model)",0.530,0.545
+"DQS vs CK (Slow 1200mV 85C Model)",1.452,1.527
+"Mimic (Slow 1200mV 85C Model)",0.576,
+"Phy (Slow 1200mV 85C Model)",-0.274,0.424
+"Phy Reset (Slow 1200mV 85C Model)",3.185,1.154
+"Read Capture (Slow 1200mV 85C Model)",0.515,0.530
 "Write (Slow 1200mV 85C Model)",0.623,0.857
  
-"Address Command (Slow 1200mV 0C Model)",4.176,1.686
-"DQS vs CK (Slow 1200mV 0C Model)",1.490,1.551
-"Mimic (Slow 1200mV 0C Model)",0.542,
-"Phy (Slow 1200mV 0C Model)",0.542,0.397
-"Phy Reset (Slow 1200mV 0C Model)",4.023,1.063
-"Read Capture (Slow 1200mV 0C Model)",0.484,0.499
+"Address Command (Slow 1200mV 0C Model)",4.175,1.686
+"DQS vs CK (Slow 1200mV 0C Model)",1.489,1.551
+"Mimic (Slow 1200mV 0C Model)",0.546,
+"Phy (Slow 1200mV 0C Model)",0.238,0.398
+"Phy Reset (Slow 1200mV 0C Model)",3.388,1.064
+"Read Capture (Slow 1200mV 0C Model)",0.470,0.485
 "Write (Slow 1200mV 0C Model)",0.631,0.879
  
-"Address Command (Fast 1200mV 0C Model)",4.562,1.556
-"DQS vs CK (Fast 1200mV 0C Model)",1.628,1.634
-"Mimic (Fast 1200mV 0C Model)",1.544,
-"Phy (Fast 1200mV 0C Model)",1.544,0.159
-"Phy Reset (Fast 1200mV 0C Model)",5.775,0.487
+"Address Command (Fast 1200mV 0C Model)",4.561,1.554
+"DQS vs CK (Fast 1200mV 0C Model)",1.626,1.633
+"Mimic (Fast 1200mV 0C Model)",1.550,
+"Phy (Fast 1200mV 0C Model)",1.550,0.147
+"Phy Reset (Fast 1200mV 0C Model)",5.551,0.486
 "Read Capture (Fast 1200mV 0C Model)",0.779,0.784
-"Write (Fast 1200mV 0C Model)",0.742,1.001
+"Write (Fast 1200mV 0C Model)",0.742,1.000

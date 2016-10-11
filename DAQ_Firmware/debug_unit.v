@@ -25,7 +25,7 @@
 `default_nettype none
 `timescale 1ns / 1ps
 
-module debug_unit (
+module debug_unit #(parameter DEBUG_SIZE=4)(
   input  wire                     phy_clk,
   input  wire                     reset,
   output wire                     sys_clk,
@@ -37,7 +37,6 @@ module debug_unit (
   output wire [DEBUG_SIZE*65-1:0] okEHx
 );
 
-parameter DEBUG_SIZE = 4;
 
 wire do_single_step;
 reg single_step_p1;

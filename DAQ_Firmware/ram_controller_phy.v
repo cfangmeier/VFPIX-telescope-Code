@@ -458,7 +458,7 @@ endmodule
 // Retrieval info:     </NAMESPACE>
 // Retrieval info:     <NAMESPACE name = "simgen_enable">
 // Retrieval info:      <PRIVATE name = "language" value="Verilog HDL"  type="STRING"  enable="1" />
-// Retrieval info:      <PRIVATE name = "enabled" value="0"  type="STRING"  enable="1" />
+// Retrieval info:      <PRIVATE name = "enabled" value="1"  type="STRING"  enable="1" />
 // Retrieval info:     </NAMESPACE>
 // Retrieval info:     <NAMESPACE name = "qip">
 // Retrieval info:      <PRIVATE name = "gx_libs" value="1"  type="STRING"  enable="1" />
@@ -467,6 +467,10 @@ endmodule
 // Retrieval info:      <PRIVATE name = "filename" value="ram_controller_phy_syn.v"  type="STRING"  enable="1" />
 // Retrieval info:     </NAMESPACE>
 // Retrieval info:     <NAMESPACE name = "serializer"/>
+// Retrieval info:     <NAMESPACE name = "quartus_settings">
+// Retrieval info:      <PRIVATE name = "DEVICE" value="EP4CE55F23C8"  type="STRING"  enable="1" />
+// Retrieval info:      <PRIVATE name = "FAMILY" value="Cyclone IV E"  type="STRING"  enable="1" />
+// Retrieval info:     </NAMESPACE>
 // Retrieval info:    </PRIVATES>
 // Retrieval info:    <FILES/>
 // Retrieval info:    <PORTS/>
@@ -474,4 +478,6 @@ endmodule
 // Retrieval info:   </STATIC_SECTION>
 // Retrieval info:  </NETLIST_SECTION>
 // Retrieval info: </MEGACORE>
+// =========================================================
+// IPFS_FILES: ram_controller_phy_alt_mem_phy_seq_wrapper.vo;
 // =========================================================

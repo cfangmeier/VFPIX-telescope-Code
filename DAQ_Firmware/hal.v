@@ -98,7 +98,7 @@ module hal(
 // Parameters
 //----------------------------------------------------------------------------
 localparam DEBUG_SIZE = 2;
-localparam OK_SIZE = 2+DEBUG_SIZE;
+localparam OK_SIZE = 3+DEBUG_SIZE;
 
 //----------------------------------------------------------------------------
 // REGISTERS
@@ -119,6 +119,7 @@ wire [65:0] okEH;
 wire [65*OK_SIZE-1:0]  okEHx;
 
 wire [31:0] control_bus;
+wire memory_program;
 
 wire busy_ram;
 wire busy_spi;
@@ -144,6 +145,13 @@ wire [31:0] data_read_rj45;
 wire [31:0] data_read_led;
 wire [31:0] data_read_aux;
 
+wire        input_buffer_read;
+wire        input_buffer_write;
+wire        input_buffer_empty;
+wire [10:0] input_buffer_words_available;
+wire [10:0] input_buffer_used_words;
+wire [31:0] input_buffer_data;
+wire [31:0] input_buffer_q;
 //----------------------------------------------------------------------------
 // Assignments
 //----------------------------------------------------------------------------
@@ -166,7 +174,8 @@ assign read_req_rj45 = memory_read_req & enable_rj45;
 assign read_req_led = memory_read_req & enable_led;
 assign read_req_aux = memory_read_req & enable_aux;
 
-assign reset = control_bus[0];
+assign reset   = control_bus[0];
+assign memory_program = control_bus[1];
 
 //----------------------------------------------------------------------------
 // Address Decoder
@@ -253,7 +262,7 @@ aux_io aux_io_inst(
   .okEHx ( okEHx[129:0] )
 );
 
-memory memory_inst(
+memory memory_inst (
   .pll_ref_clk ( sys_clk ) ,
   .phy_clk ( clk ),
   .reset ( reset ),
@@ -277,18 +286,25 @@ memory memory_inst(
   .mem_dqs ( mem_dqs ),
   .mem_odt ( mem_odt ),
   .mem_ras_n ( mem_ras_n ),
-  .mem_we_n ( mem_we_n )
+  .mem_we_n ( mem_we_n ),
+
+  .flash_c ( flash_c ),
+  .flash_sb ( flash_sb ),
+  .flash_dq ( flash_dq ),
+
+  .program ( memory_program ),
+  .input_buffer_empty ( input_buffer_empty ),
+  .input_buffer_q ( input_buffer_q ),
+  .input_buffer_read ( input_buffer_read )
   );
 
 
-ADC_PLL ADC_PLL_inst (
+adc_pll adc_pll_inst (
   .areset ( 1'b0 ),
   .inclk0 ( sys_clk ),
   .c0 ( adc_clk ),
   .locked (  )
 );
-
-
 
 
 okWireIn control_wires(
@@ -297,15 +313,32 @@ okWireIn control_wires(
   .ep_dataout(control_bus)
 );
 
-/* okBTPipeIn programming_input_btpipe( */
-/*   .okHE ( okHE ), */
-/*   .okEH ( okEHx[3*65-1 -: 64] ), */
-/*   .ep_addr ( 8'h81 ), */
-/*   .ep_write ( flashprog_write ), */
-/*   .ep_dataout ( flashprog_data ) */
-/*   .ep_blockstrobe ( ) */
-/*   .ep_ready ( flashprog_ready ) */
-/* ); */
+// 32 bit wide 1024 depth fifo
+fifo32_clk_crossing_with_usage  programming_input_buffer (
+  .aclr ( reset ),
+  .rdclk ( clk ),
+  .rdreq ( input_buffer_read ),
+  .rdempty ( input_buffer_empty ),
+  .rdusedw ( input_buffer_words_available),
+  .q ( input_buffer_q ),
+
+  .wrclk ( okClk ),
+  .wrreq ( input_buffer_write ),
+  .wrfull (  ),
+  .wrusedw ( input_buffer_used_words ),
+  .data ( input_buffer_data )
+);
+
+okBTPipeIn programming_input_btpipe(
+  .okHE ( okHE ),
+  .okEH ( okEHx[194:130] ),
+  .ep_addr (8'hA1 ),
+  .ep_dataout ( input_buffer_data ),
+  .ep_write ( input_buffer_write ),
+  .ep_blockstrobe (  ),
+  .ep_ready ( (1024 - input_buffer_used_words) >= 64 )
+);
+
 
 
 /* debug_unit #(.DEBUG_SIZE(DEBUG_SIZE)) debug_unit_inst ( */

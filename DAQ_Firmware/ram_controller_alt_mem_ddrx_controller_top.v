@@ -470,7 +470,7 @@ wire                                                                   itf_cmd_v
 wire                                                                   itf_cmd;
 wire    [LOCAL_ADDR_WIDTH                                  - 1 : 0]    itf_cmd_address;
 wire    [LOCAL_SIZE_WIDTH                                  - 1 : 0]    itf_cmd_burstlen;
-wire                                                                   itf_cmd_id;
+wire    [7                                                     : 0]    itf_cmd_id;
 wire                                                                   itf_cmd_priority;
 wire                                                                   itf_cmd_autopercharge;
 wire                                                                   itf_cmd_multicast;
@@ -484,7 +484,7 @@ wire    [CFG_LOCAL_ID_WIDTH                                - 1 : 0]    itf_wr_da
 wire                                                                   itf_rd_data_ready;
 wire                                                                   itf_rd_data_valid;
 wire    [LOCAL_DATA_WIDTH                                  - 1 : 0]    itf_rd_data;
-wire    [2                                                 - 1 : 0]    itf_rd_data_error;
+wire    [0                                                     : 0]    itf_rd_data_error;
 wire                                                                   itf_rd_data_begin;
 wire                                                                   itf_rd_data_last;
 wire    [CFG_LOCAL_ID_WIDTH                                - 1 : 0]    itf_rd_data_id;
@@ -716,7 +716,18 @@ alt_mem_ddrx_controller_st_top #(
 	.csr_rdata(csr_rdata),
 	.csr_be(csr_be),
 	.csr_rdata_valid(csr_rdata_valid),
-	.csr_waitrequest(csr_waitrequest)
+	.csr_waitrequest(csr_waitrequest),
+  .afi_rrank(),
+  .afi_wrank(),
+  .afi_init_req(),
+  .local_deep_powerdn_ack(),
+  .local_deep_powerdn_req(),
+  .local_deep_powerdn_chip(),
+  .local_zqcal_req(),
+  .local_zqcal_chip(),
+  .tbp_empty(),
+  .cmd_gen_busy(),
+  .sideband_in_refresh()
 );
 
 

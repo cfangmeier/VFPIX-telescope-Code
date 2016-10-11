@@ -1,8 +1,312 @@
-/home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/comb_test.v {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/comb_test.v
+/home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_ecc_encoder_decoder_wrapper.v {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_ecc_encoder_decoder_wrapper.v
 Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
--- Compiling module comb_test
+-- Compiling module alt_mem_ddrx_ecc_encoder_decoder_wrapper
 
 Top level modules:
-	comb_test
+	alt_mem_ddrx_ecc_encoder_decoder_wrapper
+
+} {} {}} /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/ram_controller_phy_alt_mem_phy.v {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/ram_controller_phy_alt_mem_phy.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module ram_controller_phy_alt_mem_phy
+-- Compiling module ram_controller_phy_alt_mem_phy_clk_reset
+-- Compiling module ram_controller_phy_alt_mem_phy_ac
+-- Compiling module ram_controller_phy_alt_mem_phy_addr_cmd
+-- Compiling module ram_controller_phy_alt_mem_phy_dp_io
+-- Compiling module ram_controller_phy_alt_mem_phy_read_dp
+-- Compiling module ram_controller_phy_alt_mem_phy_write_dp_fr
+-- Compiling module ram_controller_phy_alt_mem_phy_rdata_valid
+-- Compiling module ram_controller_phy_alt_mem_phy_mux
+-- Compiling module ram_controller_phy_alt_mem_phy_mimic
+-- Compiling module ram_controller_phy_alt_mem_phy_mimic_debug
+-- Compiling module ram_controller_phy_alt_mem_phy_reset_pipe
+
+Top level modules:
+	ram_controller_phy_alt_mem_phy
+	ram_controller_phy_alt_mem_phy_mux
+
+} {} {}} /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_fifo.v {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_fifo.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module alt_mem_ddrx_fifo
+
+Top level modules:
+	alt_mem_ddrx_fifo
+
+} {} {}} /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_wdata_path.v {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_wdata_path.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module alt_mem_ddrx_wdata_path
+
+Top level modules:
+	alt_mem_ddrx_wdata_path
+
+} {} {}} /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/ram_controller_controller_phy.v {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/ram_controller_controller_phy.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module ram_controller_controller_phy
+
+Top level modules:
+	ram_controller_controller_phy
+
+} {} {}} /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_rdata_path.v {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_rdata_path.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module alt_mem_ddrx_rdata_path
+
+Top level modules:
+	alt_mem_ddrx_rdata_path
+
+} {} {}} /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/ram_controller_phy_alt_mem_phy_seq_wrapper.vo {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/ram_controller_phy_alt_mem_phy_seq_wrapper.vo
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module ram_controller_phy_alt_mem_phy_seq_wrapper
+
+Top level modules:
+	ram_controller_phy_alt_mem_phy_seq_wrapper
+
+} {} {}} /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_burst_gen.v {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_burst_gen.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module alt_mem_ddrx_burst_gen
+
+Top level modules:
+	alt_mem_ddrx_burst_gen
+
+} {} {}} /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_rdwr_data_tmg.v {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_rdwr_data_tmg.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module alt_mem_ddrx_rdwr_data_tmg
+
+Top level modules:
+	alt_mem_ddrx_rdwr_data_tmg
+
+} {} {}} /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_mm_st_converter.v {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_mm_st_converter.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module alt_mem_ddrx_mm_st_converter
+
+Top level modules:
+	alt_mem_ddrx_mm_st_converter
+
+} {} {}} /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/flash_interface_testbench.v {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/flash_interface_testbench.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module flash_interface_testbench
+
+Top level modules:
+	flash_interface_testbench
+
+} {} {}} /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/fifo8_256.v {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/fifo8_256.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module fifo8_256
+
+Top level modules:
+	fifo8_256
+
+} {} {}} /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_buffer.v {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_buffer.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module alt_mem_ddrx_buffer
+
+Top level modules:
+	alt_mem_ddrx_buffer
+
+} {} {}} /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_ddr2_odt_gen.v {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_ddr2_odt_gen.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module alt_mem_ddrx_ddr2_odt_gen
+
+Top level modules:
+	alt_mem_ddrx_ddr2_odt_gen
+
+} {} {}} /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_controller.v {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_controller.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module alt_mem_ddrx_controller
+
+Top level modules:
+	alt_mem_ddrx_controller
+
+} {} {}} /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/ram_controller_phy.v {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/ram_controller_phy.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module ram_controller_phy
+
+Top level modules:
+	ram_controller_phy
+
+} {} {}} /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_list.v {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_list.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module alt_mem_ddrx_list
+
+Top level modules:
+	alt_mem_ddrx_list
+
+} {} {}} /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_cmd_gen.v {2 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_cmd_gen.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module alt_mem_ddrx_cmd_gen
+** Warning: /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_cmd_gen.v(1478): (vlog-2182) 'ecc_proc_busy_parwr_read_queue_load' might be read before written in always_comb or always @* block.
+
+Top level modules:
+	alt_mem_ddrx_cmd_gen
+
+} {} {}} /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_tbp.v {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_tbp.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module alt_mem_ddrx_tbp
+
+Top level modules:
+	alt_mem_ddrx_tbp
+
+} {} {}} /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/flash_interface.v {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/flash_interface.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module flash_interface
+
+Top level modules:
+	flash_interface
+
+} {} {}} /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_timing_param.v {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_timing_param.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module alt_mem_ddrx_timing_param
+
+Top level modules:
+	alt_mem_ddrx_timing_param
+
+} {} {}} /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_arbiter.v {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_arbiter.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module alt_mem_ddrx_arbiter
+
+Top level modules:
+	alt_mem_ddrx_arbiter
+
+} {} {}} /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/testbench/ram_controller_mem_model.v {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/testbench/ram_controller_mem_model.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module ram_controller_mem_model_ram_module
+-- Compiling module ram_controller_mem_model
+
+Top level modules:
+	ram_controller_mem_model
+
+} {} {}} /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_input_if.v {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_input_if.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module alt_mem_ddrx_input_if
+
+Top level modules:
+	alt_mem_ddrx_input_if
+
+} {} {}} /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_ecc_encoder_32_syn.v {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_ecc_encoder_32_syn.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module alt_mem_ddrx_ecc_encoder_32_altecc_encoder
+-- Compiling module alt_mem_ddrx_ecc_encoder_32
+
+Top level modules:
+	alt_mem_ddrx_ecc_encoder_32
+
+} {} {}} /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/ram_controller_phy_alt_mem_phy_pll.v {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/ram_controller_phy_alt_mem_phy_pll.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module ram_controller_phy_alt_mem_phy_pll
+
+Top level modules:
+	ram_controller_phy_alt_mem_phy_pll
+
+} {} {}} /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_controller_st_top.v {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_controller_st_top.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module alt_mem_ddrx_controller_st_top
+
+Top level modules:
+	alt_mem_ddrx_controller_st_top
+
+} {} {}} /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_ddr3_odt_gen.v {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_ddr3_odt_gen.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module alt_mem_ddrx_ddr3_odt_gen
+
+Top level modules:
+	alt_mem_ddrx_ddr3_odt_gen
+
+} {} {}} /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_ecc_decoder.v {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_ecc_decoder.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module alt_mem_ddrx_ecc_decoder
+
+Top level modules:
+	alt_mem_ddrx_ecc_decoder
+
+} {} {}} /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_dataid_manager.v {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_dataid_manager.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module alt_mem_ddrx_dataid_manager
+
+Top level modules:
+	alt_mem_ddrx_dataid_manager
+
+} {} {}} /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/control_unit_testbench.v {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/control_unit_testbench.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module control_unit_testbench
+
+Top level modules:
+	control_unit_testbench
+
+} {} {}} /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_ecc_encoder.v {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_ecc_encoder.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module alt_mem_ddrx_ecc_encoder
+
+Top level modules:
+	alt_mem_ddrx_ecc_encoder
+
+} {} {}} /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_ecc_decoder_32_syn.v {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_ecc_decoder_32_syn.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module alt_mem_ddrx_ecc_decoder_32_decode
+-- Compiling module alt_mem_ddrx_ecc_decoder_32_altecc_decoder
+-- Compiling module alt_mem_ddrx_ecc_decoder_32
+
+Top level modules:
+	alt_mem_ddrx_ecc_decoder_32
+
+} {} {}} /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_addr_cmd_wrap.v {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_addr_cmd_wrap.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module alt_mem_ddrx_addr_cmd_wrap
+
+Top level modules:
+	alt_mem_ddrx_addr_cmd_wrap
+
+} {} {}} /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/ram_controller_alt_mem_ddrx_controller_top.v {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/ram_controller_alt_mem_ddrx_controller_top.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module ram_controller_alt_mem_ddrx_controller_top
+
+Top level modules:
+	ram_controller_alt_mem_ddrx_controller_top
+
+} {} {}} /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_odt_gen.v {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_odt_gen.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module alt_mem_ddrx_odt_gen
+
+Top level modules:
+	alt_mem_ddrx_odt_gen
+
+} {} {}} /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_burst_tracking.v {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_burst_tracking.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module alt_mem_ddrx_burst_tracking
+
+Top level modules:
+	alt_mem_ddrx_burst_tracking
+
+} {} {}} /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_sideband.v {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_sideband.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module alt_mem_ddrx_sideband
+
+Top level modules:
+	alt_mem_ddrx_sideband
+
+} {} {}} /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_rank_timer.v {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_rank_timer.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module alt_mem_ddrx_rank_timer
+
+Top level modules:
+	alt_mem_ddrx_rank_timer
+
+} {} {}} /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_addr_cmd.v {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_addr_cmd.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module alt_mem_ddrx_addr_cmd
+
+Top level modules:
+	alt_mem_ddrx_addr_cmd
+
+} {} {}} /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/memory.v {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/memory.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module memory
+
+Top level modules:
+	memory
+
+} {} {}} /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/ram_controller.v {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/ram_controller.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module ram_controller
+
+Top level modules:
+	ram_controller
 
 } {} {}}

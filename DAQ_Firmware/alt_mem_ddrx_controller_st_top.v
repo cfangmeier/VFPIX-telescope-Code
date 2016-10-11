@@ -190,8 +190,8 @@ parameter CSR_BE_WIDTH                              = "";
 parameter CFG_ENABLE_DQS_TRACKING                   = 0;
 parameter CFG_WLAT_BUS_WIDTH                        = 6;
 parameter CFG_RLAT_BUS_WIDTH                        = 6;
-parameter CFG_RRANK_BUS_WIDTH                       = 0;
-parameter CFG_WRANK_BUS_WIDTH                       = 0;
+parameter CFG_RRANK_BUS_WIDTH                       = 1;
+parameter CFG_WRANK_BUS_WIDTH                       = 1;
 parameter CFG_USE_SHADOW_REGS                       = 0;
 
 parameter MEM_IF_RD_TO_WR_TURNAROUND_OCT            = "";

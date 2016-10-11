@@ -66,38 +66,38 @@ module ram_controller (
   mem_dqs);
 
 
-  input  [24:0] local_address;
-  input         local_write_req;
-  input         local_read_req;
-  input         local_burstbegin;
-  input  [31:0] local_wdata;
+  input  [24:0]  local_address;
+  input    local_write_req;
+  input    local_read_req;
+  input    local_burstbegin;
+  input  [31:0]  local_wdata;
   input  [3:0]  local_be;
   input  [2:0]  local_size;
-  input         global_reset_n;
-  input         pll_ref_clk;
-  input         soft_reset_n;
-  output        local_ready;
-  output [31:0] local_rdata;
-  output        local_rdata_valid;
-  output        local_refresh_ack;
-  output        local_init_done;
-  output        reset_phy_clk_n;
-  output [0:0]  mem_odt;
-  output [0:0]  mem_cs_n;
-  output [0:0]  mem_cke;
-  output [12:0] mem_addr;
-  output [2:0]  mem_ba;
-  output        mem_ras_n;
-  output        mem_cas_n;
-  output        mem_we_n;
-  output [1:0]  mem_dm;
-  output        phy_clk;
-  output        aux_full_rate_clk;
-  output        aux_half_rate_clk;
-  output        reset_request_n;
+  input    global_reset_n;
+  input    pll_ref_clk;
+  input    soft_reset_n;
+  output    local_ready;
+  output  [31:0]  local_rdata;
+  output    local_rdata_valid;
+  output    local_refresh_ack;
+  output    local_init_done;
+  output    reset_phy_clk_n;
+  output  [0:0]  mem_odt;
+  output  [0:0]  mem_cs_n;
+  output  [0:0]  mem_cke;
+  output  [12:0]  mem_addr;
+  output  [2:0]  mem_ba;
+  output    mem_ras_n;
+  output    mem_cas_n;
+  output    mem_we_n;
+  output  [1:0]  mem_dm;
+  output    phy_clk;
+  output    aux_full_rate_clk;
+  output    aux_half_rate_clk;
+  output    reset_request_n;
   inout  [0:0]  mem_clk;
   inout  [0:0]  mem_clk_n;
-  inout  [15:0] mem_dq;
+  inout  [15:0]  mem_dq;
   inout  [1:0]  mem_dqs;
 
   wire signal_wire0 = 1'b0;
@@ -206,7 +206,9 @@ module ram_controller (
     .mem_clk_n(mem_clk_n),
     .mem_dq(mem_dq),
     .mem_dqs(mem_dqs),
-    .mem_dqsn());
+    .mem_dqsn(),
+    .ecc_interrupt()
+  );
 endmodule
 
 // =========================================================
@@ -420,6 +422,7 @@ endmodule
 // Retrieval info:      <PRIVATE name = "nativelink_excludes" value="ram_controller_phy_alt_mem_phy_seq.vhd,ram_controller_phy_alt_mem_phy_seq_wrapper.vhd,ram_controller_phy_alt_mem_phy_seq_wrapper.v"  type="STRING"  enable="1" />
 // Retrieval info:      <PRIVATE name = "family" value="Cyclone IV E"  type="STRING"  enable="1" />
 // Retrieval info:      <PRIVATE name = "filename" value="ram_controller_alt_mem_ddrx_controller_top.vo"  type="STRING"  enable="1" />
+// Retrieval info:      <PRIVATE name = "native" value="verilog"  type="STRING"  enable="1" />
 // Retrieval info:     </NAMESPACE>
 // Retrieval info:     <NAMESPACE name = "simgen2">
 // Retrieval info:      <PRIVATE name = "family" value="Cyclone IV E"  type="STRING"  enable="1" />
@@ -437,6 +440,10 @@ endmodule
 // Retrieval info:      <PRIVATE name = "filename" value="ram_controller_syn.v"  type="STRING"  enable="1" />
 // Retrieval info:     </NAMESPACE>
 // Retrieval info:     <NAMESPACE name = "serializer"/>
+// Retrieval info:     <NAMESPACE name = "quartus_settings">
+// Retrieval info:      <PRIVATE name = "DEVICE" value="EP4CE55F23C8"  type="STRING"  enable="1" />
+// Retrieval info:      <PRIVATE name = "FAMILY" value="Cyclone IV E"  type="STRING"  enable="1" />
+// Retrieval info:     </NAMESPACE>
 // Retrieval info:    </PRIVATES>
 // Retrieval info:    <FILES/>
 // Retrieval info:    <PORTS/>
@@ -444,4 +451,7 @@ endmodule
 // Retrieval info:   </STATIC_SECTION>
 // Retrieval info:  </NETLIST_SECTION>
 // Retrieval info: </MEGACORE>
+// =========================================================
+// IPFS_FILES: ram_controller_alt_mem_ddrx_controller_top.v, alt_mem_ddrx_controller.v, alt_mem_ddrx_addr_cmd.v, alt_mem_ddrx_addr_cmd_wrap.v, alt_mem_ddrx_controller_st_top.v, alt_mem_ddrx_ddr2_odt_gen.v, alt_mem_ddrx_ddr3_odt_gen.v, alt_mem_ddrx_lpddr2_addr_cmd.v, alt_mem_ddrx_odt_gen.v, alt_mem_ddrx_rdwr_data_tmg.v, alt_mem_ddrx_arbiter.v, alt_mem_ddrx_burst_gen.v, alt_mem_ddrx_cmd_gen.v, alt_mem_ddrx_csr.v, alt_mem_ddrx_buffer.v, alt_mem_ddrx_buffer_manager.v, alt_mem_ddrx_burst_tracking.v, alt_mem_ddrx_dataid_manager.v, alt_mem_ddrx_fifo.v, alt_mem_ddrx_list.v, alt_mem_ddrx_rdata_path.v, alt_mem_ddrx_wdata_path.v, alt_mem_ddrx_define.iv, alt_mem_ddrx_ecc_decoder.v, alt_mem_ddrx_ecc_decoder_32_syn.v, alt_mem_ddrx_ecc_decoder_64_syn.v, alt_mem_ddrx_ecc_encoder.v, alt_mem_ddrx_ecc_encoder_32_syn.v, alt_mem_ddrx_ecc_encoder_64_syn.v, alt_mem_ddrx_ecc_encoder_decoder_wrapper.v, alt_mem_ddrx_input_if.v, alt_mem_ddrx_mm_st_converter.v, alt_mem_ddrx_rank_timer.v, alt_mem_ddrx_sideband.v, alt_mem_ddrx_tbp.v, alt_mem_ddrx_timing_param.v;
+// RELATED_FILES: ram_controller_phy_alt_mem_phy_seq.vhd,ram_controller_phy_alt_mem_phy_seq_wrapper.vhd,ram_controller_phy_alt_mem_phy_seq_wrapper.v;
 // =========================================================

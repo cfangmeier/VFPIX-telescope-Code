@@ -828,7 +828,7 @@ output  sideband_in_refresh;
     wire [CFG_RDDATA_ID_WIDTH                             - 1 : 0] bg_rddataid;
     wire [CFG_INT_SIZE_WIDTH                              - 1 : 0] bg_size;
     wire [CFG_INT_SIZE_WIDTH                              - 1 : 0] bg_effective_size;
-    wire [                                                  7 : 0] bg_to_lmr = 0;
+    wire [                                                  2 : 0] bg_to_lmr = 0;
     
     // alt_mem_ddrx_addr_cmd_wrap
     wire [(CFG_MEM_IF_CKE_WIDTH  * (CFG_DWIDTH_RATIO / 2)) - 1 : 0] afi_cke;

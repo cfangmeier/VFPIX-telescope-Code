@@ -13,7 +13,8 @@
 //
 //  You should have received a copy of the GNU General Public License along
 //  with this program; if not, write to the Free Software Foundation, Inc.,
-//  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.  -------------------------------------------------------------------------
+//  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+//-------------------------------------------------------------------------
 // Title       : memory
 // Author      : Caleb Fangmeier
 // Description : Memory interface
@@ -37,7 +38,6 @@ module memory(
   output reg  [31:0] data_read,
   input  wire [25:0] addr,
   output reg         busy,
-  input wire         program,
 
   //--------------------------------------------------------------------------
   //---------------------------HW INTERFACE-----------------------------------
@@ -55,18 +55,19 @@ module memory(
   inout  wire [  1: 0]       mem_dqs,
   output wire [  0: 0]       mem_odt,
   output wire                mem_ras_n,
-  output wire                mem_we_n
+  output wire                mem_we_n,
 
   //===FLASH===
   output wire        flash_c,
   output wire        flash_sb,
-  inout  wire [3:0]  flash_dq
+  inout  wire [3:0]  flash_dq,
   //--------------------------------------------------------------------------
-  //---------------------------FP INTERFACE-----------------------------------
+  //---------------------------PROGRAMMING INTERFACE--------------------------
   //--------------------------------------------------------------------------
-  input  wire         okClk,
-  input  wire [112:0] okHE,
-  output wire [64:0]  okEHx
+  input  wire         program,
+  input  wire         input_buffer_empty,
+  input  wire [31:0]  input_buffer_q,
+  output reg          input_buffer_read
   );
 
 //----------------------------------------------------------------------------
@@ -96,10 +97,11 @@ localparam INIT                   = 5'd00,
            WRITE_1                = 5'd21,
            WRITE_2                = 5'd22;
 
-localparam INSTR_WREN = 8'b0000_0110,
-           INSTR_BE   = 8'b1100_0111,
-           INSTR_PP   = 8'b0000_0010,
-           INSTR_READ = 8'b0000_0011;
+localparam FLASH_WREN = 8'b0000_0110,
+           FLASH_RFSR = 8'b0111_0000,
+           FLASH_BE   = 8'b1100_0111,
+           FLASH_PP   = 8'b0000_0010,
+           FLASH_READ = 8'b0000_0011;
 //----------------------------------------------------------------------------
 // Wires
 //----------------------------------------------------------------------------
@@ -108,8 +110,11 @@ wire [31:0] local_rdata;
 wire        local_rdata_valid;
 wire        local_init_done;
 
-wire        input_buffer_words_available
-wire        input_buffer_used_words
+wire        flash_busy;
+
+wire [7:0]  flash_read_buffer_q;
+wire        flash_write_buffer_full;
+wire        flash_read_buffer_empty;
 
 //----------------------------------------------------------------------------
 // Registers
@@ -121,14 +126,22 @@ reg         local_read_req;
 reg         local_burstbegin;
 reg  [31:0] local_wdata;
 
-reg [4:0] state;
-reg [4:0] state_callback;
+reg  [4:0]  state;
+reg  [4:0]  state_callback;
 
-reg [16:0] pages_to_write;
-reg [16:0] pages_written;
-reg [6:0]  page_words;
-reg [31:0] page_word;
-reg [23:0] page_address;
+reg  [16:0] pages_to_write;
+reg  [16:0] pages_written;
+reg  [6:0]  page_words;
+reg  [31:0] page_word;
+reg  [23:0] page_address;
+
+reg  [7:0]  flash_instruction;
+reg         flash_execute;
+reg  [8:0]  flash_bytes_to_read;
+
+reg  [7:0]  flash_write_buffer_data;
+reg         flash_write_buffer_write;
+reg         flash_read_buffer_read;
 
 //----------------------------------------------------------------------------
 // State Machine
@@ -140,18 +153,19 @@ always @( posedge phy_clk ) begin
   local_burstbegin <= 0;
   data_read <= 32'h0;
 
-  input_buffer_rd_req <= 0;
+  input_buffer_read <= 0;
 
   flash_execute <= 0;
   flash_read_buffer_read <= 0;
 
   if ( reset ) begin
-    state <= INIT_1;
-    init_finished <= 0;
+    state <= INIT;
+    busy <= 0;
   end
   else begin
     case ( state )
       INIT: begin
+        state <= IDLE;
 
       end
       IDLE: begin
@@ -176,15 +190,15 @@ always @( posedge phy_clk ) begin
       PROGRAM_WRITE_ENABLE: begin
         if ( !flash_busy ) begin
           state <= state_callback;
-          flash_instruction <= FLASH_WE:
+          flash_instruction <= FLASH_WREN;
           flash_bytes_to_read <= 0;
           flash_execute <= 1;
         end
       end
       PROGRAM_WRITE_FINISH: begin
         if ( !flash_busy ) begin
-          state <= PROGRAM_WR_FINISH_B;
-          flash_instruction <= FLASH_RFSR:
+          state <= PROGRAM_WRITE_FINISH_B;
+          flash_instruction <= FLASH_RFSR;
           flash_bytes_to_read <= 1;
           flash_execute <= 1;
         end
@@ -210,19 +224,19 @@ always @( posedge phy_clk ) begin
         if ( !flash_busy ) begin
           state <= PROGRAM_WRITE_FINISH;
           state_callback <= PROGRAM_2;
-          flash_instruction <= FLASH_BE:
+          flash_instruction <= FLASH_BE;
           flash_bytes_to_read <= 0;
           flash_execute <= 1;
         end
       end
       PROGRAM_2: begin
         if ( !flash_busy && !input_buffer_empty ) begin
-          input_buffer_rd_req <= 1;
+          input_buffer_read <= 1;
           state <= PROGRAM_2;
         end
       end
       PROGRAM_3: begin
-        pages_to_write <= input_buffer_data_out[16:0];
+        pages_to_write <= input_buffer_q[16:0];
         pages_written  <= 0;
         state <= PROGRAM_4;
       end
@@ -233,7 +247,7 @@ always @( posedge phy_clk ) begin
         else begin
           state <= PROGRAM_WRITE_ENABLE;
           state_callback <= PROGRAM_ADDR1;
-          page_word_count <= 0;
+          page_words <= 0;
           page_address <= {pages_written[15:0], 8'h00};
         end
       end
@@ -268,33 +282,33 @@ always @( posedge phy_clk ) begin
           pages_written <= pages_written + 1;
         end
         else if ( !input_buffer_empty ) begin
-          input_buffer_rd_req <= 1;
+          input_buffer_read <= 1;
           state <= PROGRAM_DAT2A;
         end
       end
       PROGRAM_DAT2A: begin
         state <= PROGRAM_DAT2B;
-        page_word <= input_buffer_data_out;
+        page_word <= input_buffer_q;
       end
       PROGRAM_DAT2B: begin
         state <= PROGRAM_DAT2C;
         flash_write_buffer_data <= page_word[31:24];
-        flash_write_buffer_write <= 1
+        flash_write_buffer_write <= 1;
       end
       PROGRAM_DAT2C: begin
         state <= PROGRAM_DAT2D;
         flash_write_buffer_data <= page_word[23:16];
-        flash_write_buffer_write <= 1
+        flash_write_buffer_write <= 1;
       end
       PROGRAM_DAT2D: begin
         state <= PROGRAM_DAT2E;
         flash_write_buffer_data <= page_word[15:8];
-        flash_write_buffer_write <= 1
+        flash_write_buffer_write <= 1;
       end
       PROGRAM_DAT2E: begin
         state <= PROGRAM_DAT1;
         flash_write_buffer_data <= page_word[7:0];
-        flash_write_buffer_write <= 1
+        flash_write_buffer_write <= 1;
         page_words <= page_words + 1;
       end
 //============================================================================
@@ -343,7 +357,7 @@ ram_controller ram_controller_inst(
   .pll_ref_clk ( pll_ref_clk ),
   .phy_clk ( phy_clk ),
   .global_reset_n ( ~reset ),
-  .soft_reset_n (  ),
+  .soft_reset_n ( 1'b1 ),
   .reset_phy_clk_n (  ),
 
   .local_address ( addr[24:0] ),
@@ -402,30 +416,5 @@ flash_interface flash_interface_inst (
 
 );
 
-// 32 bit wide 1024 depth fifo
-fifo32_clk_crossing_with_usage  programming_input_buffer (
-  .aclr ( reset ),
-  .rdclk ( clk ),
-  .rdreq ( input_buffer_rd_req ),
-  .rdempty ( input_buffer_empty ),
-  .rdusedw ( input_buffer_words_available),
-  .q ( input_buffer_data_out ),
-
-  .wrclk ( okClk ),
-  .wrreq ( input_buffer_wr_req ),
-  .wrfull (  ),
-  .wrusedw ( input_buffer_used_words ),
-  .data ( input_buffer_data_in )
-);
-
-okBTPipeIn programming_input_btpipe(
-  .okHE ( okHE ),
-  .okEH ( okEHx[129:65] ),
-  .ep_addr (8'hA1 ),
-  .ep_dataout ( input_buffer_data_in ),
-  .ep_write ( input_buffer_wr_req ),
-  .ep_blockstrobe (  ),
-  .ep_ready ( (1024 - input_buffer_used_words) >= 64 )
-);
 
 endmodule

@@ -143,7 +143,7 @@ module alt_mem_ddrx_addr_cmd_wrap
     input                                                             bg_do_lmr_read                ;
     input                                                             bg_do_refresh_1bank           ;
     
-    input    [7:0]                                                    bg_to_lmr                     ;
+    input    [2:0]                                                    bg_to_lmr                     ;
     
     input   [CFG_LOCAL_ID_WIDTH                              - 1 : 0] bg_localid                    ;
     input   [CFG_DATA_ID_WIDTH                               - 1 : 0] bg_dataid                     ;

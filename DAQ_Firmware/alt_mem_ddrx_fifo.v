@@ -121,7 +121,8 @@
                 .almost_empty               (),
                 .almost_full                (),
                 .sclr                       (zero),
-                .usedw                      ()
+                .usedw                      (),
+                .eccstatus                  ()
             );
 
 

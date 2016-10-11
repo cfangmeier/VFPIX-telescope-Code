@@ -2735,7 +2735,7 @@ begin : dqs_group
     begin : dq
             
         // DDIO out :
-        cycloneiii_ddio_out # (
+        cycloneive_ddio_out # (
             .power_up("low"),
             .async_mode("none"),
             .sync_mode("none"),
@@ -2765,7 +2765,7 @@ begin : dqs_group
         end       
         
         //The buffer itself (output side) :
-        cycloneiii_io_obuf dq_obuf (
+        cycloneive_io_obuf dq_obuf (
             .i(dq_ddio_dataout[j+(i*MEM_IF_DQ_PER_DQS)]),
             .oe(wdp_wdata_oe_2x_r[j+(i*MEM_IF_DQ_PER_DQS)]),  
             .seriesterminationcontrol(),
@@ -2776,7 +2776,7 @@ begin : dqs_group
             
         //The buffer itself (input side) :
                 
-        cycloneiii_io_ibuf # (
+        cycloneive_io_ibuf # (
             .simulate_z_as("gnd")
         ) dq_ibuf (
             .i(mem_dq[j+(i*MEM_IF_DQ_PER_DQS)]),//pad
@@ -2823,11 +2823,11 @@ begin
     for (i=0; i<MEM_IF_DM_WIDTH; i=i+1)
     begin : dm
       
-    	cycloneiii_ddio_out # (
+    	cycloneive_ddio_out # (
     	    .power_up("low"),
     	    .async_mode("none"),
     	    .sync_mode("none"),
-    	    .lpm_type("cycloneiii_ddio_out"),
+    	    .lpm_type("cycloneive_ddio_out"),
     	    .use_new_clocking_model("true")	     
     	) dm_ddio_out ( 
     	    .datainlo(wdp_dm_l_2x[i]),
@@ -2846,7 +2846,7 @@ begin
     	    .devclrn()
     	);
     		
-    	cycloneiii_io_obuf dm_obuf (
+    	cycloneive_io_obuf dm_obuf (
     	    .i(dm_ddio_dataout[i]),
     	    .oe(1'b1),  
     	    .seriesterminationcontrol(),
@@ -2870,11 +2870,11 @@ generate
 for (i=0; i<(MEM_IF_DQS_WIDTH); i=i+1)
 begin : dqs
 
-    cycloneiii_ddio_out # (
+    cycloneive_ddio_out # (
          .power_up("low"),
          .async_mode("none"),
          .sync_mode("none"),
-         .lpm_type("cycloneiii_ddio_out"),
+         .lpm_type("cycloneive_ddio_out"),
          .use_new_clocking_model("true")            
      ) dqs_ddio_out ( 
          .datainlo(1'b0),
@@ -2895,11 +2895,11 @@ begin : dqs
               
     // NB. Invert the OE input, as Quartus requires us to invert
     // the OE input on the OBUF :
-    cycloneiii_ddio_oe # (
+    cycloneive_ddio_oe # (
          .power_up("low"),
          .async_mode("none"),
          .sync_mode("none"),
-         .lpm_type("cycloneiii_ddio_oe")
+         .lpm_type("cycloneive_ddio_oe")
      ) dqsoe_ddio_oe ( 
          .oe(~wdp_wdqs_oe_2x[i]),
          .clk(mem_clk_2x),
@@ -2915,7 +2915,7 @@ begin : dqs
           
      // Output buffer itself :
      // OE input is active HIGH
-     cycloneiii_io_obuf dqs_obuf (
+     cycloneive_io_obuf dqs_obuf (
          .i(dqs_ddio_dataout[i]),
          .oe(~wdp_wdqs_oe_2x_r[i]),  
          .seriesterminationcontrol(),
