@@ -28,29 +28,29 @@ create_clock -name {virt_okUH0} -period 9.920 -waveform { 0.000 4.960 }
 # Create Generated Clock
 #**************************************************************
 
-create_generated_clock -name {okHI|ok_altpll0|altpll_component|auto_generated|pll1|clk[0]} -source [get_pins {okHI|ok_altpll0|altpll_component|auto_generated|pll1|inclk[0]}] -duty_cycle 50.000 -multiply_by 1 -phase 0 -master_clock {okUH[0]} [get_pins {okHI|ok_altpll0|altpll_component|auto_generated|pll1|clk[0]}] 
+create_generated_clock -name {hal_inst|okHI|ok_altpll0|altpll_component|auto_generated|pll1|clk[0]} -source [get_pins {hal_inst|okHI|ok_altpll0|altpll_component|auto_generated|pll1|inclk[0]}] -duty_cycle 50.000 -multiply_by 1 -phase 0 -master_clock {okUH[0]} [get_pins {hal_inst|okHI|ok_altpll0|altpll_component|auto_generated|pll1|clk[0]}] 
 
 
 #**************************************************************
 # Set Clock Uncertainty
 #**************************************************************
 
-set_clock_uncertainty -rise_from [get_clocks {virt_okUH0}] -rise_to [get_clocks {okHI|ok_altpll0|altpll_component|auto_generated|pll1|clk[0]}] -setup 0.060  
-set_clock_uncertainty -rise_from [get_clocks {virt_okUH0}] -rise_to [get_clocks {okHI|ok_altpll0|altpll_component|auto_generated|pll1|clk[0]}] -hold 0.090  
-set_clock_uncertainty -rise_from [get_clocks {virt_okUH0}] -fall_to [get_clocks {okHI|ok_altpll0|altpll_component|auto_generated|pll1|clk[0]}] -setup 0.060  
-set_clock_uncertainty -rise_from [get_clocks {virt_okUH0}] -fall_to [get_clocks {okHI|ok_altpll0|altpll_component|auto_generated|pll1|clk[0]}] -hold 0.090  
-set_clock_uncertainty -fall_from [get_clocks {virt_okUH0}] -rise_to [get_clocks {okHI|ok_altpll0|altpll_component|auto_generated|pll1|clk[0]}] -setup 0.060  
-set_clock_uncertainty -fall_from [get_clocks {virt_okUH0}] -rise_to [get_clocks {okHI|ok_altpll0|altpll_component|auto_generated|pll1|clk[0]}] -hold 0.090  
-set_clock_uncertainty -fall_from [get_clocks {virt_okUH0}] -fall_to [get_clocks {okHI|ok_altpll0|altpll_component|auto_generated|pll1|clk[0]}] -setup 0.060  
-set_clock_uncertainty -fall_from [get_clocks {virt_okUH0}] -fall_to [get_clocks {okHI|ok_altpll0|altpll_component|auto_generated|pll1|clk[0]}] -hold 0.090  
-set_clock_uncertainty -rise_from [get_clocks {okHI|ok_altpll0|altpll_component|auto_generated|pll1|clk[0]}] -rise_to [get_clocks {okUH[0]}]  0.010  
-set_clock_uncertainty -rise_from [get_clocks {okHI|ok_altpll0|altpll_component|auto_generated|pll1|clk[0]}] -fall_to [get_clocks {okUH[0]}]  0.010  
-set_clock_uncertainty -rise_from [get_clocks {okHI|ok_altpll0|altpll_component|auto_generated|pll1|clk[0]}] -rise_to [get_clocks {okHI|ok_altpll0|altpll_component|auto_generated|pll1|clk[0]}]  0.020  
-set_clock_uncertainty -rise_from [get_clocks {okHI|ok_altpll0|altpll_component|auto_generated|pll1|clk[0]}] -fall_to [get_clocks {okHI|ok_altpll0|altpll_component|auto_generated|pll1|clk[0]}]  0.020  
-set_clock_uncertainty -fall_from [get_clocks {okHI|ok_altpll0|altpll_component|auto_generated|pll1|clk[0]}] -rise_to [get_clocks {okUH[0]}]  0.010  
-set_clock_uncertainty -fall_from [get_clocks {okHI|ok_altpll0|altpll_component|auto_generated|pll1|clk[0]}] -fall_to [get_clocks {okUH[0]}]  0.010  
-set_clock_uncertainty -fall_from [get_clocks {okHI|ok_altpll0|altpll_component|auto_generated|pll1|clk[0]}] -rise_to [get_clocks {okHI|ok_altpll0|altpll_component|auto_generated|pll1|clk[0]}]  0.020  
-set_clock_uncertainty -fall_from [get_clocks {okHI|ok_altpll0|altpll_component|auto_generated|pll1|clk[0]}] -fall_to [get_clocks {okHI|ok_altpll0|altpll_component|auto_generated|pll1|clk[0]}]  0.020  
+set_clock_uncertainty -rise_from [get_clocks {virt_okUH0}] -rise_to [get_clocks {hal_inst|okHI|ok_altpll0|altpll_component|auto_generated|pll1|clk[0]}] -setup 0.060  
+set_clock_uncertainty -rise_from [get_clocks {virt_okUH0}] -rise_to [get_clocks {hal_inst|okHI|ok_altpll0|altpll_component|auto_generated|pll1|clk[0]}] -hold 0.090  
+set_clock_uncertainty -rise_from [get_clocks {virt_okUH0}] -fall_to [get_clocks {hal_inst|okHI|ok_altpll0|altpll_component|auto_generated|pll1|clk[0]}] -setup 0.060  
+set_clock_uncertainty -rise_from [get_clocks {virt_okUH0}] -fall_to [get_clocks {hal_inst|okHI|ok_altpll0|altpll_component|auto_generated|pll1|clk[0]}] -hold 0.090  
+set_clock_uncertainty -fall_from [get_clocks {virt_okUH0}] -rise_to [get_clocks {hal_inst|okHI|ok_altpll0|altpll_component|auto_generated|pll1|clk[0]}] -setup 0.060  
+set_clock_uncertainty -fall_from [get_clocks {virt_okUH0}] -rise_to [get_clocks {hal_inst|okHI|ok_altpll0|altpll_component|auto_generated|pll1|clk[0]}] -hold 0.090  
+set_clock_uncertainty -fall_from [get_clocks {virt_okUH0}] -fall_to [get_clocks {hal_inst|okHI|ok_altpll0|altpll_component|auto_generated|pll1|clk[0]}] -setup 0.060  
+set_clock_uncertainty -fall_from [get_clocks {virt_okUH0}] -fall_to [get_clocks {hal_inst|okHI|ok_altpll0|altpll_component|auto_generated|pll1|clk[0]}] -hold 0.090  
+set_clock_uncertainty -rise_from [get_clocks {hal_inst|okHI|ok_altpll0|altpll_component|auto_generated|pll1|clk[0]}] -rise_to [get_clocks {okUH[0]}]  0.010  
+set_clock_uncertainty -rise_from [get_clocks {hal_inst|okHI|ok_altpll0|altpll_component|auto_generated|pll1|clk[0]}] -fall_to [get_clocks {okUH[0]}]  0.010  
+set_clock_uncertainty -rise_from [get_clocks {hal_inst|okHI|ok_altpll0|altpll_component|auto_generated|pll1|clk[0]}] -rise_to [get_clocks {hal_inst|okHI|ok_altpll0|altpll_component|auto_generated|pll1|clk[0]}]  0.020  
+set_clock_uncertainty -rise_from [get_clocks {hal_inst|okHI|ok_altpll0|altpll_component|auto_generated|pll1|clk[0]}] -fall_to [get_clocks {hal_inst|okHI|ok_altpll0|altpll_component|auto_generated|pll1|clk[0]}]  0.020  
+set_clock_uncertainty -fall_from [get_clocks {hal_inst|okHI|ok_altpll0|altpll_component|auto_generated|pll1|clk[0]}] -rise_to [get_clocks {okUH[0]}]  0.010  
+set_clock_uncertainty -fall_from [get_clocks {hal_inst|okHI|ok_altpll0|altpll_component|auto_generated|pll1|clk[0]}] -fall_to [get_clocks {okUH[0]}]  0.010  
+set_clock_uncertainty -fall_from [get_clocks {hal_inst|okHI|ok_altpll0|altpll_component|auto_generated|pll1|clk[0]}] -rise_to [get_clocks {hal_inst|okHI|ok_altpll0|altpll_component|auto_generated|pll1|clk[0]}]  0.020  
+set_clock_uncertainty -fall_from [get_clocks {hal_inst|okHI|ok_altpll0|altpll_component|auto_generated|pll1|clk[0]}] -fall_to [get_clocks {hal_inst|okHI|ok_altpll0|altpll_component|auto_generated|pll1|clk[0]}]  0.020  
 
 
 #**************************************************************

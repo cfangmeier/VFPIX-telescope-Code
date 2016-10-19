@@ -68,7 +68,10 @@ suppressed.
 '''
 from __future__ import division, print_function, absolute_import
 import re
+import sys
 import click
+
+PAGE_SIZE = 64
 
 opcodes_r_type = {
         'add':   '000011',
@@ -144,7 +147,8 @@ class Instruction:
     reg_re = re.compile('\$(\S{2,3})')
     cmd_re = re.compile('([a-z]+)(\(([a-z]*)\))?')
 
-    def __init__(self, text, line_number, instruction_number, labels):
+    def __init__(self, text, filename, line_number, instruction_number, labels):
+        self.filename = filename
         self.line_number = line_number
         self.addr = instruction_number*4
         self.text = text
@@ -248,51 +252,52 @@ class Instruction:
         elif self.cmd in opcodes_b_type.keys():
             return self._build_b_type_instruction()
         else:
-            fmt = 'Unknown command on line {}: {}'
-            raise ValueError(fmt.format(self.line_number, self.cmd))
+            fmt = 'Unknown command on line {} of {}: {}'
+            args = self.line_number, self.filename, self.cmd
+            raise ValueError(fmt.format(args))
 
 
-def remove_comments(ass_lines):
-    instruction_number = 0
-    for line_number, line in ass_lines:
+def preprocess(ass_lines, filename, instruction_number_start=0):
+    instruction_number = instruction_number_start
+    for line_number, line in enumerate(ass_lines.split('\n')):
         pre_comment = line.split('#')[0].strip()
         if pre_comment != '':
-            yield line_number, instruction_number, pre_comment
+            yield filename, line_number+1, instruction_number, pre_comment
             instruction_number += 1
 
 
 @click.command()
 @click.option('--format', type=click.Choice(['hex', 'bintext', 'bin']),
               default='bintext')
-@click.option('--size', default=0)
-@click.argument('source', type=click.File('r'), default='-')
-@click.argument('result', type=click.File('w'), default='-')
-def assemble(source, result, format, size):
-    ass_text = source.read()
-    lines = list(enumerate(ass_text.split('\n')))
-    lines = remove_comments(lines)
+@click.option('-o', '--output', type=click.File('w'), default='-')
+@click.argument('sources', type=click.File('r'), nargs=-1)
+def assemble(sources, format, output):
+    if not sources:
+        sources = [('stdin', sys.stdin)]
+    else:
+        sources = [(source.name, source) for source in sources]
+    lines = []
+    for filename, source in sources:
+        lines.extend(preprocess(source.read(), filename, len(lines)))
+
     labels = {}
     instructions = []
-    for line_number, instruction_number, line in lines:
-        instr = Instruction(line, line_number, instruction_number, labels)
+    for filename, line_number, instruction_number, line in lines:
+        instr = Instruction(line, filename, line_number,
+                            instruction_number, labels)
         if instr.label is not None:
             labels[instr.label] = instr.addr
         instructions.append(instr)
     instructions = [instr.get_bin() for instr in instructions]
 
-    if size:
-        n = len(instructions)
-        if size > n:
-            pad_size = size - n
-            instructions.extend(['0'*32]*pad_size)
-        instructions = instructions[:size]
+    pad_size = PAGE_SIZE - ((len(instructions)+1) % PAGE_SIZE)
+    page_count = (len(instructions)+1+pad_size) // PAGE_SIZE
+    instructions.extend(['0'*32]*pad_size)
+    instructions.insert(0, '{:32b}'.format(page_count))
 
     for bintext in instructions:
         if format == 'bintext':
-            result.write('{}\n'.format(bintext))
+            output.write('{}\n'.format(bintext))
         elif format == 'hex':
             hextext = '{:08X}'.format(int(bintext, 2))
-            result.write('{}\n'.format(hextext))
-
-    # bins = [instr.get_bin() for instr in instructions]
-    # return bins
+            output.write('{}\n'.format(hextext))

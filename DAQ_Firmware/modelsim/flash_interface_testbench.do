@@ -1,5 +1,22 @@
-vlog *.v ../flash_interface.v ../fifo8_256.v
-vsim -L 220model_ver -L altera_mf_ver -voptargs=\"+acc\" work.flash_interface_testbench
+
+set files {}
+lappend files "../flash_interface.v"
+lappend files "../fifo8_256.v"
+
+# First remove all files from project
+foreach elem [project filenames] {
+  project removefile $elem
+}
+# Then re-add files specified above
+foreach elem $files {
+  project addfile $elem
+}
+# Then compile all files in project
+project compileall
+# Finally, start the simulation
+vsim -L 220model_ver -L altera_mf_ver -L sgate_ver -L cycloneive_ver -L altera_ver -voptargs=\"+acc\" work.flash_interface_testbench
+
+
 # add wave -position insertpoint -label clk                            sim:/flash_interface_testbench/clk
 # add wave -position insertpoint -label reset                          sim:/flash_interface_testbench/reset
 add wave -position insertpoint -label instruction                      sim:/flash_interface_testbench/instruction

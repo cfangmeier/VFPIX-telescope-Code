@@ -31,34 +31,36 @@ module memory_testbench (
 
 parameter CLK_PERIOD = 10;
 integer slow_clk_cnt;
-integer fast_clk_cnt;
+integer clk_cnt;
 
-reg pll_ref_clk;
-wire clk;
-reg reset;
+reg         pll_ref_clk;
+wire        clk;
+reg         reset;
 
-reg  [7:0] instruction;
-reg        execute;
-reg  [7:0] bytes_to_read;
-reg  [7:0] write_buffer_data;
-reg        write_buffer_write;
-reg        read_buffer_read;
+reg  [7:0]  instruction;
+reg         execute;
+reg  [7:0]  bytes_to_read;
+reg  [7:0]  write_buffer_data;
+reg         write_buffer_write;
+reg         read_buffer_read;
 
-reg  [7:0] instruction_shifter;
-reg  [7:0] data_shifter;
-reg  [15:0] out_shifter;
-reg        word_complete;
+reg  [7:0]  instruction_shifter;
+reg  [23:0] address_shifter;
+reg  [7:0]  data_shifter;
+reg  [7:0]  status_out_shifter;
+reg  [63:0] data_out_shifter;
+reg         byte_complete;
 
-wire       busy;
-wire [7:0] read_buffer_q;
-wire       read_buffer_empty;
+wire        busy;
+wire [7:0]  read_buffer_q;
+wire        read_buffer_empty;
 
-wire       flash_c;
-wire       flash_sb;
-wire [3:0] flash_dq;
+wire        flash_c;
+wire        flash_sb;
+wire [3:0]  flash_dq;
 
-wire sout;
-reg sin;
+wire        sout;
+reg         sin;
 
 reg         memory_write_req;
 reg         memory_read_req;
@@ -67,10 +69,8 @@ wire [31:0] memory_data_read;
 reg  [25:0] memory_addr;
 wire        memory_busy;
 reg         memory_program;
+wire        memory_program_ack;
 
-reg        input_buffer_empty;
-reg [31:0] input_buffer_q;
-wire       input_buffer_read;
 
 // RAM  PHY Interface
 wire         global_reset_n;
@@ -91,7 +91,6 @@ wire         mem_we_n;
 
 
 
-
 assign sout = flash_dq[0];
 assign flash_dq[1] = sin;
 
@@ -101,6 +100,7 @@ always #( CLK_PERIOD/2.0 )
   pll_ref_clk = ~pll_ref_clk;
 
 initial slow_clk_cnt = 0;
+initial clk_cnt = 0;
 
 initial reset = 1'b1;
 always @(posedge pll_ref_clk) begin
@@ -108,56 +108,118 @@ always @(posedge pll_ref_clk) begin
   if ( slow_clk_cnt == 2 )
     reset <= 1'b0;
 end
-/* always @( posedge clk ) begin */
-/*   fast_clk_cnt = fast_clk_cnt + 1; */
-/*   execute <= 0; */
-/*   write_buffer_write <= 0; */
-/*   bytes_to_read <= 0; */
-/*   bytes_to_read <= 0; */
-/*   if ( fast_clk_cnt == 20 ) begin */
-/*     memory_write_req <=1; */
-/*     memory_data_write <= 32'hDEADBEEF; */
-/*     memory_addr <= 26'h0; */
-/*   end */
-/* end */
 
-integer clk_cnt;
-integer words_received;
+initial memory_program = 1;
+always @( posedge clk ) begin
+  if ( memory_program_ack ) begin
+    memory_program <= 0;
+  end
+end
+
+integer flash_clk_cnt;
+integer bytes_received;
 
 always @(posedge flash_c or negedge flash_c) begin
   if ( flash_sb ) begin
     instruction_shifter <= 0;
     data_shifter <= 0;
-    clk_cnt <= 0;
-    word_complete <= 0;
-    words_received <= 0;
-    out_shifter <= 16'hBEEF;
+    address_shifter <= 0;
+    flash_clk_cnt <= 0;
+    byte_complete <= 0;
+    bytes_received <= 0;
+    status_out_shifter <= 8'h80;
+    data_out_shifter <= 64'h00_00_00_02__AB_CD_EF_FF;
   end
   else begin
     if ( flash_c ) begin
-      clk_cnt <= clk_cnt + 1;
-      if ( clk_cnt < 8 ) begin
+      flash_clk_cnt <= flash_clk_cnt + 1;
+      if ( flash_clk_cnt < 8 ) begin
         instruction_shifter <= {instruction_shifter[6:0], sout};
       end
       else begin
-        data_shifter <= {data_shifter[6:0], sout};
-        if ( ((clk_cnt+1) % 8) == 0 ) begin
-          word_complete <= 1;
-          words_received <= words_received + 1;
-        end
-        else begin
-          word_complete <= 0;
-        end
+        case ( instruction_shifter )
+          8'b0000_0010: begin
+            if ( flash_clk_cnt < 32 ) begin
+              address_shifter <= {address_shifter[23:0], sout};
+            end
+            else begin
+              data_shifter <= {data_shifter[6:0], sout};
+            end
+            if ( ((flash_clk_cnt+1) % 8) == 0 ) begin
+              byte_complete <= 1;
+              bytes_received <= bytes_received + 1;
+            end
+            else begin
+              byte_complete <= 0;
+            end
+          end
+          8'b0000_0011: begin
+            if ( flash_clk_cnt < 32 ) begin
+              address_shifter <= {address_shifter[23:0], sout};
+            end
+            if ( ((flash_clk_cnt+1) % 8) == 0 ) begin
+              byte_complete <= 1;
+              bytes_received <= bytes_received + 1;
+            end
+            else begin
+              byte_complete <= 0;
+            end
+          end
+        endcase
       end
     end
     else begin
-      if ( words_received >= 2 ) begin
-        sin <= out_shifter[15];
-        out_shifter <= {out_shifter[14:0], out_shifter[15]};
-      end
+      case ( instruction_shifter )
+        8'b0111_0000: begin
+          sin <= status_out_shifter[7];
+          status_out_shifter <= {status_out_shifter[6:0], status_out_shifter[7]};
+        end
+        8'b0000_0011: begin
+          if ( flash_clk_cnt >= 32 ) begin
+            sin <= data_out_shifter[63];
+            data_out_shifter <= {data_out_shifter[62:0], data_out_shifter[63]};
+          end
+        end
+      endcase
     end
   end
 end
+
+wire        program_buffer_empty;
+reg  [31:0] program_buffer_q;
+wire        program_buffer_read;
+reg  [3:0]  program_buffer_pointer;
+reg  [31:0] program_buffer_array[15:0];
+
+assign program_buffer_empty = 0;
+
+initial begin
+  program_buffer_pointer   <= 0;
+  program_buffer_array[00] <= 32'd2;
+  program_buffer_array[01] <= 32'hDEADBEEF;
+  program_buffer_array[02] <= 32'hDEADBEEF;
+  program_buffer_array[03] <= 32'hDEADBEEF;
+  program_buffer_array[04] <= 32'hDEADBEEF;
+  program_buffer_array[05] <= 32'hDEADBEEF;
+  program_buffer_array[06] <= 32'hDEADBEEF;
+  program_buffer_array[07] <= 32'hDEADBEEF;
+  program_buffer_array[08] <= 32'hDEADBEEF;
+  program_buffer_array[09] <= 32'hDEADBEEF;
+  program_buffer_array[10] <= 32'hDEADBEEF;
+  program_buffer_array[11] <= 32'hDEADBEEF;
+  program_buffer_array[12] <= 32'hDEADBEEF;
+  program_buffer_array[13] <= 32'hDEADBEEF;
+  program_buffer_array[14] <= 32'hDEADBEEF;
+  program_buffer_array[15] <= 32'hDEADBEEF;
+end
+
+always @( negedge clk ) begin
+  if ( program_buffer_read ) begin
+    program_buffer_q <= program_buffer_array[program_buffer_pointer];
+    program_buffer_pointer <= program_buffer_pointer+1;
+  end
+end
+
 
 ram_controller_mem_model ram_controller_mem_model_inst (
   .mem_addr ( mem_addr ),
@@ -209,9 +271,10 @@ memory memory_inst(
   .flash_dq ( flash_dq ),
 
   .program ( memory_program ),
-  .input_buffer_empty ( input_buffer_empty ),
-  .input_buffer_q ( input_buffer_q ),
-  .input_buffer_read ( input_buffer_read )
+  .program_ack ( memory_program_ack ),
+  .program_buffer_empty ( program_buffer_empty ),
+  .program_buffer_q ( program_buffer_q ),
+  .program_buffer_read ( program_buffer_read )
   );
 
 

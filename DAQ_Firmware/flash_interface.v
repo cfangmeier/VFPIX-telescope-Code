@@ -41,7 +41,7 @@ module flash_interface(
   input  wire [7:0]  instruction,
   input  wire        execute,
   input  wire [8:0]  bytes_to_read,
-  output reg         busy,
+  output wire        busy,
 
   input  wire [7:0]   write_buffer_data,
   input  wire         write_buffer_write,
@@ -80,6 +80,9 @@ wire sdi;
 wire       write_buffer_empty;
 wire [7:0] write_buffer_q;
 
+wire [8:0] write_buffer_usedw;
+wire [8:0] read_buffer_usedw;
+
 //----------------------------------------------------------------------------
 // Registers
 //----------------------------------------------------------------------------
@@ -89,7 +92,7 @@ reg [CLK_DIV:0] clk_div2;
 reg [7:0] input_shifter;
 reg [7:0] output_shifter;
 
-reg [2:0] bit_counter;
+reg [3:0] bit_counter;
 reg [8:0] bytes_read;
 reg [8:0] bytes_to_read_int;
 
@@ -99,6 +102,7 @@ reg        read_buffer_write;
 reg [7:0]  read_buffer_data;
 
 reg [2:0] state;
+reg       busy_int;
 //----------------------------------------------------------------------------
 // Assignments
 //----------------------------------------------------------------------------
@@ -110,6 +114,7 @@ assign flash_dq[0] = output_shifter[7];
 assign sdi = flash_dq[1];
 assign flash_dq[2] = 1;
 assign flash_dq[3] = 1;
+assign busy        = busy_int | execute;
 //----------------------------------------------------------------------------
 // Clock Division
 //----------------------------------------------------------------------------
@@ -135,15 +140,17 @@ always @( posedge clk ) begin
   if ( reset ) begin
     flash_sb <= 1;
     state <= IDLE;
+    busy_int <= 1;
   end
   else begin
     case ( state )
       IDLE: begin
+        busy_int <= 0;
         if ( execute ) begin
           state <= DATA_WRITE_0;
           output_shifter <= instruction;
           bytes_to_read_int <= bytes_to_read;
-          busy <= 1;
+          busy_int <= 1;
         end
       end
       DATA_WRITE_0: begin
@@ -157,7 +164,8 @@ always @( posedge clk ) begin
         if ( update_out ) begin
           bit_counter <= bit_counter + 1;
           output_shifter <= {output_shifter[6:0], 1'b0};
-          if ( bit_counter == 3'd7 ) begin
+          if ( bit_counter == 4'd7 ) begin
+            bit_counter <= 0;
             if ( !write_buffer_empty ) begin
               output_shifter <= write_buffer_q;
               write_buffer_read <= 1;
@@ -170,29 +178,24 @@ always @( posedge clk ) begin
             else begin
               state <= IDLE;
               flash_sb <= 1;
-              busy <= 0;
+              busy_int <= 0;
             end
           end
-        end
-      end
-      DATA_READ_0: begin
-        if ( update_in ) begin
-          state <= DATA_READ;
-          bytes_read <= 0;
         end
       end
       DATA_READ: begin
         if ( update_in ) begin
           bit_counter <= bit_counter + 1;
           input_shifter <= {input_shifter[6:0], sdi};
-          if ( bit_counter == 3'd7 ) begin
+          if ( bit_counter == 4'd7 ) begin
+            bit_counter <= 0;
             read_buffer_data <= {input_shifter[6:0], sdi};
             read_buffer_write <= 1;
             bytes_read <= bytes_read + 1;
             if ( (bytes_read+1) == bytes_to_read_int ) begin
               state <= IDLE;
               flash_sb <= 1;
-              busy <= 0;
+              busy_int <= 0;
             end
           end
         end
@@ -210,7 +213,8 @@ fifo8_256 write_buffer (
   .full ( write_buffer_full ),
   .rdreq ( write_buffer_read ),
   .empty ( write_buffer_empty ),
-  .q ( write_buffer_q )
+  .q ( write_buffer_q ),
+  .usedw ( write_buffer_usedw )
 );
 
 fifo8_256 read_buffer (
@@ -221,7 +225,8 @@ fifo8_256 read_buffer (
   .full (  ),
   .rdreq ( read_buffer_read ),
   .empty ( read_buffer_empty ),
-  .q ( read_buffer_q )
+  .q ( read_buffer_q ),
+  .usedw ( read_buffer_usedw )
 );
 
 endmodule

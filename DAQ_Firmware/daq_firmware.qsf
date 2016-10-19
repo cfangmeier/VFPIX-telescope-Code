@@ -535,6 +535,8 @@ set_instance_assignment -name IO_STANDARD "1.8 V" -to flash_dq[1]
 set_instance_assignment -name IO_STANDARD "1.8 V" -to flash_dq[0]
 set_instance_assignment -name IO_STANDARD "1.8 V" -to flash_dq
 set_instance_assignment -name IO_STANDARD "1.8 V" -to flash_c
+set_global_assignment -name VERILOG_FILE signal_cross_domain.v
+set_global_assignment -name VERILOG_FILE flash_interface.v
 set_global_assignment -name QIP_FILE adc_pll.qip
 set_global_assignment -name VERILOG_FILE hal.v
 set_global_assignment -name VERILOG_FILE control_unit.v

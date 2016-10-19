@@ -243,7 +243,7 @@ end
 //----------------------------------------------------------------------------
 always @( posedge clk ) begin
   if ( reset )
-    pc <= 0;
+    pc <= 1;
   else if ( pc_enable )
     pc <= muxPC_out;
 end
