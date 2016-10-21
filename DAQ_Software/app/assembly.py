@@ -267,8 +267,7 @@ def preprocess(ass_lines, filename, instruction_number_start=0):
 
 
 @click.command()
-@click.option('--format', type=click.Choice(['hex', 'bintext', 'bin']),
-              default='bintext')
+@click.option('--format', type=click.Choice(['hex', 'bin']), default='hex')
 @click.option('-o', '--output', type=click.File('w'), default='-')
 @click.argument('sources', type=click.File('r'), nargs=-1)
 def assemble(sources, format, output):
@@ -296,8 +295,36 @@ def assemble(sources, format, output):
     instructions.insert(0, '{:32b}'.format(page_count))
 
     for bintext in instructions:
-        if format == 'bintext':
+        if format == 'bin':
             output.write('{}\n'.format(bintext))
         elif format == 'hex':
             hextext = '{:08X}'.format(int(bintext, 2))
             output.write('{}\n'.format(hextext))
+
+
+@click.command()
+@click.argument('software', type=click.File('r'))
+@click.argument('firmware', type=click.File('r'))
+@click.argument('output', type=click.File('w'))
+def compile(software, firmware, output):
+    from os.path import splitext
+    from zipfile import ZipFile
+    from app.config import (SOFTWARE_ARCHIVE_NAME,
+                            FIRMWARE_ARCHIVE_NAME)
+
+    valid_inputs = True
+    if splitext(software.name)[1] != '.hex':
+        click.echo('Software file must end in .hex')
+        valid_inputs = False
+    if splitext(firmware.name)[1] != '.rbf':
+        click.echo('Firmware file must end in .rbf')
+        valid_inputs = False
+    if splitext(output.name)[1] != '.zip':
+        click.echo('Output file must end in .zip')
+        valid_inputs = False
+    if not valid_inputs:
+        return
+    zf = ZipFile(output, mode='w')
+    zf.write(software.name, SOFTWARE_ARCHIVE_NAME)
+    zf.write(firmware.name, FIRMWARE_ARCHIVE_NAME)
+    zf.close()

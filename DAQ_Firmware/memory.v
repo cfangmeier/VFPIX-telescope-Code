@@ -68,7 +68,14 @@ module memory(
   output reg          program_ack,
   input  wire         program_buffer_empty,
   input  wire [31:0]  program_buffer_q,
-  output reg          program_buffer_read
+  output reg          program_buffer_read,
+
+  //--------------------------------------------------------------------------
+  //---------------------------******TEMPORARY******--------------------------
+  //--------------------------------------------------------------------------
+  output wire       local_ready,
+  output reg  [5:0] state,
+  output wire       local_init_done
   );
 
 //----------------------------------------------------------------------------
@@ -116,10 +123,10 @@ localparam FLASH_WREN = 8'b0000_0110,
 //----------------------------------------------------------------------------
 // Wires
 //----------------------------------------------------------------------------
-wire        local_ready;
+/* wire        local_ready; */
 wire [31:0] local_rdata;
 wire        local_rdata_valid;
-wire        local_init_done;
+/* wire        local_init_done; */
 
 wire        flash_busy;
 
@@ -137,7 +144,7 @@ reg         local_read_req;
 reg         local_burstbegin;
 reg  [31:0] local_wdata;
 
-reg  [5:0]  state;
+/* reg  [5:0]  state; */
 reg  [5:0]  state_callback;
 
 reg  [16:0] pages_to_write;

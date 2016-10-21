@@ -44,7 +44,7 @@ module aux_io(
   //--------------------------------------------------------------------------
   input  wire         okClk,
   input  wire [112:0] okHE,
-  output wire [129:0] okEHx
+  output wire [64:0]  okEH
 );
 
 
@@ -76,6 +76,8 @@ wire output_buffer_full;
 
 wire [9:0] input_buffer_used_w;
 wire [9:0] output_buffer_used_w;
+
+wire [65*2-1:0] okEHx;
 
 //----------------------------------------------------------------------------
 // Registers
@@ -126,6 +128,8 @@ always @(posedge clk ) begin
     endcase
   end
 end
+
+okWireOR # (.N(2)) wireOR (okEH, okEHx);
 
 // 32 bit wide 1024 depth fifo
 fifo32_clk_crossing_with_usage  output_buffer (

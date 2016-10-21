@@ -61,7 +61,12 @@ reg [7:0]   adc_data_readback;
 
 always @( write_req or read_req or address or data_write ) begin
   adc_request_write <= 0;
+  adc_request_read <= 0;
+  adc_address <= 0;
+  adc_data <= 0;
   dac_request_write <= 0;
+  dac_address <= 0;
+  dac_data <= 0;
   if ( write_req ) begin
     if ( address[15:11] == 5'b00001 ) begin
       adc_request_write <= 1;
@@ -70,7 +75,7 @@ always @( write_req or read_req or address or data_write ) begin
     end
     else if ( address[15:11] == 5'b00010 ) begin
       dac_request_write <= 1;
-      dac_address = address[4:0];
+      dac_address <= address[4:0];
       dac_data <= data_write[11:0];
     end
   end

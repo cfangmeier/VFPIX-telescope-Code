@@ -15,54 +15,52 @@
 //  with this program; if not, write to the Free Software Foundation, Inc.,
 //  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 //-------------------------------------------------------------------------
-// Title       : debug_unit
+// Title       : okWireIn_sync
 // Author      : Caleb Fangmeier
-// Description : This is a simple debugger to allow single stepping through
-//               the execution of the firmware.
+// Description : This is a simple wrapper of the okWireIn that syncronizes
+// the signals with another clock by means of a shallow fifo buffer.
 //
 // $Id$
 //-------------------------------------------------------------------------
 `default_nettype none
 `timescale 1ns / 1ps
 
-module debug_unit (
+module okWireIn_sync (
   input  wire                     clk,
-  input  wire                     reset,
-  input  wire [31:0]              debug_wireout,
   input  wire                     okClk,
   input  wire [112:0]             okHE,
-  output wire [64:0]              okEH
+  input  wire [7:0]               ep_addr,
+  output reg  [31:0]              ep_dataout
 );
 
-wire        output_buffer_rd_req;
-wire [31:0] output_buffer_data_out;
-wire        output_buffer_full;
-wire [9:0]  output_buffer_used_w;
+wire [31:0] control_bus;
+wire [31:0] q_buff;
+wire        rdempty;
 
-fifo32_clk_crossing_with_usage  output_buffer (
-  .aclr ( reset ),
-  .data ( debug_wireout ),
-  .rdclk ( okClk ),
-  .rdreq ( output_buffer_rd_req ),
-  .wrclk ( clk ),
-  .wrreq ( ~output_buffer_full ),
-  .q ( output_buffer_data_out ),
-  .rdempty (  ),
-  .rdusedw ( output_buffer_used_w ),
-  .wrusedw (  ),
-  .wrfull ( output_buffer_full )
-);
-  /* .ep_ready ( output_buffer_used_w >= 512 ) */
+reg         rdreq;
 
-okBTPipeOut pipeout_inst(
-  .okHE ( okHE ),
-  .okEH ( okEH ),
-  .ep_addr ( 8'hB2 ),
-  .ep_datain ( output_buffer_data_out ),
-  .ep_read ( output_buffer_rd_req ),
-  .ep_blockstrobe (  ),
-  .ep_ready ( 1'b1 )
+always @( posedge clk ) begin
+  if ( rdreq ) begin
+    ep_dataout <= q_buff;
+  end
+  rdreq <= ~rdempty;
+end
+
+fifo32_shallow fifo32_shallow_inst (
+  .data ( control_bus ),
+  .rdclk ( clk ),
+  .rdreq ( rdreq ),
+  .wrclk ( okClk ),
+  .wrreq ( 1'b1 ),
+  .q ( q_buff ),
+  .rdempty ( rdempty ),
+  .wrfull (  )
 );
 
 
+okWireIn control_wires(
+  .okHE(okHE),
+  .ep_addr(ep_addr),
+  .ep_dataout(control_bus)
+);
 endmodule

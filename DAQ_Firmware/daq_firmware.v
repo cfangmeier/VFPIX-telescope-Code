@@ -76,7 +76,6 @@ module daq_firmware(
 
 wire clk;
 wire reset;
-wire hal_init_finished;
 
 wire        memory_read_req;
 wire        memory_write_req;
@@ -102,7 +101,6 @@ hal hal_inst(
   .sys_clk ( sys_clk ),
   .clk ( clk ),
   .reset ( reset ),
-  .hal_init_finished ( hal_init_finished ),
 
   // Processor Interface
   .memory_read_req ( memory_read_req ),

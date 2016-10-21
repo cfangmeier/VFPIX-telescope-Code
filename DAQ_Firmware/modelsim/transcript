@@ -4400,3 +4400,5 @@ do memory_testbench.do
 # Time: 665000  Instance: memory_testbench.memory_inst.ram_controller_inst.ram_controller_controller_phy_inst.ram_controller_phy_inst.ram_controller_phy_alt_mem_phy_inst.clk.genblk2.pll.altpll_component.cycloneiii_pll.pll3
 # 0 ps
 # 512566064 ps
+# End time: 17:00:16 on Oct 19,2016, Elapsed time: 6:01:07
+# Errors: 0, Warnings: 2

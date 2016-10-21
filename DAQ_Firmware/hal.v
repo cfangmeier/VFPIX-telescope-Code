@@ -31,10 +31,9 @@
 `timescale 1ns / 1ps
 
 module hal(
-  input  wire sys_clk,
-  output wire clk,
+  input  wire sys_clk,     // 50 MHz
+  output wire clk,         // 150 MHz
   output reg  reset,
-  output wire hal_init_finished,
 
   // Processor Interface
   input  wire                memory_read_req,
@@ -97,8 +96,7 @@ module hal(
 //----------------------------------------------------------------------------
 // Parameters
 //----------------------------------------------------------------------------
-localparam DEBUG_SIZE = 2;
-localparam OK_SIZE = 3+DEBUG_SIZE;
+localparam OK_SIZE = 4;
 
 //----------------------------------------------------------------------------
 // REGISTERS
@@ -110,13 +108,15 @@ reg enable_rj45;
 reg enable_led;
 reg enable_aux;
 
+reg        memory_program;
+reg [31:0] control_bus_last;
 //----------------------------------------------------------------------------
 // Wires
 //----------------------------------------------------------------------------
 wire okClk;
 wire [112:0] okHE;
-wire [65:0] okEH;
-wire [65*OK_SIZE-1:0]  okEHx;
+wire [64:0] okEH;
+/* wire [65*3-1:0]  okEHx; */
 
 wire [31:0] control_bus;
 wire [31:0] control_bus_ok;
@@ -153,12 +153,12 @@ wire [10:0] program_buffer_used_words;
 wire [31:0] program_buffer_data;
 wire [31:0] program_buffer_q;
 
-//----------------------------------------------------------------------------
-// Registers
-//----------------------------------------------------------------------------
-reg        memory_program;
-wire       memory_program_ack;
-reg [31:0] control_bus_last;
+wire        memory_program_ack;
+wire [31:0] debug_wireout;
+
+wire local_init_done;
+wire local_ready;
+wire [5:0] state;
 
 //----------------------------------------------------------------------------
 // Assignments
@@ -182,6 +182,14 @@ assign read_req_rj45 = memory_read_req & enable_rj45;
 assign read_req_led = memory_read_req & enable_led;
 assign read_req_aux = memory_read_req & enable_aux;
 
+assign debug_wireout[4:0] = control_bus[4:0];
+assign debug_wireout[5] = local_init_done;
+assign debug_wireout[6] = local_ready;
+assign debug_wireout[7] = 1'b0;
+assign debug_wireout[13:8] = state;
+assign debug_wireout[30:14] = 17'h0;
+assign debug_wireout[31] = busy_ram;
+
 //----------------------------------------------------------------------------
 // Synchronous register updates
 //----------------------------------------------------------------------------
@@ -195,8 +203,9 @@ always @( posedge sys_clk ) begin
   end
   control_bus_last <= control_bus;
 end
-assign led = control_bus[3:2];
-assign led_ext = control_bus[5:4];
+assign led = ~control_bus[3:2];
+assign led_ext[1] = 0;
+assign led_ext[0] = busy_ram;
 
 //----------------------------------------------------------------------------
 // Address Decoder
@@ -247,7 +256,7 @@ okHost okHI(
   .okHE(okHE),
   .okEH(okEH)
 );
-okWireOR # (.N(OK_SIZE)) wireOR (okEH, okEHx);
+/* okWireOR # (.N(3)) wireOR (okEH, okEHx); */
 
 
 spi_controller spi_controller_inst (
@@ -267,6 +276,22 @@ spi_controller spi_controller_inst (
   .dac_csb ( {supdac_csb, rngdac_csb} )
 );
 
+/* aux_io aux_io_inst( */
+/*   .clk ( clk ), */
+/*   .reset ( reset ), */
+
+/*   .write_req ( write_req_aux ), */
+/*   .read_req ( read_req_aux), */
+/*   .data_write ( memory_data_write ), */
+/*   .data_read ( data_read_aux ), */
+/*   .address ( memory_addr ), */
+/*   .busy ( busy_aux ), */
+
+/*   .okClk ( okClk ), */
+/*   .okHE ( okHE ), */
+/*   .okEH ( okEHx[64:0] ) */
+/* ); */
+
 aux_io aux_io_inst(
   .clk ( clk ),
   .reset ( reset ),
@@ -279,8 +304,8 @@ aux_io aux_io_inst(
   .busy ( busy_aux ),
 
   .okClk ( okClk ),
-  .okHE ( okHE),
-  .okEHx ( okEHx[129:0] )
+  .okHE ( okHE ),
+  .okEH ( )
 );
 
 memory memory_inst (
@@ -317,7 +342,11 @@ memory memory_inst (
   .program_ack ( memory_program_ack ),
   .program_buffer_empty ( program_buffer_empty ),
   .program_buffer_q ( program_buffer_q ),
-  .program_buffer_read ( program_buffer_read )
+  .program_buffer_read ( program_buffer_read ),
+
+  .local_ready ( local_ready ),
+  .state ( state ),
+  .local_init_done( local_init_done )
   );
 
 
@@ -328,17 +357,13 @@ adc_pll adc_pll_inst (
   .locked (  )
 );
 
-signal_cross_domain signal_cross_domain_inst (
-  .clkA ( okClk ),
-  .SignalIn_clkA ( control_bus_ok ),
-  .clkB ( sys_clk ),
-  .SignalOut_clkB ( control_bus )
-);
 
-okWireIn control_wires(
-  .okHE(okHE),
-  .ep_addr(8'h10),
-  .ep_dataout(control_bus_ok)
+okWireIn_sync control_wires(
+  .clk ( sys_clk ),
+  .okClk ( okClk ),
+  .okHE ( okHE ),
+  .ep_addr ( 8'h10 ),
+  .ep_dataout ( control_bus )
 );
 
 // 32 bit wide 1024 depth fifo
@@ -357,14 +382,34 @@ fifo32_clk_crossing_with_usage  programming_input_buffer (
   .data ( program_buffer_data )
 );
 
+/* okBTPipeIn programming_input_btpipe( */
+/*   .okHE ( okHE ), */
+/*   .okEH ( okEHx[65+:65] ), */
+/*   .ep_addr ( 8'hA1 ), */
+/*   .ep_dataout ( program_buffer_data ), */
+/*   .ep_write ( program_buffer_write ), */
+/*   .ep_blockstrobe (  ), */
+/*   .ep_ready ( (1024 - program_buffer_used_words) >= 64 ) */
+/* ); */
+
 okBTPipeIn programming_input_btpipe(
   .okHE ( okHE ),
-  .okEH ( okEHx[194:130] ),
-  .ep_addr (8'hA1 ),
+  .okEH ( ),
+  .ep_addr ( 8'hA1 ),
   .ep_dataout ( program_buffer_data ),
   .ep_write ( program_buffer_write ),
   .ep_blockstrobe (  ),
   .ep_ready ( (1024 - program_buffer_used_words) >= 64 )
+);
+
+  /* .clk ( sys_clk & (~reset) ), */
+debug_unit debug_unit_inst (
+  .clk ( clk ),
+  .reset ( reset ),
+  .debug_wireout ( debug_wireout ),
+  .okClk ( okClk ),
+  .okHE ( okHE ),
+  .okEH ( okEH )
 );
 
 endmodule

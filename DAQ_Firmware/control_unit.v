@@ -192,7 +192,8 @@ assign memory_addr = muxMA_out[25:0];
 //----------------------------------------------------------------------------
 // ALU
 //----------------------------------------------------------------------------
-always @(alu_inA or alu_inB or alu_op) begin
+always @(alu_inA or alu_inB or alu_op or
+         lshift_result or multiply_result) begin
   case ( alu_op )
     ALU_ADD:
       alu_out <= alu_inA + alu_inB;
@@ -378,17 +379,28 @@ end
 //----------------------------------------------------------------------------
 // Control Unit
 //----------------------------------------------------------------------------
-always @(cpu_stage or ir or memory_busy) begin
+always @(cpu_stage or ir or memory_busy or status_pass or reset) begin
   if ( reset ) begin
     cpu_stage_next <= STAGE_5;
     pc_enable <= 0;
+    ir_enable <= 0;
+    muxB_sel <= 0;
+    muxY_sel <= 0;
+    muxPC_sel <= 1;
+    muxINC_sel <= 0;
+    muxMA_sel <= 0;
     immediate_temp <= 0;
     alu_op <= 0;
     memory_read_req <= 0;
     memory_write_req <= 0;
+    wr_write <= 0;
+    wr_addr_a <= 0;
+    wr_addr_b <= 0;
+    wr_addr_c <= 0;
   end
   else begin
     // Set defaults
+    cpu_stage_next <= cpu_stage;
     pc_enable <= 0;
     ir_enable <= 0;
     immediate_temp <= 0;
@@ -401,6 +413,9 @@ always @(cpu_stage or ir or memory_busy) begin
     memory_read_req <= 0;
     memory_write_req <= 0;
     wr_write <= 0;
+    wr_addr_a <= 0;
+    wr_addr_b <= 0;
+    wr_addr_c <= 0;
     case ( cpu_stage )
       STAGE_1: begin
         if ( !memory_busy ) begin

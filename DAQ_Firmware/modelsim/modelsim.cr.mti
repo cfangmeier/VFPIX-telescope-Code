@@ -279,6 +279,20 @@ Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
 Top level modules:
 	alt_mem_ddrx_burst_gen
 
+} {} {}} /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/memory.v {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/memory.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module memory
+
+Top level modules:
+	memory
+
+} {} {}} /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/memory_testbench.v {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/modelsim/memory_testbench.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module memory_testbench
+
+Top level modules:
+	memory_testbench
+
 } {} {}} /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_ecc_encoder.v {1 {vlog -work work -stats=none /home/caleb/Sources/Telescope_Project/VFPIX-telescope-Code/DAQ_Firmware/alt_mem_ddrx_ecc_encoder.v
 Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
 -- Compiling module alt_mem_ddrx_ecc_encoder

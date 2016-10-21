@@ -7,6 +7,7 @@ setup(
         'app.daq_board',
         'app.assembly',
         'app.utils',
+        'app.cli',
         ],
     install_requires=[
         'Click',
@@ -16,6 +17,7 @@ setup(
     entry_points='''
         [console_scripts]
         assemble=app.assembly:assemble
-        main=app.assembly:assemble_file
+        compile=app.assembly:compile
+        stf=app.cli:stf
     ''',
 )
