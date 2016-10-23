@@ -45,9 +45,7 @@ module fifo32_clk_crossing_with_usage (
 	wrclk,
 	wrreq,
 	q,
-	rdempty,
 	rdusedw,
-	wrfull,
 	wrusedw);
 
 	input	  aclr;
@@ -57,10 +55,8 @@ module fifo32_clk_crossing_with_usage (
 	input	  wrclk;
 	input	  wrreq;
 	output	[31:0]  q;
-	output	  rdempty;
-	output	[9:0]  rdusedw;
-	output	  wrfull;
-	output	[9:0]  wrusedw;
+	output	[12:0]  rdusedw;
+	output	[12:0]  wrusedw;
 `ifndef ALTERA_RESERVED_QIS
 // synopsys translate_off
 `endif
@@ -70,15 +66,11 @@ module fifo32_clk_crossing_with_usage (
 `endif
 
 	wire [31:0] sub_wire0;
-	wire  sub_wire1;
-	wire [9:0] sub_wire2;
-	wire  sub_wire3;
-	wire [9:0] sub_wire4;
+	wire [12:0] sub_wire1;
+	wire [12:0] sub_wire2;
 	wire [31:0] q = sub_wire0[31:0];
-	wire  rdempty = sub_wire1;
-	wire [9:0] rdusedw = sub_wire2[9:0];
-	wire  wrfull = sub_wire3;
-	wire [9:0] wrusedw = sub_wire4[9:0];
+	wire [12:0] rdusedw = sub_wire1[12:0];
+	wire [12:0] wrusedw = sub_wire2[12:0];
 
 	dcfifo	dcfifo_component (
 				.aclr (aclr),
@@ -88,20 +80,21 @@ module fifo32_clk_crossing_with_usage (
 				.wrclk (wrclk),
 				.wrreq (wrreq),
 				.q (sub_wire0),
-				.rdempty (sub_wire1),
-				.rdusedw (sub_wire2),
-				.wrfull (sub_wire3),
-				.wrusedw (sub_wire4),
+				.rdusedw (sub_wire1),
+				.wrusedw (sub_wire2),
 				.eccstatus (),
+				.rdempty (),
 				.rdfull (),
-				.wrempty ());
+				.wrempty (),
+				.wrfull ());
 	defparam
+		dcfifo_component.add_usedw_msb_bit = "ON",
 		dcfifo_component.intended_device_family = "Cyclone IV E",
-		dcfifo_component.lpm_numwords = 1024,
+		dcfifo_component.lpm_numwords = 4096,
 		dcfifo_component.lpm_showahead = "OFF",
 		dcfifo_component.lpm_type = "dcfifo",
 		dcfifo_component.lpm_width = 32,
-		dcfifo_component.lpm_widthu = 10,
+		dcfifo_component.lpm_widthu = 13,
 		dcfifo_component.overflow_checking = "ON",
 		dcfifo_component.rdsync_delaypipe = 4,
 		dcfifo_component.read_aclr_synch = "OFF",
@@ -122,7 +115,7 @@ endmodule
 // Retrieval info: PRIVATE: AlmostFullThr NUMERIC "-1"
 // Retrieval info: PRIVATE: CLOCKS_ARE_SYNCHRONIZED NUMERIC "0"
 // Retrieval info: PRIVATE: Clock NUMERIC "4"
-// Retrieval info: PRIVATE: Depth NUMERIC "1024"
+// Retrieval info: PRIVATE: Depth NUMERIC "4096"
 // Retrieval info: PRIVATE: Empty NUMERIC "1"
 // Retrieval info: PRIVATE: Full NUMERIC "1"
 // Retrieval info: PRIVATE: INTENDED_DEVICE_FAMILY STRING "Cyclone IV E"
@@ -138,23 +131,24 @@ endmodule
 // Retrieval info: PRIVATE: Width NUMERIC "32"
 // Retrieval info: PRIVATE: dc_aclr NUMERIC "1"
 // Retrieval info: PRIVATE: diff_widths NUMERIC "0"
-// Retrieval info: PRIVATE: msb_usedw NUMERIC "0"
+// Retrieval info: PRIVATE: msb_usedw NUMERIC "1"
 // Retrieval info: PRIVATE: output_width NUMERIC "32"
-// Retrieval info: PRIVATE: rsEmpty NUMERIC "1"
+// Retrieval info: PRIVATE: rsEmpty NUMERIC "0"
 // Retrieval info: PRIVATE: rsFull NUMERIC "0"
 // Retrieval info: PRIVATE: rsUsedW NUMERIC "1"
 // Retrieval info: PRIVATE: sc_aclr NUMERIC "0"
 // Retrieval info: PRIVATE: sc_sclr NUMERIC "0"
 // Retrieval info: PRIVATE: wsEmpty NUMERIC "0"
-// Retrieval info: PRIVATE: wsFull NUMERIC "1"
+// Retrieval info: PRIVATE: wsFull NUMERIC "0"
 // Retrieval info: PRIVATE: wsUsedW NUMERIC "1"
 // Retrieval info: LIBRARY: altera_mf altera_mf.altera_mf_components.all
+// Retrieval info: CONSTANT: ADD_USEDW_MSB_BIT STRING "ON"
 // Retrieval info: CONSTANT: INTENDED_DEVICE_FAMILY STRING "Cyclone IV E"
-// Retrieval info: CONSTANT: LPM_NUMWORDS NUMERIC "1024"
+// Retrieval info: CONSTANT: LPM_NUMWORDS NUMERIC "4096"
 // Retrieval info: CONSTANT: LPM_SHOWAHEAD STRING "OFF"
 // Retrieval info: CONSTANT: LPM_TYPE STRING "dcfifo"
 // Retrieval info: CONSTANT: LPM_WIDTH NUMERIC "32"
-// Retrieval info: CONSTANT: LPM_WIDTHU NUMERIC "10"
+// Retrieval info: CONSTANT: LPM_WIDTHU NUMERIC "13"
 // Retrieval info: CONSTANT: OVERFLOW_CHECKING STRING "ON"
 // Retrieval info: CONSTANT: RDSYNC_DELAYPIPE NUMERIC "4"
 // Retrieval info: CONSTANT: READ_ACLR_SYNCH STRING "OFF"
@@ -166,13 +160,11 @@ endmodule
 // Retrieval info: USED_PORT: data 0 0 32 0 INPUT NODEFVAL "data[31..0]"
 // Retrieval info: USED_PORT: q 0 0 32 0 OUTPUT NODEFVAL "q[31..0]"
 // Retrieval info: USED_PORT: rdclk 0 0 0 0 INPUT NODEFVAL "rdclk"
-// Retrieval info: USED_PORT: rdempty 0 0 0 0 OUTPUT NODEFVAL "rdempty"
 // Retrieval info: USED_PORT: rdreq 0 0 0 0 INPUT NODEFVAL "rdreq"
-// Retrieval info: USED_PORT: rdusedw 0 0 10 0 OUTPUT NODEFVAL "rdusedw[9..0]"
+// Retrieval info: USED_PORT: rdusedw 0 0 13 0 OUTPUT NODEFVAL "rdusedw[12..0]"
 // Retrieval info: USED_PORT: wrclk 0 0 0 0 INPUT NODEFVAL "wrclk"
-// Retrieval info: USED_PORT: wrfull 0 0 0 0 OUTPUT NODEFVAL "wrfull"
 // Retrieval info: USED_PORT: wrreq 0 0 0 0 INPUT NODEFVAL "wrreq"
-// Retrieval info: USED_PORT: wrusedw 0 0 10 0 OUTPUT NODEFVAL "wrusedw[9..0]"
+// Retrieval info: USED_PORT: wrusedw 0 0 13 0 OUTPUT NODEFVAL "wrusedw[12..0]"
 // Retrieval info: CONNECT: @aclr 0 0 0 0 aclr 0 0 0 0
 // Retrieval info: CONNECT: @data 0 0 32 0 data 0 0 32 0
 // Retrieval info: CONNECT: @rdclk 0 0 0 0 rdclk 0 0 0 0
@@ -180,14 +172,12 @@ endmodule
 // Retrieval info: CONNECT: @wrclk 0 0 0 0 wrclk 0 0 0 0
 // Retrieval info: CONNECT: @wrreq 0 0 0 0 wrreq 0 0 0 0
 // Retrieval info: CONNECT: q 0 0 32 0 @q 0 0 32 0
-// Retrieval info: CONNECT: rdempty 0 0 0 0 @rdempty 0 0 0 0
-// Retrieval info: CONNECT: rdusedw 0 0 10 0 @rdusedw 0 0 10 0
-// Retrieval info: CONNECT: wrfull 0 0 0 0 @wrfull 0 0 0 0
-// Retrieval info: CONNECT: wrusedw 0 0 10 0 @wrusedw 0 0 10 0
+// Retrieval info: CONNECT: rdusedw 0 0 13 0 @rdusedw 0 0 13 0
+// Retrieval info: CONNECT: wrusedw 0 0 13 0 @wrusedw 0 0 13 0
 // Retrieval info: GEN_FILE: TYPE_NORMAL fifo32_clk_crossing_with_usage.v TRUE
 // Retrieval info: GEN_FILE: TYPE_NORMAL fifo32_clk_crossing_with_usage.inc FALSE
 // Retrieval info: GEN_FILE: TYPE_NORMAL fifo32_clk_crossing_with_usage.cmp FALSE
 // Retrieval info: GEN_FILE: TYPE_NORMAL fifo32_clk_crossing_with_usage.bsf FALSE
 // Retrieval info: GEN_FILE: TYPE_NORMAL fifo32_clk_crossing_with_usage_inst.v FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL fifo32_clk_crossing_with_usage_bb.v TRUE
+// Retrieval info: GEN_FILE: TYPE_NORMAL fifo32_clk_crossing_with_usage_bb.v FALSE
 // Retrieval info: LIB_FILE: altera_mf

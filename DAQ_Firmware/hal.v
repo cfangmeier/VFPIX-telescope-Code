@@ -116,7 +116,6 @@ reg [31:0] control_bus_last;
 wire okClk;
 wire [112:0] okHE;
 wire [64:0] okEH;
-/* wire [65*3-1:0]  okEHx; */
 
 wire [31:0] control_bus;
 wire [31:0] control_bus_ok;
@@ -148,8 +147,8 @@ wire [31:0] data_read_aux;
 wire        program_buffer_read;
 wire        program_buffer_write;
 wire        program_buffer_empty;
-wire [10:0] program_buffer_words_available;
-wire [10:0] program_buffer_used_words;
+wire [12:0] program_buffer_wrusedw;
+wire [12:0] program_buffer_rdusedw;
 wire [31:0] program_buffer_data;
 wire [31:0] program_buffer_q;
 
@@ -181,6 +180,8 @@ assign read_req_spi = memory_read_req & enable_spi;
 assign read_req_rj45 = memory_read_req & enable_rj45;
 assign read_req_led = memory_read_req & enable_led;
 assign read_req_aux = memory_read_req & enable_aux;
+
+assign program_buffer_empty = (program_buffer_rdusedw == 0);
 
 assign debug_wireout[4:0] = control_bus[4:0];
 assign debug_wireout[5] = local_init_done;
@@ -256,7 +257,8 @@ okHost okHI(
   .okHE(okHE),
   .okEH(okEH)
 );
-/* okWireOR # (.N(3)) wireOR (okEH, okEHx); */
+wire [65*3-1:0]  okEHx;
+okWireOR # (.N(3)) wireOR (okEH, okEHx);
 
 
 spi_controller spi_controller_inst (
@@ -276,22 +278,6 @@ spi_controller spi_controller_inst (
   .dac_csb ( {supdac_csb, rngdac_csb} )
 );
 
-/* aux_io aux_io_inst( */
-/*   .clk ( clk ), */
-/*   .reset ( reset ), */
-
-/*   .write_req ( write_req_aux ), */
-/*   .read_req ( read_req_aux), */
-/*   .data_write ( memory_data_write ), */
-/*   .data_read ( data_read_aux ), */
-/*   .address ( memory_addr ), */
-/*   .busy ( busy_aux ), */
-
-/*   .okClk ( okClk ), */
-/*   .okHE ( okHE ), */
-/*   .okEH ( okEHx[64:0] ) */
-/* ); */
-
 aux_io aux_io_inst(
   .clk ( clk ),
   .reset ( reset ),
@@ -305,7 +291,7 @@ aux_io aux_io_inst(
 
   .okClk ( okClk ),
   .okHE ( okHE ),
-  .okEH ( )
+  .okEH ( okEHx[64:0] )
 );
 
 memory memory_inst (
@@ -349,14 +335,12 @@ memory memory_inst (
   .local_init_done( local_init_done )
   );
 
-
 adc_pll adc_pll_inst (
   .areset ( 1'b0 ),
   .inclk0 ( sys_clk ),
   .c0 ( adc_clk ),
   .locked (  )
 );
-
 
 okWireIn_sync control_wires(
   .clk ( sys_clk ),
@@ -368,48 +352,34 @@ okWireIn_sync control_wires(
 
 // 32 bit wide 1024 depth fifo
 fifo32_clk_crossing_with_usage  programming_input_buffer (
-  .aclr ( reset ),
-  .rdclk ( clk ),
-  .rdreq ( program_buffer_read ),
-  .rdempty ( program_buffer_empty ),
-  .rdusedw ( program_buffer_words_available),
-  .q ( program_buffer_q ),
-
   .wrclk ( okClk ),
+  .rdclk ( clk ),
+  .aclr ( reset ),
+  .data ( program_buffer_data ),
+  .q ( program_buffer_q ),
   .wrreq ( program_buffer_write ),
-  .wrfull (  ),
-  .wrusedw ( program_buffer_used_words ),
-  .data ( program_buffer_data )
+  .rdreq ( program_buffer_read ),
+  .wrusedw ( program_buffer_wrusedw ),
+  .rdusedw ( program_buffer_rdusedw )
 );
-
-/* okBTPipeIn programming_input_btpipe( */
-/*   .okHE ( okHE ), */
-/*   .okEH ( okEHx[65+:65] ), */
-/*   .ep_addr ( 8'hA1 ), */
-/*   .ep_dataout ( program_buffer_data ), */
-/*   .ep_write ( program_buffer_write ), */
-/*   .ep_blockstrobe (  ), */
-/*   .ep_ready ( (1024 - program_buffer_used_words) >= 64 ) */
-/* ); */
 
 okBTPipeIn programming_input_btpipe(
   .okHE ( okHE ),
-  .okEH ( ),
+  .okEH ( okEHx[129:65] ),
   .ep_addr ( 8'hA1 ),
   .ep_dataout ( program_buffer_data ),
   .ep_write ( program_buffer_write ),
   .ep_blockstrobe (  ),
-  .ep_ready ( (1024 - program_buffer_used_words) >= 64 )
+  .ep_ready ( (4096 - program_buffer_wrusedw) >= 64 )
 );
 
-  /* .clk ( sys_clk & (~reset) ), */
 debug_unit debug_unit_inst (
   .clk ( clk ),
   .reset ( reset ),
   .debug_wireout ( debug_wireout ),
   .okClk ( okClk ),
   .okHE ( okHE ),
-  .okEH ( okEH )
+  .okEH ( okEHx[194:130] )
 );
 
 endmodule

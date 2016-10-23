@@ -34,34 +34,59 @@ module debug_unit (
   output wire [64:0]              okEH
 );
 
-wire        output_buffer_rd_req;
-wire [31:0] output_buffer_data_out;
-wire        output_buffer_full;
-wire [9:0]  output_buffer_used_w;
+wire        output_buffer_rdreq;
+wire [31:0] output_buffer_q;
+wire [12:0] output_buffer_wrusedw;
+wire [12:0] output_buffer_rdusedw;
+
+wire [12:0] output_buffer_rdavailw;
+
+reg  [9:0]  write_count;
+reg         output_buffer_wrreq;
+reg  [31:0] output_buffer_data;
+
+always @( posedge clk ) begin
+  output_buffer_wrreq <= 0;
+  if ( reset ) begin
+    write_count <= 0;
+  end
+  else if ( write_count == 0 ) begin
+    if ( output_buffer_wrusedw <= (4096-512)) begin
+      write_count <= 512;
+    end
+  end
+  else if ( write_count == 1 ) begin
+    output_buffer_data <= 32'hFFFF_FFFF;
+    output_buffer_wrreq <= 1;
+    write_count <= write_count - 1;
+  end
+  else begin
+    output_buffer_data <= debug_wireout;
+    output_buffer_wrreq <= 1;
+    write_count <= write_count - 1;
+  end
+end
 
 fifo32_clk_crossing_with_usage  output_buffer (
-  .aclr ( reset ),
-  .data ( debug_wireout ),
-  .rdclk ( okClk ),
-  .rdreq ( output_buffer_rd_req ),
   .wrclk ( clk ),
-  .wrreq ( ~output_buffer_full ),
-  .q ( output_buffer_data_out ),
-  .rdempty (  ),
-  .rdusedw ( output_buffer_used_w ),
-  .wrusedw (  ),
-  .wrfull ( output_buffer_full )
+  .rdclk ( okClk ),
+  .aclr ( reset ),
+  .data ( output_buffer_data ),
+  .q ( output_buffer_q ),
+  .wrreq ( output_buffer_wrreq ),
+  .rdreq ( output_buffer_rdreq ),
+  .wrusedw ( output_buffer_wrusedw ),
+  .rdusedw ( output_buffer_rdusedw ),
 );
-  /* .ep_ready ( output_buffer_used_w >= 512 ) */
 
 okBTPipeOut pipeout_inst(
   .okHE ( okHE ),
   .okEH ( okEH ),
   .ep_addr ( 8'hB2 ),
-  .ep_datain ( output_buffer_data_out ),
-  .ep_read ( output_buffer_rd_req ),
+  .ep_datain ( output_buffer_q ),
+  .ep_read ( output_buffer_rdreq ),
   .ep_blockstrobe (  ),
-  .ep_ready ( 1'b1 )
+  .ep_ready ( | output_buffer_rdusedw[12:9] )
 );
 
 

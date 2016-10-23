@@ -28,21 +28,14 @@ def stf(run_tests):
         serial = DAQBoard.enumerate_devices()[0]
         daq_board = DAQBoard(FIRMWARE_PATH, serial)
         with daq_board:
-            try:
-                stop = False
-                count = 1
-                while not stop:
-                    data = daq_board.read_debug_data(blocks=10)
-                    for datum in data:
-                        count += 1
-                        if count>0 and datum & 0x0020:
-                            print('init finished at {}'.format(count))
-                            print('{:04X}'.format(datum))
-                            count = -50
-                        elif count < 0:
-                            print('state: {:d}'.format((datum>>8)&0xFF))
-                        elif count == 0:
-                            stop = True
-                            break
-            except KeyboardInterrupt:
-                pass
+            out_of_idle = False
+            while True:
+                blocks = daq_board.read_debug_data(blocks=4)
+                for block in blocks:
+                    for datum in block:
+                        state = (datum >> 8) & 0xFF
+                        if state != 1:
+                            out_of_idle = True
+                        if out_of_idle:
+                            print('state: {:d}'.format(state))
+                    print('='*80)

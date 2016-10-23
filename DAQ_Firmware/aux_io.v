@@ -62,20 +62,22 @@ localparam WR_BLOCK_SIZE = 10'd512,
 //----------------------------------------------------------------------------
 // Wires
 //----------------------------------------------------------------------------
-wire [31:0] input_buffer_data_in;
-wire [31:0] input_buffer_data_out;
-reg  [31:0] output_buffer_data_in;
-wire [31:0] output_buffer_data_out;
+wire [31:0] input_buffer_data;
+wire [31:0] input_buffer_q;
+reg  [31:0] output_buffer_data;
+wire [31:0] output_buffer_q;
 
-reg  input_buffer_rd_req;
-wire input_buffer_wr_req;
+reg  input_buffer_rdreq;
+wire input_buffer_wrreq;
 wire input_buffer_empty;
-wire output_buffer_rd_req;
-reg  output_buffer_wr_req;
+wire output_buffer_rdreq;
+reg  output_buffer_wrreq;
 wire output_buffer_full;
 
-wire [9:0] input_buffer_used_w;
-wire [9:0] output_buffer_used_w;
+wire [12:0] input_buffer_rdusedw;
+wire [12:0] input_buffer_wrusedw;
+wire [12:0] output_buffer_rdusedw;
+wire [12:0] output_buffer_wrusedw;
 
 wire [65*2-1:0] okEHx;
 
@@ -83,6 +85,9 @@ wire [65*2-1:0] okEHx;
 // Registers
 //----------------------------------------------------------------------------
 reg [2:0] state;
+
+assign input_buffer_empty = (input_buffer_rdusedw == 0);
+assign output_buffer_full = output_buffer_rdusedw[12];
 
 //----------------------------------------------------------------------------
 // State Machine
@@ -93,8 +98,8 @@ always @(posedge clk ) begin
     state <= IDLE;
   end
   else begin
-    input_buffer_rd_req <= 0;
-    output_buffer_wr_req <= 0;
+    input_buffer_rdreq <= 0;
+    output_buffer_wrreq <= 0;
     case ( state )
       IDLE: begin
         if ( read_req ) begin
@@ -108,19 +113,19 @@ always @(posedge clk ) begin
       end
       RD_1: begin
         if ( !input_buffer_empty ) begin
-          input_buffer_rd_req <= 1;
+          input_buffer_rdreq <= 1;
           state <= RD_2;
         end
       end
       RD_2: begin
-        data_read <= input_buffer_data_out;
+        data_read <= input_buffer_q;
         busy <= 0;
         state <= IDLE;
       end
       WR_1: begin
         if ( !output_buffer_full ) begin
-          output_buffer_wr_req <= 1;
-          output_buffer_data_in <= data_write;
+          output_buffer_wrreq <= 1;
+          output_buffer_data <= data_write;
           busy <= 0;
           state <= IDLE;
         end
@@ -133,54 +138,48 @@ okWireOR # (.N(2)) wireOR (okEH, okEHx);
 
 // 32 bit wide 1024 depth fifo
 fifo32_clk_crossing_with_usage  output_buffer (
-  .aclr ( reset ),
-  .rdclk ( okClk ),
-  .rdreq ( output_buffer_rd_req ),
-  .rdempty (  ),
-  .rdusedw ( output_buffer_used_w ),
-  .q ( output_buffer_data_out ),
-
   .wrclk ( clk ),
-  .wrreq ( output_buffer_wr_req ),
-  .wrfull ( output_buffer_full ),
-  .wrusedw ( ),
-  .data ( output_buffer_data_in )
+  .rdclk ( okClk ),
+  .aclr ( reset ),
+  .data ( output_buffer_data),
+  .q ( output_buffer_q ),
+  .wrreq ( output_buffer_wrreq ),
+  .rdreq ( output_buffer_rdreq ),
+  .rdusedw ( output_buffer_rdusedw ),
+  .wrusedw ( output_buffer_wrusedw )
 );
 
 okBTPipeOut pipeout_inst(
   .okHE ( okHE ),
   .okEH ( okEHx[64:0] ),
   .ep_addr ( 8'hB0 ),
-  .ep_datain ( output_buffer_data_out ),
-  .ep_read ( output_buffer_rd_req ),
+  .ep_datain ( output_buffer_q ),
+  .ep_read ( output_buffer_rdreq ),
   .ep_blockstrobe (  ),
-  .ep_ready ( output_buffer_used_w >= RD_BLOCK_SIZE )
+  .ep_ready ( output_buffer_rdusedw >= RD_BLOCK_SIZE )
 );
 
 // 32 bit wide 1024 depth fifo
 fifo32_clk_crossing_with_usage  input_buffer (
-  .aclr ( reset ),
-  .rdclk ( clk ),
-  .rdreq ( input_buffer_rd_req ),
-  .rdempty ( input_buffer_empty ),
-  .rdusedw ( ),
-  .q ( input_buffer_data_out ),
-
   .wrclk ( okClk ),
-  .wrreq (  ),
-  .wrfull (  ),
-  .wrusedw ( input_buffer_used_w ),
-  .data ( input_buffer_data_in )
+  .rdclk ( clk ),
+  .aclr ( reset ),
+  .data ( input_buffer_data),
+  .q ( input_buffer_q ),
+  .wrreq ( input_buffer_wrreq ),
+  .rdreq ( input_buffer_rdreq ),
+  .wrusedw ( input_buffer_wrusedw ),
+  .rdusedw ( input_buffer_rdusedw )
 );
 
 okBTPipeIn pipein_inst(
   .okHE ( okHE ),
   .okEH ( okEHx[129:65] ),
   .ep_addr (8'hB1 ),
-  .ep_dataout ( input_buffer_data_in ),
-  .ep_write ( input_buffer_wr_req ),
+  .ep_dataout ( input_buffer_data),
+  .ep_write ( input_buffer_wrreq ),
   .ep_blockstrobe (  ),
-  .ep_ready ( input_buffer_used_w >= WR_BLOCK_SIZE )
+  .ep_ready ( input_buffer_wrusedw >= WR_BLOCK_SIZE )
 );
 
 endmodule

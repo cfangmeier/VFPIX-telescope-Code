@@ -291,7 +291,7 @@ always @( posedge clk ) begin
     rm <= 0;
     ry <= 0;
     ret_addr <= 0;
-    cpu_stage <= STAGE_5;
+    cpu_stage <= STAGE_4_MEM;
     immediate <= 0;
     N <= 0;
     Z <= 0;
@@ -381,7 +381,7 @@ end
 //----------------------------------------------------------------------------
 always @(cpu_stage or ir or memory_busy or status_pass or reset) begin
   if ( reset ) begin
-    cpu_stage_next <= STAGE_5;
+    cpu_stage_next <= STAGE_4_MEM;
     pc_enable <= 0;
     ir_enable <= 0;
     muxB_sel <= 0;

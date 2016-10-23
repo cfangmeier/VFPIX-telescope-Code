@@ -27,7 +27,6 @@ class WireState(IntEnum):
 class DAQBoard:
     ADDR_CONTROL_WIRE = 0x10
     ADDR_PROGRAM_PIPE = 0xA1
-    ADDR_READBACK_PIPE = 0xA0
     ADDR_DEBUG_PIPE = 0xB2
     ADDR_AUXIO_OUT = 0xB0
     ADDR_AUXIO_IN = 0xB1
@@ -131,9 +130,6 @@ class DAQBoard:
     def _read_pipe_data(self, blocks, verbose, address):
         fp = self.front_panel
         data = bytearray(blocks*512)
-        print(blocks)
-        print(len(data))
-        print(verbose)
         ret_val = fp.ReadFromBlockPipeOut(address, 512, data)
         if ret_val != len(data):
             fmt = 'Error (Code: {}) reading from device'
@@ -152,10 +148,19 @@ class DAQBoard:
         return bytes_to_ints(data)
 
     def read_debug_data(self, blocks=4, verbose=False):
-        return self._read_pipe_data(blocks*512, verbose, self.ADDR_DEBUG_PIPE)
+        data = self._read_pipe_data(blocks*512, verbose, self.ADDR_DEBUG_PIPE)
+        for i in range(blocks):
+            if data[512*(i+1)-1] != 0xFFFFFFFF:
+                raise ValueError('Improperly formatted debug output {:08X}'.format(data[512*(i+1)-1]))
+            else:
+                yield data[512*i:512*(i+1)-1]
 
     def read_data(self, words=4, verbose=False):
-        self._read_pipe_data(words, verbose, self.ADDR_READBACK_PIPE)
+        self._read_pipe_data(words, verbose, self.ADDR_AUXIO_OUT)
+
+    def write_data(self, data):
+        raise NotImplementedError
+        # self._write_pipe_data(words, verbose, self.ADDR_READBACK_PIPE)
 
     def welcome(self):
         import time
