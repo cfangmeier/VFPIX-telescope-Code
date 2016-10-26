@@ -54,9 +54,12 @@ module flash_interface(
   //--------------------------------------------------------------------------
   //-----------HARDWARE INTERFACE---------------------------------------------
   //--------------------------------------------------------------------------
+  output wire        flash_dq0,
+  input  wire        flash_dq1,
+  output wire        flash_wb,
+  output wire        flash_holdb,
   output wire        flash_c,
-  output reg         flash_sb,
-  inout  wire [3:0]  flash_dq
+  output reg         flash_sb
 );
 
 //----------------------------------------------------------------------------
@@ -75,7 +78,6 @@ localparam CLK_DIV = 2;
 //----------------------------------------------------------------------------
 wire update_in;  // Read-in on positive edge of clock
 wire update_out; // Write-out on negative edge of clk
-wire sdi;
 
 wire       write_buffer_empty;
 wire [7:0] write_buffer_q;
@@ -109,11 +111,10 @@ reg       busy_int;
 assign update_in  =  clk_div1[CLK_DIV] & ~clk_div2[CLK_DIV];
 assign update_out = ~clk_div1[CLK_DIV] &  clk_div2[CLK_DIV];
 
-assign flash_c = clk_div2[CLK_DIV] & busy;
-assign flash_dq[0] = output_shifter[7];
-assign sdi = flash_dq[1];
-assign flash_dq[2] = 1;
-assign flash_dq[3] = 1;
+assign flash_c = clk_div2[CLK_DIV] & ~flash_sb;
+assign flash_dq0 = output_shifter[7];
+assign flash_wb = 1;
+assign flash_holdb = 1;
 assign busy        = busy_int | execute;
 //----------------------------------------------------------------------------
 // Clock Division
@@ -162,7 +163,7 @@ always @( posedge clk ) begin
       end
       DATA_WRITE: begin
         if ( update_out ) begin
-          bit_counter <= bit_counter + 1;
+          bit_counter <= bit_counter + 4'd1;
           output_shifter <= {output_shifter[6:0], 1'b0};
           if ( bit_counter == 4'd7 ) begin
             bit_counter <= 0;
@@ -185,16 +186,20 @@ always @( posedge clk ) begin
       end
       DATA_READ: begin
         if ( update_in ) begin
-          bit_counter <= bit_counter + 1;
-          input_shifter <= {input_shifter[6:0], sdi};
+          bit_counter <= bit_counter + 4'd1;
+          input_shifter <= {input_shifter[6:0], flash_dq1};
           if ( bit_counter == 4'd7 ) begin
-            bit_counter <= 0;
-            read_buffer_data <= {input_shifter[6:0], sdi};
+            read_buffer_data <= {input_shifter[6:0], flash_dq1};
             read_buffer_write <= 1;
-            bytes_read <= bytes_read + 1;
-            if ( (bytes_read+1) == bytes_to_read_int ) begin
-              state <= IDLE;
+            bytes_read <= bytes_read + 9'd1;
+          end
+        end
+        else if ( update_out ) begin
+          if ( bit_counter == 4'd8 ) begin
+            bit_counter <= 4'b0;
+            if ( bytes_read == bytes_to_read_int ) begin
               flash_sb <= 1;
+              state <= IDLE;
               busy_int <= 0;
             end
           end

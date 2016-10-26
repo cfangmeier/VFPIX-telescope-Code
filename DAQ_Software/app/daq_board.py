@@ -58,15 +58,6 @@ class DAQBoard:
         fp.UpdateWireOuts()
         return fp.GetWireOutValue(address)
 
-    def _get_debug_output(self):
-        fp = self.front_panel
-        fp.UpdateWireOuts()
-        values = []
-        for addr in self.DEBUG_OUTPUT_ADDRS:
-            single_value = self._get_wire_out_value(addr)
-            values.insert(0, '{:016b}'.format(single_value))
-        return ''.join(values)
-
     @staticmethod
     def enumerate_devices():
         front_panel = ok.okCFrontPanel()
@@ -87,14 +78,14 @@ class DAQBoard:
         fw_zip = ZipFile(self.firmware_path)
         fw_zip.extractall(path=tmpdir)
         firmware = join(tmpdir, FIRMWARE_ARCHIVE_NAME)
-        # software = join(tmpdir, SOFTWARE_ARCHIVE_NAME)
+        software = join(tmpdir, SOFTWARE_ARCHIVE_NAME)
         status = self.front_panel.ConfigureFPGA(firmware)
         if status != self.front_panel.NoError:
             fmt = 'Failed to configure FPGA, Error Code: \{}'
             raise RuntimeError(fmt.format(status))
         self.front_panel.ResetFPGA()
         self.soft_reset()
-        # self._program_software(software)
+        self._program_software(software)
 
     def _program_software(self, binfile):
         fp = self.front_panel
@@ -148,12 +139,15 @@ class DAQBoard:
         return bytes_to_ints(data)
 
     def read_debug_data(self, blocks=4, verbose=False):
-        data = self._read_pipe_data(blocks*512, verbose, self.ADDR_DEBUG_PIPE)
+        block_size = 1024
+        words = blocks*block_size
+        data = self._read_pipe_data(words, verbose, self.ADDR_DEBUG_PIPE)
         for i in range(blocks):
-            if data[512*(i+1)-1] != 0xFFFFFFFF:
-                raise ValueError('Improperly formatted debug output {:08X}'.format(data[512*(i+1)-1]))
+            if data[block_size*(i+1)-1] != 0xFFFFFFFF:
+                fmt = 'Improperly formatted debug output {:08X}'
+                raise ValueError(fmt.format(data[block_size*(i+1)-1]))
             else:
-                yield data[512*i:512*(i+1)-1]
+                yield data[block_size*i:block_size*(i+1)-1]
 
     def read_data(self, words=4, verbose=False):
         self._read_pipe_data(words, verbose, self.ADDR_AUXIO_OUT)

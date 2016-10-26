@@ -58,9 +58,12 @@ module memory(
   output wire                mem_we_n,
 
   //===FLASH===
+  output wire        flash_dq0,
+  input  wire        flash_dq1,
+  output wire        flash_wb,
+  output wire        flash_holdb,
   output wire        flash_c,
   output wire        flash_sb,
-  inout  wire [3:0]  flash_dq,
   //--------------------------------------------------------------------------
   //---------------------------PROGRAMMING INTERFACE--------------------------
   //--------------------------------------------------------------------------
@@ -75,51 +78,64 @@ module memory(
   //--------------------------------------------------------------------------
   output wire       local_ready,
   output reg  [5:0] state,
+  output wire [7:0] flash_data,
+  output wire       flash_empty,
   output wire       local_init_done
   );
 
 //----------------------------------------------------------------------------
 // Parameters
 //----------------------------------------------------------------------------
-localparam VOID                   = 6'd00,
-           INIT                   = 6'd01,
-           IDLE                   = 6'd02,
-           PROGRAM_WRITE_ENABLE   = 6'd03,
-           PROGRAM_WRITE_FINISH   = 6'd04,
-           PROGRAM_WRITE_FINISH_B = 6'd05,
-           PROGRAM_0              = 6'd06,
-           PROGRAM_1              = 6'd07,
-           PROGRAM_2              = 6'd08,
-           PROGRAM_ADDR1          = 6'd09,
-           PROGRAM_ADDR2          = 6'd10,
-           PROGRAM_ADDR3          = 6'd11,
-           PROGRAM_DAT1           = 6'd12,
-           PROGRAM_DAT2A          = 6'd13,
-           PROGRAM_DAT2B          = 6'd14,
-           PROGRAM_DAT2C          = 6'd15,
-           PROGRAM_DAT2D          = 6'd16,
-           PROGRAM_DAT2E          = 6'd17,
-           LOAD_0                 = 6'd18,
-           LOAD_1                 = 6'd19,
-           LOAD_ADDR1             = 6'd20,
-           LOAD_ADDR2             = 6'd21,
-           LOAD_ADDR3             = 6'd22,
-           LOAD_EXECUTE           = 6'd23,
-           LOAD_WORD1             = 6'd24,
-           LOAD_WORD1B            = 6'd25,
-           LOAD_WORD2             = 6'd26,
-           LOAD_WORD3             = 6'd27,
-           LOAD_WORD4             = 6'd28,
-           READ_1                 = 6'd29,
-           READ_2                 = 6'd30,
-           WRITE_1                = 6'd31,
-           WRITE_2                = 6'd32;
+// State Enumeration
+localparam VOID                         = 6'd00,
+           INIT                         = 6'd01,
+           IDLE                         = 6'd02,
+           PROGRAM_WRITE_ENABLE         = 6'd03,
+           PROGRAM_WRITE_ENABLE_B       = 6'd04,
+           PROGRAM_WRITE_FINISH         = 6'd05,
+           PROGRAM_WRITE_FINISH_B       = 6'd06,
+           PROGRAM_START                = 6'd07,
+           PROGRAM_PAGE                 = 6'd08,
+           PROGRAM_SECTOR_ERASE_ADDR1   = 6'd09,
+           PROGRAM_SECTOR_ERASE_ADDR2   = 6'd10,
+           PROGRAM_SECTOR_ERASE_ADDR3   = 6'd11,
+           PROGRAM_SECTOR_ERASE_EXECUTE = 6'd12,
+           PROGRAM_SECTOR_ERASE_FINISH  = 6'd13,
+           PROGRAM_ADDR1                = 6'd14,
+           PROGRAM_ADDR2                = 6'd15,
+           PROGRAM_ADDR3                = 6'd16,
+           PROGRAM_DAT1                 = 6'd17,
+           PROGRAM_DAT2A                = 6'd18,
+           PROGRAM_DAT2B                = 6'd19,
+           PROGRAM_DAT2C                = 6'd20,
+           PROGRAM_DAT2D                = 6'd21,
+           PROGRAM_DAT2E                = 6'd22,
+           LOAD_0                       = 6'd23,
+           LOAD_1                       = 6'd24,
+           LOAD_ADDR1                   = 6'd25,
+           LOAD_ADDR2                   = 6'd26,
+           LOAD_ADDR3                   = 6'd27,
+           LOAD_EXECUTE                 = 6'd28,
+           LOAD_WORD1                   = 6'd29,
+           LOAD_WORD1B                  = 6'd30,
+           LOAD_WORD2                   = 6'd31,
+           LOAD_WORD3                   = 6'd32,
+           LOAD_WORD4                   = 6'd33,
+           READ_1                       = 6'd34,
+           READ_2                       = 6'd35,
+           WRITE_1                      = 6'd36,
+           WRITE_2                      = 6'd37;
 
-localparam FLASH_WREN = 8'b0000_0110,
-           FLASH_RFSR = 8'b0111_0000,
-           FLASH_BE   = 8'b1100_0111,
-           FLASH_PP   = 8'b0000_0010,
-           FLASH_READ = 8'b0000_0011;
+// Flash Instruction Codes
+localparam FLASH_WREN = 8'b0000_0110,  // WRITE ENABLE
+           FLASH_WRDI = 8'b0000_0100,  // WRITE DISABLE
+           FLASH_RFSR = 8'b0111_0000,  // READ FLAG STATUS REGISTER
+           FLASH_RDSR = 8'b0000_0101,  // READ STATUS REGISTER
+           FLASH_BE   = 8'b1100_0111,  // BULK ERASE
+           FLASH_SE   = 8'b1101_1000,  // SECTOR ERASE
+           FLASH_PP   = 8'b0000_0010,  // PAGE PROGRAM
+           FLASH_READ = 8'b0000_0011,  // READ DATA
+           FLASH_RDID = 8'b1001_1111;  // READ DEVICE ID
 //----------------------------------------------------------------------------
 // Wires
 //----------------------------------------------------------------------------
@@ -167,6 +183,9 @@ reg  [7:0]  flash_write_buffer_data;
 reg         flash_write_buffer_write;
 reg         flash_read_buffer_read;
 
+assign flash_data = flash_read_buffer_q;
+assign flash_empty = flash_read_buffer_empty;
+
 //----------------------------------------------------------------------------
 // State Machine
 //----------------------------------------------------------------------------
@@ -191,7 +210,7 @@ always @( posedge phy_clk ) begin
   else begin
     case ( state )
       INIT: begin
-        if ( local_ready && local_init_done ) begin 
+        if ( local_ready && local_init_done ) begin
           state <= IDLE;
           busy <= 0;
         end
@@ -201,7 +220,7 @@ always @( posedge phy_clk ) begin
       end
       IDLE: begin
         if ( program ) begin
-          state <= PROGRAM_0;
+          state <= PROGRAM_START;
           program_ack <= 1;
         end
         else if ( write_req ) begin
@@ -221,25 +240,30 @@ always @( posedge phy_clk ) begin
 //============================================================================
       PROGRAM_WRITE_ENABLE: begin
         if ( !flash_busy ) begin
-          state <= state_callback;
-          state_callback <= VOID;
+          state <= PROGRAM_WRITE_ENABLE_B;
           flash_instruction <= FLASH_WREN;
           flash_bytes_to_read <= 0;
           flash_execute <= 1;
         end
       end
+      PROGRAM_WRITE_ENABLE_B: begin
+        if ( !flash_busy ) begin
+          state <= state_callback;
+          state_callback <= VOID;
+        end
+      end
       PROGRAM_WRITE_FINISH: begin
         if ( !flash_busy ) begin
           state <= PROGRAM_WRITE_FINISH_B;
-          flash_instruction <= FLASH_RFSR;
+          flash_instruction <= FLASH_RDSR;
           flash_bytes_to_read <= 1;
           flash_execute <= 1;
         end
       end
       PROGRAM_WRITE_FINISH_B: begin
-        if ( !flash_busy  && !flash_read_buffer_empty) begin
+        if ( !flash_busy  && !flash_read_buffer_empty ) begin
           flash_read_buffer_read <= 1;
-          if ( flash_read_buffer_q[7] ) begin
+          if ( ~flash_read_buffer_q[0] ) begin
             state <= state_callback;
             state_callback <= VOID;
           end
@@ -248,40 +272,60 @@ always @( posedge phy_clk ) begin
           end
         end
       end
-      PROGRAM_0: begin
+      PROGRAM_START: begin
         if ( !flash_busy ) begin
-          state <= PROGRAM_WRITE_ENABLE;
-          state_callback <= PROGRAM_1;
+          state <= PROGRAM_PAGE;
           pages_to_write_valid <= 0;
           pages_written <= 0;
         end
       end
-      PROGRAM_1: begin
-        if ( !flash_busy ) begin
-          state <= PROGRAM_WRITE_FINISH;
-          state_callback <= PROGRAM_2;
-          flash_instruction <= FLASH_BE;
-          flash_bytes_to_read <= 0;
-          flash_execute <= 1;
-        end
-      end
-      PROGRAM_2: begin
+      PROGRAM_PAGE: begin
         if ( pages_to_write_valid && (pages_written == pages_to_write) ) begin
           state <= LOAD_0;
         end
         else begin
           state <= PROGRAM_WRITE_ENABLE;
-          state_callback <= PROGRAM_ADDR1;
+          if ( (pages_written % 16'd256) == 0 ) begin
+            state_callback <= PROGRAM_SECTOR_ERASE_ADDR1;
+          end
+          else begin
+            state_callback <= PROGRAM_ADDR1;
+          end
           page_words <= 0;
-          page_address <= {pages_written[15:0], 8'h00};
+          page_address <= {pages_written[15:0]+16'h800, 8'h00};
         end
       end
+      PROGRAM_SECTOR_ERASE_ADDR1: begin
+        state <= PROGRAM_SECTOR_ERASE_ADDR2;
+        flash_write_buffer_data <= page_address[23:16];
+        flash_write_buffer_write <= 1;
+      end
+      PROGRAM_SECTOR_ERASE_ADDR2: begin
+        state <= PROGRAM_SECTOR_ERASE_ADDR3;
+        flash_write_buffer_data <= page_address[15:8];
+        flash_write_buffer_write <= 1;
+      end
+      PROGRAM_SECTOR_ERASE_ADDR3: begin
+        state <= PROGRAM_SECTOR_ERASE_EXECUTE;
+        flash_write_buffer_data <= page_address[7:0];
+        flash_write_buffer_write <= 1;
+      end
+      PROGRAM_SECTOR_ERASE_EXECUTE: begin
+        state <= PROGRAM_WRITE_FINISH;
+        state_callback <= PROGRAM_SECTOR_ERASE_FINISH;
+
+        flash_instruction <= FLASH_SE;
+        flash_bytes_to_read <= 0;
+        flash_execute <= 1;
+      end
+      PROGRAM_SECTOR_ERASE_FINISH: begin
+        state <= PROGRAM_WRITE_ENABLE;
+        state_callback <= PROGRAM_ADDR1;
+      end
       PROGRAM_ADDR1: begin
-        if ( !flash_busy ) begin
-          state <= PROGRAM_ADDR2;
-          flash_write_buffer_data <= page_address[23:16];
-          flash_write_buffer_write <= 1;
-        end
+        state <= PROGRAM_ADDR2;
+        flash_write_buffer_data <= page_address[23:16];
+        flash_write_buffer_write <= 1;
       end
       PROGRAM_ADDR2: begin
         state <= PROGRAM_ADDR3;
@@ -289,22 +333,20 @@ always @( posedge phy_clk ) begin
         flash_write_buffer_write <= 1;
       end
       PROGRAM_ADDR3: begin
-        if ( !flash_busy ) begin
-          state <= PROGRAM_DAT1;
-          flash_write_buffer_data <= page_address[7:0];
-          flash_write_buffer_write <= 1;
-        end
+        state <= PROGRAM_DAT1;
+        flash_write_buffer_data <= page_address[7:0];
+        flash_write_buffer_write <= 1;
       end
       PROGRAM_DAT1: begin
         if ( page_words == 64 ) begin
           state <= PROGRAM_WRITE_FINISH;
-          state_callback <= PROGRAM_2;
+          state_callback <= PROGRAM_PAGE;
 
           flash_instruction <= FLASH_PP;
           flash_execute <= 1;
           flash_bytes_to_read <= 0;
 
-          pages_written <= (pages_written + 1);
+          pages_written <= (pages_written + 17'd1);
         end
         else if ( !program_buffer_empty ) begin
           program_buffer_read <= 1;
@@ -315,7 +357,7 @@ always @( posedge phy_clk ) begin
         state <= PROGRAM_DAT2B;
         page_word <= program_buffer_q;
         if ( page_words == 0 ) begin
-          pages_to_write <= program_buffer_q;
+          pages_to_write <= program_buffer_q[16:0];
           pages_to_write_valid <= 1;
         end
       end
@@ -338,7 +380,7 @@ always @( posedge phy_clk ) begin
         state <= PROGRAM_DAT1;
         flash_write_buffer_data <= page_word[7:0];
         flash_write_buffer_write <= 1;
-        page_words <= (page_words + 1);
+        page_words <= (page_words + 7'd1);
       end
 //============================================================================
 //==========================LOAD SEQUENCE=====================================
@@ -355,7 +397,7 @@ always @( posedge phy_clk ) begin
         end
         else begin
           state <= LOAD_ADDR1;
-          page_address <= {pages_read[15:0], 8'h00};
+          page_address <= {pages_read[15:0]+16'h800, 8'h00};
         end
       end
       LOAD_ADDR1: begin
@@ -383,7 +425,7 @@ always @( posedge phy_clk ) begin
       LOAD_WORD1: begin
         if ( ~flash_busy ) begin
           if ( page_words == 64 ) begin
-            pages_read <= pages_read + 1;
+            pages_read <= pages_read + 17'd1;
             state <= LOAD_1;
           end
           else begin
@@ -417,9 +459,8 @@ always @( posedge phy_clk ) begin
           pages_to_read <= {page_word[15:8], flash_read_buffer_q};
           pages_to_read_valid <= 1;
         end
-        page_words <= page_words + 1;
+        page_words <= page_words + 7'd1;
       end
-
 //============================================================================
 //==========================WRITE SEQUENCE====================================
 //============================================================================
@@ -531,10 +572,12 @@ flash_interface flash_interface_inst (
   .read_buffer_empty ( flash_read_buffer_empty ),
   .read_buffer_read ( flash_read_buffer_read ),
 
+  .flash_dq0 ( flash_dq0 ),
+  .flash_dq1 ( flash_dq1 ),
+  .flash_wb ( flash_wb ),
+  .flash_holdb ( flash_holdb ),
   .flash_c ( flash_c ),
-  .flash_sb ( flash_sb ),
-  .flash_dq ( flash_dq )
-
+  .flash_sb ( flash_sb )
 );
 
 

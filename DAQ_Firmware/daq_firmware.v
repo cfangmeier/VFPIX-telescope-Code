@@ -61,15 +61,18 @@ module daq_firmware(
   output wire                rngdac_csb,
   output wire  [7:0]         adc_csb,
 
-  output  wire               adc_clk,  // 10 MHz
-  input   wire [7:0]         adc_fco,
-  input   wire [7:0]         adc_dco,
-  input   wire [7:0]         adc_dat_a,
-  input   wire [7:0]         adc_dat_b,
-  input   wire [7:0]         adc_dat_c,
-  input   wire [7:0]         adc_dat_d,
+  output wire                adc_clk,  // 10 MHz
+  input  wire [7:0]          adc_fco,
+  input  wire [7:0]          adc_dco,
+  input  wire [7:0]          adc_dat_a,
+  input  wire [7:0]          adc_dat_b,
+  input  wire [7:0]          adc_dat_c,
+  input  wire [7:0]          adc_dat_d,
 
-  inout  wire  [3:0]         flash_dq,
+  output wire                flash_dq0,
+  input  wire                flash_dq1,
+  output wire                flash_wb,
+  output wire                flash_holdb,
   output wire                flash_c,
   output wire                flash_sb
   );
@@ -148,7 +151,10 @@ hal hal_inst(
   .adc_dat_c ( adc_dat_c ),
   .adc_dat_d ( adc_dat_d ),
 
-  .flash_dq ( flash_dq ),
+  .flash_dq0 ( flash_dq0 ),
+  .flash_dq1 ( flash_dq1 ),
+  .flash_wb ( flash_wb ),
+  .flash_holdb ( flash_holdb ),
   .flash_c ( flash_c ),
   .flash_sb ( flash_sb ),
 

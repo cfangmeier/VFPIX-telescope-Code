@@ -81,9 +81,12 @@ module hal(
   input   wire [7:0]  adc_dat_c,
   input   wire [7:0]  adc_dat_d,
 
-  inout  wire  [3:0]         flash_dq,
-  output wire                flash_c,
-  output wire                flash_sb,
+  output wire         flash_dq0,
+  input  wire         flash_dq1,
+  output wire         flash_wb,
+  output wire         flash_holdb,
+  output wire         flash_c,
+  output wire         flash_sb,
 
   // FrontPanel Interface
   input  wire [4:0]   okUH,
@@ -158,6 +161,8 @@ wire [31:0] debug_wireout;
 wire local_init_done;
 wire local_ready;
 wire [5:0] state;
+wire [7:0] flash_data;
+wire       flash_empty;
 
 //----------------------------------------------------------------------------
 // Assignments
@@ -188,7 +193,10 @@ assign debug_wireout[5] = local_init_done;
 assign debug_wireout[6] = local_ready;
 assign debug_wireout[7] = 1'b0;
 assign debug_wireout[13:8] = state;
-assign debug_wireout[30:14] = 17'h0;
+assign debug_wireout[21:14] = flash_data;
+assign debug_wireout[22] = flash_empty;
+assign debug_wireout[26:23] = {flash_c, flash_sb, flash_dq0, flash_dq1};
+assign debug_wireout[30:27] = 4'h0;
 assign debug_wireout[31] = busy_ram;
 
 //----------------------------------------------------------------------------
@@ -320,9 +328,12 @@ memory memory_inst (
   .mem_ras_n ( mem_ras_n ),
   .mem_we_n ( mem_we_n ),
 
+  .flash_dq0 ( flash_dq0 ),
+  .flash_dq1 ( flash_dq1 ),
+  .flash_wb ( flash_wb ),
+  .flash_holdb ( flash_holdb ),
   .flash_c ( flash_c ),
   .flash_sb ( flash_sb ),
-  .flash_dq ( flash_dq ),
 
   .program ( memory_program ),
   .program_ack ( memory_program_ack ),
@@ -332,6 +343,8 @@ memory memory_inst (
 
   .local_ready ( local_ready ),
   .state ( state ),
+  .flash_data ( flash_data ),
+  .flash_empty ( flash_empty ),
   .local_init_done( local_init_done )
   );
 
@@ -375,7 +388,7 @@ okBTPipeIn programming_input_btpipe(
 
 debug_unit debug_unit_inst (
   .clk ( clk ),
-  .reset ( reset ),
+  .reset ( reset | ~local_init_done ),
   .debug_wireout ( debug_wireout ),
   .okClk ( okClk ),
   .okHE ( okHE ),

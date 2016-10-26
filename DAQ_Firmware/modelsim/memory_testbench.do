@@ -90,8 +90,8 @@ add wave -position insertpoint -label flash_sin                            sim:/
 add wave -position insertpoint -label flash_c                              sim:/memory_testbench/flash_c
 add wave -position insertpoint -label flash_sb                             sim:/memory_testbench/flash_sb
 
-# add wave -position insertpoint -label flash_state                        sim:/memory_testbench/memory_inst/flash_interface_inst/state
-# add wave -position insertpoint -label flash_bit_counter                  sim:/memory_testbench/memory_inst/flash_interface_inst/bit_counter
+add wave -position insertpoint -label flash_state                        sim:/memory_testbench/memory_inst/flash_interface_inst/state
+add wave -position insertpoint -label flash_bit_counter                  sim:/memory_testbench/memory_inst/flash_interface_inst/bit_counter
 add wave -position insertpoint -label flash_busy                           sim:/memory_testbench/memory_inst/flash_interface_inst/busy
 # add wave -position insertpoint -label flash_input_shifter                sim:/memory_testbench/memory_inst/flash_interface_inst/input_shifter
 add wave -position insertpoint -label flash_buffer_data -radix Hexadecimal sim:/memory_testbench/memory_inst/flash_interface_inst/read_buffer_data

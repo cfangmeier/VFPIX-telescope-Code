@@ -55,9 +55,12 @@ wire        busy;
 wire [7:0]  read_buffer_q;
 wire        read_buffer_empty;
 
+wire        flash_dq0;
+wire        flash_dq1;
+wire        flash_wb;
+wire        flash_holdb;
 wire        flash_c;
 wire        flash_sb;
-wire [3:0]  flash_dq;
 
 wire        sout;
 reg         sin;
@@ -91,8 +94,8 @@ wire         mem_we_n;
 
 
 
-assign sout = flash_dq[0];
-assign flash_dq[1] = sin;
+assign sout = flash_dq0;
+assign flash_dq1 = sin;
 
 
 initial pll_ref_clk = 1'b0;
@@ -127,7 +130,7 @@ always @(posedge flash_c or negedge flash_c) begin
     flash_clk_cnt <= 0;
     byte_complete <= 0;
     bytes_received <= 0;
-    status_out_shifter <= 8'h80;
+    status_out_shifter <= 8'hAA;
     data_out_shifter <= 64'h00_00_00_02__AB_CD_EF_FF;
   end
   else begin
@@ -170,7 +173,7 @@ always @(posedge flash_c or negedge flash_c) begin
     end
     else begin
       case ( instruction_shifter )
-        8'b0111_0000: begin
+        8'b0000_0101: begin
           sin <= status_out_shifter[7];
           status_out_shifter <= {status_out_shifter[6:0], status_out_shifter[7]};
         end
@@ -266,9 +269,12 @@ memory memory_inst(
   .mem_ras_n ( mem_ras_n ),
   .mem_we_n ( mem_we_n ),
 
+  .flash_dq0 ( flash_dq0 ),
+  .flash_dq1 ( flash_dq1 ),
+  .flash_wb ( flash_wb ),
+  .flash_holdb ( flash_holdb ),
   .flash_c ( flash_c ),
   .flash_sb ( flash_sb ),
-  .flash_dq ( flash_dq ),
 
   .program ( memory_program ),
   .program_ack ( memory_program_ack ),

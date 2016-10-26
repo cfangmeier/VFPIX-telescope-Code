@@ -41,7 +41,7 @@ wire [12:0] output_buffer_rdusedw;
 
 wire [12:0] output_buffer_rdavailw;
 
-reg  [9:0]  write_count;
+reg  [10:0]  write_count;
 reg         output_buffer_wrreq;
 reg  [31:0] output_buffer_data;
 
@@ -51,19 +51,19 @@ always @( posedge clk ) begin
     write_count <= 0;
   end
   else if ( write_count == 0 ) begin
-    if ( output_buffer_wrusedw <= (4096-512)) begin
-      write_count <= 512;
+    if ( output_buffer_wrusedw <= 13'd3072 ) begin
+      write_count <= 11'd1024;
     end
   end
   else if ( write_count == 1 ) begin
     output_buffer_data <= 32'hFFFF_FFFF;
     output_buffer_wrreq <= 1;
-    write_count <= write_count - 1;
+    write_count <= write_count - 10'd1;
   end
   else begin
     output_buffer_data <= debug_wireout;
     output_buffer_wrreq <= 1;
-    write_count <= write_count - 1;
+    write_count <= write_count - 10'd1;
   end
 end
 
@@ -76,7 +76,7 @@ fifo32_clk_crossing_with_usage  output_buffer (
   .wrreq ( output_buffer_wrreq ),
   .rdreq ( output_buffer_rdreq ),
   .wrusedw ( output_buffer_wrusedw ),
-  .rdusedw ( output_buffer_rdusedw ),
+  .rdusedw ( output_buffer_rdusedw )
 );
 
 okBTPipeOut pipeout_inst(
@@ -86,7 +86,7 @@ okBTPipeOut pipeout_inst(
   .ep_datain ( output_buffer_q ),
   .ep_read ( output_buffer_rdreq ),
   .ep_blockstrobe (  ),
-  .ep_ready ( | output_buffer_rdusedw[12:9] )
+  .ep_ready ( output_buffer_rdusedw >= 13'd1024 )
 );
 
 
