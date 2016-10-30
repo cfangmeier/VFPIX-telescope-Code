@@ -7,7 +7,8 @@ import binascii
 
 import ok
 
-from app.utils import bytes_to_ints
+from app.utils import (bytes2ints, hex2bytes,
+                       decode_ok_error)
 
 
 class ControlBus(IntEnum):
@@ -26,10 +27,11 @@ class WireState(IntEnum):
 
 class DAQBoard:
     ADDR_CONTROL_WIRE = 0x10
-    ADDR_PROGRAM_PIPE = 0xA1
-    ADDR_DEBUG_PIPE = 0xB2
-    ADDR_AUXIO_OUT = 0xB0
-    ADDR_AUXIO_IN = 0xB1
+    ADDR_PROGRAM_PIPE = 0x9C
+    ADDR_DEBUG_BASE = 0xB0
+    ADDR_DEBUG_SIZE = 2
+    ADDR_AUXIO_OUT = 0x80
+    ADDR_AUXIO_IN = 0xA0
 
     def __init__(self, firmware_path, serial):
         front_panel = ok.okCFrontPanel()
@@ -96,19 +98,23 @@ class DAQBoard:
 
         with open(binfile) as f:
             page = bytearray(page_size*4)
-            stop = False
-            while not stop:
-                for i in range(page_size):
-                    word = f.readline().strip()
-                    if not word:
-                        stop = True
-                        break
-                    page[i*4+0] = int(word[0:2], 16)
-                    page[i*4+1] = int(word[2:4], 16)
-                    page[i*4+2] = int(word[4:6], 16)
-                    page[i*4+3] = int(word[6:8], 16)
-                fp.WriteToBlockPipeIn(self.ADDR_PROGRAM_PIPE,
-                                      page_size*4, page)
+            instructions = f.readlines()
+            num_pages = bytes2ints(hex2bytes(instructions[0]))[0]
+            for pn in range(num_pages):
+                page_hex = instructions[pn*page_size:(pn+1)*page_size]
+                for i, word_hex in enumerate(page_hex):
+                    word = hex2bytes(word_hex)
+                    page[i*4+0] = word[3]
+                    page[i*4+1] = word[2]
+                    page[i*4+2] = word[1]
+                    page[i*4+3] = word[0]
+                ret = fp.WriteToBlockPipeIn(self.ADDR_PROGRAM_PIPE,
+                                            page_size*4, page)
+                if ret != page_size*4:
+                    fmt = ('Unable to write to programming buffer, '
+                           'error code: {}, {}')
+                    error = decode_ok_error(ret)
+                    raise RuntimeError(fmt.format(ret, error))
         self._set_wire_in_value(WireState.OFF, ControlBus.PROGRAM)
 
     def soft_reset(self):
@@ -118,14 +124,16 @@ class DAQBoard:
     def set_led(self, led, value=WireState.ON):
         self._set_wire_in_value(value, led)
 
-    def _read_pipe_data(self, blocks, verbose, address):
+    def _read_pipe_data(self, blocks, verbose, address, block_size=1024):
         fp = self.front_panel
-        data = bytearray(blocks*512)
-        ret_val = fp.ReadFromBlockPipeOut(address, 512, data)
+        data = bytearray(blocks*block_size*4)
+        ret_val = fp.ReadFromBlockPipeOut(address, block_size*4, data)
         if ret_val != len(data):
-            fmt = 'Error (Code: {}) reading from device'
-            raise RuntimeError(fmt.format(ret_val))
-        for i in range(blocks*128):
+            fmt = ('Unable to read from device, '
+                   'error code: {}, {}')
+            error = decode_ok_error(ret_val)
+            raise RuntimeError(fmt.format(ret_val, error))
+        for i in range(blocks*block_size):
             word = data[i*4:(i+1)*4]
             word.reverse()
             for j in range(4):
@@ -136,21 +144,27 @@ class DAQBoard:
                 print(h[i*4:i*4+4], end=' ')
                 if i % 8 == 7:
                     print()
-        return bytes_to_ints(data)
+        return bytes2ints(data)
 
-    def read_debug_data(self, blocks=4, verbose=False):
-        block_size = 1024
-        words = blocks*block_size
-        data = self._read_pipe_data(words, verbose, self.ADDR_DEBUG_PIPE)
-        for i in range(blocks):
-            if data[block_size*(i+1)-1] != 0xFFFFFFFF:
+    def read_debug_data(self, verbose=False):
+        data = []
+        for i in range(self.ADDR_DEBUG_SIZE):
+            channel_address = self.ADDR_DEBUG_BASE+i
+            channel = self._read_pipe_data(1, verbose, channel_address,
+                                           block_size=1024)
+            if channel[-1] != 0xFFFFFFFF:
                 fmt = 'Improperly formatted debug output {:08X}'
-                raise ValueError(fmt.format(data[block_size*(i+1)-1]))
+                raise ValueError(fmt.format(channel[-1]))
             else:
-                yield data[block_size*i:block_size*(i+1)-1]
+                data.append(channel[:-1])
+        for channels in zip(*data):
+            val = 0
+            for x in channels:
+                val = (val << 32) | x
+            yield val
 
     def read_data(self, words=4, verbose=False):
-        self._read_pipe_data(words, verbose, self.ADDR_AUXIO_OUT)
+        self._read_pipe_data(words, verbose, self.ADDR_AUXIO_IN)
 
     def write_data(self, data):
         raise NotImplementedError

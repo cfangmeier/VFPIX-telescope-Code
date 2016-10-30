@@ -33,20 +33,20 @@
 module hal(
   input  wire sys_clk,     // 50 MHz
   output wire clk,         // 150 MHz
-  output reg  reset,
+  output wire cpu_reset,
 
   // Processor Interface
   input  wire                memory_read_req,
   input  wire                memory_write_req,
-  output wire [31:0]         memory_data_read,
-  input  wire [31:0]         memory_data_write,
-  input  wire [25:0]         memory_addr,
+  output wire [ 31: 0]       memory_data_read,
+  input  wire [ 31: 0]       memory_data_write,
+  input  wire [ 25: 0]       memory_addr,
   output wire                memory_busy,
 
 
   // Hardware Interface
-  output wire [1:0]   led,
-  output wire [1:0]   led_ext,
+  output wire [  1: 0]       led,
+  output wire [  1: 0]       led_ext,
 
   output wire [ 12: 0]       mem_addr,
   output wire [  2: 0]       mem_ba,
@@ -67,32 +67,37 @@ module hal(
   output wire                rj45_led_lat,
   output wire                rj45_led_blk,
 
-  output wire sclk,
-  inout  wire sdio,
-  output wire supdac_csb,
-  output wire rngdac_csb,
-  output wire [7:0] adc_csb,
+  output wire                sclk,
+  inout  wire                sdio,
+  output wire                supdac_csb,
+  output wire                rngdac_csb,
+  output wire [  7: 0]       adc_csb,
 
-  output  wire        adc_clk,  // ?? MHz
-  input   wire [7:0]  adc_fco,
-  input   wire [7:0]  adc_dco,
-  input   wire [7:0]  adc_dat_a,
-  input   wire [7:0]  adc_dat_b,
-  input   wire [7:0]  adc_dat_c,
-  input   wire [7:0]  adc_dat_d,
+  output wire                adc_clk,  // ?? MHz
+  input  wire [  7: 0]       adc_fco,
+  input  wire [  7: 0]       adc_dco,
+  input  wire [  7: 0]       adc_dat_a,
+  input  wire [  7: 0]       adc_dat_b,
+  input  wire [  7: 0]       adc_dat_c,
+  input  wire [  7: 0]       adc_dat_d,
 
-  output wire         flash_dq0,
-  input  wire         flash_dq1,
-  output wire         flash_wb,
-  output wire         flash_holdb,
-  output wire         flash_c,
-  output wire         flash_sb,
+  output wire                flash_dq0,
+  input  wire                flash_dq1,
+  output wire                flash_wb,
+  output wire                flash_holdb,
+  output wire                flash_c,
+  output wire                flash_sb,
 
   // FrontPanel Interface
-  input  wire [4:0]   okUH,
-  output wire [2:0]   okHU,
-  inout  wire [31:0]  okUHU,
-  inout  wire         okAA
+  input  wire [  4: 0]       okUH,
+  output wire [  2: 0]       okHU,
+  inout  wire [ 31: 0]       okUHU,
+  inout  wire                okAA,
+
+  //TEMPORARY
+  input wire  [ 24: 0]       pc,
+  input wire  [ 31: 0]       ir,
+  input wire  [  1: 0]       muxMA_sel
 );
 
 
@@ -156,13 +161,57 @@ wire [31:0] program_buffer_data;
 wire [31:0] program_buffer_q;
 
 wire        memory_program_ack;
-wire [31:0] debug_wireout;
+wire [63:0] debug_wireout;
 
-wire local_init_done;
-wire local_ready;
-wire [5:0] state;
-wire [7:0] flash_data;
-wire       flash_empty;
+reg         reset;
+
+wire        local_init_done;
+wire        local_ready;
+wire [5:0]  state;
+wire [7:0]  flash_data;
+wire        flash_empty;
+wire        flash_busy;
+reg         program_buffer_empty_flag;
+wire [6:0]  page_words;
+wire [16:0] pages_written;
+wire [16:0] pages_to_write;
+wire        pages_to_write_valid;
+
+wire  [24:0] local_address;
+wire  [31:0] local_wdata;
+wire  [31:0] local_rdata;
+wire         local_write_req;
+wire         local_read_req;
+wire  [7:0]  flash_input_shifter;
+wire         flash_read_buffer_write;
+
+
+reg         page_words_flag;
+reg         prog_read_flag;
+reg         state_flag;
+always @(posedge clk ) begin
+  if ( reset ) begin
+    program_buffer_empty_flag <= 1;
+    page_words_flag <= 0;
+    prog_read_flag <= 0;
+    state_flag <= 0;
+  end
+  else begin
+    if ( !program_buffer_empty ) begin
+      program_buffer_empty_flag <= 0;
+    end
+    if ( page_words > 0 ) begin
+      page_words_flag <= 1;
+    end
+    if ( program_buffer_read ) begin
+      prog_read_flag <= 1;
+    end
+    if ( (state == 6'd30) && !flash_busy ) begin
+      state_flag <= 1;
+    end
+  end
+end
+
 
 //----------------------------------------------------------------------------
 // Assignments
@@ -187,28 +236,48 @@ assign read_req_led = memory_read_req & enable_led;
 assign read_req_aux = memory_read_req & enable_aux;
 
 assign program_buffer_empty = (program_buffer_rdusedw == 0);
+assign cpu_reset = reset | ~local_init_done;
 
-assign debug_wireout[4:0] = control_bus[4:0];
-assign debug_wireout[5] = local_init_done;
-assign debug_wireout[6] = local_ready;
-assign debug_wireout[7] = 1'b0;
-assign debug_wireout[13:8] = state;
-assign debug_wireout[21:14] = flash_data;
-assign debug_wireout[22] = flash_empty;
-assign debug_wireout[26:23] = {flash_c, flash_sb, flash_dq0, flash_dq1};
-assign debug_wireout[30:27] = 4'h0;
-assign debug_wireout[31] = busy_ram;
+/* assign debug_wireout[4:0] = control_bus[4:0]; */
+/* assign debug_wireout[5] = local_init_done; */
+/* assign debug_wireout[6] = local_ready; */
+/* assign debug_wireout[6:0] = page_words; */
+assign debug_wireout[5:0] = state;
+/* assign debug_wireout[29:6] = pc; */
+assign debug_wireout[7:6] = 2'b00;
+assign debug_wireout[31:8] = ir[31:8];
+assign debug_wireout[63:32] = 31'd723;
+/* assign debug_wireout[30:6] = local_address; */
+/* assign debug_wireout[31:30] = muxMA_sel; */
+/* assign debug_wireout[9:6] = {flash_c, flash_sb, flash_dq0, flash_dq1}; */
+/* assign debug_wireout[10] = local_write_req; */
+/* assign debug_wireout[11] = local_read_req; */
+/* assign debug_wireout[31:12] = local_wdata[19:0]; */
+/* assign debug_wireout[19:12] = flash_data; */
+/* assign debug_wireout[17:14] = pages_written[3:0]; */
+/* assign debug_wireout[20:18] = pages_to_write[2:0]; */
+/* assign debug_wireout[21] = pages_to_write_valid; */
+/* assign debug_wireout[20] = flash_empty; */
+/* assign debug_wireout[28:21] = flash_input_shifter; */
+/* assign debug_wireout[29] = flash_read_buffer_write; */
+/* assign debug_wireout[31:30] = 2'd0; */
+/* assign debug_wireout[30:23] = program_buffer_rdusedw[7:0]; */
+/* assign debug_wireout[31] = busy_ram; */
+/* assign debug_wireout[28:0] = data_read_ram; */
+/* assign debug_wireout[29] = busy_ram; */
+/* assign debug_wireout[30] = read_req_ram; */
+/* assign debug_wireout[31] = write_req_ram; */
 
 //----------------------------------------------------------------------------
 // Synchronous register updates
 //----------------------------------------------------------------------------
 always @( posedge sys_clk ) begin
   reset <= control_bus[0];
-  if ( control_bus[1] & ~control_bus_last[1] ) begin
-    memory_program <= 1;
-  end
-  else if ( memory_program_ack ) begin
+  if ( memory_program_ack ) begin
     memory_program <= 0;
+  end
+  else if ( control_bus[1] & ~control_bus_last[1] ) begin
+    memory_program <= 1;
   end
   control_bus_last <= control_bus;
 end
@@ -299,7 +368,7 @@ aux_io aux_io_inst(
 
   .okClk ( okClk ),
   .okHE ( okHE ),
-  .okEH ( okEHx[64:0] )
+  .okEH ( okEHx[0 +: 65] )
 );
 
 memory memory_inst (
@@ -345,7 +414,21 @@ memory memory_inst (
   .state ( state ),
   .flash_data ( flash_data ),
   .flash_empty ( flash_empty ),
-  .local_init_done( local_init_done )
+  .flash_busy ( flash_busy ),
+  .local_init_done( local_init_done ),
+  .page_words ( page_words ),
+  .pages_written ( pages_written ),
+  .pages_to_write ( pages_to_write ),
+  .pages_to_write_valid ( pages_to_write_valid ),
+
+
+  .local_address ( local_address ),
+  .local_wdata ( local_wdata ),
+  .local_rdata ( local_rdata ),
+  .local_write_req ( local_write_req ),
+  .local_read_req ( local_read_req ),
+  .flash_input_shifter ( flash_input_shifter ),
+  .flash_read_buffer_write ( flash_read_buffer_write )
   );
 
 adc_pll adc_pll_inst (
@@ -378,21 +461,21 @@ fifo32_clk_crossing_with_usage  programming_input_buffer (
 
 okBTPipeIn programming_input_btpipe(
   .okHE ( okHE ),
-  .okEH ( okEHx[129:65] ),
-  .ep_addr ( 8'hA1 ),
+  .okEH ( okEHx[65 +: 65] ),
+  .ep_addr ( 8'h9C ),
   .ep_dataout ( program_buffer_data ),
   .ep_write ( program_buffer_write ),
   .ep_blockstrobe (  ),
   .ep_ready ( (4096 - program_buffer_wrusedw) >= 64 )
 );
 
-debug_unit debug_unit_inst (
+debug_unit #( .SIZE(2) ) debug_unit_inst (
   .clk ( clk ),
-  .reset ( reset | ~local_init_done ),
+  .reset ( reset | ~local_init_done | ~state_flag ),
   .debug_wireout ( debug_wireout ),
   .okClk ( okClk ),
   .okHE ( okHE ),
-  .okEH ( okEHx[194:130] )
+  .okEH ( okEHx[130 +: 65] )
 );
 
 endmodule

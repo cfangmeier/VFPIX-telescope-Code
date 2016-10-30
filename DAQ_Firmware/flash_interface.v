@@ -59,7 +59,12 @@ module flash_interface(
   output wire        flash_wb,
   output wire        flash_holdb,
   output wire        flash_c,
-  output reg         flash_sb
+  output reg         flash_sb,
+  //--------------------------------------------------------------------------
+  //-----------TEMPORARY OUTPUTS----------------------------------------------
+  //--------------------------------------------------------------------------
+  output reg [7:0]   input_shifter,
+  output reg         read_buffer_write
 );
 
 //----------------------------------------------------------------------------
@@ -91,7 +96,7 @@ wire [8:0] read_buffer_usedw;
 reg [CLK_DIV:0] clk_div1;
 reg [CLK_DIV:0] clk_div2;
 
-reg [7:0] input_shifter;
+/* reg [7:0] input_shifter; */
 reg [7:0] output_shifter;
 
 reg [3:0] bit_counter;
@@ -100,7 +105,7 @@ reg [8:0] bytes_to_read_int;
 
 reg        write_buffer_read;
 
-reg        read_buffer_write;
+/* reg        read_buffer_write; */
 reg [7:0]  read_buffer_data;
 
 reg [2:0] state;
@@ -108,8 +113,8 @@ reg       busy_int;
 //----------------------------------------------------------------------------
 // Assignments
 //----------------------------------------------------------------------------
-assign update_in  =  clk_div1[CLK_DIV] & ~clk_div2[CLK_DIV];
-assign update_out = ~clk_div1[CLK_DIV] &  clk_div2[CLK_DIV];
+assign update_in  =  clk_div1[CLK_DIV] & ~clk_div2[CLK_DIV]; // posedge serial clock
+assign update_out = ~clk_div1[CLK_DIV] &  clk_div2[CLK_DIV]; // negedge serial clock
 
 assign flash_c = clk_div2[CLK_DIV] & ~flash_sb;
 assign flash_dq0 = output_shifter[7];

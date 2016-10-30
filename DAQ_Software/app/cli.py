@@ -21,27 +21,24 @@ def execute_tests(suite_choice):
 
 
 def post_process_flash_data(blocks):
-    bits_clk = []
     bits_sb = []
     bits_in = []
     bits_out = []
 
     clk_prev = 0
     for datum in chain(*blocks):
-        flash_c = (datum >> 26) & 0x01
-        flash_dq1 = (datum >> 23) & 0x01
-        flash_dq0 = (datum >> 24) & 0x01
-        flash_sb = (datum >> 25) & 0x01
+        flash_c = (datum >> 9) & 0x01
+        flash_sb = (datum >> 8) & 0x01
+        flash_dq0 = (datum >> 7) & 0x01
+        flash_dq1 = (datum >> 6) & 0x01
         if flash_c and flash_c != clk_prev:
-            bits_clk.append(flash_c)
             bits_sb.append(flash_sb)
             bits_in.append(flash_dq1)
             bits_out.append(flash_dq0)
         clk_prev = flash_c
-    print(''.join(str(b) for b in bits_clk))
-    print(''.join(str(b) for b in bits_sb))
-    print(''.join(str(b) for b in bits_in))
-    print(''.join(str(b) for b in bits_out))
+    print(''.join(str(b) for b in bits_sb[:100]))
+    print(''.join(str(b) for b in bits_in[:100]))
+    print(''.join(str(b) for b in bits_out[:100]))
 
 
 @click.command()
@@ -58,29 +55,52 @@ def stf(run_tests):
         #     post_process_flash_data(daq_board.read_debug_data(blocks=40))
         with daq_board:
             # out_of_idle = False
-            # flash_c_last = 0
+            # daq_board.read_data(words=4, verbose=True)
             cnt = 0
             while True:
-                blocks = daq_board.read_debug_data(blocks=10)
+                block = daq_board.read_debug_data()
                 # post_process_flash_data(blocks)
-                for datum in chain(*blocks):
-                    state = (datum >> 8) & 0x3F
-                    # flash_data = (datum >> 14) & 0xFF
-                    # flash_empty = (datum >> 22) & 0x01
-                    # flash_dq1 = (datum >> 23) & 0x01
-                    # flash_dq0 = (datum >> 24) & 0x01
-                    # flash_sb = (datum >> 25) & 0x01
-                    # flash_c = (datum >> 26) & 0x01
+                for datum in block:
+                    # flag = datum & 0xFFFFFFFF
+                    # print(flag)
+                    state = (datum >> 0) & 0x3F
+                    ir = (datum >> 8) & 0xFFFFFF
+                    print('{}, {:06X}'.format(state, ir))
+                    # val = (datum >> 0) & 0x1FFFFFFF
+                    # busy = (datum >> 29) & 0x1
+                    # read_req = (datum >> 30) & 0x1
+                    # write_req = (datum >> 31) & 0x1
+                    # if val != 0:
+                    #     print('{:08X}, {}, {}, {}'.format(val, busy, read_req, write_req))
+                    # prog_words = (datum >> 23) & 0xFF
+                    # page_words = (datum >> 0) & 0x7F
+                    # pages_written = (datum >> 14) & 0xF
+                    # pages_to_write = (datum >> 18) & 0x7
+                    # pages_to_write_valid = (datum >> 21) & 0x1
+                    # flash_data = (datum >> 12) & 0xFF
+                    # flash_input_shifter = (datum >> 21) & 0xFF
+                    # flash_read_buffer_write = (datum >> 29) & 0x01
+                    # flash_empty = (datum >> 20) & 0x01
+                    # flash_dq1 = (datum >> 6) & 0x01
+                    # flash_dq0 = (datum >> 7) & 0x01
+                    # flash_sb = (datum >> 8) & 0x01
+                    # flash_c = (datum >> 9) & 0x01
+                    # local_write_req = (datum >> 10) & 0x01
+                    # local_read_req = (datum >> 11) & 0x01
+                    # local_wdata = (datum >> 12) & 0xFFFFF
+                    # muxMA_sel = (datum >> 30) & 0x3
+                    # if flash_read_buffer_write:
+                    # print('{}, {:02X}, {:02X}, {}, {}'.format(state, flash_input_shifter, flash_data,
+                    #                                           flash_empty, flash_read_buffer_write))
+                    # if local_write_req:
+                    #     print('{:05X}'.format(local_wdata))
                     # if not flash_empty:
                     #     print('{:08b}'.format(flash_data))
-                    if state not in  set([4,5]):
-                        print(state)
+                    # print(state, prog_words, page_words, pages_written, pages_to_write, pages_to_write_valid)
                     # if state != 1:
                     #     out_of_idle = True
-                    # if out_of_idle and flash_c != flash_c_last and not flash_c:
                     # fmt = 'state: {:d}|{:d}{:d}{:d}{:d}'
                     # print(fmt.format(state, flash_c, flash_sb,
                     #                  flash_dq0, flash_dq1))
-                    # flash_c_last = flash_c
-                cnt += 1
                 print('='*80, cnt)
+                cnt += 1

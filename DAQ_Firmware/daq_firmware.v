@@ -78,7 +78,7 @@ module daq_firmware(
   );
 
 wire clk;
-wire reset;
+wire cpu_reset;
 
 wire        memory_read_req;
 wire        memory_write_req;
@@ -87,23 +87,31 @@ wire [31:0] memory_data_write;
 wire [31:0] memory_data_read;
 wire        memory_busy;
 
+wire [24:0] pc;
+wire [31:0] ir;
+wire [1:0]  muxMA_sel;
+
 // High-Level Control Unit
 control_unit control_unit_inst (
   .clk ( clk ),
-  .reset ( reset ),
+  .reset ( cpu_reset ),
 
   .memory_read_req ( memory_read_req ),
   .memory_write_req ( memory_write_req ),
   .memory_addr ( memory_addr ),
   .memory_data_write ( memory_data_write ),
   .memory_data_read ( memory_data_read ),
-  .memory_busy ( memory_busy )
+  .memory_busy ( memory_busy ),
+
+  .pc ( pc ),
+  .ir ( ir ),
+  .muxMA_sel ( muxMA_sel )
 );
 
 hal hal_inst(
   .sys_clk ( sys_clk ),
   .clk ( clk ),
-  .reset ( reset ),
+  .cpu_reset ( cpu_reset ),
 
   // Processor Interface
   .memory_read_req ( memory_read_req ),
@@ -162,7 +170,11 @@ hal hal_inst(
   .okUH ( okUH ),
   .okHU ( okHU ),
   .okUHU ( okUHU ),
-  .okAA ( okAA )
+  .okAA ( okAA ),
+
+  .pc ( pc ),
+  .ir ( ir ),
+  .muxMA_sel ( muxMA_sel )
   );
 
 

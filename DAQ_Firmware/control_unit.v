@@ -25,7 +25,7 @@
 `timescale 1ns / 1ps
 
 module control_unit(
-  input  wire         clk,  // 50 MHz
+  input  wire         clk,  // 150 MHz
   input  wire         reset,
 
   output reg         memory_read_req,
@@ -33,7 +33,11 @@ module control_unit(
   output wire [25:0] memory_addr,
   output wire [31:0] memory_data_write,
   input  wire [31:0] memory_data_read,
-  input  wire        memory_busy
+  input  wire        memory_busy,
+
+  output reg [24:0]  pc,
+  output reg [31:0]  ir,
+  output reg [1:0]   muxMA_sel
 );
 
 
@@ -121,10 +125,10 @@ reg [3:0]  wr_addr_c;
 reg        wr_write;
 
 // Program Counter
-reg [24:0] pc;
+/* reg [24:0] pc; */
 reg [24:0] ret_addr;
 // Instruction Register
-reg [31:0] ir;
+/* reg [31:0] ir; */
 
 // Intermediate Registers
 reg [31:0] ra;
@@ -162,7 +166,7 @@ reg        muxB_sel;
 reg [1:0]  muxY_sel;
 reg        muxPC_sel;
 reg        muxINC_sel;
-reg [1:0]  muxMA_sel;
+/* reg [1:0]  muxMA_sel; */
 //----------------------------------------------------------------------------
 // Assignments
 //----------------------------------------------------------------------------
@@ -186,7 +190,7 @@ assign wr_out_a = (wr_addr_a == 0) ? 0: wr[wr_addr_a-1];
 assign wr_out_b = (wr_addr_b == 0) ? 0: wr[wr_addr_b-1];
 
 assign memory_data_write = rm;
-assign memory_addr = muxMA_out[25:0];
+assign memory_addr = muxMA_out;
 
 
 //----------------------------------------------------------------------------
@@ -244,7 +248,7 @@ end
 //----------------------------------------------------------------------------
 always @( posedge clk ) begin
   if ( reset )
-    pc <= 1;
+    pc <= 25'h00000;
   else if ( pc_enable )
     pc <= muxPC_out;
 end

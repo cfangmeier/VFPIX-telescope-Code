@@ -152,7 +152,7 @@ fifo32_clk_crossing_with_usage  output_buffer (
 okBTPipeOut pipeout_inst(
   .okHE ( okHE ),
   .okEH ( okEHx[64:0] ),
-  .ep_addr ( 8'hB0 ),
+  .ep_addr ( 8'hA0 ),
   .ep_datain ( output_buffer_q ),
   .ep_read ( output_buffer_rdreq ),
   .ep_blockstrobe (  ),
@@ -175,7 +175,7 @@ fifo32_clk_crossing_with_usage  input_buffer (
 okBTPipeIn pipein_inst(
   .okHE ( okHE ),
   .okEH ( okEHx[129:65] ),
-  .ep_addr (8'hB1 ),
+  .ep_addr (8'h80 ),
   .ep_dataout ( input_buffer_data),
   .ep_write ( input_buffer_wrreq ),
   .ep_blockstrobe (  ),

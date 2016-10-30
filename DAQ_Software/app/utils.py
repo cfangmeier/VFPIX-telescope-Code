@@ -1,5 +1,8 @@
+from __future__ import division
 from binascii import unhexlify
-def long_to_bytes (val, endianness='big'):
+
+
+def long_to_bytes(val, endianness='big'):
     """
     Use :ref:`string formatting` and :func:`~binascii.unhexlify` to
     convert ``val``, a :func:`long`, to a byte :func:`str`.
@@ -34,7 +37,18 @@ def long_to_bytes (val, endianness='big'):
     return s
 
 
-def bytes_to_ints(byte_array):
+def hex2bytes(hex_string):
+    hex_string = hex_string.strip()
+    if (len(hex_string) % 2) != 0:
+        raise ValueError('Non-even length hex string')
+    n_bytes = len(hex_string) // 2
+    bs = bytearray(n_bytes)
+    for i in range(n_bytes):
+        bs[i] = int(hex_string[i*2:(i+1)*2], 16)
+    return bs
+
+
+def bytes2ints(byte_array):
     n = len(byte_array) // 4
     ints = []
     for i in range(n):
@@ -44,6 +58,19 @@ def bytes_to_ints(byte_array):
         int_ = (int_ << 8) | byte_array[i*4+3]
         ints.append(int_)
     return ints
+
+
+def decode_ok_error(error_code):
+    from ok import FrontPanel
+    errs = []
+    for attr in dir(FrontPanel):
+        if getattr(FrontPanel, attr, None) == error_code:
+            errs.append(attr)
+            return attr
+    if errs:
+        return ', '.join(errs)
+    else:
+        return 'unknown'
 
 
 class bcolors:
