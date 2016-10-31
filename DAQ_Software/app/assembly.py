@@ -20,8 +20,8 @@
  | 0| 0| 01001| mul $rd $rs $rt  | $rd <= $rs[15:0] * $rt[15:0]         |
  | 1| 0| 00000| jr  $rs          | $pc <= $rs                           |
  | 1| 0| 00011| ret              | $pc <= $15                           |
- | 0| 1| 00000| spush $rd        | MEM[$r14-4] <= $rd; $r14 <= $r14 - 4 |
- | 1| 1| 00000| spop  $rd        | $rd <= MEM[$r14]; $r14 <= $r14 + 4   |
+ | 0| 1| 00000| spush $rd        | MEM[$r14-1] <= $rd; $r14 <= $r14 - 1 |
+ | 1| 1| 00000| spop  $rd        | $rd <= MEM[$r14]; $r14 <= $r14 + 1   |
 
 ***********************
 **D-Type Instructions**
@@ -49,7 +49,7 @@
  | A| B| INSTRUCTION  | ACTION                              |
  |--|--|--------------|-------------------------------------|
  | 0| 0| b   imm      | $pc <= $pc + label                  |
- | 1| 0| bal imm      | $pc <= $pc + label; $r15 <= $pc + 4 |
+ | 1| 0| bal imm      | $pc <= $pc + label; $r15 <= $pc + 1 |
 
 #########################
 ##Conditional Execution##
@@ -147,10 +147,11 @@ class Instruction:
     reg_re = re.compile('\$(\S{2,3})')
     cmd_re = re.compile('([a-z]+)(\(([a-z]*)\))?')
 
-    def __init__(self, text, filename, line_number, instruction_number, labels):
+    def __init__(self, text, filename, line_number,
+                 instruction_number, labels):
         self.filename = filename
         self.line_number = line_number
-        self.addr = instruction_number*4
+        self.addr = instruction_number
         self.text = text
         self.labels = labels
         self._tokenize()

@@ -90,6 +90,7 @@ module memory(
   output reg  [24:0] local_address,
   output reg  [31:0] local_wdata,
   output wire [31:0] local_rdata,
+  output wire        local_rdata_valid,
   output reg         local_write_req,
   output reg         local_read_req,
   output wire [7:0]  flash_input_shifter,
@@ -155,7 +156,7 @@ localparam FLASH_WREN = 8'b0000_0110,  // WRITE ENABLE
 //----------------------------------------------------------------------------
 /* wire        local_ready; */
 /* wire [31:0] local_rdata; */
-wire        local_rdata_valid;
+/* wire        local_rdata_valid; */
 /* wire        local_init_done; */
 
 /* wire        flash_busy; */
@@ -422,6 +423,7 @@ always @( posedge phy_clk ) begin
       LOAD_1: begin
         if ( pages_to_read_valid && (pages_read == pages_to_read) ) begin
           state <= IDLE;
+          busy <= 0;
         end
         else begin
           state <= LOAD_ADDR1;
@@ -501,12 +503,12 @@ always @( posedge phy_clk ) begin
       end
       WRITE_2: begin
         if ( local_ready ) begin
-          busy <= 0;
           if ( state_callback != VOID ) begin
             state <= state_callback;
             state_callback <= VOID;
           end
           else begin
+            busy <= 0;
             state <= IDLE;
           end
         end
@@ -524,12 +526,12 @@ always @( posedge phy_clk ) begin
       READ_2: begin
         if ( local_ready & local_rdata_valid ) begin
           data_read <= local_rdata;
-          busy <= 0;
           if ( state_callback != VOID ) begin
             state <= state_callback;
             state_callback <= VOID;
           end
           else begin
+            busy <= 0;
             state <= IDLE;
           end
         end

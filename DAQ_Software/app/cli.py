@@ -51,56 +51,44 @@ def stf(run_tests):
     else:
         serial = DAQBoard.enumerate_devices()[0]
         daq_board = DAQBoard(FIRMWARE_PATH, serial)
-        # with daq_board:
-        #     post_process_flash_data(daq_board.read_debug_data(blocks=40))
         with daq_board:
-            # out_of_idle = False
-            # daq_board.read_data(words=4, verbose=True)
-            cnt = 0
+            daq_board.program()
+            i = 0
             while True:
-                block = daq_board.read_debug_data()
-                # post_process_flash_data(blocks)
-                for datum in block:
-                    # flag = datum & 0xFFFFFFFF
-                    # print(flag)
-                    state = (datum >> 0) & 0x3F
-                    ir = (datum >> 8) & 0xFFFFFF
-                    print('{}, {:06X}'.format(state, ir))
-                    # val = (datum >> 0) & 0x1FFFFFFF
-                    # busy = (datum >> 29) & 0x1
-                    # read_req = (datum >> 30) & 0x1
-                    # write_req = (datum >> 31) & 0x1
-                    # if val != 0:
-                    #     print('{:08X}, {}, {}, {}'.format(val, busy, read_req, write_req))
-                    # prog_words = (datum >> 23) & 0xFF
-                    # page_words = (datum >> 0) & 0x7F
-                    # pages_written = (datum >> 14) & 0xF
-                    # pages_to_write = (datum >> 18) & 0x7
-                    # pages_to_write_valid = (datum >> 21) & 0x1
-                    # flash_data = (datum >> 12) & 0xFF
-                    # flash_input_shifter = (datum >> 21) & 0xFF
-                    # flash_read_buffer_write = (datum >> 29) & 0x01
-                    # flash_empty = (datum >> 20) & 0x01
-                    # flash_dq1 = (datum >> 6) & 0x01
-                    # flash_dq0 = (datum >> 7) & 0x01
-                    # flash_sb = (datum >> 8) & 0x01
-                    # flash_c = (datum >> 9) & 0x01
-                    # local_write_req = (datum >> 10) & 0x01
-                    # local_read_req = (datum >> 11) & 0x01
-                    # local_wdata = (datum >> 12) & 0xFFFFF
-                    # muxMA_sel = (datum >> 30) & 0x3
-                    # if flash_read_buffer_write:
-                    # print('{}, {:02X}, {:02X}, {}, {}'.format(state, flash_input_shifter, flash_data,
-                    #                                           flash_empty, flash_read_buffer_write))
-                    # if local_write_req:
-                    #     print('{:05X}'.format(local_wdata))
-                    # if not flash_empty:
-                    #     print('{:08b}'.format(flash_data))
-                    # print(state, prog_words, page_words, pages_written, pages_to_write, pages_to_write_valid)
-                    # if state != 1:
-                    #     out_of_idle = True
-                    # fmt = 'state: {:d}|{:d}{:d}{:d}{:d}'
-                    # print(fmt.format(state, flash_c, flash_sb,
-                    #                  flash_dq0, flash_dq1))
-                print('='*80, cnt)
-                cnt += 1
+                daq_board.read_data(words=4, verbose=True)
+                # print('='*80)
+                print(i)
+                # print('='*80)
+                i += 1
+                # raw_input()
+            # cnt = 0
+            # while True:
+            #     block = daq_board.read_debug_data()
+            #     # post_process_flash_data(blocks)
+            #     for datum in block:
+            #         state = (datum >> 0) & 0x3F
+            #         cpu_state = (datum >> 155) & 0x7
+            #         pc = (datum >> 6) & 0xFFFFFF
+            #         ir = (datum >> 32) & 0xFFFFFFFF
+            #         memory_addr = (datum >> 64) & 0x3FFFFFF
+            #         local_wdata = (datum >> 90) & 0xFFFFFFFF
+            #         local_rdata = (datum >> 122) & 0xFFFFFFFF
+            #         local_rdata_valid = (datum >> 154) & 0x1
+            #         memory_busy = (datum >> 30) & 0x1
+            #         enable_aux = (datum >> 31) & 0x1
+            #         r1 = (datum >> 160) & 0xFFFFFFFF
+            #         r2 = (datum >> 192) & 0xFFFFFFFF
+            #         ry = (datum >> 224) & 0xFFFFFFFF
+            #         rz = (datum >> 256) & 0xFFFFFFFF
+            #         alu_inA = (datum >> 288) & 0xFFFFFFFF
+            #         alu_inB = (datum >> 320) & 0xFFFFFFFF
+            #         wr_write = (datum >> 158) & 0x1
+            #         fmt = '{: 3d}, {}, {:03d}, {:08X}, {:06X}, {:07X}, {}, {:08X}, {}, {:08X}, {:08X}, {:08X}, {}, {:08X}, {:08X}'
+            #         args = (state, memory_busy, cpu_state, ir, pc, memory_addr, enable_aux,
+            #                 local_wdata, local_rdata_valid, local_rdata, r1, r2, wr_write, ry, rz)
+            #         print(fmt.format(*args))
+            #     print('='*80, cnt)
+            #     cnt += 1
+            #     raw_input()
+            #     if cnt == 8:
+            #         break

@@ -3,6 +3,7 @@
 from __future__ import (print_function, absolute_import,
                         division, with_statement)
 from enum import IntEnum
+from math import ceil
 import binascii
 
 import ok
@@ -29,7 +30,7 @@ class DAQBoard:
     ADDR_CONTROL_WIRE = 0x10
     ADDR_PROGRAM_PIPE = 0x9C
     ADDR_DEBUG_BASE = 0xB0
-    ADDR_DEBUG_SIZE = 2
+    ADDR_DEBUG_SIZE = 11
     ADDR_AUXIO_OUT = 0x80
     ADDR_AUXIO_IN = 0xA0
 
@@ -42,9 +43,13 @@ class DAQBoard:
 
     def __enter__(self):
         self.front_panel.OpenBySerial(self.serial)
+
+    def program(self):
         if self.firmware_path is not None:
             self._program_device()
-        self.welcome()
+            self.welcome()
+        else:
+            raise RuntimeError('firmware path is not set')
 
     def __exit__(self, exc_type, exc_value, traceback):
         self.front_panel.Close()
@@ -159,12 +164,15 @@ class DAQBoard:
                 data.append(channel[:-1])
         for channels in zip(*data):
             val = 0
-            for x in channels:
+            for x in reversed(channels):
                 val = (val << 32) | x
             yield val
 
     def read_data(self, words=4, verbose=False):
-        self._read_pipe_data(words, verbose, self.ADDR_AUXIO_IN)
+        blocks = int(ceil(words/4))
+        data = self._read_pipe_data(blocks, verbose, self.ADDR_AUXIO_IN,
+                                    block_size=4)
+        return data[:words]
 
     def write_data(self, data):
         raise NotImplementedError

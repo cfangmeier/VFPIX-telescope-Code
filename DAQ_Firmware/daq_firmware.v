@@ -90,6 +90,18 @@ wire        memory_busy;
 wire [24:0] pc;
 wire [31:0] ir;
 wire [1:0]  muxMA_sel;
+wire [2:0]  cpu_stage;
+wire [31:0] r1;
+wire [31:0] r2;
+wire        wr_write;
+wire [31:0] ry;
+wire [31:0] rz;
+
+wire [31:0] alu_inA;
+wire [31:0] alu_inB;
+wire [31:0] immediate;
+wire [31:0] immediate_temp;
+wire        muxB_sel;
 
 // High-Level Control Unit
 control_unit control_unit_inst (
@@ -105,7 +117,18 @@ control_unit control_unit_inst (
 
   .pc ( pc ),
   .ir ( ir ),
-  .muxMA_sel ( muxMA_sel )
+  .muxMA_sel ( muxMA_sel ),
+  .cpu_stage ( cpu_stage ),
+  .r1 ( r1 ),
+  .r2 ( r2 ),
+  .wr_write ( wr_write ),
+  .rz ( rz ),
+  .ry ( ry ),
+  .alu_inA ( alu_inA ),
+  .alu_inB ( alu_inB ),
+  .immediate ( immediate ),
+  .immediate_temp ( immediate_temp ),
+  .muxB_sel ( muxB_sel )
 );
 
 hal hal_inst(
@@ -174,7 +197,18 @@ hal hal_inst(
 
   .pc ( pc ),
   .ir ( ir ),
-  .muxMA_sel ( muxMA_sel )
+  .muxMA_sel ( muxMA_sel ),
+  .cpu_stage ( cpu_stage ),
+  .r1 ( r1 ),
+  .r2 ( r2 ),
+  .wr_write ( wr_write ),
+  .rz ( rz ),
+  .ry ( ry ),
+  .alu_inA ( alu_inA ),
+  .alu_inB ( alu_inB ),
+  .immediate ( immediate ),
+  .immediate_temp ( immediate_temp ),
+  .muxB_sel ( muxB_sel )
   );
 
 

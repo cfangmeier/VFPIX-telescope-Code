@@ -35,9 +35,20 @@ module control_unit(
   input  wire [31:0] memory_data_read,
   input  wire        memory_busy,
 
-  output reg [24:0]  pc,
-  output reg [31:0]  ir,
-  output reg [1:0]   muxMA_sel
+  output reg  [24:0]  pc,
+  output reg  [31:0]  ir,
+  output reg  [1:0]   muxMA_sel,
+  output reg  [2:0]   cpu_stage,
+  output wire [31:0]  r1,
+  output wire [31:0]  r2,
+  output reg          wr_write,
+  output reg [31:0] rz,
+  output reg [31:0] ry,
+  output wire [31:0] alu_inA,
+  output wire [31:0] alu_inB,
+  output reg [31:0] immediate,
+  output reg [31:0] immediate_temp,
+  output reg        muxB_sel
 );
 
 
@@ -97,8 +108,8 @@ localparam COND_EQ  = 4'b0000, // Z==1
 //----------------------------------------------------------------------------
 // Wires
 //----------------------------------------------------------------------------
-wire [31:0] alu_inA;
-wire [31:0] alu_inB;
+/* wire [31:0] alu_inA; */
+/* wire [31:0] alu_inB; */
 
 wire [31:0] wr_out_a;
 wire [31:0] wr_out_b;
@@ -122,7 +133,7 @@ reg [31:0] wr[15:0];
 reg [3:0]  wr_addr_a;
 reg [3:0]  wr_addr_b;
 reg [3:0]  wr_addr_c;
-reg        wr_write;
+/* reg        wr_write; */
 
 // Program Counter
 /* reg [24:0] pc; */
@@ -134,8 +145,8 @@ reg [24:0] ret_addr;
 reg [31:0] ra;
 reg [31:0] rax;
 reg [31:0] rb;
-reg [31:0] rz;
-reg [31:0] ry;
+/* reg [31:0] rz; */
+/* reg [31:0] ry; */
 reg [31:0] rm;
 
 // ALU Status Registers
@@ -156,13 +167,13 @@ reg status_pass_temp;
 // Control Unit outputs
 reg        pc_enable;
 reg        ir_enable;
-reg [31:0] immediate;
-reg [31:0] immediate_temp;
+/* reg [31:0] immediate; */
+/* reg [31:0] immediate_temp; */
 reg [4:0]  alu_op;
-reg [2:0]  cpu_stage;
+/* reg [2:0]  cpu_stage; */
 reg [2:0]  cpu_stage_next;
 
-reg        muxB_sel;
+/* reg        muxB_sel; */
 reg [1:0]  muxY_sel;
 reg        muxPC_sel;
 reg        muxINC_sel;
@@ -179,7 +190,7 @@ assign alu_inA = ra;
 assign alu_inB = muxB_out;
 
 assign muxINC_out = (muxINC_sel == 1'h0) ? 16'h1 : immediate[15:0];
-assign muxPC_out = (muxPC_sel == 1'h0) ? ra[24:0] : pc + muxINC_out;
+assign muxPC_out = (muxPC_sel == 1'h0) ? ra[24:0] : pc + {{9{muxINC_out[15]}}, muxINC_out};
 
 assign muxMA_out = (muxMA_sel == 2'h0) ? rz[25:0] :
                    (muxMA_sel == 2'h1) ? {1'b0,pc}:
@@ -192,6 +203,8 @@ assign wr_out_b = (wr_addr_b == 0) ? 0: wr[wr_addr_b-1];
 assign memory_data_write = rm;
 assign memory_addr = muxMA_out;
 
+assign r1 = wr[0];
+assign r2 = wr[1];
 
 //----------------------------------------------------------------------------
 // ALU
@@ -227,7 +240,7 @@ always @(alu_inA or alu_inB or alu_op or alu_out) begin
   case ( alu_op )
     ALU_ADD: begin
       alu_comb_V <= (alu_inA[31] & alu_inB[31] & ~alu_out[31]) |
-                   (~alu_inA[31] & ~alu_inB[31] & alu_out[31]);
+                    (~alu_inA[31] & ~alu_inB[31] & alu_out[31]);
       alu_comb_C <= alu_out[32];
     end
     ALU_SUB: begin
@@ -297,6 +310,7 @@ always @( posedge clk ) begin
     ret_addr <= 0;
     cpu_stage <= STAGE_4_MEM;
     immediate <= 0;
+    status_pass <= 1;
     N <= 0;
     Z <= 0;
     C <= 0;
@@ -448,38 +462,23 @@ always @(cpu_stage or ir or memory_busy or status_pass or reset) begin
             immediate_temp <= 4;
           end
           OP_B: begin
-            if ( ir[15] )
-              immediate_temp <= {16'hFFFF, ir[15:0]};
-            else
-              immediate_temp <= {16'h0000, ir[15:0]};
+            immediate_temp <= {{16{ir[15]}}, ir[15:0]};
           end
           OP_BAL: begin
-            if ( ir[15] )
-              immediate_temp <= {16'hFFFF, ir[15:0]};
-            else
-              immediate_temp <= {16'h0000, ir[15:0]};
+            immediate_temp <= {{16{ir[15]}}, ir[15:0]};
           end
           OP_LDW: begin
             wr_addr_a <= ir[25:22];
-            if ( ir[15] )
-              immediate_temp <= {16'hFFFF, ir[15:0]};
-            else
-              immediate_temp <= {16'h0000, ir[15:0]};
+            immediate_temp <= {{16{ir[15]}}, ir[15:0]};
           end
           OP_STW: begin
             wr_addr_a <= ir[25:22];
             wr_addr_b <= ir[20:17];
-            if ( ir[15] )
-              immediate_temp <= {16'hFFFF, ir[15:0]};
-            else
-              immediate_temp <= {16'h0000, ir[15:0]};
+            immediate_temp <= {{16{ir[15]}}, ir[15:0]};
           end
           OP_ADDIL: begin
             wr_addr_a <= ir[25:22];
-            if ( ir[15] )
-              immediate_temp <= {16'hFFFF, ir[15:0]};
-            else
-              immediate_temp <= {16'h0000, ir[15:0]};
+            immediate_temp <= {{16{ir[15]}}, ir[15:0]};
           end
           OP_ADDIH: begin
             wr_addr_a <= ir[25:22];

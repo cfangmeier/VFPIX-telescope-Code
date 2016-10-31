@@ -97,7 +97,18 @@ module hal(
   //TEMPORARY
   input wire  [ 24: 0]       pc,
   input wire  [ 31: 0]       ir,
-  input wire  [  1: 0]       muxMA_sel
+  input wire  [  1: 0]       muxMA_sel,
+  input wire  [  2: 0]       cpu_stage,
+  input wire  [31:0]         r1,
+  input wire  [31:0]         r2,
+  input wire                 wr_write,
+  input wire  [31:0]         rz,
+  input wire  [31:0]         ry,
+  input wire  [31:0]         alu_inA,
+  input wire  [31:0]         alu_inB,
+  input wire  [31:0]         immediate,
+  input wire  [31:0]         immediate_temp,
+  input wire                 muxB_sel
 );
 
 
@@ -105,6 +116,7 @@ module hal(
 // Parameters
 //----------------------------------------------------------------------------
 localparam OK_SIZE = 4;
+localparam DEBUG_SIZE = 11;
 
 //----------------------------------------------------------------------------
 // REGISTERS
@@ -131,7 +143,6 @@ wire [31:0] control_bus_ok;
 wire busy_ram;
 wire busy_spi;
 wire busy_rj45;
-wire busy_led;
 wire busy_aux;
 
 wire write_req_ram;
@@ -161,7 +172,7 @@ wire [31:0] program_buffer_data;
 wire [31:0] program_buffer_q;
 
 wire        memory_program_ack;
-wire [63:0] debug_wireout;
+wire [32*DEBUG_SIZE-1:0] debug_wireout;
 
 reg         reset;
 
@@ -180,6 +191,7 @@ wire        pages_to_write_valid;
 wire  [24:0] local_address;
 wire  [31:0] local_wdata;
 wire  [31:0] local_rdata;
+wire         local_rdata_valid;
 wire         local_write_req;
 wire         local_read_req;
 wire  [7:0]  flash_input_shifter;
@@ -217,8 +229,7 @@ end
 // Assignments
 //----------------------------------------------------------------------------
 assign memory_busy = busy_ram | busy_spi |
-                     busy_rj45 | busy_led |
-                     busy_aux;
+                     busy_rj45 | busy_aux;
 assign memory_data_read = data_read_ram | data_read_spi |
                           data_read_rj45 | data_read_led |
                           data_read_aux;
@@ -243,11 +254,23 @@ assign cpu_reset = reset | ~local_init_done;
 /* assign debug_wireout[6] = local_ready; */
 /* assign debug_wireout[6:0] = page_words; */
 assign debug_wireout[5:0] = state;
-/* assign debug_wireout[29:6] = pc; */
-assign debug_wireout[7:6] = 2'b00;
-assign debug_wireout[31:8] = ir[31:8];
-assign debug_wireout[63:32] = 31'd723;
-/* assign debug_wireout[30:6] = local_address; */
+assign debug_wireout[29:6] = pc;
+assign debug_wireout[30] = memory_busy;
+assign debug_wireout[31] = enable_aux;
+assign debug_wireout[63:32] = ir;
+assign debug_wireout[89:64] = memory_addr;
+assign debug_wireout[121:90] = local_wdata;
+assign debug_wireout[153:122] = local_rdata;
+assign debug_wireout[154] = local_rdata_valid;
+assign debug_wireout[157:155] = cpu_stage;
+assign debug_wireout[158] = wr_write;
+assign debug_wireout[191:160] = r1;
+assign debug_wireout[223:192] = r2;
+assign debug_wireout[255:224] = ry;
+assign debug_wireout[287:256] = rz;
+
+assign debug_wireout[319:288] = alu_inA;
+assign debug_wireout[351:320] = alu_inB;
 /* assign debug_wireout[31:30] = muxMA_sel; */
 /* assign debug_wireout[9:6] = {flash_c, flash_sb, flash_dq0, flash_dq1}; */
 /* assign debug_wireout[10] = local_write_req; */
@@ -425,6 +448,7 @@ memory memory_inst (
   .local_address ( local_address ),
   .local_wdata ( local_wdata ),
   .local_rdata ( local_rdata ),
+  .local_rdata_valid ( local_rdata_valid ),
   .local_write_req ( local_write_req ),
   .local_read_req ( local_read_req ),
   .flash_input_shifter ( flash_input_shifter ),
@@ -469,7 +493,7 @@ okBTPipeIn programming_input_btpipe(
   .ep_ready ( (4096 - program_buffer_wrusedw) >= 64 )
 );
 
-debug_unit #( .SIZE(2) ) debug_unit_inst (
+debug_unit #( .SIZE(DEBUG_SIZE) ) debug_unit_inst (
   .clk ( clk ),
   .reset ( reset | ~local_init_done | ~state_flag ),
   .debug_wireout ( debug_wireout ),

@@ -37,7 +37,7 @@ module aux_io(
   input  wire [31:0] data_write,
   output reg  [31:0] data_read,
   input  wire [16:0] address,
-  output reg         busy,
+  output wire        busy,
 
   //--------------------------------------------------------------------------
   //---------------------------FP INTERFACE-----------------------------------
@@ -85,16 +85,21 @@ wire [65*2-1:0] okEHx;
 // Registers
 //----------------------------------------------------------------------------
 reg [2:0] state;
+reg       busy_int;
+
+reg [31:0] data_write_buffer;
 
 assign input_buffer_empty = (input_buffer_rdusedw == 0);
 assign output_buffer_full = output_buffer_rdusedw[12];
+assign busy = busy_int | write_req | read_req;
 
 //----------------------------------------------------------------------------
 // State Machine
 //----------------------------------------------------------------------------
 always @(posedge clk ) begin
   if ( reset ) begin
-    busy <= 0;
+    busy_int <= 0;
+    data_write_buffer <= 32'd0;
     state <= IDLE;
   end
   else begin
@@ -103,11 +108,12 @@ always @(posedge clk ) begin
     case ( state )
       IDLE: begin
         if ( read_req ) begin
-          busy <= 1;
+          busy_int <= 1;
           state <= RD_1;
         end
         else if ( write_req ) begin
-          busy <= 1;
+          busy_int <= 1;
+          data_write_buffer <= data_write;
           state <= WR_1;
         end
       end
@@ -119,14 +125,15 @@ always @(posedge clk ) begin
       end
       RD_2: begin
         data_read <= input_buffer_q;
-        busy <= 0;
+        busy_int <= 0;
         state <= IDLE;
       end
       WR_1: begin
         if ( !output_buffer_full ) begin
           output_buffer_wrreq <= 1;
-          output_buffer_data <= data_write;
-          busy <= 0;
+          /* output_buffer_data <= data_write_buffer; */
+          output_buffer_data <= {19'd0, output_buffer_wrusedw};
+          busy_int <= 0;
           state <= IDLE;
         end
       end
@@ -153,7 +160,8 @@ okBTPipeOut pipeout_inst(
   .okHE ( okHE ),
   .okEH ( okEHx[64:0] ),
   .ep_addr ( 8'hA0 ),
-  .ep_datain ( output_buffer_q ),
+  .ep_datain ( {19'd0, output_buffer_rdusedw} ),
+  /* .ep_datain ( output_buffer_q ), */
   .ep_read ( output_buffer_rdreq ),
   .ep_blockstrobe (  ),
   .ep_ready ( output_buffer_rdusedw >= RD_BLOCK_SIZE )
