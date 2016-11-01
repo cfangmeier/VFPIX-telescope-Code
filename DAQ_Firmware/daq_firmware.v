@@ -78,7 +78,7 @@ module daq_firmware(
   );
 
 wire clk;
-wire cpu_reset;
+wire reset;
 
 wire        memory_read_req;
 wire        memory_write_req;
@@ -92,7 +92,7 @@ wire [31:0] ir;
 wire [1:0]  muxMA_sel;
 wire [2:0]  cpu_stage;
 wire [31:0] r1;
-wire [31:0] r2;
+wire [31:0] r15;
 wire        wr_write;
 wire [31:0] ry;
 wire [31:0] rz;
@@ -106,7 +106,7 @@ wire        muxB_sel;
 // High-Level Control Unit
 control_unit control_unit_inst (
   .clk ( clk ),
-  .reset ( cpu_reset ),
+  .reset ( reset ),
 
   .memory_read_req ( memory_read_req ),
   .memory_write_req ( memory_write_req ),
@@ -120,7 +120,7 @@ control_unit control_unit_inst (
   .muxMA_sel ( muxMA_sel ),
   .cpu_stage ( cpu_stage ),
   .r1 ( r1 ),
-  .r2 ( r2 ),
+  .r15 ( r15 ),
   .wr_write ( wr_write ),
   .rz ( rz ),
   .ry ( ry ),
@@ -134,7 +134,7 @@ control_unit control_unit_inst (
 hal hal_inst(
   .sys_clk ( sys_clk ),
   .clk ( clk ),
-  .cpu_reset ( cpu_reset ),
+  .reset ( reset ),
 
   // Processor Interface
   .memory_read_req ( memory_read_req ),
@@ -200,7 +200,7 @@ hal hal_inst(
   .muxMA_sel ( muxMA_sel ),
   .cpu_stage ( cpu_stage ),
   .r1 ( r1 ),
-  .r2 ( r2 ),
+  .r15 ( r15 ),
   .wr_write ( wr_write ),
   .rz ( rz ),
   .ry ( ry ),

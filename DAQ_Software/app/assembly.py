@@ -81,10 +81,10 @@ opcodes_r_type = {
         'xor':   '000011',
         'sll':   '000011',
         'mul':   '000011',
-        'jr':    '001000',
+        'jr':    '001011',
         'spush': '000111',
         'spop':  '001111',
-        'ret':   '001000',
+        'ret':   '001011',
         }
 
 opcodes_d_type = {
@@ -112,6 +112,7 @@ opxcodes = {
         'sll':   '00001',
         'mul':   '01001',
         'jr':    '00000',
+        'ret':   '00000',
         'spush': '00000',
         'spop':  '00000',
         }
@@ -167,7 +168,7 @@ class Instruction:
         cmd, _, cond = self.cmd_re.findall(cmd)[0]
         if not cond:
             cond = 'al'
-        if args[-1] == 's':
+        if args and args[-1] == 's':
             self.set = '1'
             args = args[:-1]
         else:
@@ -206,6 +207,10 @@ class Instruction:
             rd = 0
             rt = 0
             rs = self._parse_register_argument(self.args[0])
+        elif self.cmd == 'ret':
+            rd = 0
+            rt = 0
+            rs = 15
         elif self.cmd in ('spop', 'spush'):
             rd = self._parse_register_argument(self.args[0])
             rt = 0

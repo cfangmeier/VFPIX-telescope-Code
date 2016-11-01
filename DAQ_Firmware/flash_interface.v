@@ -59,12 +59,7 @@ module flash_interface(
   output wire        flash_wb,
   output wire        flash_holdb,
   output wire        flash_c,
-  output reg         flash_sb,
-  //--------------------------------------------------------------------------
-  //-----------TEMPORARY OUTPUTS----------------------------------------------
-  //--------------------------------------------------------------------------
-  output reg [7:0]   input_shifter,
-  output reg         read_buffer_write
+  output reg         flash_sb
 );
 
 //----------------------------------------------------------------------------
@@ -96,7 +91,7 @@ wire [8:0] read_buffer_usedw;
 reg [CLK_DIV:0] clk_div1;
 reg [CLK_DIV:0] clk_div2;
 
-/* reg [7:0] input_shifter; */
+reg [7:0] input_shifter;
 reg [7:0] output_shifter;
 
 reg [3:0] bit_counter;
@@ -105,7 +100,7 @@ reg [8:0] bytes_to_read_int;
 
 reg        write_buffer_read;
 
-/* reg        read_buffer_write; */
+reg        read_buffer_write;
 reg [7:0]  read_buffer_data;
 
 reg [2:0] state;
@@ -139,7 +134,6 @@ end
 //----------------------------------------------------------------------------
 // State Machine
 //----------------------------------------------------------------------------
-
 always @( posedge clk ) begin
   write_buffer_read <= 0;
   read_buffer_write <= 0;

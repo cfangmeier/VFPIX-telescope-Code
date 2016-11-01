@@ -43,6 +43,8 @@ class DAQBoard:
 
     def __enter__(self):
         self.front_panel.OpenBySerial(self.serial)
+        self.front_panel.ResetFPGA()
+        self.soft_reset()
 
     def program(self):
         if self.firmware_path is not None:

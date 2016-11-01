@@ -90,7 +90,7 @@ reg       busy_int;
 reg [31:0] data_write_buffer;
 
 assign input_buffer_empty = (input_buffer_rdusedw == 0);
-assign output_buffer_full = output_buffer_rdusedw[12];
+assign output_buffer_full = output_buffer_wrusedw[12];
 assign busy = busy_int | write_req | read_req;
 
 //----------------------------------------------------------------------------
@@ -98,7 +98,7 @@ assign busy = busy_int | write_req | read_req;
 //----------------------------------------------------------------------------
 always @(posedge clk ) begin
   if ( reset ) begin
-    busy_int <= 0;
+    busy_int <= 1;
     data_write_buffer <= 32'd0;
     state <= IDLE;
   end
@@ -116,6 +116,9 @@ always @(posedge clk ) begin
           data_write_buffer <= data_write;
           state <= WR_1;
         end
+        else begin
+          busy_int <= 0;
+        end
       end
       RD_1: begin
         if ( !input_buffer_empty ) begin
@@ -131,8 +134,8 @@ always @(posedge clk ) begin
       WR_1: begin
         if ( !output_buffer_full ) begin
           output_buffer_wrreq <= 1;
-          /* output_buffer_data <= data_write_buffer; */
-          output_buffer_data <= {19'd0, output_buffer_wrusedw};
+          output_buffer_data <= data_write_buffer;
+          /* output_buffer_data <= {19'd0, output_buffer_wrusedw}; */
           busy_int <= 0;
           state <= IDLE;
         end
@@ -160,8 +163,8 @@ okBTPipeOut pipeout_inst(
   .okHE ( okHE ),
   .okEH ( okEHx[64:0] ),
   .ep_addr ( 8'hA0 ),
-  .ep_datain ( {19'd0, output_buffer_rdusedw} ),
-  /* .ep_datain ( output_buffer_q ), */
+  /* .ep_datain ( {19'd0, output_buffer_rdusedw} ), */
+  .ep_datain ( output_buffer_q ),
   .ep_read ( output_buffer_rdreq ),
   .ep_blockstrobe (  ),
   .ep_ready ( output_buffer_rdusedw >= RD_BLOCK_SIZE )

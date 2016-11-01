@@ -35,76 +35,141 @@
 `timescale 1ns / 1ps
 
 module rj45_led_controller(
-  input  wire         clk,  // 50 MHz
-  input  wire [7:0]   led_vals_i,
-  output reg  [7:0]   led_vals_o,
+  input  wire         clk,  // 150 MHz
+  input  wire         reset,
+
+  //--------------------------------------------------------------------------
+  //------------------------CONTROL INTERFACE---------------------------------
+  //--------------------------------------------------------------------------
+  input  wire        write_req,
+  input  wire        read_req,
+  input  wire [31:0] data_write,
+  output reg  [31:0] data_read,
+  input  wire [16:0] address,
+  output wire        busy,
+
+  //--------------------------------------------------------------------------
+  //---------------------------HW INTERFACE-----------------------------------
+  //--------------------------------------------------------------------------
   output wire         rj45_led_sck,
   output wire         rj45_led_sin,
   output wire         rj45_led_lat,
-  output wire         rj45_led_blk,
-  input  wire         reset
-  );
+  output wire         rj45_led_blk
+);
 
-//
-// REGISTERS
-//
-reg [1:0] clk_div1;
-reg [1:0] clk_div2;
-reg clk_veto;
-reg [15:0] led_value_shift;
-reg [4:0] write_counter;
-reg latch;
+//----------------------------------------------------------------------------
+// Parameters
+//----------------------------------------------------------------------------
+localparam IDLE   = 3'd0,
+           READ   = 3'd1,
+           WRITE  = 4'd2;
+localparam CLK_DIV = 3;
 
-//
-// ASSIGNMENTS
-//
-assign rj45_led_sck = clk_div1[1] & !clk_veto;
-assign rj45_led_sin = led_value_shift[15];
+//----------------------------------------------------------------------------
+// Wires
+//----------------------------------------------------------------------------
+wire update_out;
+
+//----------------------------------------------------------------------------
+// Registers
+//----------------------------------------------------------------------------
+reg [CLK_DIV:0] clk_div1;
+reg [CLK_DIV:0] clk_div2;
+reg             clk_enable;
+reg [15:0]      output_shifter;
+reg [4:0]       write_counter;
+reg             latch;
+
+reg [2:0]       state;
+reg             busy_int;
+reg [31:0]      value_cache;
+
+//----------------------------------------------------------------------------
+// Assignments
+//----------------------------------------------------------------------------
+assign rj45_led_sck = clk_div2[CLK_DIV] & clk_enable;
+assign rj45_led_sin = output_shifter[15];
 assign rj45_led_lat = latch;
 assign rj45_led_blk = 0;
 
+assign update_out = ~clk_div1[CLK_DIV] & clk_div2[CLK_DIV]; // negedge serial clock
+assign busy = busy_int | read_req | write_req;
+
+//----------------------------------------------------------------------------
+// Clock Division
+//----------------------------------------------------------------------------
 always @( posedge clk ) begin
   if ( reset ) begin
-    clk_div1 <= 2'b00;
-    clk_div2 <= 2'b00;
-    clk_veto <= 0;
-    led_value_shift <= 16'h0000;
-    write_counter <= 5'h00;
-    latch <= 0;
+    clk_div1 <= 0;
+    clk_div2 <= 0;
   end
   else begin
-    clk_div1 <= clk_div1+1;
     clk_div2 <= clk_div1;
-    if ( clk_div1[1] & ~clk_div2[1] ) begin  // posedge clk_div1
-      if (write_counter < 5'h11) begin
-          write_counter <= write_counter + 1;
-      end
-      if (write_counter == 5'h11) begin
-        if (led_vals_i != led_vals_o) begin
-          led_vals_o <= led_vals_i;
-          write_counter <= 5'h00;
-          led_value_shift <= { 1'b0, led_vals_i[0],
-                               1'b0, led_vals_i[1],
-                               1'b0, led_vals_i[2],
-                               1'b0, led_vals_i[3],
-                               1'b0, led_vals_i[4],
-                               1'b0, led_vals_i[5],
-                               1'b0, led_vals_i[6],
-                               1'b0, led_vals_i[7]};
+    clk_div1 <= clk_div1 + 1;
+  end
+end
+
+//----------------------------------------------------------------------------
+// State Machine
+//----------------------------------------------------------------------------
+always @( posedge clk ) begin
+  if ( reset ) begin
+    state <= IDLE;
+    clk_enable <= 0;
+    output_shifter <= 16'h0000;
+    write_counter <= 5'h00;
+    latch <= 0;
+    busy_int <= 1;
+    value_cache <= 32'd0;
+  end
+  else begin
+    case ( state )
+      IDLE: begin
+        if ( write_req ) begin
+          state <= WRITE;
+          busy_int <= 1;
+          output_shifter <= {1'b0, data_write[0], 1'b0, data_write[1],
+                             1'b0, data_write[2], 1'b0, data_write[3],
+                             1'b0, data_write[4], 1'b0, data_write[5],
+                             1'b0, data_write[6], 1'b0, data_write[7]};
+          value_cache <= {24'd0, data_write[7:0]};
+          write_counter <= 0;
+
+        end
+        else if ( read_req ) begin
+          state <= READ;
+          busy_int <= 1;
+        end
+        else begin
+          busy_int <= 0;
         end
       end
-      else if (write_counter < 5'h0F) begin
-        led_value_shift <= {led_value_shift[14:0], 1'b0};
+      WRITE: begin
+        if ( update_out ) begin
+          write_counter <= write_counter + 5'd1;
+          if ( write_counter == 0 ) begin
+            clk_enable <= 1;
+          end
+          else if ( write_counter < 5'd16) begin
+            output_shifter <= {output_shifter[14:0], 1'b0};
+          end
+          else if ( write_counter == 5'd16 ) begin
+            clk_enable <= 0;
+            latch <= 1;
+          end
+          else begin
+            state <= IDLE;
+            latch <= 0;
+            busy_int <= 0;
+          end
+        end
       end
-      else if (write_counter == 5'h0F) begin
-        latch <= 1;
-        clk_veto <= 1;
+      READ: begin
+        state <= IDLE;
+        busy_int <= 0;
+        data_read <= value_cache;
       end
-      else if (write_counter == 5'h10) begin
-        latch <= 0;
-        clk_veto <= 0;
-      end
-    end
+    endcase
   end
 end
 

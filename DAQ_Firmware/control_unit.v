@@ -40,7 +40,7 @@ module control_unit(
   output reg  [1:0]   muxMA_sel,
   output reg  [2:0]   cpu_stage,
   output wire [31:0]  r1,
-  output wire [31:0]  r2,
+  output wire [31:0]  r15,
   output reg          wr_write,
   output reg [31:0] rz,
   output reg [31:0] ry,
@@ -195,16 +195,16 @@ assign muxPC_out = (muxPC_sel == 1'h0) ? ra[24:0] : pc + {{9{muxINC_out[15]}}, m
 assign muxMA_out = (muxMA_sel == 2'h0) ? rz[25:0] :
                    (muxMA_sel == 2'h1) ? {1'b0,pc}:
                    (muxMA_sel == 2'h2) ? rax[25:0]:
-                   /* else         */    0;
+                   /* else         */    26'd0;
 
-assign wr_out_a = (wr_addr_a == 0) ? 0: wr[wr_addr_a-1];
-assign wr_out_b = (wr_addr_b == 0) ? 0: wr[wr_addr_b-1];
+assign wr_out_a = (wr_addr_a == 0) ? 32'd0: wr[wr_addr_a-1];
+assign wr_out_b = (wr_addr_b == 0) ? 32'd0: wr[wr_addr_b-1];
 
 assign memory_data_write = rm;
 assign memory_addr = muxMA_out;
 
 assign r1 = wr[0];
-assign r2 = wr[1];
+assign r15 = wr[14];
 
 //----------------------------------------------------------------------------
 // ALU
@@ -283,7 +283,6 @@ integer j;
 always @( posedge clk ) begin
   if ( reset ) begin
     for (j=0; j < 16; j=j+1) begin
-      /* wr[j] <= j; */
       wr[j] <= 0;
     end
   end
@@ -656,7 +655,7 @@ always @(cpu_stage or ir or memory_busy or status_pass or reset) begin
           end
           OP_BAL: begin
             wr_write <= status_pass;
-            wr_addr_c <= 15;
+            wr_addr_c <= 4'd15;
           end
           OP_LDW: begin
             wr_write <= 1;

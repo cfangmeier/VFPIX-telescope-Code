@@ -49,18 +49,21 @@ def stf(run_tests):
     if run_tests:
         execute_tests(run_tests)
     else:
-        serial = DAQBoard.enumerate_devices()[0]
+        try:
+            serial = DAQBoard.enumerate_devices()[0]
+        except IndexError:
+            print('No Devices Connected')
+            return
         daq_board = DAQBoard(FIRMWARE_PATH, serial)
         with daq_board:
             daq_board.program()
-            i = 0
             while True:
-                daq_board.read_data(words=4, verbose=True)
-                # print('='*80)
-                print(i)
-                # print('='*80)
-                i += 1
-                # raw_input()
+                data = daq_board.read_data(words=1024, verbose=False)
+                for i in range(64):
+                    print(' | '.join('{:08X}'.format(data[i*16+j])
+                                     for j in range(16)))
+                if raw_input():
+                    break
             # cnt = 0
             # while True:
             #     block = daq_board.read_debug_data()
@@ -71,24 +74,47 @@ def stf(run_tests):
             #         pc = (datum >> 6) & 0xFFFFFF
             #         ir = (datum >> 32) & 0xFFFFFFFF
             #         memory_addr = (datum >> 64) & 0x3FFFFFF
-            #         local_wdata = (datum >> 90) & 0xFFFFFFFF
-            #         local_rdata = (datum >> 122) & 0xFFFFFFFF
-            #         local_rdata_valid = (datum >> 154) & 0x1
-            #         memory_busy = (datum >> 30) & 0x1
-            #         enable_aux = (datum >> 31) & 0x1
-            #         r1 = (datum >> 160) & 0xFFFFFFFF
-            #         r2 = (datum >> 192) & 0xFFFFFFFF
-            #         ry = (datum >> 224) & 0xFFFFFFFF
-            #         rz = (datum >> 256) & 0xFFFFFFFF
-            #         alu_inA = (datum >> 288) & 0xFFFFFFFF
-            #         alu_inB = (datum >> 320) & 0xFFFFFFFF
-            #         wr_write = (datum >> 158) & 0x1
-            #         fmt = '{: 3d}, {}, {:03d}, {:08X}, {:06X}, {:07X}, {}, {:08X}, {}, {:08X}, {:08X}, {:08X}, {}, {:08X}, {:08X}'
-            #         args = (state, memory_busy, cpu_state, ir, pc, memory_addr, enable_aux,
-            #                 local_wdata, local_rdata_valid, local_rdata, r1, r2, wr_write, ry, rz)
-            #         print(fmt.format(*args))
+
+            #         memory_busy = (datum >> 159) & 0x1
+            #         busy_ram = (datum >> 160) & 0x1
+            #         busy_spi = (datum >> 161) & 0x1
+            #         busy_rj45 = (datum >> 162) & 0x1
+            #         busy_aux = (datum >> 163) & 0x1
+            #         enable_ram = (datum >> 164) & 0x1
+            #         enable_spi = (datum >> 165) & 0x1
+            #         enable_rj45 = (datum >> 166) & 0x1
+            #         enable_aux = (datum >> 167) & 0x1
+            #         memory_program_ack = (datum >> 168) & 0x1
+            #         init_finished = (datum >> 169) & 0x1
+
+
+            #         memory_program = (datum >> 171) & 0x1
+            #         memory_write_req = (datum >> 172) & 0x01
+            #         memory_read_req = (datum >> 173) & 0x01
+            #         busy_int = (datum >> 174) & 0x01
+
+            #         # r15 = (datum >> 192) & 0xFFFFFFFF
+            #         # ry = (datum >> 224) & 0xFFFFFFFF
+            #         # rz = (datum >> 256) & 0xFFFFFFFF
+            #         # alu_inA = (datum >> 288) & 0xFFFFFFFF
+            #         # alu_inB = (datum >> 320) & 0xFFFFFFFF
+            #         # wr_write = (datum >> 158) & 0x1
+            #         if cpu_state == 5:
+            #             fmt = ('{: 3d}, {: 3d}, {}, {}, '
+            #                    '{:08X}, {:06X} || '
+            #                    '{}, {}, {}, {}, '
+            #                    '{}, {}, {}, {}, '
+            #                    '{}, {}, {}, {}, '
+            #                    '{}')
+            #             args = (state, cpu_state, init_finished, memory_busy,
+            #                     ir, pc,
+            #                     enable_ram, enable_spi, enable_rj45, enable_aux,
+            #                     busy_ram, busy_spi, busy_rj45, busy_aux,
+            #                     memory_program, memory_write_req, memory_read_req, busy_int,
+            #                     memory_program_ack)
+            #             print(fmt.format(*args))
             #     print('='*80, cnt)
             #     cnt += 1
             #     raw_input()
-            #     if cnt == 8:
-            #         break
+            #     # if cnt == 8:
+            #     #     break

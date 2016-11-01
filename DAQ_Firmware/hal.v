@@ -31,9 +31,9 @@
 `timescale 1ns / 1ps
 
 module hal(
-  input  wire sys_clk,     // 50 MHz
-  output wire clk,         // 150 MHz
-  output wire cpu_reset,
+  input  wire                sys_clk,     // 50 MHz
+  output wire                clk,         // 150 MHz
+  output wire                reset,
 
   // Processor Interface
   input  wire                memory_read_req,
@@ -100,7 +100,7 @@ module hal(
   input wire  [  1: 0]       muxMA_sel,
   input wire  [  2: 0]       cpu_stage,
   input wire  [31:0]         r1,
-  input wire  [31:0]         r2,
+  input wire  [31:0]         r15,
   input wire                 wr_write,
   input wire  [31:0]         rz,
   input wire  [31:0]         ry,
@@ -122,108 +122,60 @@ localparam DEBUG_SIZE = 11;
 // REGISTERS
 //----------------------------------------------------------------------------
 
-reg enable_ram;
-reg enable_spi;
-reg enable_rj45;
-reg enable_led;
-reg enable_aux;
+reg                      enable_ram;
+reg                      enable_spi;
+reg                      enable_rj45;
+reg                      enable_led;
+reg                      enable_aux;
 
-reg        memory_program;
-reg [31:0] control_bus_last;
+reg                      memory_program;
+reg [31:0]               control_bus_last;
+reg                      init_finished;
+reg                      debug_start;
 //----------------------------------------------------------------------------
 // Wires
 //----------------------------------------------------------------------------
-wire okClk;
-wire [112:0] okHE;
-wire [64:0] okEH;
+wire                     okClk;
+wire [112:0]             okHE;
+wire [64:0]              okEH;
 
-wire [31:0] control_bus;
-wire [31:0] control_bus_ok;
+reg                      reset_ram;
+wire [31:0]              control_bus;
+wire [31:0]              control_bus_ok;
 
-wire busy_ram;
-wire busy_spi;
-wire busy_rj45;
-wire busy_aux;
+wire                     busy_ram;
+wire                     write_req_ram;
+wire                     read_req_ram;
+wire [31:0]              data_read_ram;
 
-wire write_req_ram;
-wire write_req_spi;
-wire write_req_rj45;
-wire write_req_led;
-wire write_req_aux;
+wire                     busy_spi;
+wire                     write_req_spi;
+wire                     read_req_spi;
+wire [31:0]              data_read_spi;
 
-wire read_req_ram;
-wire read_req_spi;
-wire read_req_rj45;
-wire read_req_led;
-wire read_req_aux;
+wire                     busy_rj45;
+wire                     write_req_rj45;
+wire                     read_req_rj45;
+wire [31:0]              data_read_rj45;
 
-wire [31:0] data_read_ram;
-wire [31:0] data_read_spi;
-wire [31:0] data_read_rj45;
-wire [31:0] data_read_led;
-wire [31:0] data_read_aux;
+wire                     busy_aux;
+wire                     write_req_aux;
+wire                     read_req_aux;
+wire [31:0]              data_read_aux;
 
-wire        program_buffer_read;
-wire        program_buffer_write;
-wire        program_buffer_empty;
-wire [12:0] program_buffer_wrusedw;
-wire [12:0] program_buffer_rdusedw;
-wire [31:0] program_buffer_data;
-wire [31:0] program_buffer_q;
+wire                     program_buffer_read;
+wire                     program_buffer_write;
+wire                     program_buffer_empty;
+wire [12:0]              program_buffer_wrusedw;
+wire [12:0]              program_buffer_rdusedw;
+wire [31:0]              program_buffer_data;
+wire [31:0]              program_buffer_q;
 
-wire        memory_program_ack;
+wire                     memory_program_ack;
 wire [32*DEBUG_SIZE-1:0] debug_wireout;
 
-reg         reset;
-
-wire        local_init_done;
-wire        local_ready;
-wire [5:0]  state;
-wire [7:0]  flash_data;
-wire        flash_empty;
-wire        flash_busy;
-reg         program_buffer_empty_flag;
-wire [6:0]  page_words;
-wire [16:0] pages_written;
-wire [16:0] pages_to_write;
-wire        pages_to_write_valid;
-
-wire  [24:0] local_address;
-wire  [31:0] local_wdata;
-wire  [31:0] local_rdata;
-wire         local_rdata_valid;
-wire         local_write_req;
-wire         local_read_req;
-wire  [7:0]  flash_input_shifter;
-wire         flash_read_buffer_write;
-
-
-reg         page_words_flag;
-reg         prog_read_flag;
-reg         state_flag;
-always @(posedge clk ) begin
-  if ( reset ) begin
-    program_buffer_empty_flag <= 1;
-    page_words_flag <= 0;
-    prog_read_flag <= 0;
-    state_flag <= 0;
-  end
-  else begin
-    if ( !program_buffer_empty ) begin
-      program_buffer_empty_flag <= 0;
-    end
-    if ( page_words > 0 ) begin
-      page_words_flag <= 1;
-    end
-    if ( program_buffer_read ) begin
-      prog_read_flag <= 1;
-    end
-    if ( (state == 6'd30) && !flash_busy ) begin
-      state_flag <= 1;
-    end
-  end
-end
-
+wire [5:0] state;
+wire       busy_int;
 
 //----------------------------------------------------------------------------
 // Assignments
@@ -231,82 +183,92 @@ end
 assign memory_busy = busy_ram | busy_spi |
                      busy_rj45 | busy_aux;
 assign memory_data_read = data_read_ram | data_read_spi |
-                          data_read_rj45 | data_read_led |
-                          data_read_aux;
+                          data_read_rj45 | data_read_aux;
 
 assign write_req_ram = memory_write_req & enable_ram;
 assign write_req_spi = memory_write_req & enable_spi;
 assign write_req_rj45 = memory_write_req & enable_rj45;
-assign write_req_led = memory_write_req & enable_led;
 assign write_req_aux = memory_write_req & enable_aux;
 
 assign read_req_ram = memory_read_req & enable_ram;
 assign read_req_spi = memory_read_req & enable_spi;
 assign read_req_rj45 = memory_read_req & enable_rj45;
-assign read_req_led = memory_read_req & enable_led;
 assign read_req_aux = memory_read_req & enable_aux;
 
 assign program_buffer_empty = (program_buffer_rdusedw == 0);
-assign cpu_reset = reset | ~local_init_done;
 
-/* assign debug_wireout[4:0] = control_bus[4:0]; */
-/* assign debug_wireout[5] = local_init_done; */
-/* assign debug_wireout[6] = local_ready; */
-/* assign debug_wireout[6:0] = page_words; */
+assign led = ~control_bus[3:2];
+assign led_ext[1] = 0;
+assign led_ext[0] = busy_ram;
+
+//----------------------------------------------------------------------------
+// DEBUG WIRE
+//----------------------------------------------------------------------------
+
 assign debug_wireout[5:0] = state;
 assign debug_wireout[29:6] = pc;
-assign debug_wireout[30] = memory_busy;
-assign debug_wireout[31] = enable_aux;
 assign debug_wireout[63:32] = ir;
 assign debug_wireout[89:64] = memory_addr;
-assign debug_wireout[121:90] = local_wdata;
-assign debug_wireout[153:122] = local_rdata;
-assign debug_wireout[154] = local_rdata_valid;
 assign debug_wireout[157:155] = cpu_stage;
 assign debug_wireout[158] = wr_write;
-assign debug_wireout[191:160] = r1;
-assign debug_wireout[223:192] = r2;
+
+assign debug_wireout[159] = memory_busy;
+assign debug_wireout[160] = busy_ram;
+assign debug_wireout[161] = busy_spi;
+assign debug_wireout[162] = busy_rj45;
+assign debug_wireout[163] = busy_aux;
+assign debug_wireout[164] = enable_ram;
+assign debug_wireout[165] = enable_spi;
+assign debug_wireout[166] = enable_rj45;
+assign debug_wireout[167] = enable_aux;
+assign debug_wireout[168] = memory_program_ack;
+assign debug_wireout[169] = init_finished;
+assign debug_wireout[170] = debug_start;
+
+assign debug_wireout[171] = memory_program;
+assign debug_wireout[172] = memory_write_req;
+assign debug_wireout[173] = memory_read_req;
+assign debug_wireout[174] = busy_int;
+
+
+assign debug_wireout[223:192] = r15;
 assign debug_wireout[255:224] = ry;
 assign debug_wireout[287:256] = rz;
 
 assign debug_wireout[319:288] = alu_inA;
 assign debug_wireout[351:320] = alu_inB;
-/* assign debug_wireout[31:30] = muxMA_sel; */
-/* assign debug_wireout[9:6] = {flash_c, flash_sb, flash_dq0, flash_dq1}; */
-/* assign debug_wireout[10] = local_write_req; */
-/* assign debug_wireout[11] = local_read_req; */
-/* assign debug_wireout[31:12] = local_wdata[19:0]; */
-/* assign debug_wireout[19:12] = flash_data; */
-/* assign debug_wireout[17:14] = pages_written[3:0]; */
-/* assign debug_wireout[20:18] = pages_to_write[2:0]; */
-/* assign debug_wireout[21] = pages_to_write_valid; */
-/* assign debug_wireout[20] = flash_empty; */
-/* assign debug_wireout[28:21] = flash_input_shifter; */
-/* assign debug_wireout[29] = flash_read_buffer_write; */
-/* assign debug_wireout[31:30] = 2'd0; */
-/* assign debug_wireout[30:23] = program_buffer_rdusedw[7:0]; */
-/* assign debug_wireout[31] = busy_ram; */
-/* assign debug_wireout[28:0] = data_read_ram; */
-/* assign debug_wireout[29] = busy_ram; */
-/* assign debug_wireout[30] = read_req_ram; */
-/* assign debug_wireout[31] = write_req_ram; */
 
 //----------------------------------------------------------------------------
 // Synchronous register updates
 //----------------------------------------------------------------------------
 always @( posedge sys_clk ) begin
-  reset <= control_bus[0];
-  if ( memory_program_ack ) begin
+  reset_ram <= control_bus[0];
+end
+
+always @( posedge clk ) begin
+  if ( reset ) begin
+    init_finished <= 0;
+    debug_start <= 0;
     memory_program <= 0;
   end
-  else if ( control_bus[1] & ~control_bus_last[1] ) begin
-    memory_program <= 1;
+  else begin
+    control_bus_last <= control_bus;
+    if ( memory_program_ack ) begin
+      memory_program <= 0;
+    end
+    else if ( control_bus[1] & ~control_bus_last[1] ) begin
+      memory_program <= 1;
+    end
+
+    if ( ~memory_busy ) begin
+      init_finished <= 1;
+      debug_start <= 1;
+    end
+    else if ( memory_program_ack ) begin
+      init_finished <= 0;
+    end
   end
-  control_bus_last <= control_bus;
 end
-assign led = ~control_bus[3:2];
-assign led_ext[1] = 0;
-assign led_ext[0] = busy_ram;
 
 //----------------------------------------------------------------------------
 // Address Decoder
@@ -378,6 +340,23 @@ spi_controller spi_controller_inst (
   .dac_csb ( {supdac_csb, rngdac_csb} )
 );
 
+rj45_led_controller rj45_led_controller_inst (
+  .clk ( clk ),
+  .reset ( reset ),
+
+  .write_req ( write_req_rj45 ),
+  .read_req ( read_req_rj45 ),
+  .data_write ( memory_data_write ),
+  .data_read ( data_read_rj45 ),
+  .address ( memory_addr ),
+  .busy ( busy_rj45 ),
+
+  .rj45_led_sck ( rj45_led_sck ),
+  .rj45_led_sin ( rj45_led_sin ),
+  .rj45_led_lat ( rj45_led_lat ),
+  .rj45_led_blk ( rj45_led_blk )
+);
+
 aux_io aux_io_inst(
   .clk ( clk ),
   .reset ( reset ),
@@ -391,13 +370,15 @@ aux_io aux_io_inst(
 
   .okClk ( okClk ),
   .okHE ( okHE ),
-  .okEH ( okEHx[0 +: 65] )
+  .okEH ( okEHx[0 +: 65] ),
 );
+
 
 memory memory_inst (
   .pll_ref_clk ( sys_clk ) ,
-  .phy_clk ( clk ),
-  .reset ( reset ),
+  .clk ( clk ),
+  .reset_in ( reset_ram ),
+  .reset_out ( reset ),
 
   .write_req ( write_req_ram ),
   .read_req ( read_req_ram ),
@@ -433,27 +414,9 @@ memory memory_inst (
   .program_buffer_q ( program_buffer_q ),
   .program_buffer_read ( program_buffer_read ),
 
-  .local_ready ( local_ready ),
   .state ( state ),
-  .flash_data ( flash_data ),
-  .flash_empty ( flash_empty ),
-  .flash_busy ( flash_busy ),
-  .local_init_done( local_init_done ),
-  .page_words ( page_words ),
-  .pages_written ( pages_written ),
-  .pages_to_write ( pages_to_write ),
-  .pages_to_write_valid ( pages_to_write_valid ),
-
-
-  .local_address ( local_address ),
-  .local_wdata ( local_wdata ),
-  .local_rdata ( local_rdata ),
-  .local_rdata_valid ( local_rdata_valid ),
-  .local_write_req ( local_write_req ),
-  .local_read_req ( local_read_req ),
-  .flash_input_shifter ( flash_input_shifter ),
-  .flash_read_buffer_write ( flash_read_buffer_write )
-  );
+  .busy_int ( busy_int )
+);
 
 adc_pll adc_pll_inst (
   .areset ( 1'b0 ),
@@ -495,7 +458,8 @@ okBTPipeIn programming_input_btpipe(
 
 debug_unit #( .SIZE(DEBUG_SIZE) ) debug_unit_inst (
   .clk ( clk ),
-  .reset ( reset | ~local_init_done | ~state_flag ),
+  /* .reset ( reset | ~debug_start ), */
+  .reset ( reset_ram ),
   .debug_wireout ( debug_wireout ),
   .okClk ( okClk ),
   .okHE ( okHE ),

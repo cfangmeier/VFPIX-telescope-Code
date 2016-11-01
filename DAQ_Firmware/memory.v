@@ -26,8 +26,9 @@
 
 module memory(
   input  wire pll_ref_clk,
-  output wire phy_clk,
-  input  wire reset,
+  input  wire reset_in,
+  output reg  reset_out,
+  output wire clk,
 
   //--------------------------------------------------------------------------
   //------------------------CONTROL INTERFACE---------------------------------
@@ -37,7 +38,7 @@ module memory(
   input  wire [31:0] data_write,
   output reg  [31:0] data_read,
   input  wire [25:0] addr,
-  output reg         busy,
+  output wire        busy,
 
   //--------------------------------------------------------------------------
   //---------------------------HW INTERFACE-----------------------------------
@@ -73,29 +74,11 @@ module memory(
   input  wire [31:0]  program_buffer_q,
   output reg          program_buffer_read,
 
-  //--------------------------------------------------------------------------
-  //---------------------------******TEMPORARY******--------------------------
-  //--------------------------------------------------------------------------
-  output wire        local_ready,
-  output reg  [5:0]  state,
-  output wire [7:0]  flash_data,
-  output wire        flash_empty,
-  output wire        flash_busy,
-  output wire        local_init_done,
-  output reg  [6:0]  page_words,
-  output reg  [16:0] pages_written,
-  output reg  [16:0] pages_to_write,
-  output reg         pages_to_write_valid,
 
-  output reg  [24:0] local_address,
-  output reg  [31:0] local_wdata,
-  output wire [31:0] local_rdata,
-  output wire        local_rdata_valid,
-  output reg         local_write_req,
-  output reg         local_read_req,
-  output wire [7:0]  flash_input_shifter,
-  output wire        flash_read_buffer_write
-  );
+
+  output reg  [5:0]  state,
+  output reg         busy_int
+);
 
 //----------------------------------------------------------------------------
 // Parameters
@@ -154,12 +137,13 @@ localparam FLASH_WREN = 8'b0000_0110,  // WRITE ENABLE
 //----------------------------------------------------------------------------
 // Wires
 //----------------------------------------------------------------------------
-/* wire        local_ready; */
-/* wire [31:0] local_rdata; */
-/* wire        local_rdata_valid; */
-/* wire        local_init_done; */
+wire        phy_clk;
+wire        local_ready;
+wire [31:0] local_rdata;
+wire        local_rdata_valid;
+wire        local_init_done;
 
-/* wire        flash_busy; */
+wire        flash_busy;
 
 wire [7:0]  flash_read_buffer_q;
 wire        flash_write_buffer_full;
@@ -169,25 +153,26 @@ wire        flash_read_buffer_empty;
 // Registers
 //----------------------------------------------------------------------------
 
-/* reg  [24:0] local_address; */
-/* reg         local_write_req; */
-/* reg         local_read_req; */
+reg  [24:0] local_address;
+reg         local_write_req;
+reg         local_read_req;
 reg         local_burstbegin;
-/* reg  [31:0] local_wdata; */
+reg  [31:0] local_wdata;
 
 /* reg  [5:0]  state; */
 reg  [5:0]  state_callback;
 reg  [7:0]  delay_counter;
+/* reg         busy_int; */
 
-/* reg  [16:0] pages_to_write; */
-/* reg  [16:0] pages_written; */
-/* reg         pages_to_write_valid; */
+reg  [16:0] pages_to_write;
+reg  [16:0] pages_written;
+reg         pages_to_write_valid;
 
 reg  [16:0] pages_to_read;
 reg  [16:0] pages_read;
 reg         pages_to_read_valid;
 
-/* reg  [6:0]  page_words; */
+reg  [6:0]  page_words;
 reg  [31:0] page_word;
 reg  [23:0] page_address;
 
@@ -199,58 +184,70 @@ reg  [7:0]  flash_write_buffer_data;
 reg         flash_write_buffer_write;
 reg         flash_read_buffer_read;
 
-assign flash_data = flash_read_buffer_q;
-assign flash_empty = flash_read_buffer_empty;
-
+//----------------------------------------------------------------------------
+// Assignments
+//----------------------------------------------------------------------------
+assign busy = busy_int | program | write_req | read_req;
+assign clk = phy_clk & local_init_done;
 //----------------------------------------------------------------------------
 // State Machine
 //----------------------------------------------------------------------------
 
-always @( posedge phy_clk ) begin
-  local_write_req <= 0;
-  local_read_req <= 0;
-  local_burstbegin <= 0;
-  data_read <= 32'h0;
+always @( posedge clk or posedge reset_in ) begin
 
-  program_buffer_read <= 0;
-
-  flash_execute <= 0;
-  flash_read_buffer_read <= 0;
-  flash_write_buffer_write <= 0;
-
-  if ( reset  | ~local_init_done) begin
+  if ( reset_in ) begin
     state <= INIT;
-    busy <= 1;
+    local_write_req <= 0;
+    local_read_req <= 0;
+    local_burstbegin <= 0;
+    data_read <= 32'h0;
+
+    program_buffer_read <= 0;
+
+    flash_execute <= 0;
+    flash_read_buffer_read <= 0;
+    flash_write_buffer_write <= 0;
     program_ack <= 0;
+    busy_int <= 1;
+    reset_out <= 0;
   end
   else begin
+    local_write_req <= 0;
+    local_read_req <= 0;
+    local_burstbegin <= 0;
+    data_read <= 32'h0;
+
+    program_buffer_read <= 0;
+
+    flash_execute <= 0;
+    flash_read_buffer_read <= 0;
+    flash_write_buffer_write <= 0;
+    program_ack <= 0;
+    busy_int <= 1;
+    reset_out <= 0;
     case ( state )
       INIT: begin
-        if ( local_ready && local_init_done ) begin
+        if ( local_ready ) begin
           state <= IDLE;
-          busy <= program;
-        end
-        else begin
-          busy <= 1;
+          reset_out <= 1;
         end
       end
       IDLE: begin
-        program_ack <= 0;
         if ( program ) begin
           state <= PROGRAM_START;
           program_ack <= 1;
-          busy <= 1;
         end
         else if ( write_req ) begin
           state <= WRITE_1;
           local_wdata <= data_write;
           local_address <= addr[24:0];
-          busy <= 1;
         end
         else if ( read_req ) begin
           state <= READ_1;
           local_address <= addr[24:0];
-          busy <= 1;
+        end
+        else begin
+          busy_int <= 0;
         end
       end
       DELAY: begin
@@ -365,7 +362,7 @@ always @( posedge phy_clk ) begin
         flash_write_buffer_write <= 1;
       end
       PROGRAM_DAT1: begin
-        if ( page_words == 7'd64 ) begin
+        if ( page_words == 8'd64 ) begin
           state <= PROGRAM_WRITE_FINISH;
           state_callback <= PROGRAM_PAGE;
 
@@ -423,7 +420,6 @@ always @( posedge phy_clk ) begin
       LOAD_1: begin
         if ( pages_to_read_valid && (pages_read == pages_to_read) ) begin
           state <= IDLE;
-          busy <= 0;
         end
         else begin
           state <= LOAD_ADDR1;
@@ -495,7 +491,7 @@ always @( posedge phy_clk ) begin
 //==========================WRITE SEQUENCE====================================
 //============================================================================
       WRITE_1: begin
-        if ( local_init_done & local_ready ) begin
+        if ( local_ready ) begin
           state <= WRITE_2;
           local_write_req <= 1;
           local_burstbegin <= 1;
@@ -508,7 +504,7 @@ always @( posedge phy_clk ) begin
             state_callback <= VOID;
           end
           else begin
-            busy <= 0;
+            busy_int <= 0;
             state <= IDLE;
           end
         end
@@ -517,7 +513,7 @@ always @( posedge phy_clk ) begin
 //==========================READ SEQUENCE=====================================
 //============================================================================
       READ_1: begin
-        if ( local_init_done & local_ready ) begin
+        if ( local_ready ) begin
           state <= READ_2;
           local_read_req <= 1;
           local_burstbegin <= 1;
@@ -531,7 +527,7 @@ always @( posedge phy_clk ) begin
             state_callback <= VOID;
           end
           else begin
-            busy <= 0;
+            busy_int <= 0;
             state <= IDLE;
           end
         end
@@ -548,7 +544,7 @@ end
 ram_controller ram_controller_inst(
   .pll_ref_clk ( pll_ref_clk ),
   .phy_clk ( phy_clk ),
-  .global_reset_n ( ~reset ),
+  .global_reset_n ( ~reset_in ),
   .soft_reset_n ( 1'b1 ),
   .reset_phy_clk_n (  ),
 
@@ -586,8 +582,8 @@ ram_controller ram_controller_inst(
 );
 
 flash_interface flash_interface_inst (
-  .clk ( phy_clk ),
-  .reset ( reset | ~local_init_done ),
+  .clk ( clk ),
+  .reset ( reset_out ),
 
   .instruction ( flash_instruction ),
   .execute ( flash_execute ),
@@ -607,10 +603,7 @@ flash_interface flash_interface_inst (
   .flash_wb ( flash_wb ),
   .flash_holdb ( flash_holdb ),
   .flash_c ( flash_c ),
-  .flash_sb ( flash_sb ),
-
-  .input_shifter ( flash_input_shifter ),
-  .read_buffer_write ( flash_read_buffer_write )
+  .flash_sb ( flash_sb )
 );
 
 
