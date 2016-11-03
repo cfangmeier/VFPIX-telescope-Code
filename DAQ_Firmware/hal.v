@@ -116,7 +116,7 @@ module hal(
 // Parameters
 //----------------------------------------------------------------------------
 localparam OK_SIZE = 4;
-localparam DEBUG_SIZE = 11;
+localparam DEBUG_SIZE = 10;
 
 //----------------------------------------------------------------------------
 // REGISTERS
@@ -131,7 +131,6 @@ reg                      enable_aux;
 reg                      memory_program;
 reg [31:0]               control_bus_last;
 reg                      init_finished;
-reg                      debug_start;
 //----------------------------------------------------------------------------
 // Wires
 //----------------------------------------------------------------------------
@@ -209,6 +208,8 @@ assign debug_wireout[5:0] = state;
 assign debug_wireout[29:6] = pc;
 assign debug_wireout[63:32] = ir;
 assign debug_wireout[89:64] = memory_addr;
+assign debug_wireout[121:90] = memory_data_read;
+assign debug_wireout[153:122] = memory_data_write;
 assign debug_wireout[157:155] = cpu_stage;
 assign debug_wireout[158] = wr_write;
 
@@ -223,7 +224,6 @@ assign debug_wireout[166] = enable_rj45;
 assign debug_wireout[167] = enable_aux;
 assign debug_wireout[168] = memory_program_ack;
 assign debug_wireout[169] = init_finished;
-assign debug_wireout[170] = debug_start;
 
 assign debug_wireout[171] = memory_program;
 assign debug_wireout[172] = memory_write_req;
@@ -231,12 +231,11 @@ assign debug_wireout[173] = memory_read_req;
 assign debug_wireout[174] = busy_int;
 
 
-assign debug_wireout[223:192] = r15;
-assign debug_wireout[255:224] = ry;
-assign debug_wireout[287:256] = rz;
+assign debug_wireout[223:192] = data_read_ram;
+assign debug_wireout[255:224] = data_read_spi;
+assign debug_wireout[287:256] = data_read_rj45;
 
-assign debug_wireout[319:288] = alu_inA;
-assign debug_wireout[351:320] = alu_inB;
+assign debug_wireout[319:288] = data_read_aux;
 
 //----------------------------------------------------------------------------
 // Synchronous register updates
@@ -247,8 +246,8 @@ end
 
 always @( posedge clk ) begin
   if ( reset ) begin
+    control_bus_last <= 32'd0;
     init_finished <= 0;
-    debug_start <= 0;
     memory_program <= 0;
   end
   else begin
@@ -262,10 +261,6 @@ always @( posedge clk ) begin
 
     if ( ~memory_busy ) begin
       init_finished <= 1;
-      debug_start <= 1;
-    end
-    else if ( memory_program_ack ) begin
-      init_finished <= 0;
     end
   end
 end
@@ -458,8 +453,7 @@ okBTPipeIn programming_input_btpipe(
 
 debug_unit #( .SIZE(DEBUG_SIZE) ) debug_unit_inst (
   .clk ( clk ),
-  /* .reset ( reset | ~debug_start ), */
-  .reset ( reset_ram ),
+  .reset ( reset_ram | ~init_finished ),
   .debug_wireout ( debug_wireout ),
   .okClk ( okClk ),
   .okHE ( okHE ),

@@ -259,8 +259,8 @@ class Instruction:
             return self._build_b_type_instruction()
         else:
             fmt = 'Unknown command on line {} of {}: {}'
-            args = self.line_number, self.filename, self.cmd
-            raise ValueError(fmt.format(args))
+            args = (self.line_number, self.filename, self.cmd)
+            raise ValueError(fmt.format(*args))
 
 
 def preprocess(ass_lines, filename, instruction_number_start=0):

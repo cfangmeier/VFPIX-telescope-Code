@@ -26,21 +26,21 @@
 `timescale 1ns / 1ps
 
 module debug_unit #(parameter SIZE=1)(
-  input  wire                     clk,
-  input  wire                     reset,
+  input  wire               clk,
+  input  wire               reset,
   input  wire [32*SIZE-1:0] debug_wireout,
-  input  wire                     okClk,
-  input  wire [112:0]             okHE,
-  output wire [64:0]              okEH
+  input  wire               okClk,
+  input  wire [112:0]       okHE,
+  output wire [64:0]        okEH
 );
 
 wire [SIZE-1:0]    output_buffer_rdreq;
-wire [31:0]              output_buffer_q       [SIZE-1:0];
-wire [12:0]              output_buffer_wrusedw [SIZE-1:0];
-wire [12:0]              output_buffer_rdusedw [SIZE-1:0];
+wire [31:0]        output_buffer_q       [SIZE-1:0];
+wire [12:0]        output_buffer_wrusedw [SIZE-1:0];
+wire [12:0]        output_buffer_rdusedw [SIZE-1:0];
 
-reg  [10:0]              write_count;
-reg                      output_buffer_wrreq;
+reg  [10:0]        write_count;
+reg                output_buffer_wrreq;
 reg  [32*SIZE-1:0] output_buffer_data;
 
 wire [SIZE-1:0]    buffer_space_ok;

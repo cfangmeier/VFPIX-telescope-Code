@@ -58,8 +58,8 @@ def stf(run_tests):
         with daq_board:
             daq_board.program()
             while True:
-                data = daq_board.read_data(words=1024, verbose=False)
-                for i in range(64):
+                data = daq_board.read_data(words=256, verbose=False)
+                for i in range(16):
                     print(' | '.join('{:08X}'.format(data[i*16+j])
                                      for j in range(16)))
                 if raw_input():
@@ -76,6 +76,8 @@ def stf(run_tests):
             #         memory_addr = (datum >> 64) & 0x3FFFFFF
 
             #         memory_busy = (datum >> 159) & 0x1
+            #         memory_data_read = (datum >> 90) & 0xFFFFFFFF
+            #         memory_data_write = (datum >> 122) & 0xFFFFFFFF
             #         busy_ram = (datum >> 160) & 0x1
             #         busy_spi = (datum >> 161) & 0x1
             #         busy_rj45 = (datum >> 162) & 0x1
@@ -93,21 +95,27 @@ def stf(run_tests):
             #         memory_read_req = (datum >> 173) & 0x01
             #         busy_int = (datum >> 174) & 0x01
 
-            #         # r15 = (datum >> 192) & 0xFFFFFFFF
-            #         # ry = (datum >> 224) & 0xFFFFFFFF
-            #         # rz = (datum >> 256) & 0xFFFFFFFF
-            #         # alu_inA = (datum >> 288) & 0xFFFFFFFF
-            #         # alu_inB = (datum >> 320) & 0xFFFFFFFF
+            #         data_read_ram = (datum >> 192) & 0xFFFFFFFF
+            #         data_read_spi = (datum >> 224) & 0xFFFFFFFF
+            #         data_read_rj45 = (datum >> 256) & 0xFFFFFFFF
+            #         data_read_aux = (datum >> 288) & 0xFFFFFFFF
             #         # wr_write = (datum >> 158) & 0x1
-            #         if cpu_state == 5:
+            #         nofilter = True
+            #         if nofilter or (cpu_state == 5):
             #             fmt = ('{: 3d}, {: 3d}, {}, {}, '
             #                    '{:08X}, {:06X} || '
+            #                    '{:08X}, {:08X} || '
+            #                    '{:08X}, {:08X}, {:08X}, {:08X} || '
+            #                    '{:08X}, '
             #                    '{}, {}, {}, {}, '
             #                    '{}, {}, {}, {}, '
             #                    '{}, {}, {}, {}, '
             #                    '{}')
             #             args = (state, cpu_state, init_finished, memory_busy,
             #                     ir, pc,
+            #                     memory_data_read, memory_data_write,
+            #                     data_read_ram, data_read_spi, data_read_rj45, data_read_aux,
+            #                     memory_addr,
             #                     enable_ram, enable_spi, enable_rj45, enable_aux,
             #                     busy_ram, busy_spi, busy_rj45, busy_aux,
             #                     memory_program, memory_write_req, memory_read_req, busy_int,

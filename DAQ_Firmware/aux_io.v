@@ -36,7 +36,7 @@ module aux_io(
   input  wire        read_req,
   input  wire [31:0] data_write,
   output reg  [31:0] data_read,
-  input  wire [16:0] address,
+  input  wire [25:0] address,
   output wire        busy,
 
   //--------------------------------------------------------------------------
@@ -107,6 +107,7 @@ always @(posedge clk ) begin
     output_buffer_wrreq <= 0;
     case ( state )
       IDLE: begin
+        data_read <= 32'd0;
         if ( read_req ) begin
           busy_int <= 1;
           state <= RD_1;

@@ -45,7 +45,7 @@ module rj45_led_controller(
   input  wire        read_req,
   input  wire [31:0] data_write,
   output reg  [31:0] data_read,
-  input  wire [16:0] address,
+  input  wire [25:0] address,
   output wire        busy,
 
   //--------------------------------------------------------------------------
@@ -125,6 +125,7 @@ always @( posedge clk ) begin
   else begin
     case ( state )
       IDLE: begin
+        data_read <= 32'd0;
         if ( write_req ) begin
           state <= WRITE;
           busy_int <= 1;

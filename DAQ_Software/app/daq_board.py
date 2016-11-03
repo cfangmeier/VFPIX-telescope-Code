@@ -30,7 +30,7 @@ class DAQBoard:
     ADDR_CONTROL_WIRE = 0x10
     ADDR_PROGRAM_PIPE = 0x9C
     ADDR_DEBUG_BASE = 0xB0
-    ADDR_DEBUG_SIZE = 11
+    ADDR_DEBUG_SIZE = 10
     ADDR_AUXIO_OUT = 0x80
     ADDR_AUXIO_IN = 0xA0
 
@@ -46,9 +46,9 @@ class DAQBoard:
         self.front_panel.ResetFPGA()
         self.soft_reset()
 
-    def program(self):
+    def program(self, program_software=True):
         if self.firmware_path is not None:
-            self._program_device()
+            self._program_device(program_software)
             self.welcome()
         else:
             raise RuntimeError('firmware path is not set')
@@ -77,7 +77,7 @@ class DAQBoard:
             devices.append(serial)
         return devices
 
-    def _program_device(self):
+    def _program_device(self, program_software):
         from tempfile import mkdtemp
         from zipfile import ZipFile
         from os.path import join
@@ -94,7 +94,8 @@ class DAQBoard:
             raise RuntimeError(fmt.format(status))
         self.front_panel.ResetFPGA()
         self.soft_reset()
-        self._program_software(software)
+        if program_software:
+            self._program_software(software)
 
     def _program_software(self, binfile):
         fp = self.front_panel

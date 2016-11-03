@@ -32,10 +32,10 @@ module spi_interface (
   input  wire         reset,
   input  wire [31:0]  data_out,
   output reg  [31:0]  data_in,
-  input  wire [5:0]   read_bits,
-  input  wire [5:0]   write_bits,
+  input  wire [7:0]   read_bits,
+  input  wire [7:0]   write_bits,
   input  wire         request_action,
-  output reg          busy,
+  output wire         busy,
   output wire         sclk,
   inout  wire         sdio,
   output reg          cs
@@ -44,24 +44,26 @@ module spi_interface (
 parameter DIVIDE = 2;
 wire [DIVIDE-1:0] sclk_next;
 
-reg [6:0] cycle_counter;
+reg [8:0] cycle_counter;
 reg [30:0] data_in_shifter;
 reg [31:0] data_out_shifter;
 reg is_writing;
 reg sdio_int;
 reg [DIVIDE-1:0] sclk_int;
+reg busy_int;
 
 
 assign sdio = is_writing ? sdio_int : 1'bz;
-assign sclk = sclk_int[DIVIDE-1] | ~busy;
+assign sclk = sclk_int[DIVIDE-1] | ~busy_int;
 assign sclk_next = sclk_int + 1;
+assign busy = busy_int | request_action;
 
 always @( posedge clk ) begin
   if (reset) begin
-    busy <= 0;
+    busy_int <= 0;
     is_writing <= 0;
     sdio_int <= 0;
-    cycle_counter <= 7'h00;
+    cycle_counter <= 9'h000;
     data_in_shifter <= 32'h00000000;
     data_out_shifter <= 32'h00000000;
     cs <= 0;
@@ -69,10 +71,11 @@ always @( posedge clk ) begin
   end
   else begin
     sclk_int <= sclk_next;
-    if (!busy) begin
+    data_in <= 32'd0;
+    if (!busy_int) begin
       if (request_action) begin
-        busy <= 1;
-        cycle_counter <= 6'h00;
+        busy_int <= 1;
+        cycle_counter <= 9'h000;
         data_out_shifter <= data_out;
         data_in_shifter <= 32'h00000000;
         cs <= 0;
@@ -80,7 +83,6 @@ always @( posedge clk ) begin
       end
     end
     else begin
-      data_in <= 0;
       if ( ~sclk_int[DIVIDE-1] & sclk_next[DIVIDE-1] ) begin
         if (cycle_counter < write_bits) begin  // writing
           is_writing <= 1;
@@ -97,7 +99,7 @@ always @( posedge clk ) begin
         end
         else begin
           data_in <= {data_in_shifter, sdio};
-          busy <= 0;
+          busy_int <= 0;
           cycle_counter <= 6'h00;
           cs <= 0;
         end

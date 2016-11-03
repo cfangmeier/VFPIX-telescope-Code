@@ -37,7 +37,7 @@ module spi_controller(
   input  wire        read_req,
   input  wire [31:0] data_write,
   output wire [31:0] data_read,
-  input  wire [16:0] address,
+  input  wire [25:0] address,
   output wire        busy,
 
   //--------------------------------------------------------------------------
@@ -68,23 +68,23 @@ always @( write_req or read_req or address or data_write ) begin
   dac_address <= 0;
   dac_data <= 0;
   if ( write_req ) begin
-    if ( address[15:11] == 5'b00001 ) begin
+    if ( address[24:20] == 5'b00001 ) begin
       adc_request_write <= 1;
       adc_address <= address[10:0];
       adc_data <= data_write[7:0];
     end
-    else if ( address[15:11] == 5'b00010 ) begin
+    else if ( address[24:20] == 5'b00010 ) begin
       dac_request_write <= 1;
       dac_address <= address[4:0];
       dac_data <= data_write[11:0];
     end
   end
   if ( read_req ) begin
-    if ( address[15:11] == 5'b00001 ) begin
+    if ( address[24:20] == 5'b00001 ) begin
       adc_request_read <= 1;
       adc_address <= address[10:0];
     end
-    else if ( address[15:11] == 5'b00010 ) begin
+    else if ( address[24:20] == 5'b00010 ) begin
       // No read of DAC
     end
   end
@@ -98,6 +98,7 @@ end
 //----------------------------------------------------------------------------
 wire sclk_int;
 wire [31:0] interface_data_read;
+wire interface_busy;
 
 wire cs;
 
@@ -106,14 +107,14 @@ wire cs;
 //----------------------------------------------------------------------------
 reg invert_sclk;
 
-reg [31:0] interface_data_write;
-reg request_action;
-reg [5:0] read_bits;
-reg [5:0] write_bits;
+reg [31:0]  interface_data_write;
+reg         request_action;
+reg [5:0]   read_bits;
+reg [5:0]   write_bits;
 
-reg  dev_select;
-reg [2:0] adc_select;
-reg dac_select;
+reg         dev_select;
+reg [2:0]   adc_select;
+reg         dac_select;
 
 //----------------------------------------------------------------------------
 // Assignments
@@ -126,6 +127,7 @@ reg dac_select;
  * (falling)rising edge devices.
  */
 assign sclk = sclk_int^invert_sclk;
+assign busy = interface_busy | read_req | write_req;
 
 generate
   genvar i;
@@ -150,41 +152,41 @@ always @( posedge clk ) begin
     invert_sclk <= 0;
   end
   else begin
-    if ( !busy & dac_request_write ) begin
+    if ( !interface_busy & dac_request_write ) begin
       interface_data_write[31:28] <= 4'b1001;
       interface_data_write[27:24] <= 4'b0011;
       interface_data_write[23:20] <= dac_address[3:0];
       interface_data_write[19:8] <= dac_data[11:0];
       interface_data_write[7:0] <= 0;
-      read_bits <= 6'h00;
-      write_bits <= 6'h20;
+      read_bits <= 8'h00;
+      write_bits <= 8'h20;
       request_action <= 1;
       invert_sclk <= 1;
       dac_select <= dac_address[4];
       dev_select <= 0;
     end
-    else if ( !busy & adc_request_write ) begin
+    else if ( !interface_busy & adc_request_write ) begin
       interface_data_write[31] <= 0; // r/wb
       interface_data_write[30:29] <= 2'h0; // w1,w0
       interface_data_write[28:24] <= 5'h00; // A12:A8
       interface_data_write[23:16] <= adc_address[7:0]; // A7:A0
       interface_data_write[15:8] <= adc_data[7:0]; // D7:D0
       interface_data_write[7:0] <= 0;
-      read_bits <= 6'd00;
-      write_bits <= 6'd24;
+      read_bits <= 8'd00;
+      write_bits <= 8'd24;
       request_action <= 1;
       invert_sclk <= 0;
       adc_select <= adc_address[10:8];
       dev_select <= 1;
     end
-    else if ( !busy & adc_request_read ) begin
+    else if ( !interface_busy & adc_request_read ) begin
       interface_data_write[31] <= 1; // r/wb
       interface_data_write[30:29] <= 2'h0; // w1,w0
       interface_data_write[28:24] <= 5'h00; // A12:A8
       interface_data_write[23:16] <= adc_address[7:0]; // A7:A0
       interface_data_write[15:0] <= 0;
-      read_bits <= 6'd08;
-      write_bits <= 6'd16;
+      read_bits <= 8'd08;
+      write_bits <= 8'd16;
       request_action <= 1;
       invert_sclk <= 0;
       adc_select <= adc_address[10:8];
@@ -208,7 +210,7 @@ spi_interface spi_interface_inst(
   .read_bits ( read_bits ),
   .write_bits ( write_bits ),
   .request_action ( request_action ),
-  .busy ( busy ),
+  .busy ( interface_busy ),
   .sclk ( sclk_int ),
   .sdio ( sdio ),
   .cs ( cs )

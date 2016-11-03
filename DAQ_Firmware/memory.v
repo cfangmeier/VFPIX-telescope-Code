@@ -87,42 +87,43 @@ module memory(
 localparam VOID                         = 6'd00,
            DELAY                        = 6'd01,
            INIT                         = 6'd02,
-           IDLE                         = 6'd03,
-           PROGRAM_WRITE_ENABLE         = 6'd04,
-           PROGRAM_WRITE_ENABLE_B       = 6'd05,
-           PROGRAM_WRITE_FINISH         = 6'd06,
-           PROGRAM_WRITE_FINISH_B       = 6'd07,
-           PROGRAM_START                = 6'd08,
-           PROGRAM_PAGE                 = 6'd09,
-           PROGRAM_SECTOR_ERASE_ADDR1   = 6'd10,
-           PROGRAM_SECTOR_ERASE_ADDR2   = 6'd11,
-           PROGRAM_SECTOR_ERASE_ADDR3   = 6'd12,
-           PROGRAM_SECTOR_ERASE_EXECUTE = 6'd13,
-           PROGRAM_SECTOR_ERASE_FINISH  = 6'd14,
-           PROGRAM_ADDR1                = 6'd15,
-           PROGRAM_ADDR2                = 6'd16,
-           PROGRAM_ADDR3                = 6'd17,
-           PROGRAM_DAT1                 = 6'd18,
-           PROGRAM_DAT2A                = 6'd19,
-           PROGRAM_DAT2B                = 6'd20,
-           PROGRAM_DAT2C                = 6'd21,
-           PROGRAM_DAT2D                = 6'd22,
-           PROGRAM_DAT2E                = 6'd23,
-           LOAD_0                       = 6'd24,
-           LOAD_1                       = 6'd25,
-           LOAD_ADDR1                   = 6'd26,
-           LOAD_ADDR2                   = 6'd27,
-           LOAD_ADDR3                   = 6'd28,
-           LOAD_EXECUTE                 = 6'd29,
-           LOAD_WORD1                   = 6'd30,
-           LOAD_WORD1B                  = 6'd31,
-           LOAD_WORD2                   = 6'd32,
-           LOAD_WORD3                   = 6'd33,
-           LOAD_WORD4                   = 6'd34,
-           READ_1                       = 6'd35,
-           READ_2                       = 6'd36,
-           WRITE_1                      = 6'd37,
-           WRITE_2                      = 6'd38;
+           INIT_B                       = 6'd03,
+           IDLE                         = 6'd04,
+           PROGRAM_WRITE_ENABLE         = 6'd05,
+           PROGRAM_WRITE_ENABLE_B       = 6'd06,
+           PROGRAM_WRITE_FINISH         = 6'd07,
+           PROGRAM_WRITE_FINISH_B       = 6'd08,
+           PROGRAM_START                = 6'd09,
+           PROGRAM_PAGE                 = 6'd10,
+           PROGRAM_SECTOR_ERASE_ADDR1   = 6'd11,
+           PROGRAM_SECTOR_ERASE_ADDR2   = 6'd12,
+           PROGRAM_SECTOR_ERASE_ADDR3   = 6'd13,
+           PROGRAM_SECTOR_ERASE_EXECUTE = 6'd14,
+           PROGRAM_SECTOR_ERASE_FINISH  = 6'd15,
+           PROGRAM_ADDR1                = 6'd16,
+           PROGRAM_ADDR2                = 6'd17,
+           PROGRAM_ADDR3                = 6'd18,
+           PROGRAM_DAT1                 = 6'd19,
+           PROGRAM_DAT2A                = 6'd20,
+           PROGRAM_DAT2B                = 6'd21,
+           PROGRAM_DAT2C                = 6'd22,
+           PROGRAM_DAT2D                = 6'd23,
+           PROGRAM_DAT2E                = 6'd24,
+           LOAD_0                       = 6'd25,
+           LOAD_1                       = 6'd26,
+           LOAD_ADDR1                   = 6'd27,
+           LOAD_ADDR2                   = 6'd28,
+           LOAD_ADDR3                   = 6'd29,
+           LOAD_EXECUTE                 = 6'd30,
+           LOAD_WORD1                   = 6'd31,
+           LOAD_WORD1B                  = 6'd32,
+           LOAD_WORD2                   = 6'd33,
+           LOAD_WORD3                   = 6'd34,
+           LOAD_WORD4                   = 6'd35,
+           READ_1                       = 6'd36,
+           READ_2                       = 6'd37,
+           WRITE_1                      = 6'd38,
+           WRITE_2                      = 6'd39;
 
 // Flash Instruction Codes
 localparam FLASH_WREN = 8'b0000_0110,  // WRITE ENABLE
@@ -194,9 +195,9 @@ assign clk = phy_clk & local_init_done;
 //----------------------------------------------------------------------------
 
 always @( posedge clk or posedge reset_in ) begin
-
   if ( reset_in ) begin
     state <= INIT;
+    state_callback <= VOID;
     local_write_req <= 0;
     local_read_req <= 0;
     local_burstbegin <= 0;
@@ -227,9 +228,18 @@ always @( posedge clk or posedge reset_in ) begin
     reset_out <= 0;
     case ( state )
       INIT: begin
-        if ( local_ready ) begin
-          state <= IDLE;
-          reset_out <= 1;
+        reset_out <= 1;
+        state <= DELAY;
+        state_callback <= INIT_B;
+        delay_counter <= 2;
+      end
+      INIT_B: begin
+        if ( program ) begin
+          state <= PROGRAM_START;
+          program_ack <= 1;
+        end
+        else begin
+          state <= LOAD_0;
         end
       end
       IDLE: begin
