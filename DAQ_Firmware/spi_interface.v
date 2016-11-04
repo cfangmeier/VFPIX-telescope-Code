@@ -28,83 +28,151 @@
 `timescale 1ns / 1ps
 
 module spi_interface (
-  input  wire         clk,
+  input  wire         clk,  // 150 MHz
   input  wire         reset,
+
+  //--------------------------------------------------------------------------
+  //------------------------CONTROL INTERFACE---------------------------------
+  //--------------------------------------------------------------------------
   input  wire [31:0]  data_out,
   output reg  [31:0]  data_in,
   input  wire [7:0]   read_bits,
   input  wire [7:0]   write_bits,
   input  wire         request_action,
   output wire         busy,
+
+  //--------------------------------------------------------------------------
+  //-----------HARDWARE INTERFACE---------------------------------------------
+  //--------------------------------------------------------------------------
   output wire         sclk,
   inout  wire         sdio,
   output reg          cs
 );
 
-parameter DIVIDE = 2;
-wire [DIVIDE-1:0] sclk_next;
+//----------------------------------------------------------------------------
+// Parameters
+//----------------------------------------------------------------------------
+localparam IDLE         = 3'd0,
+           DATA_WRITE_0 = 3'd1,
+           DATA_WRITE   = 3'd2,
+           DATA_READ_0  = 3'd3,
+           DATA_READ    = 3'd4;
 
-reg [8:0] cycle_counter;
-reg [30:0] data_in_shifter;
-reg [31:0] data_out_shifter;
+localparam CLK_DIV = 3;
+//----------------------------------------------------------------------------
+// Wires
+//----------------------------------------------------------------------------
+wire update_in;  // Read-in on positive edge of clock
+wire update_out; // Write-out on negative edge of clk
+wire sdo;
+
+//----------------------------------------------------------------------------
+// Registers
+//----------------------------------------------------------------------------
+reg [CLK_DIV:0] clk_div1;
+reg [CLK_DIV:0] clk_div2;
+
+reg [31:0] input_shifter;
+reg [31:0] output_shifter;
+
+reg [7:0]   read_bits_reg;
+reg [7:0]   write_bits_reg;
+
+reg [8:0] bit_counter;
 reg is_writing;
-reg sdio_int;
-reg [DIVIDE-1:0] sclk_int;
 reg busy_int;
 
+reg [2:0] state;
 
-assign sdio = is_writing ? sdio_int : 1'bz;
-assign sclk = sclk_int[DIVIDE-1] | ~busy_int;
-assign sclk_next = sclk_int + 1;
+//----------------------------------------------------------------------------
+// Assignments
+//----------------------------------------------------------------------------
+assign update_in  =  clk_div1[CLK_DIV] & ~clk_div2[CLK_DIV]; // posedge serial clock
+assign update_out = ~clk_div1[CLK_DIV] &  clk_div2[CLK_DIV]; // negedge serial clock
+
+assign sdo = output_shifter[31];
+
+assign sclk = clk_div2[CLK_DIV] & cs;
+assign sdio = is_writing ? sdo : 1'bz;
 assign busy = busy_int | request_action;
 
+//----------------------------------------------------------------------------
+// Clock Division
+//----------------------------------------------------------------------------
 always @( posedge clk ) begin
-  if (reset) begin
-    busy_int <= 0;
-    is_writing <= 0;
-    sdio_int <= 0;
-    cycle_counter <= 9'h000;
-    data_in_shifter <= 32'h00000000;
-    data_out_shifter <= 32'h00000000;
-    cs <= 0;
-    sclk_int <= 0;
+  if ( reset ) begin
+    clk_div2 <= 0;
+    clk_div1 <= 0;
   end
   else begin
-    sclk_int <= sclk_next;
+    clk_div2 <= clk_div1;
+    clk_div1 <= clk_div1 + 1;
+  end
+end
+
+//----------------------------------------------------------------------------
+// State Machine
+//----------------------------------------------------------------------------
+always @( posedge clk ) begin
+  if ( reset ) begin
+    state <= IDLE;
     data_in <= 32'd0;
-    if (!busy_int) begin
-      if (request_action) begin
-        busy_int <= 1;
-        cycle_counter <= 9'h000;
-        data_out_shifter <= data_out;
-        data_in_shifter <= 32'h00000000;
-        cs <= 0;
-        sclk_int <= 0;
-      end
-    end
-    else begin
-      if ( ~sclk_int[DIVIDE-1] & sclk_next[DIVIDE-1] ) begin
-        if (cycle_counter < write_bits) begin  // writing
-          is_writing <= 1;
-          sdio_int <= data_out_shifter[31];
-          data_out_shifter[31:0] <= {data_out_shifter[30:0], 1'b0};
-          cs <= 1;
-          cycle_counter <= cycle_counter + 1;
-        end
-        else if (cycle_counter < (write_bits+read_bits)) begin  // reading
-          is_writing <= 0;
-          data_in_shifter <= {data_in_shifter[29:0], sdio};
-          cs <= 1;
-          cycle_counter <= cycle_counter + 1;
+    busy_int <= 1;
+    is_writing <= 0;
+    cs <= 0;
+  end
+  else begin
+    case ( state )
+      IDLE: begin
+        data_in <= 32'd0;
+        if ( request_action ) begin
+          state <= DATA_WRITE_0;
+          busy_int <= 1;
+          output_shifter <= data_out;
+          input_shifter <= 32'd0;
+          write_bits_reg <= write_bits;
+          read_bits_reg <= read_bits;
         end
         else begin
-          data_in <= {data_in_shifter, sdio};
-          busy_int <= 0;
-          cycle_counter <= 6'h00;
-          cs <= 0;
+          busy_int <= 1'd0;
         end
       end
-    end
+      DATA_WRITE_0: begin
+        if ( update_out ) begin
+          state <= DATA_WRITE;
+          is_writing <= 1'd1;
+          cs <= 1'd1;
+          bit_counter <= 9'd1;
+        end
+      end
+      DATA_WRITE: begin
+        if ( update_out ) begin
+          if ( bit_counter == write_bits_reg ) begin
+            state <= DATA_READ;
+            bit_counter <= 9'd0;
+            is_writing <= 1'd0;
+          end
+          else begin
+            bit_counter <= bit_counter + 9'd1;
+            output_shifter <= {output_shifter[30:0], 1'd0};
+          end
+        end
+      end
+      DATA_READ: begin
+        if ( update_in ) begin
+          if ( bit_counter == read_bits_reg ) begin
+            state <= IDLE;
+            busy_int <= 1'd0;
+            cs <= 1'd0;
+            data_in <= input_shifter;
+          end
+          else begin
+            bit_counter <= bit_counter + 9'd1;
+            input_shifter <= {input_shifter[30:0], sdio};
+          end
+        end
+      end
+    endcase
   end
 end
 

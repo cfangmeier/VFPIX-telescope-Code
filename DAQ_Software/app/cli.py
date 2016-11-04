@@ -95,11 +95,14 @@ def stf(run_tests):
             #         memory_read_req = (datum >> 173) & 0x01
             #         busy_int = (datum >> 174) & 0x01
 
+            #         sclk = (datum >> 175) & 0x01
+            #         sdio = (datum >> 176) & 0x01
+
             #         data_read_ram = (datum >> 192) & 0xFFFFFFFF
             #         data_read_spi = (datum >> 224) & 0xFFFFFFFF
             #         data_read_rj45 = (datum >> 256) & 0xFFFFFFFF
             #         data_read_aux = (datum >> 288) & 0xFFFFFFFF
-            #         # wr_write = (datum >> 158) & 0x1
+
             #         nofilter = True
             #         if nofilter or (cpu_state == 5):
             #             fmt = ('{: 3d}, {: 3d}, {}, {}, '
@@ -110,7 +113,8 @@ def stf(run_tests):
             #                    '{}, {}, {}, {}, '
             #                    '{}, {}, {}, {}, '
             #                    '{}, {}, {}, {}, '
-            #                    '{}')
+            #                    '{}'
+            #                    ' || {}, {}')
             #             args = (state, cpu_state, init_finished, memory_busy,
             #                     ir, pc,
             #                     memory_data_read, memory_data_write,
@@ -119,10 +123,9 @@ def stf(run_tests):
             #                     enable_ram, enable_spi, enable_rj45, enable_aux,
             #                     busy_ram, busy_spi, busy_rj45, busy_aux,
             #                     memory_program, memory_write_req, memory_read_req, busy_int,
-            #                     memory_program_ack)
+            #                     memory_program_ack,
+            #                     sclk, sdio)
             #             print(fmt.format(*args))
             #     print('='*80, cnt)
             #     cnt += 1
             #     raw_input()
-            #     # if cnt == 8:
-            #     #     break

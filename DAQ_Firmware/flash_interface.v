@@ -37,7 +37,6 @@ module flash_interface(
   //--------------------------------------------------------------------------
   //------------------------CONTROL INTERFACE---------------------------------
   //--------------------------------------------------------------------------
-
   input  wire [7:0]  instruction,
   input  wire        execute,
   input  wire [8:0]  bytes_to_read,
@@ -115,11 +114,11 @@ assign flash_c = clk_div2[CLK_DIV] & ~flash_sb;
 assign flash_dq0 = output_shifter[7];
 assign flash_wb = 1;
 assign flash_holdb = 1;
-assign busy        = busy_int | execute;
+assign busy = busy_int | execute;
+
 //----------------------------------------------------------------------------
 // Clock Division
 //----------------------------------------------------------------------------
-
 always @( posedge clk ) begin
   if ( reset ) begin
     clk_div2 <= 0;

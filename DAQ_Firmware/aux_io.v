@@ -108,17 +108,25 @@ always @(posedge clk ) begin
     case ( state )
       IDLE: begin
         data_read <= 32'd0;
+        busy_int <= 0;
         if ( read_req ) begin
-          busy_int <= 1;
-          state <= RD_1;
+          case ( address[1:0] )
+            2'd0: begin
+              busy_int <= 1;
+              state <= RD_1;
+            end
+            2'd1: begin
+              data_read <= {19'd0, input_buffer_rdusedw};
+            end
+            2'd2: begin
+              data_read <= {19'd0, output_buffer_wrusedw};
+            end
+          endcase
         end
         else if ( write_req ) begin
           busy_int <= 1;
           data_write_buffer <= data_write;
           state <= WR_1;
-        end
-        else begin
-          busy_int <= 0;
         end
       end
       RD_1: begin

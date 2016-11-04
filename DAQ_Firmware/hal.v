@@ -21,9 +21,10 @@
 // essentially as a multiplexer between several sub units. They are all
 // accessible through an associated memory address. All sub-units must
 // implement an interface consisting of read/write request signals, input
-// and output data buses, a 17-bit address input, and a busy output signal.
+// and output data buses, a 26-bit address input, and a busy output signal.
 // If the requested operation is a read, the data must be available on the
-// output data bus the cycle after busy is de-asserted.
+// output data bus the cycle after busy is de-asserted. At all other times,
+// the output data bus must be forced to all zeros.
 //
 // $Id$
 //-------------------------------------------------------------------------
@@ -230,6 +231,11 @@ assign debug_wireout[172] = memory_write_req;
 assign debug_wireout[173] = memory_read_req;
 assign debug_wireout[174] = busy_int;
 
+assign debug_wireout[175] = sclk;
+assign debug_wireout[176] = sdio;
+assign debug_wireout[177] = supdac_csb;
+assign debug_wireout[178] = rngdac_csb;
+assign debug_wireout[186:179] = adc_csb;
 
 assign debug_wireout[223:192] = data_read_ram;
 assign debug_wireout[255:224] = data_read_spi;
