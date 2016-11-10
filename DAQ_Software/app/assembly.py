@@ -7,7 +7,7 @@
 **R-Type Instructions**
 ***********************
   31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10  9  8  7  6  5  4  3  2  1  0
- | 0| 0| A| B| 1| 1|   COND    | S|    RS     |    RT     |    RD     |     OPX      | X| X| X| X|
+ | 0| 0| A| B| 1| 1|<--COND--->| S|<---RS---->|<---RT---->|<---RD---->|<----OPX----->| X| X| X| X|
 
  | A| B|  OPX | INSTRUCTION      | ACTION                               |
  |--|--|------|------------------|--------------------------------------|
@@ -27,7 +27,7 @@
 **D-Type Instructions**
 ***********************
   31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10  9  8  7  6  5  4  3  2  1  0
- | 0| S| A| B| 1| 0|   RS      | S|    RT     | X|         IMMEDIATE                             |
+ | 0| S| A| B| 1| 0|<---RS---->| S|<---RT---->| X|<---------------IMMEDIATE--------------------->|
 
  | S| A| B| INSTRUCTION        | ACTION                 |
  |--|--|--|--------------------|------------------------|
@@ -44,7 +44,7 @@
 **B-Type Instructions**
 ***********************
   31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10  9  8  7  6  5  4  3  2  1  0
- | 0| 0| A| B| 0| 1|   COND    | S| X| X| X| X| X|         LABEL                                 |
+ | 0| 0| A| B| 0| 1|<--COND--->| S| X| X| X| X| X|<---------------LABEL------------------------->|
 
  | A| B| INSTRUCTION  | ACTION                              |
  |--|--|--------------|-------------------------------------|
@@ -60,11 +60,91 @@ syntax to use this feature is:
     add $r0 $r0 $r0 s
     b(ne) LABEL
 
-The trailing "s" in the add instruction will cause the status flags (N, Z, C, and V) to be updated
-based on the result of the operation. In this case, the result is 0 so the Z flag will will be set.
-The "ne" condition executes if the Z flag is unset. Therefore, the branch is not executed and the
-following command is loaded. Technically, the command is still executed, just it's effects are
-suppressed.
+The trailing "s" in the add instruction will cause the status flags (N, Z, C,
+and V) to be updated based on the result of the operation. In this case, the
+result is 0 so the Z flag will will be set.  The "ne" condition executes if the
+Z flag is unset. Therefore, the branch is not executed and the following
+command is loaded. Technically, the command is still executed, just it's
+effects are suppressed.
+
+==============================================================================
+===========================MEMORY LAYOUT======================================
+==============================================================================
+The system uses 26-bit memory addresses. The lower half of the address space
+is mapped to RAM, while the upper half is dedicated to memory-mapped IO. The
+memory bus is 32-bits wide. RAM is word(i.e. 4-byte) addressable.
+
+***********************
+**       RAM         **
+***********************
+  25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10  9  8  7  6  5  4  3  2  1  0
+ | 0|<--------------------25-bit RAM address---------------------------------->|
+
+***********************
+**       ADC's       **
+***********************
+  25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10  9  8  7  6  5  4  3  2  1  0
+ | 1| 0| 0| 0| 0| 1| X| X| X| X| X| X| X| X| X|<-ADC-->|<------REGADDR-------->|
+
+    ADC: Selects which device gets selected
+    REGADDR: Selects which internal ADC register gets addressed. See AD9219
+    datasheet for additional information on the meanings of different
+    registers.
+
+***********************
+**       DAC's       **
+***********************
+  25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10  9  8  7  6  5  4  3  2  1  0
+ | 1| 0| 0| 0| 1| 0| X| X| X| X| X| X| X| X| X| X| X| X| X| X| X| D|<-CHANNEL->|
+
+    D: 0 - Supplementary DAC - Sets the analog voltage levels going to the
+           APC128's
+       1 - Range DAC - Sets the dynamic range of the ADC's
+    CHANNEL:
+                | A3 | A2 | A1 | A0 |  CHANNEL  |
+                |----|----|----|----|-----------|
+                |  0 |  0 |  0 |  0 |        A  |
+                |  0 |  0 |  0 |  1 |        B  |
+                |  0 |  0 |  1 |  0 |        C  |
+                |  0 |  0 |  1 |  1 |        D  |
+                |  0 |  1 |  0 |  0 |        E  |
+                |  0 |  1 |  0 |  1 |        F  |
+                |  0 |  1 |  1 |  0 |        G  |
+                |  0 |  1 |  1 |  1 |        H  |
+                |  1 |  1 |  1 |  1 | ALL DACS  |
+
+  - Note that reading from the DAC's is not supported. Current values, if
+    needed, must be stored elsewhere in memory.
+
+***********************
+** Auxillary IO      **
+***********************
+  25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10  9  8  7  6  5  4  3  2  1  0
+ | 1| 0| 0| 0| 1| 1| X| X| X| X| X| X| X| X| X| X| X| X| X| X| X| X| X| X|<USE>|
+
+    USE: (In case of read)
+                |   USE   |  VALUE      |
+                |----|----|-------------|
+                |  0 |  0 |  BUFFER VAL |
+                |  0 |  1 |  IN USEDW   |
+                |  1 |  0 |  OUT USEDW  |
+                |  1 |  1 |  RESERVED   |
+
+  - In case of writes, USE is ignored. In case of read, USE can specify to not
+    request the next value from the input buffer, but rather the amount of data
+    currently in either the read or write buffer.
+
+***********************
+** RJ-45 LED Control **
+***********************
+  25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10  9  8  7  6  5  4  3  2  1  0
+ | 1| 0| 0| 1| 0| 1| X| X| X| X| X| X| X| X| X| X| X| X| X| X| X| X| X| X| X| X|
+
+***********************
+** Front-End Unit    **
+***********************
+  25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10  9  8  7  6  5  4  3  2  1  0
+ | 1| 0| 0| 1| 1| 0| X| X| X| X| X| X| X| X| X| X| X| X| X| X| X| X| X| X| X| X|
 '''
 from __future__ import division, print_function, absolute_import
 import re

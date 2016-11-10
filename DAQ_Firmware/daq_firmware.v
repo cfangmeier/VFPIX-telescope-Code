@@ -74,7 +74,34 @@ module daq_firmware(
   output wire                flash_wb,
   output wire                flash_holdb,
   output wire                flash_c,
-  output wire                flash_sb
+  output wire                flash_sb,
+
+
+  output wire                apc_cal,
+  output wire                apc_cs,
+  output wire                apc_is1,
+  output wire                apc_is2,
+  output wire                apc_le,
+  output wire                apc_null,
+  output wire                apc_r12,
+  output wire                apc_reset,
+  output wire                apc_rphi1,
+  output wire                apc_rphi2,
+  output wire                apc_sbi,
+  output wire                apc_seb,
+  output wire                apc_sphi1,
+  output wire                apc_sphi2,
+  output wire                apc_sr,
+
+  output wire                apc_rbo_a1,
+  output wire                apc_rbo_b1,
+  output wire                apc_rbo_a2,
+  output wire                apc_rbo_b2,
+  output wire                apc_rbo_a3,
+  output wire                apc_rbo_b3,
+  output wire                apc_rbo_a4,
+  output wire                apc_rbo_b4,
+  input  wire                apc_rbi
   );
 
 wire clk;

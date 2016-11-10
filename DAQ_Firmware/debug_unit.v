@@ -34,18 +34,27 @@ module debug_unit #(parameter SIZE=1)(
   output wire [64:0]        okEH
 );
 
+//----------------------------------------------------------------------------
+// Wires
+//----------------------------------------------------------------------------
 wire [SIZE-1:0]    output_buffer_rdreq;
 wire [31:0]        output_buffer_q       [SIZE-1:0];
 wire [12:0]        output_buffer_wrusedw [SIZE-1:0];
 wire [12:0]        output_buffer_rdusedw [SIZE-1:0];
+wire [SIZE-1:0]    buffer_space_ok;
+wire [SIZE*65-1:0] okEHx;
 
+//----------------------------------------------------------------------------
+// REGISTERS
+//----------------------------------------------------------------------------
 reg  [10:0]        write_count;
 reg                output_buffer_wrreq;
 reg  [32*SIZE-1:0] output_buffer_data;
 
-wire [SIZE-1:0]    buffer_space_ok;
-wire [SIZE*65-1:0] okEHx;
 
+//----------------------------------------------------------------------------
+// Assignments
+//----------------------------------------------------------------------------
 generate
   genvar i;
   for ( i=0; i<SIZE; i=i+1 ) begin: my_loop_1

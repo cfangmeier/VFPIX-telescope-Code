@@ -74,7 +74,7 @@ module hal(
   output wire                rngdac_csb,
   output wire [  7: 0]       adc_csb,
 
-  output wire                adc_clk,  // ?? MHz
+  output wire                adc_clk,  // 10 MHz
   input  wire [  7: 0]       adc_fco,
   input  wire [  7: 0]       adc_dco,
   input  wire [  7: 0]       adc_dat_a,
@@ -120,9 +120,8 @@ localparam OK_SIZE = 4;
 localparam DEBUG_SIZE = 10;
 
 //----------------------------------------------------------------------------
-// REGISTERS
+// Registers
 //----------------------------------------------------------------------------
-
 reg                      enable_ram;
 reg                      enable_spi;
 reg                      enable_rj45;
@@ -132,6 +131,7 @@ reg                      enable_aux;
 reg                      memory_program;
 reg [31:0]               control_bus_last;
 reg                      init_finished;
+
 //----------------------------------------------------------------------------
 // Wires
 //----------------------------------------------------------------------------
@@ -419,12 +419,6 @@ memory memory_inst (
   .busy_int ( busy_int )
 );
 
-adc_pll adc_pll_inst (
-  .areset ( 1'b0 ),
-  .inclk0 ( sys_clk ),
-  .c0 ( adc_clk ),
-  .locked (  )
-);
 
 okWireIn_sync control_wires(
   .clk ( sys_clk ),

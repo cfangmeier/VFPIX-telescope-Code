@@ -565,4 +565,37 @@ set_instance_assignment -name IO_STANDARD "1.8 V" -to flash_dq0
 set_instance_assignment -name IO_STANDARD "1.8 V" -to flash_dq1
 set_instance_assignment -name IO_STANDARD "1.8 V" -to flash_holdb
 set_instance_assignment -name IO_STANDARD "1.8 V" -to flash_wb
+set_global_assignment -name QIP_FILE adc_data_buffer.qip
+set_location_assignment PIN_G18 -to apc_sr
+set_location_assignment PIN_R5 -to apc_sphi2
+set_location_assignment PIN_U19 -to apc_sphi1
+set_location_assignment PIN_Y21 -to apc_seb
+set_location_assignment PIN_U20 -to apc_sbi
+set_location_assignment PIN_R17 -to apc_rphi2
+set_location_assignment PIN_P17 -to apc_rphi1
+set_location_assignment PIN_M19 -to apc_reset
+set_location_assignment PIN_T20 -to apc_rbo_b4
+set_location_assignment PIN_V21 -to apc_rbo_b3
+set_location_assignment PIN_V22 -to apc_rbo_b2
+set_location_assignment PIN_W22 -to apc_rbo_b1
+set_location_assignment PIN_T19 -to apc_rbo_a4
+set_location_assignment PIN_U22 -to apc_rbo_a3
+set_location_assignment PIN_U21 -to apc_rbo_a2
+set_location_assignment PIN_W21 -to apc_rbo_a1
+set_location_assignment PIN_J19 -to apc_rbi
+set_location_assignment PIN_H17 -to apc_r12
+set_location_assignment PIN_P7 -to apc_null
+set_location_assignment PIN_P6 -to apc_le
+set_location_assignment PIN_K18 -to apc_is2
+set_location_assignment PIN_K17 -to apc_is1
+set_location_assignment PIN_J20 -to apc_cs
+set_location_assignment PIN_Y22 -to apc_cal
+set_instance_assignment -name IO_MAXIMUM_TOGGLE_RATE "0 MHz" -to apc_null
+set_instance_assignment -name IO_MAXIMUM_TOGGLE_RATE "0 MHz" -to apc_rbi
+set_instance_assignment -name IO_MAXIMUM_TOGGLE_RATE "0 MHz" -to apc_cs
+set_instance_assignment -name IO_MAXIMUM_TOGGLE_RATE "0 MHz" -to apc_r12
+set_instance_assignment -name IO_MAXIMUM_TOGGLE_RATE "0 MHz" -to apc_sr
+set_instance_assignment -name IO_MAXIMUM_TOGGLE_RATE "0 MHz" -to apc_is1
+set_instance_assignment -name IO_MAXIMUM_TOGGLE_RATE "0 MHz" -to apc_is2
+set_instance_assignment -name IO_MAXIMUM_TOGGLE_RATE "0 MHz" -to apc_reset
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
