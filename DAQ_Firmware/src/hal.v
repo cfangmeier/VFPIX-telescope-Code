@@ -89,6 +89,33 @@ module hal(
   output wire                flash_c,
   output wire                flash_sb,
 
+  // APC128 Interface
+  output wire                apc_cal,
+  output wire                apc_cs,
+  output wire                apc_is1,
+  output wire                apc_is2,
+  output wire                apc_le,
+  output wire                apc_null,
+  output wire                apc_r12,
+  output wire                apc_reset,
+  output wire                apc_rphi1,
+  output wire                apc_rphi2,
+  output wire                apc_sbi,
+  output wire                apc_seb,
+  output wire                apc_sphi1,
+  output wire                apc_sphi2,
+  output wire                apc_sr,
+
+  output wire                apc_rbo_a1,
+  output wire                apc_rbo_b1,
+  output wire                apc_rbo_a2,
+  output wire                apc_rbo_b2,
+  output wire                apc_rbo_a3,
+  output wire                apc_rbo_b3,
+  output wire                apc_rbo_a4,
+  output wire                apc_rbo_b4,
+  input  wire                apc_rbi,
+
   // FrontPanel Interface
   input  wire [  4: 0]       okUH,
   output wire [  2: 0]       okHU,
@@ -206,6 +233,30 @@ assign led = ~control_bus[3:2];
 assign led_ext[1] = 0;
 assign led_ext[0] = busy_ram;
 
+assign apc_cal = 0;
+assign apc_cs = 0;
+assign apc_is1 = 0;
+assign apc_is2 = 0;
+assign apc_le = 0;
+assign apc_null = 0;
+assign apc_r12 = 0;
+assign apc_reset = 0;
+assign apc_rphi1 = 0;
+assign apc_rphi2 = 0;
+assign apc_sbi = 0;
+assign apc_seb = 0;
+assign apc_sphi1 = 0;
+assign apc_sphi2 = 0;
+assign apc_sr = 0;
+
+assign apc_rbo_a1 = 0;
+assign apc_rbo_b1 = 0;
+assign apc_rbo_a2 = 0;
+assign apc_rbo_b2 = 0;
+assign apc_rbo_a3 = 0;
+assign apc_rbo_b3 = 0;
+assign apc_rbo_a4 = 0;
+assign apc_rbo_b4 = 0;
 //----------------------------------------------------------------------------
 // DEBUG WIRE
 //----------------------------------------------------------------------------

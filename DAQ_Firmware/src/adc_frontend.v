@@ -56,20 +56,15 @@ wire [7:0] deser_busy;
 
 reg [7:0] read_enable;
 reg [7:0] buffer_rdreq;
-reg [7:0] buffer_empty;
-reg [9:0] buffer_data_a;
-reg [9:0] buffer_data_b;
-reg [9:0] buffer_data_c;
-reg [9:0] buffer_data_d;
+wire [7:0] buffer_empty;
+wire [9:0] buffer_data_a;
+wire [9:0] buffer_data_b;
+wire [9:0] buffer_data_c;
+wire [9:0] buffer_data_d;
 
 always @( posedge clk ) begin
   read_enable <= 8'd0;
   buffer_rdreq <= 8'd0;
-  buffer_empty <= 8'd0;
-  buffer_data_a <= 10'd0;
-  buffer_data_b <= 10'd0;
-  buffer_data_c <= 10'd0;
-  buffer_data_d <= 10'd0;
 end
 
 
