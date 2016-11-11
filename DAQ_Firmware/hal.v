@@ -163,6 +163,11 @@ wire                     write_req_aux;
 wire                     read_req_aux;
 wire [31:0]              data_read_aux;
 
+wire                     busy_adc_frontend;
+wire                     write_req_adc_frontend;
+wire                     read_req_adc_frontend;
+wire [31:0]              data_read_adc_frontend;
+
 wire                     program_buffer_read;
 wire                     program_buffer_write;
 wire                     program_buffer_empty;
@@ -371,7 +376,7 @@ aux_io aux_io_inst(
 
   .okClk ( okClk ),
   .okHE ( okHE ),
-  .okEH ( okEHx[0 +: 65] ),
+  .okEH ( okEHx[0 +: 65] )
 );
 
 
@@ -417,6 +422,28 @@ memory memory_inst (
 
   .state ( state ),
   .busy_int ( busy_int )
+);
+
+
+
+adc_frontend adc_frontend_inst (
+  .clk ( clk ),
+  .reset ( reset ),
+  .adc_clk ( adc_clk ),  // 10 MHz
+
+  .write_req ( write_req_adc_frontend ),
+  .read_req ( read_req_adc_frontend ),
+  .data_write ( memory_data_write ),
+  .data_read ( data_read_adc_frontend ),
+  .addr ( memory_addr ),
+  .busy ( busy_adc_frontend ),
+
+  .adc_fco ( adc_fco ),
+  .adc_dco ( adc_dco ),
+  .adc_dat_a ( adc_dat_a ),
+  .adc_dat_b ( adc_dat_b ),
+  .adc_dat_c ( adc_dat_c ),
+  .adc_dat_d ( adc_dat_d )
 );
 
 

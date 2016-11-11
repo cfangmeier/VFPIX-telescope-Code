@@ -69,7 +69,8 @@ module adc_deser (
 // Registers
 //----------------------------------------------------------------------------
 reg [9:0]  input_shifter[3:0];
-reg [39:0] buffer_data;
+
+reg [3:0]  negedge_sample;
 
 reg [7:0]  sample_delay_shifter;
 
@@ -97,19 +98,26 @@ assign buffer_data_d = buffer_q[9:0];
 //----------------------------------------------------------------------------
 
 always @( posedge adc_fco or negedge reset ) begin
-  if ( reset ) begin
+  if ( ~reset ) begin
     sample_delay_shifter <= 8'd0;
   end
   else begin
-    sample_delay_shifter <= [sample_delay_shifter[6:0], read_enable];
+    sample_delay_shifter <= {sample_delay_shifter[6:0], read_enable};
   end
 end
 
-always @( posedge adc_dco or negedge adc_dco ) begin
-  input_shifter[0] = {input_shifter[0][8:0], adc_dat_a};
-  input_shifter[1] = {input_shifter[1][8:0], adc_dat_b};
-  input_shifter[2] = {input_shifter[2][8:0], adc_dat_c};
-  input_shifter[3] = {input_shifter[3][8:0], adc_dat_d};
+always @( negedge adc_dco ) begin
+  negedge_sample[0] = adc_dat_a;
+  negedge_sample[1] = adc_dat_b;
+  negedge_sample[2] = adc_dat_c;
+  negedge_sample[3] = adc_dat_d;
+end
+
+always @( posedge adc_dco ) begin
+  input_shifter[0] = {input_shifter[0][7:0], negedge_sample[0], adc_dat_a};
+  input_shifter[1] = {input_shifter[1][7:0], negedge_sample[1], adc_dat_b};
+  input_shifter[2] = {input_shifter[2][7:0], negedge_sample[2], adc_dat_c};
+  input_shifter[3] = {input_shifter[3][7:0], negedge_sample[3], adc_dat_d};
 end
 
 //----------------------------------------------------------------------------
@@ -124,7 +132,7 @@ adc_data_buffer adc_data_buffer_inst (
   .wrreq ( sample_delay_shifter[7] ),
   .rdreq ( buffer_rdreq ),
   .wrfull (  ),
-  .rdempty ( buffer_empty ),
+  .rdempty ( buffer_empty )
 );
 
 endmodule

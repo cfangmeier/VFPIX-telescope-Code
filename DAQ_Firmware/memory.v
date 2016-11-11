@@ -189,7 +189,8 @@ reg         flash_read_buffer_read;
 // Assignments
 //----------------------------------------------------------------------------
 assign busy = busy_int | program | write_req | read_req;
-assign clk = phy_clk & local_init_done;
+/* assign clk = phy_clk & local_init_done; */
+assign clk = phy_clk;
 //----------------------------------------------------------------------------
 // State Machine
 //----------------------------------------------------------------------------

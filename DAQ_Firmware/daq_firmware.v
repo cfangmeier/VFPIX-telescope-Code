@@ -201,7 +201,7 @@ hal hal_inst(
   .rngdac_csb ( rngdac_csb ),
   .adc_csb ( adc_csb ),
 
-  .adc_clk ( adc_clk ),  // ?? MHz
+  .adc_clk ( adc_clk ),  // 10 MHz
   .adc_fco ( adc_fco ),
   .adc_dco ( adc_dco ),
   .adc_dat_a ( adc_dat_a ),
