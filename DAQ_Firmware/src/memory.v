@@ -68,7 +68,7 @@ module memory(
   //--------------------------------------------------------------------------
   //---------------------------PROGRAMMING INTERFACE--------------------------
   //--------------------------------------------------------------------------
-  input  wire         program,
+  input  wire         program_req,
   output reg          program_ack,
   input  wire         program_buffer_empty,
   input  wire [31:0]  program_buffer_q,
@@ -188,7 +188,7 @@ reg         flash_read_buffer_read;
 //----------------------------------------------------------------------------
 // Assignments
 //----------------------------------------------------------------------------
-assign busy = busy_int | program | write_req | read_req;
+assign busy = busy_int | program_req | write_req | read_req;
 /* assign clk = phy_clk & local_init_done; */
 assign clk = phy_clk;
 //----------------------------------------------------------------------------
@@ -235,7 +235,7 @@ always @( posedge clk or posedge reset_in ) begin
         delay_counter <= 2;
       end
       INIT_B: begin
-        if ( program ) begin
+        if ( program_req ) begin
           state <= PROGRAM_START;
           program_ack <= 1;
         end
@@ -244,7 +244,7 @@ always @( posedge clk or posedge reset_in ) begin
         end
       end
       IDLE: begin
-        if ( program ) begin
+        if ( program_req ) begin
           state <= PROGRAM_START;
           program_ack <= 1;
         end

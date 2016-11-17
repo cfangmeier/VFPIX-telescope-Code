@@ -620,6 +620,7 @@ set_global_assignment -name VERILOG_FILE src/ok/okLibrary.v
 set_global_assignment -name VERILOG_FILE src/ok/okHost.v
 set_global_assignment -name SYSTEMVERILOG_FILE src/ok/okHost.sv
 set_global_assignment -name VERILOG_FILE src/ok/okEndpoints.v
+set_global_assignment -name HEX_FILE src/ok/okHostMicrocode.hex
 set_global_assignment -name VERILOG_FILE src/misc_ip/multiplier.v
 set_global_assignment -name QIP_FILE src/misc_ip/multiplier.qip
 set_global_assignment -name VERILOG_FILE src/misc_ip/lshift.v
@@ -650,4 +651,5 @@ set_global_assignment -name VERILOG_FILE src/aux_io.v
 set_global_assignment -name VERILOG_FILE src/adc_frontend.v
 set_global_assignment -name VERILOG_FILE src/adc_deser.v
 set_global_assignment -name VERILOG_FILE daq_firmware.v
+set_global_assignment -name SDC_FILE src/ok/okHost.sdc
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

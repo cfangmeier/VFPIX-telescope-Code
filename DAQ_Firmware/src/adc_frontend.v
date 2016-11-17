@@ -62,9 +62,12 @@ wire [9:0] buffer_data_b;
 wire [9:0] buffer_data_c;
 wire [9:0] buffer_data_d;
 
+assign busy = reset;
 always @( posedge clk ) begin
   read_enable <= 8'd0;
   buffer_rdreq <= 8'd0;
+
+  data_read <= 32'd0;
 end
 
 

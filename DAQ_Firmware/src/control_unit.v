@@ -693,6 +693,8 @@ always @(cpu_stage or ir or memory_busy or status_pass or reset) begin
           end
         endcase
       end // END STAGE_5
+    default: begin
+      end
     endcase // END CASE stage
   end // END ELSE
 end  // END ALWAYS

@@ -152,7 +152,6 @@ localparam DEBUG_SIZE = 10;
 reg                      enable_ram;
 reg                      enable_spi;
 reg                      enable_rj45;
-reg                      enable_led;
 reg                      enable_aux;
 
 reg                      memory_program;
@@ -335,14 +334,12 @@ always @( memory_addr or reset ) begin
     enable_ram <= 0;
     enable_spi <= 0;
     enable_rj45 <= 0;
-    enable_led <= 0;
     enable_aux <= 0;
   end
   else begin
     enable_ram <= 0;
     enable_spi <= 0;
     enable_rj45 <= 0;
-    enable_led <= 0;
     enable_aux <= 0;
     if ( ~memory_addr[25] ) begin
       enable_ram <= 1;
@@ -354,7 +351,6 @@ always @( memory_addr or reset ) begin
       enable_aux <= 1;
     end
     else if ( memory_addr[24:20] == 5'b00100 ) begin
-      enable_led <= 1;
     end
     else if ( memory_addr[24:20] == 5'b00101 ) begin
       enable_rj45 <= 1;
@@ -465,7 +461,7 @@ memory memory_inst (
   .flash_c ( flash_c ),
   .flash_sb ( flash_sb ),
 
-  .program ( memory_program ),
+  .program_req ( memory_program ),
   .program_ack ( memory_program_ack ),
   .program_buffer_empty ( program_buffer_empty ),
   .program_buffer_q ( program_buffer_q ),
