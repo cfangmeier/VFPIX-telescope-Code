@@ -21,7 +21,6 @@
 *.sof
 *.sopc_builder
 *.summary
-*.tcl
 *.txt # Explicitly add any text files used
 *~
 *example*
@@ -35,7 +34,6 @@ output_files/
 incremental_db/
 simulation/
 timing/
-testbench/
 *_sim/
 qmegawiz_errors_log.txt
 .cnxerr
