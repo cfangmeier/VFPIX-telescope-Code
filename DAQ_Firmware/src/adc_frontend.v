@@ -26,10 +26,10 @@
 
 
 module adc_frontend (
-  input  wire        clk,  // 150 MHz
+  input  wire        clk,  // 133 MHz
   input  wire        reset,
 
-  output  wire        adc_clk,  // 10 MHz
+  output  wire        adc_clk,  // 13.3 MHz
 
   //--------------------------------------------------------------------------
   //------------------------CONTROL INTERFACE---------------------------------
@@ -51,29 +51,96 @@ module adc_frontend (
   input  wire [7:0]  adc_dat_c,
   input  wire [7:0]  adc_dat_d
 );
+//----------------------------------------------------------------------------
+// Parameters
+//----------------------------------------------------------------------------
+localparam IDLE   = 2'd0,
+           READ_0 = 2'd1,
+           READ_1 = 2'd2;
 
+//----------------------------------------------------------------------------
+// Registers
+//----------------------------------------------------------------------------
+reg [7:0]  read_enable;
+reg [7:0]  buffer_rdreq;
+reg        busy_int;
+reg [25:0] addr_int;
+reg [1:0]  state;
+//----------------------------------------------------------------------------
+// Wires
+//----------------------------------------------------------------------------
 wire [7:0] deser_busy;
 
-reg [7:0] read_enable;
-reg [7:0] buffer_rdreq;
 wire [7:0] buffer_empty;
-wire [9:0] buffer_data_a;
-wire [9:0] buffer_data_b;
-wire [9:0] buffer_data_c;
-wire [9:0] buffer_data_d;
+wire [9:0] buffer_data_a[7:0];
+wire [9:0] buffer_data_b[7:0];
+wire [9:0] buffer_data_c[7:0];
+wire [9:0] buffer_data_d[7:0];
 
-assign busy = reset;
+//----------------------------------------------------------------------------
+// Assignments
+//----------------------------------------------------------------------------
+assign busy = reset | busy_int | write_req | read_req;
+
+//----------------------------------------------------------------------------
+// Clocked Logic
+//----------------------------------------------------------------------------
+
 always @( posedge clk ) begin
-  read_enable <= 8'd0;
-  buffer_rdreq <= 8'd0;
-
-  data_read <= 32'd0;
+  if ( reset ) begin
+    read_enable <= 8'd0;
+    buffer_rdreq <= 8'd0;
+    data_read <= 32'd0;
+    busy_int <= 0;
+    state <= IDLE;
+  end
+  else begin
+    buffer_rdreq <= 8'd0;
+    data_read <= 32'd0;
+    case ( state )
+      IDLE: begin
+        if ( read_req ) begin
+          busy_int <= 1;
+          state <= READ_0;
+          addr_int <= addr;
+        end
+        else if ( write_req ) begin
+          read_enable <= {8{data_write[0]}};
+        end
+      end
+      READ_0: begin
+        if ( ~buffer_empty[addr_int[4:2]] ) begin
+          state <= READ_1;
+          buffer_rdreq[addr_int[4:2]] <= 1;
+        end
+      end
+      READ_1: begin
+        // TODO: Handle all ADC channels w/o dropping data
+        state <= IDLE;
+        busy_int <= 0;
+        case ( addr_int[1:0] )
+          2'b00: begin
+            data_read <= {22'd1, buffer_data_a[addr_int[4:2]]};
+          end
+          1'b01: begin
+            data_read <= {22'd1, buffer_data_b[addr_int[4:2]]};
+          end
+          2'b10: begin
+            data_read <= {22'd1, buffer_data_c[addr_int[4:2]]};
+          end
+          2'b11: begin
+            data_read <= {22'd1, buffer_data_d[addr_int[4:2]]};
+          end
+        endcase
+      end
+    endcase
+  end
 end
 
 
 generate
   genvar i;
-  for( i=0; i<8; i=i+1 ) begin: my_loop
+  for ( i=0; i<8; i=i+1 ) begin: my_loop
     adc_deser adc_deser_inst (
       .clk ( clk ),
       .reset ( reset ),

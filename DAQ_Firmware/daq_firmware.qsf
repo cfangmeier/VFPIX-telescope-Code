@@ -566,6 +566,8 @@ set_instance_assignment -name IO_MAXIMUM_TOGGLE_RATE "0 MHz" -to apc_sr
 set_instance_assignment -name IO_MAXIMUM_TOGGLE_RATE "0 MHz" -to apc_is1
 set_instance_assignment -name IO_MAXIMUM_TOGGLE_RATE "0 MHz" -to apc_is2
 set_instance_assignment -name IO_MAXIMUM_TOGGLE_RATE "0 MHz" -to apc_reset
+set_global_assignment -name QIP_FILE src/pll/adc_pll.qip
+set_global_assignment -name VERILOG_FILE src/pll/adc_pll.v
 set_global_assignment -name VERILOG_FILE src/daq_firmware.v
 set_global_assignment -name VERILOG_FILE src/ram/ram_controller_phy_alt_mem_phy_seq_wrapper.v
 set_global_assignment -name VHDL_FILE src/ram/ram_controller_phy_alt_mem_phy_seq.vhd
@@ -614,8 +616,6 @@ set_global_assignment -name VERILOG_FILE src/ram/alt_mem_ddrx_buffer.v
 set_global_assignment -name VERILOG_FILE src/ram/alt_mem_ddrx_arbiter.v
 set_global_assignment -name VERILOG_FILE src/ram/alt_mem_ddrx_addr_cmd_wrap.v
 set_global_assignment -name VERILOG_FILE src/ram/alt_mem_ddrx_addr_cmd.v
-set_global_assignment -name VERILOG_FILE src/pll/adc_pll.v
-set_global_assignment -name QIP_FILE src/pll/adc_pll.qip
 set_global_assignment -name VERILOG_FILE src/ok/okWireIn_sync.v
 set_global_assignment -name VERILOG_FILE src/ok/okLibrary.v
 set_global_assignment -name VERILOG_FILE src/ok/okHost.v

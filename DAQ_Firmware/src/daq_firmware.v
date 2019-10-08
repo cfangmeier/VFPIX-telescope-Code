@@ -61,7 +61,7 @@ module daq_firmware(
   output wire                rngdac_csb,
   output wire  [7:0]         adc_csb,
 
-  output wire                adc_clk,  // 10 MHz
+  output wire                adc_clk,  // 13.3 MHz
   input  wire [7:0]          adc_fco,
   input  wire [7:0]          adc_dco,
   input  wire [7:0]          adc_dat_a,

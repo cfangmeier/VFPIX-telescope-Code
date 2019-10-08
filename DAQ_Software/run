@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -e
 . env/bin/activate
-assemble ass_examples/aux_testing.S --format hex -o software.hex
+assemble ass_examples/adc_data_read_out.S --format hex -o software.hex
+# assemble ass_examples/aux_testing.S --format hex -o software.hex
 # assemble ass_examples/write_out_adc.S --format hex -o software.hex
 # assemble ass_examples/write_out_led.S --format hex -o software.hex
 compile software.hex ../DAQ_Firmware/output_files/daq_firmware.rbf firmware.zip

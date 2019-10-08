@@ -33,7 +33,7 @@
 
 module hal(
   input  wire                sys_clk,     // 50 MHz
-  output wire                clk,         // 150 MHz
+  output wire                clk,         // 133 MHz
   output wire                reset,
 
   // Processor Interface
@@ -74,7 +74,7 @@ module hal(
   output wire                rngdac_csb,
   output wire [  7: 0]       adc_csb,
 
-  output wire                adc_clk,  // 10 MHz
+  output wire                adc_clk,  // 13.3 MHz
   input  wire [  7: 0]       adc_fco,
   input  wire [  7: 0]       adc_dco,
   input  wire [  7: 0]       adc_dat_a,
@@ -153,6 +153,7 @@ reg                      enable_ram;
 reg                      enable_spi;
 reg                      enable_rj45;
 reg                      enable_aux;
+reg                      enable_adc_frontend;
 
 reg                      memory_program;
 reg [31:0]               control_bus_last;
@@ -212,7 +213,7 @@ wire       busy_int;
 // Assignments
 //----------------------------------------------------------------------------
 assign memory_busy = busy_ram | busy_spi |
-                     busy_rj45 | busy_aux;
+                     busy_rj45 | busy_aux | busy_adc_frontend;
 assign memory_data_read = data_read_ram | data_read_spi |
                           data_read_rj45 | data_read_aux;
 
@@ -220,11 +221,13 @@ assign write_req_ram = memory_write_req & enable_ram;
 assign write_req_spi = memory_write_req & enable_spi;
 assign write_req_rj45 = memory_write_req & enable_rj45;
 assign write_req_aux = memory_write_req & enable_aux;
+assign write_req_adc_frontend = memory_write_req & enable_adc_frontend;
 
 assign read_req_ram = memory_read_req & enable_ram;
 assign read_req_spi = memory_read_req & enable_spi;
 assign read_req_rj45 = memory_read_req & enable_rj45;
 assign read_req_aux = memory_read_req & enable_aux;
+assign read_req_adc_frontend = memory_read_req & enable_adc_frontend;
 
 assign program_buffer_empty = (program_buffer_rdusedw == 0);
 
@@ -335,12 +338,14 @@ always @( memory_addr or reset ) begin
     enable_spi <= 0;
     enable_rj45 <= 0;
     enable_aux <= 0;
+    enable_adc_frontend <= 0;
   end
   else begin
     enable_ram <= 0;
     enable_spi <= 0;
     enable_rj45 <= 0;
     enable_aux <= 0;
+    enable_adc_frontend <= 0;
     if ( ~memory_addr[25] ) begin
       enable_ram <= 1;
     end
@@ -350,10 +355,11 @@ always @( memory_addr or reset ) begin
     else if ( memory_addr[24:20] == 5'b00011 ) begin
       enable_aux <= 1;
     end
-    else if ( memory_addr[24:20] == 5'b00100 ) begin
-    end
     else if ( memory_addr[24:20] == 5'b00101 ) begin
       enable_rj45 <= 1;
+    end
+    else if ( memory_addr[24:20] == 5'b00110 ) begin
+      enable_adc_frontend <= 1;
     end
   end
 end
@@ -472,11 +478,10 @@ memory memory_inst (
 );
 
 
-
 adc_frontend adc_frontend_inst (
   .clk ( clk ),
   .reset ( reset ),
-  .adc_clk ( adc_clk ),  // 10 MHz
+  .adc_clk ( adc_clk ),
 
   .write_req ( write_req_adc_frontend ),
   .read_req ( read_req_adc_frontend ),

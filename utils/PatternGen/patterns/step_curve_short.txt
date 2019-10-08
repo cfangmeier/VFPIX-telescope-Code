@@ -1,0 +1,79 @@
+#Define Device Name
+dev step_curve_short
+
+#Define Signals
+reg CAL    #1
+reg SPHI1  #3
+reg SPHI2  #4
+reg RESET  #9
+reg RBI    #11
+reg RPHI1  #12
+reg RPHI2  #13
+reg LE     #14
+
+wire CS: 0
+wire SBI: 0
+wire SEB: 1
+wire R12: 0
+wire IS1: 1
+wire IS2: 0
+wire SR: 1
+
+#Analog voltage defaults
+wire Vthr: 16'H0025
+wire Aref: 16'H0033
+wire Vana: 16'H0066
+wire RG:   16'H0033
+
+#Define Patterns
+
+stage A1 1 #Setup
+CAL   : ----------
+SPHI1 : __---_____
+SPHI2 : __---_____
+RESET : __________
+RBI   : ----------
+RPHI1 : ----------
+RPHI2 : ----------
+LE    : ----------
+
+stage A2 variable #Delay
+CAL   : _
+SPHI1 : _
+SPHI2 : _
+RESET : _
+RBI   : -
+RPHI1 : -
+RPHI2 : -
+LE    : -
+
+stage A3 1  #Prepare readout
+CAL   : _________ _____
+SPHI1 : _________ _____
+SPHI2 : _________ _____
+RESET : __------- -----
+RBI   : ----_____ __--_
+RPHI1 : --------_ __-__
+RPHI2 : --------_ _____
+LE    : _________ _____
+
+stage B 127 #Readout
+CAL   : ________________________
+SPHI1 : ________________________
+SPHI2 : ________________________
+RESET : ------------------------
+RBI   : ________________________
+RPHI1 : ______________________-_
+RPHI2 : ---------------------___
+LE    : ------------------------
+
+stage C 300 #make sure CAL is high long enough to saturate
+CAL   : -
+SPHI1 : _
+SPHI2 : _
+RESET : -
+RBI   : _
+RPHI1 : _
+RPHI2 : _
+LE    : -
+
